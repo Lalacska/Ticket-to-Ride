@@ -699,11 +699,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: a582da62-2d96-49f7-ad45-ab39a124a359
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Ticket to ride
+  organizationId: tec-team
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
