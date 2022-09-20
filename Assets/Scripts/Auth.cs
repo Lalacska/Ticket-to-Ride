@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 
 public class Auth : MonoBehaviour
 {
     [SerializeField] private GameObject _buttons;
+
+    
 
     private async void Awake()
     {
@@ -41,11 +45,16 @@ public class Auth : MonoBehaviour
         }
     }
 
-     public static async void Buttonclick()
-    {
+     public static async void LoginButtonclick()
+     {
         Debug.Log("You clicked the button");
         await SignInAnonymouslyAsync();
         SceneManager.LoadScene("Join-Make Game");
+     }
+
+    public static async void RegisterOpenButtonclick()
+    {
+        System.Diagnostics.Process.Start("https://www.bekbekbek.com/signup.php");
     }
 
 }
