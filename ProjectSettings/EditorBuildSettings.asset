@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Join-Make Game.unity
+    path: Assets/Scenes/Join-Create Game.unity
     guid: 87b6ecf801bbaed419f0361f9e648fd2
   - enabled: 1
     path: Assets/Scenes/Login-Register.unity
     guid: d481873d947368e40ba4a1a5dbdac76b
+  - enabled: 1
+    path: Assets/Scenes/Game Settings.unity
+    guid: 5ffe5c89ae5eb464a9c9772b929b70d2
   m_configObjects: {}

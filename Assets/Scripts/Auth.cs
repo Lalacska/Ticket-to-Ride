@@ -9,8 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class Auth : MonoBehaviour
 {
-    [SerializeField] private GameObject _buttons;
-
     private async void Awake()
     {
         await UnityServices.InitializeAsync();
@@ -20,6 +18,7 @@ public class Auth : MonoBehaviour
     {
         try
         {
+            AuthenticationService.Instance.ClearSessionToken();
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             Debug.Log("Sign in anonymously succeeded!");
 
@@ -41,7 +40,7 @@ public class Auth : MonoBehaviour
         }
     }
 
-     public static async void Buttonclick()
+     public static async void LoginButtonclick()
     {
         Debug.Log("You clicked the button");
         await SignInAnonymouslyAsync();
