@@ -50,7 +50,7 @@ public class Auth : MonoBehaviour
      {
         Debug.Log("You clicked the button");
         await SignInAnonymouslyAsync();
-        SceneManager.LoadScene("Join-Make Game");
+        SceneManager.LoadScene("Join-Create Game");
      }
 
     public static async void RegisterOpenButtonclick()
