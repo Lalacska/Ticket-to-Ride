@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8761183296065395508}
   - component: {fileID: 8528766465953952154}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Picture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c440b422ed038fb4aad31e0ba0146f3b, type: 2}
+  - {fileID: 2100000, guid: a3ee78543e8596a4f95df4fc5deb5e2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 6005448937909973540}
   - component: {fileID: 9005010734264294227}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Train Card 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
