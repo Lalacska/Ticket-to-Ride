@@ -53,7 +53,7 @@ public class Auth : MonoBehaviour
         SceneManager.LoadScene("Join-Create Game");
      }
 
-    public static async void RegisterOpenButtonclick()
+    public static void RegisterOpenButtonclick()
     {
         System.Diagnostics.Process.Start("https://www.bekbekbek.com/signup.php");
     }
