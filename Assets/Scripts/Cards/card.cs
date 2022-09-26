@@ -10,6 +10,8 @@ public class Card : MonoBehaviour
 
     private GameManager gm;
 
+    public string Color = "";
+
     private void Start()
     {
         gm = FindObjectOfType<GameManager>();
