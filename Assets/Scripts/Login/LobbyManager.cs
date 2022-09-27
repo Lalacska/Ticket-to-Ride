@@ -10,14 +10,20 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class LobbyManager : Singeltone<LobbyManager>
 {
     private Lobby lobby;
-    private UnityTransport transport;
+    private UnityTransport _transport;
     private string joincode;
     private const string JoinCodeKey = "j";
 
+    private void Awake()
+    {
+        _transport = FindObjectOfType<UnityTransport>();
+        Debug.Log(_transport);
+    }
     public void StarTheRoom()
     {
         NetworkManager.Singleton.StartHost();
@@ -43,15 +49,21 @@ public class LobbyManager : Singeltone<LobbyManager>
             {
                 Data = new Dictionary<string, DataObject> { { JoinCodeKey, new DataObject(DataObject.VisibilityOptions.Public, joincode) } }
             };
-            lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+            lobby = await Lobbies.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+
+            Debug.Log(a);
+            Debug.Log(a.RelayServer.IpV4);
+            Debug.Log((ushort)a.RelayServer.Port);
+            Debug.Log(a.AllocationIdBytes);
+            Debug.Log(a.Key);
+            Debug.Log(a.ConnectionData);
+
+
+            //Set the game room to use the relay allocation
+            _transport.SetHostRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
             // Heartbeat the lobby every 15 seconds.
             StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
-
-            Debug.Log("a");
-
-            //Set the game room to use the relay allocation
-            transport.SetHostRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
             Debug.Log("The lobby was created");
             Debug.Log(lobby.LobbyCode);
@@ -75,7 +87,7 @@ public class LobbyManager : Singeltone<LobbyManager>
 
             var a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
             
-            SetTransformAsClient(a);
+            //SetTransformAsClient(a);
 
             NetworkManager.Singleton.StartClient();
         }
@@ -95,7 +107,7 @@ public class LobbyManager : Singeltone<LobbyManager>
             var a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
 
 
-            SetTransformAsClient(a);
+           // SetTransformAsClient(a);
 
             NetworkManager.Singleton.StartClient();
         }
@@ -105,10 +117,10 @@ public class LobbyManager : Singeltone<LobbyManager>
         }
     }
 
-    private void SetTransformAsClient(JoinAllocation a)
+   /* private void SetTransformAsClient(JoinAllocation a)
     {
-        transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
-    }
+        _transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
+    }*/
 
     IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
     {
