@@ -20,6 +20,10 @@ public class JoinCreateScene : Singeltone<JoinCreateScene>
         {
             LobbyManager.Instance.JoinLobby(code);
         }
+        else
+        {
+            LobbyManager.Instance.QuickJoin();
+        }
     }
     public static void CreateButtonclick()
     {

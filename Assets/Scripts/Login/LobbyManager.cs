@@ -1,22 +1,67 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
 
 public class LobbyManager : Singeltone<LobbyManager>
 {
     private Lobby lobby;
-    public async void CreateLobby(string lobbyName, int maxPlayer, CreateLobbyOptions options)
+    private UnityTransport transport;
+    private string joincode;
+    private const string JoinCodeKey = "j";
+
+    public void StarTheRoom()
     {
-        lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, options);
+        NetworkManager.Singleton.StartHost();
+    }
 
-        // Heartbeat the lobby every 15 seconds.
-        StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
+    public void JoinToRelay(string code)
+    {
+           NetworkManager.Singleton.StartClient();
+    }
 
-        Debug.Log("The lobby was created");
-        Debug.Log(lobby.LobbyCode);
-        Debug.Log(lobby.Players);
+
+
+    public async void CreateLobby(string lobbyName, int maxPlayers)
+    {
+        try
+        {
+            //Create a relay allocation and generate a join code to share with the lobby
+            Allocation a = await RelayService.Instance.CreateAllocationAsync(maxPlayers);
+            joincode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
+
+            //Create a lobby, adding the relay join code to the lobby
+            CreateLobbyOptions options = new CreateLobbyOptions()
+            {
+                Data = new Dictionary<string, DataObject> { { JoinCodeKey, new DataObject(DataObject.VisibilityOptions.Public, joincode) } }
+            };
+            lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+
+            // Heartbeat the lobby every 15 seconds.
+            StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
+
+            Debug.Log("a");
+
+            //Set the game room to use the relay allocation
+            transport.SetHostRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
+
+            Debug.Log("The lobby was created");
+            Debug.Log(lobby.LobbyCode);
+            Debug.Log(lobby.Players);
+        }
+        catch (Exception e)
+        {
+            Debug.LogFormat("Failed creating a lobby");
+            Debug.Log(e);
+        }
 
 
     }
@@ -25,8 +70,14 @@ public class LobbyManager : Singeltone<LobbyManager>
     {
         try
         {
-            await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
             Debug.Log("Joined");
+
+            var a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
+            
+            SetTransformAsClient(a);
+
+            NetworkManager.Singleton.StartClient();
         }
         catch (LobbyServiceException e)
         {
@@ -37,25 +88,26 @@ public class LobbyManager : Singeltone<LobbyManager>
     {
         try
         {
-            // Quick-join a random lobby with a maximum capacity of 10 or more players.
-            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
+            // Quick-join a random lobby 
+            var lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
 
-            options.Filter = new List<QueryFilter>()
-            {
-                new QueryFilter(
-                    field: QueryFilter.FieldOptions.MaxPlayers,
-                    op: QueryFilter.OpOptions.GE,
-                    value: "10")
-            };
+            // If we found a lobby, grab the relay allocation details
+            var a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
 
-            var lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
 
-            // ...
+            SetTransformAsClient(a);
+
+            NetworkManager.Singleton.StartClient();
         }
-        catch (LobbyServiceException e)
+        catch (Exception e)
         {
-            Debug.Log(e);
+            Debug.Log("No lobbies available via quick join");
         }
+    }
+
+    private void SetTransformAsClient(JoinAllocation a)
+    {
+        transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
     }
 
     IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
