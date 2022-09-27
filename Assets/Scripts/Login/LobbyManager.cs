@@ -7,13 +7,18 @@ using UnityEngine;
 public class LobbyManager : Singeltone<LobbyManager>
 {
     private Lobby lobby;
-   public async void CreateLobby(string lobbyName, int maxPlayer, CreateLobbyOptions options)
+    public async void CreateLobby(string lobbyName, int maxPlayer, CreateLobbyOptions options)
     {
         lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, options);
+
+        // Heartbeat the lobby every 15 seconds.
+        StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
+
         Debug.Log("The lobby was created");
-        Debug.Log(lobby);
         Debug.Log(lobby.LobbyCode);
         Debug.Log(lobby.Players);
+
+
     }
 
     public async void JoinLobby(string lobbyCode)
@@ -51,5 +56,17 @@ public class LobbyManager : Singeltone<LobbyManager>
         {
             Debug.Log(e);
         }
+    }
+
+    IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
+    {
+        var delay = new WaitForSecondsRealtime(waitTimeSeconds);
+
+        while (true)
+        {
+            LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+            yield return delay;
+        }
+
     }
 }
