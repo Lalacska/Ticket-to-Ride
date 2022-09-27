@@ -24,6 +24,7 @@ public class Auth : MonoBehaviour
     {
         try
         {
+            AuthenticationService.Instance.ClearSessionToken();
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             Debug.Log("Sign in anonymously succeeded!");
 
