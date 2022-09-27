@@ -15,15 +15,13 @@ using Object = UnityEngine.Object;
 public class LobbyManager : Singeltone<LobbyManager>
 {
     private Lobby lobby;
-    private UnityTransport _transport;
     private string joincode;
     private const string JoinCodeKey = "j";
 
-    private void Awake()
-    {
-        _transport = FindObjectOfType<UnityTransport>();
-        Debug.Log(_transport);
-    }
+    public bool IsRelayEnabled => Transport != null && Transport.Protocol == UnityTransport.ProtocolType.RelayUnityTransport;
+    public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+  
+
     public void StarTheRoom()
     {
         NetworkManager.Singleton.StartHost();
