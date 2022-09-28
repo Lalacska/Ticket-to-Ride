@@ -58,4 +58,9 @@ public class Auth : MonoBehaviour
         System.Diagnostics.Process.Start("https://www.bekbekbek.com/signup.php");
     }
 
+    public static void BackToHome()
+    {
+        SceneManager.LoadScene("Login-Register");
+    }
+
 }
