@@ -31504,6 +31504,10 @@ MonoBehaviour:
   - {fileID: 1957643017}
   discardPileDestination:
   - {fileID: 2069398858}
+  - {fileID: 58028715}
+  - {fileID: 365202747}
+  - {fileID: 535176473}
+  - {fileID: 1984918675}
   availbleCardSlots: 0101010101
   availbleDestinationCardSlots: 01010101
   availbleSpecialDestinationCardSlots: 01
