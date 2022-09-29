@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using System.Threading.Tasks;
-using Unity.Services.Authentication;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using UnityEngine.SceneManagement;
 
 public class CreateScene : Singeltone<CreateScene>
 {
@@ -26,11 +28,9 @@ public class CreateScene : Singeltone<CreateScene>
 
     public void CreateButtonclick()
     {
-         string lobbyName = lobbyname.GetComponent<TMP_InputField>().text;
-         int maxPlayers = Convert.ToInt32(players.value);
-         CreateLobbyOptions options = new CreateLobbyOptions();
-         options.IsPrivate = false;
-
-        LobbyManager.Instance.CreateLobby(lobbyName, maxPlayers, options);
+        string lobbyName = lobbyname.GetComponent<TMP_InputField>().text;
+        int maxPlayers = Convert.ToInt32(players.value);
+        Task<bool> runing = LobbyManager.Instance.CreateLobby(lobbyName, maxPlayers);
+        SceneManager.LoadScene("LobbyScene");
     }
 }

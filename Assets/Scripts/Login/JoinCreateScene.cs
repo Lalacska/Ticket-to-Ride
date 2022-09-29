@@ -16,9 +16,14 @@ public class JoinCreateScene : Singeltone<JoinCreateScene>
     {
         string code = joinCode.GetComponent<TMP_InputField>().text;
         Debug.Log("You clicked the button");
-        if(code != null)
+        if(code != null && code != string.Empty)
         {
             LobbyManager.Instance.JoinLobby(code);
+        }
+        else
+        {
+            Debug.Log("QUICK JOIN");
+            LobbyManager.Instance.QuickJoin();
         }
     }
     public static void CreateButtonclick()
