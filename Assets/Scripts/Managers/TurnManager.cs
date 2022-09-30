@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class TurnManager : Singeltone<TurnManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    public int currentPlayerTurn;
+
+    public void StartTurnGamplay(int playerID)
     {
-        
+        currentPlayerTurn = playerID;
+        PlayerManager.Instance.AssignTurn(currentPlayerTurn);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartTurn()
     {
-        
+
+    }
+
+    public void EndTurn()
+    {
+
     }
 }
