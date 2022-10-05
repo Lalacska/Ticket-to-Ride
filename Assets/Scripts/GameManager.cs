@@ -57,14 +57,15 @@ public class GameManager : MonoBehaviour
                     availbleCardSlots[i] = false;
                     deck.Remove(randCard);
                     board.Add(randCard);
+                    // Here we check if a Rainbow cards is drawn onto the board. \\
                     if (randCard.Color == "Rainbow")
                     {
                         RainbowCount++;
                         Debug.Log(RainbowCount);
-                       
                     }
                     if (availbleCardSlots[4] == false)
                     {
+                        // If more than 3 Rainbow cards are on the field, the board is cleared. \\
                         if (RainbowCount == 3)
                         {
                             await CheckCards();
@@ -127,6 +128,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // This method is for checking the cards on the board. \\
+    // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
     public async Task CheckCards()
     {
         await Task.Delay(1000);
@@ -141,7 +144,6 @@ public class GameManager : MonoBehaviour
             discardPile.Add(delete);
             RainbowCount = 0;
         }
-
     }
 
     public void PickCard()
@@ -162,11 +164,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // This method runs, when the programs starts. \\
     private void Start()
     {
         DrawcardSpecialDestination();
     }
 
+    // This method runs every frame & updates the scenes. \\
     private void Update()
     {
         deckSizeText.text = deck.Count.ToString();

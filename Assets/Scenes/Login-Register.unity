@@ -1599,6 +1599,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buttons: {fileID: 502123437}
+  username: {fileID: 0}
+  password: {fileID: 0}
+  errorMessages: {fileID: 0}
+  url: 
 --- !u!4 &1967584343
 Transform:
   m_ObjectHideFlags: 0
