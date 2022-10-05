@@ -57,14 +57,15 @@ public class GameManager : Singeltone<GameManager>
                     availbleCardSlots[i] = false;
                     deck.Remove(randCard);
                     board.Add(randCard);
+                    // Here we check if a Rainbow cards is drawn onto the board. \\
                     if (randCard.Color == "Rainbow")
                     {
                         RainbowCount++;
                         Debug.Log(RainbowCount);
-                       
                     }
                     if (availbleCardSlots[4] == false)
                     {
+                        // If more than 3 Rainbow cards are on the field, the board is cleared. \\
                         if (RainbowCount == 3)
                         {
                             await CheckCards();
@@ -127,6 +128,8 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
+    // This method is for checking the cards on the board. \\
+    // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
     public async Task CheckCards()
     {
         await Task.Delay(1000);
@@ -141,7 +144,6 @@ public class GameManager : Singeltone<GameManager>
             discardPile.Add(delete);
             RainbowCount = 0;
         }
-
     }
 
     public void PickCard()
@@ -152,9 +154,9 @@ public class GameManager : Singeltone<GameManager>
 
     public void Shuffle()
     {
-        if(discardPile.Count >= 1)
+        if (discardPile.Count >= 1)
         {
-            foreach(Card card in discardPile)
+            foreach (Card card in discardPile)
             {
                 deck.Add(card);
             }
@@ -162,11 +164,13 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
+    // This method runs, when the programs starts. \\
     private void Start()
     {
         DrawcardSpecialDestination();
     }
 
+    // This method runs every frame & updates the scenes. \\
     private void Update()
     {
         deckSizeText.text = deck.Count.ToString();
