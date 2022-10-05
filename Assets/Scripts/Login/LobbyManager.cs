@@ -21,7 +21,8 @@ public class LobbyManager : Singeltone<LobbyManager>
     private string joincode;
     private const string JoinCodeKey = "j";
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
-  
+
+
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
     {
         try
@@ -60,8 +61,9 @@ public class LobbyManager : Singeltone<LobbyManager>
             Debug.Log("The lobby was created");
             Debug.Log(lobby.LobbyCode);
             Debug.Log(lobby.Players);
-
+            LobbyScene.Instance.Getlobby(lobby);
             NetworkManager.Singleton.StartHost();
+
             return true;
         }
         catch (Exception e)
@@ -99,7 +101,6 @@ public class LobbyManager : Singeltone<LobbyManager>
             };
 
             SetTransformAsClient(a);
-            NetworkManager.Singleton.StartClient();
 
             Debug.Log("Joined to relay");
             Debug.Log(lobby.Players);
@@ -126,10 +127,10 @@ public class LobbyManager : Singeltone<LobbyManager>
 
 
            SetTransformAsClient(a);
-            NetworkManager.Singleton.StartClient();
             Debug.Log("Joined to relay");
+            Debug.Log(lobby.Players);
+            SceneManager.LoadScene("LobbyScene");
 
-            //NetworkManager.Singleton.StartClient();
         }
         catch (Exception)
         {
@@ -139,7 +140,7 @@ public class LobbyManager : Singeltone<LobbyManager>
 
    private void SetTransformAsClient(JoinAllocation a)
     {
-        //Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
+        Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
     }
 
     IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)

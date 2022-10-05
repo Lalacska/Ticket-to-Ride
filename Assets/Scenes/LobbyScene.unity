@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 51004301}
   - component: {fileID: 51004300}
   m_Layer: 0
-  m_Name: Button (1)
+  m_Name: Start Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,7 +316,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 51004301}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 184608934}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+        m_MethodName: StartButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &51004301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1193,7 @@ GameObject:
   - component: {fileID: 882556476}
   - component: {fileID: 882556475}
   m_Layer: 0
-  m_Name: Button
+  m_Name: Ready Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
