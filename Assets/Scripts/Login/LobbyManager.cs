@@ -70,11 +70,8 @@ public class LobbyManager : Singeltone<LobbyManager>
         {
             Debug.LogFormat("Failed creating a lobby");
             Debug.Log(e);
-
             return false;
         }
-
-
     }
 
     public async void JoinLobby(string lobbyCode)
@@ -125,7 +122,6 @@ public class LobbyManager : Singeltone<LobbyManager>
             // If we found a lobby, grab the relay allocation details
             var a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
 
-
            SetTransformAsClient(a);
             Debug.Log("Joined to relay");
             Debug.Log(lobby.Players);
@@ -152,6 +148,5 @@ public class LobbyManager : Singeltone<LobbyManager>
             LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
             yield return delay;
         }
-
     }
 }
