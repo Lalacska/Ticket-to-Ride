@@ -63,7 +63,7 @@ public class Auth : MonoBehaviour
     }
 
 
-    // This method opens the Login Scene. \\
+    // This method gets the users info & starts the login method. \\
     public async void LoginButtonclick()
     {
         Debug.Log("You clicked the button");
@@ -147,6 +147,12 @@ public class Auth : MonoBehaviour
     }
 
 
+
+    // This method opens the Login Screen. \\
+    public static void LoginScene()
+    {
+        SceneManager.LoadScene("Login");
+    }
 
     // This method opens the Register scene. \\
     public static void RegisterOpenButtonclick()
