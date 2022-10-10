@@ -14,6 +14,7 @@ using Unity.Networking.Transport.Relay;
 using UnityEngine;
 using NetworkEvent = Unity.Networking.Transport.NetworkEvent;
 using UnityEngine.SceneManagement;
+using Unity.Services.Authentication;
 
 public class LobbyManager : Singeltone<LobbyManager>
 {
@@ -23,6 +24,7 @@ public class LobbyManager : Singeltone<LobbyManager>
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
 
 
+    // Create Lobby
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
     {
         try
@@ -65,8 +67,9 @@ public class LobbyManager : Singeltone<LobbyManager>
             {
                 Debug.Log(player);
             }
-            LobbyScene.Instance.Getlobby(lobby);
-            Debug.Log(UserData.username);
+            LobbyScene.lobby = lobby;
+            LobbyScene.code = relayHostData.JoinCode;
+            LobbyScene.Instance.DisplayCode();
             //NetworkManager.Singleton.StartHost();
 
             return true;
@@ -146,9 +149,40 @@ public class LobbyManager : Singeltone<LobbyManager>
     }
 
     // Client transport
-   private void SetTransformAsClient(JoinAllocation a)
+    private void SetTransformAsClient(JoinAllocation a)
     {
         Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
+    }
+
+    public async void LeaveLobby()
+    {
+        try
+        {
+            string joindlobbyID = await GetLobbyID();
+            //Ensure you sign-in before calling Authentication Instance
+            //See IAuthenticationService interface
+            string playerId = AuthenticationService.Instance.PlayerId;
+            await LobbyService.Instance.RemovePlayerAsync(joindlobbyID, playerId);
+            SceneManager.LoadScene("Join-Create Game");
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public async Task<string> GetLobbyID()
+    {
+        try
+        {
+            var lobbyIds = await LobbyService.Instance.GetJoinedLobbiesAsync();
+            return lobbyIds.FirstOrDefault();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+            return null;
+        }
     }
 
     // Hearbeat to the lobby, so it won't die

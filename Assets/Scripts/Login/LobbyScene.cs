@@ -7,12 +7,9 @@ using UnityEngine;
 public class LobbyScene : Singeltone<LobbyScene>
 {
     [SerializeField] private TMP_Text joinCode;
-    private Lobby lobby;
+    public static Lobby lobby;
+    public static string code;
 
-    public void Getlobby(Lobby lobby_)
-    {
-        this.lobby = lobby_;
-    }
 
     public void StartButton()
     {
@@ -22,11 +19,15 @@ public class LobbyScene : Singeltone<LobbyScene>
             Debug.Log(player);
         }
     }
+    public void DisplayCode()
+    {
+        joinCode.text = code;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        joinCode.text = "Hallo!";
+
     }
 
     // Update is called once per frame

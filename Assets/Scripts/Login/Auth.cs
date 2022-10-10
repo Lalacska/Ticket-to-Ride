@@ -58,10 +58,6 @@ public class Auth : MonoBehaviour
     public async void LoginButtonclick()
     {
         Debug.Log("You clicked the button");
-        /*string name = username.GetComponent<TMP_InputField>().text;
-        string pass = password.GetComponent<TMP_InputField>().text;
-        Debug.Log(name);
-        Debug.Log(pass);*/
 
         await SignInAnonymouslyAsync();
 
