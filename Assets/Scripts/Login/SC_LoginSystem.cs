@@ -32,7 +32,8 @@ public class SC_LoginSystem : MonoBehaviour
         {
             if (currentWindow == CurrentWindow.Login)
             {
-                GUI.Window(0, new Rect(Screen.width / 2 - 125, Screen.height / 2 - 115, 250, 230), LoginWindow, "Login");
+                GUI.Window(0, new Rect(Screen.width / 2 - 250, Screen.height / 2 - 515, 550, 530), LoginWindow, "Login");
+                
             }
             if (currentWindow == CurrentWindow.Register)
             {
@@ -72,15 +73,19 @@ public class SC_LoginSystem : MonoBehaviour
         }
 
         GUI.color = Color.white;
+
+        
+
         GUILayout.Label("Email:");
         loginEmail = GUILayout.TextField(loginEmail);
         GUILayout.Label("Password:");
         loginPassword = GUILayout.PasswordField(loginPassword, '*');
 
-        GUILayout.Space(5);
+        GUILayout.Space(50);
 
-        if (GUILayout.Button("Submit", GUILayout.Width(85)))
+        if (GUILayout.Button("Submit", GUILayout.Width(150), GUILayout.Height(50)))
         {
+            GUI.skin.button.fontSize = 50;
             StartCoroutine(LoginEnumerator());
         }
 
