@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PlayerManager : Singeltone<PlayerManager>
 {
-    public List<Player> players = new List<Player>();
+    public List<PlayerInGame> players = new List<PlayerInGame>();
 
     internal void AssignTurn(int currentPlayerTurn)
     {
-        foreach(Player player in players)
+        foreach(PlayerInGame player in players)
         {
             player.myTurn = player.ID == currentPlayerTurn;
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Singeltone<Player>
+public class PlayerInGame : Singeltone<PlayerInGame>
 {
     public int ID;
     public string playername;
@@ -14,7 +14,7 @@ public class Player : Singeltone<Player>
     public bool myTurn;
     public Camera playercam;
 
-    public Player(int ID, string playername, string color, bool myTurn)
+    public PlayerInGame(int ID, string playername, string color, bool myTurn)
     {
         this.ID = ID;
         this.playername = playername;

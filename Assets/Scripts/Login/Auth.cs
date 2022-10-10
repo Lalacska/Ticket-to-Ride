@@ -19,16 +19,6 @@ public class Auth : MonoBehaviour
 
     [SerializeField] TMP_Text errorMessages;
     [SerializeField] string url;
-    WWWForm form;
-
-    bool isWorking = false;
-    bool registrationCompleted = false;
-    bool isLoggedIn = false;
-    string errorMessage = "";
-
-    //Logged-in user data
-    string userName = "";
-    string userEmail = "";
 
 
     private async void Awake()
@@ -47,6 +37,7 @@ public class Auth : MonoBehaviour
 
             // Shows how to get the playerID
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+            SceneManager.LoadScene("Join-Create Game");
         }
         catch (AuthenticationException ex)
         {
@@ -67,86 +58,14 @@ public class Auth : MonoBehaviour
     public async void LoginButtonclick()
     {
         Debug.Log("You clicked the button");
-        string name = username.GetComponent<TMP_InputField>().text;
+        /*string name = username.GetComponent<TMP_InputField>().text;
         string pass = password.GetComponent<TMP_InputField>().text;
         Debug.Log(name);
-        Debug.Log(pass);
+        Debug.Log(pass);*/
 
-        //await SignInAnonymouslyAsync();
-        StartCoroutine(Login());
+        await SignInAnonymouslyAsync();
+
     }
-
-    async Task SignInWithOpenIdConnectAsync(string idProviderName, string idToken)
-    {
-        try
-        {
-            await AuthenticationService.Instance.SignInWithOpenIdConnectAsync(idProviderName, idToken);
-            Debug.Log("SignIn is successful.");
-        }
-        catch (AuthenticationException ex)
-        {
-            // Compare error code to AuthenticationErrorCodes
-            // Notify the player with the proper error message
-            Debug.LogException(ex);
-        }
-        catch (RequestFailedException ex)
-        {
-            // Compare error code to CommonErrorCodes
-            // Notify the player with the proper error message
-            Debug.LogException(ex);
-        }
-    }
-
-
-    IEnumerator Login()
-    {
-        errorMessage = "";
-
-        form = new WWWForm();
-
-        form.AddField("Username", username.text);
-        form.AddField("Password", password.text);
-
-        
-        using (UnityWebRequest www = UnityWebRequest.Post(url + "login.php", form))
-        {
-            yield return www.SendWebRequest();
-
-            Debug.Log(www);
-
-            Debug.Log(www.downloadHandler.text);
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                errorMessage = www.error;
-            }
-            else
-            {
-                Debug.Log("C");
-                string responseText = www.downloadHandler.text;
-                Debug.Log(www.downloadHandler);
-
-                if (responseText.StartsWith("Success"))
-                {
-                    Debug.Log("D");
-                    string[] dataChunks = responseText.Split('|');
-                    userName = dataChunks[1];
-                    userEmail = dataChunks[2];
-                    isLoggedIn = true;
-
-                    errorMessage = "";
-                    Debug.Log("Logged in");
-                }
-                else
-                {
-                    errorMessage = responseText;
-                }
-            }
-        }
-
-        isWorking = false;
-    }
-
-
 
     // This method opens the Register scene. \\
     public static void RegisterOpenButtonclick()

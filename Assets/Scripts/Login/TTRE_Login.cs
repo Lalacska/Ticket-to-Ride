@@ -1,10 +1,14 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class SC_LoginSystem : MonoBehaviour
+public class TTRE_Login : MonoBehaviour
 {
+    [SerializeField] private TMP_InputField _loginEmail;
+    [SerializeField] private TMP_InputField _loginPassword;
+
     public enum CurrentWindow { Login, Register }
     public CurrentWindow currentWindow = CurrentWindow.Login;
 
@@ -26,112 +30,14 @@ public class SC_LoginSystem : MonoBehaviour
 
     string rootURL = "https://bekbekbek.com/Tuhu-Test/"; //Path where php files are located
 
-    void OnGUI()
+
+    public void LoginButtonClick()
     {
-        if (!isLoggedIn)
-        {
-            if (currentWindow == CurrentWindow.Login)
-            {
-                GUI.Window(0, new Rect(Screen.width / 2 - 125, Screen.height / 2 - 115, 250, 230), LoginWindow, "Login");
-            }
-            if (currentWindow == CurrentWindow.Register)
-            {
-                GUI.Window(0, new Rect(Screen.width / 2 - 125, Screen.height / 2 - 165, 250, 330), RegisterWindow, "Register");
-            }
-        }
+        loginEmail = _loginEmail.text;
+        loginPassword = _loginPassword.text;
 
-        GUI.Label(new Rect(5, 5, 500, 25), "Status: " + (isLoggedIn ? "Logged-in Username: " + userName + " Email: " + userEmail : "Logged-out"));
-        if (isLoggedIn)
-        {
-            if (GUI.Button(new Rect(5, 30, 100, 25), "Log Out"))
-            {
-                isLoggedIn = false;
-                userName = "";
-                userEmail = "";
-                currentWindow = CurrentWindow.Login;
-            }
-        }
-    }
+        StartCoroutine(LoginEnumerator());
 
-    void LoginWindow(int index)
-    {
-        if (isWorking)
-        {
-            GUI.enabled = false;
-        }
-
-        if (errorMessage != "")
-        {
-            GUI.color = Color.red;
-            GUILayout.Label(errorMessage);
-        }
-        if (registrationCompleted)
-        {
-            GUI.color = Color.green;
-            GUILayout.Label("Registration Completed!");
-        }
-
-        GUI.color = Color.white;
-        GUILayout.Label("Email:");
-        loginEmail = GUILayout.TextField(loginEmail);
-        GUILayout.Label("Password:");
-        loginPassword = GUILayout.PasswordField(loginPassword, '*');
-
-        GUILayout.Space(5);
-
-        if (GUILayout.Button("Submit", GUILayout.Width(85)))
-        {
-            StartCoroutine(LoginEnumerator());
-        }
-
-        GUILayout.FlexibleSpace();
-
-        GUILayout.Label("Do not have account?");
-        if (GUILayout.Button("Register", GUILayout.Width(125)))
-        {
-            ResetValues();
-            currentWindow = CurrentWindow.Register;
-        }
-    }
-
-    void RegisterWindow(int index)
-    {
-        if (isWorking)
-        {
-            GUI.enabled = false;
-        }
-
-        if (errorMessage != "")
-        {
-            GUI.color = Color.red;
-            GUILayout.Label(errorMessage);
-        }
-
-        GUI.color = Color.white;
-        GUILayout.Label("Email:");
-        registerEmail = GUILayout.TextField(registerEmail, 254);
-        GUILayout.Label("Username:");
-        registerUsername = GUILayout.TextField(registerUsername, 20);
-        GUILayout.Label("Password:");
-        registerPassword1 = GUILayout.PasswordField(registerPassword1, '*', 19);
-        GUILayout.Label("Password Again:");
-        registerPassword2 = GUILayout.PasswordField(registerPassword2, '*', 19);
-
-        GUILayout.Space(5);
-
-        if (GUILayout.Button("Submit", GUILayout.Width(85)))
-        {
-            StartCoroutine(RegisterEnumerator());
-        }
-
-        GUILayout.FlexibleSpace();
-
-        GUILayout.Label("Already have an account?");
-        if (GUILayout.Button("Login", GUILayout.Width(125)))
-        {
-            ResetValues();
-            currentWindow = CurrentWindow.Login;
-        }
     }
 
     IEnumerator RegisterEnumerator()

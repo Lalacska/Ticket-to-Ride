@@ -4908,6 +4908,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8524904791633794036, guid: abc99d68095808c4d9099d183cd81565, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abc99d68095808c4d9099d183cd81565, type: 3}
 --- !u!1 &192798250
@@ -18261,6 +18265,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6e8558a5d8fa04d8c1917f261011d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RunInBackground: 1
+  LogLevel: 1
+  NetworkConfig:
+    ProtocolVersion: 0
+    NetworkTransport: {fileID: 0}
+    PlayerPrefab: {fileID: 0}
+    NetworkPrefabs: []
+    TickRate: 30
+    ClientConnectionBufferTimeout: 10
+    ConnectionApproval: 0
+    ConnectionData: 
+    EnableTimeResync: 0
+    TimeResyncInterval: 30
+    EnsureNetworkVariableLengthSafety: 0
+    EnableSceneManagement: 1
+    ForceSamePrefabs: 1
+    RecycleNetworkIds: 1
+    NetworkIdRecycleDelay: 120
+    RpcHashSize: 0
+    LoadSceneTimeOut: 120
+    SpawnTimeout: 1
+    EnableNetworkLogs: 1
   Cameras:
   - {fileID: 1096598091}
   - {fileID: 1060074615}
@@ -29414,10 +29440,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9dd1a056cb4a3429d765a1beed6d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasBeenPlayed: 0
-  handIndex: 0
-  Color: 
-  ownerID: 0
 --- !u!1 &1183127529
 GameObject:
   m_ObjectHideFlags: 0

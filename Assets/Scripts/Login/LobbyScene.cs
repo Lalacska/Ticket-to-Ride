@@ -17,6 +17,10 @@ public class LobbyScene : Singeltone<LobbyScene>
     public void StartButton()
     {
         Debug.Log(lobby.Players);
+        foreach (Player player in lobby.Players)
+        {
+            Debug.Log(player);
+        }
     }
 
     // Start is called before the first frame update
