@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singeltone<GameManager>
 {
     // Here we make list for the diffrent kinds of cards piles. \\
     public List<Card> deck = new List<Card>();
