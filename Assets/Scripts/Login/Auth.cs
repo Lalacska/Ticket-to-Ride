@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Networking;
 
-public class Auth : MonoBehaviour
+public class Auth : Singeltone<Auth>
 {
     [SerializeField] private GameObject _buttons;
     [SerializeField] TMP_InputField username;
@@ -37,6 +37,7 @@ public class Auth : MonoBehaviour
 
             // Shows how to get the playerID
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+            UserData.userId = AuthenticationService.Instance.PlayerId;
             SceneManager.LoadScene("Join-Create Game");
         }
         catch (AuthenticationException ex)

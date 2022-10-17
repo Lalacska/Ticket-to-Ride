@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -10,11 +9,9 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Networking.Transport;
-using Unity.Networking.Transport.Relay;
 using UnityEngine;
-using NetworkEvent = Unity.Networking.Transport.NetworkEvent;
 using UnityEngine.SceneManagement;
-using Unity.Services.Authentication;
+
 
 public class LobbyManager : Singeltone<LobbyManager>
 {
@@ -23,6 +20,9 @@ public class LobbyManager : Singeltone<LobbyManager>
     private const string JoinCodeKey = "j";
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
 
+    protected NetworkDriver m_networkDriver;
+    protected List<NetworkConnection> m_connections;
+    protected NetworkEndPoint m_endpointForServer;
 
     // Create Lobby
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
@@ -44,6 +44,7 @@ public class LobbyManager : Singeltone<LobbyManager>
                 ConnectionData = a.ConnectionData,
             };
 
+
             relayHostData.JoinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
             // Create a lobby, adding the relay join code to the lobby
@@ -55,7 +56,8 @@ public class LobbyManager : Singeltone<LobbyManager>
 
             // Set the game room to use the relay allocation
             Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
-              
+
+
             // Heartbeat the lobby every 15 seconds.
             StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
 
@@ -69,8 +71,9 @@ public class LobbyManager : Singeltone<LobbyManager>
             }
             LobbyScene.lobby = lobby;
             LobbyScene.code = relayHostData.JoinCode;
+            UserData.lobbyID = lobby.Id;
             LobbyScene.Instance.DisplayCode();
-            //NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.StartHost();
 
             return true;
         }
@@ -95,6 +98,7 @@ public class LobbyManager : Singeltone<LobbyManager>
             // Setting relay Allocation
             Debug.Log("Joining to Relay");
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
+            
 
             RelayJoinData relayJoinData = new RelayJoinData
             {
@@ -108,10 +112,13 @@ public class LobbyManager : Singeltone<LobbyManager>
                 JoinCode = lobby.Data[JoinCodeKey].Value,
             };
 
+
             SetTransformAsClient(a);
 
+            NetworkManager.Singleton.StartClient();
             Debug.Log("Joined to relay");
             Debug.Log(lobby.Players);
+            UserData.lobbyID = lobby.Id;
             SceneManager.LoadScene("LobbyScene");
         }
         catch (LobbyServiceException e)
@@ -133,13 +140,16 @@ public class LobbyManager : Singeltone<LobbyManager>
 
             Debug.Log("Joining to Relay");
             // If we found a lobby, grab the relay allocation details
-            var a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
+            JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
 
             SetTransformAsClient(a);
             Debug.Log("Joined to relay");
             Debug.Log(lobby.Players);
             Debug.Log(UserData.username);
+            UserData.lobbyID = lobby.Id;
+            UserData.lobbyID = lobby.Id;
             SceneManager.LoadScene("LobbyScene");
+            NetworkManager.Singleton.StartClient();
 
         }
         catch (Exception)
@@ -158,11 +168,8 @@ public class LobbyManager : Singeltone<LobbyManager>
     {
         try
         {
-            string joindlobbyID = await GetLobbyID();
-            //Ensure you sign-in before calling Authentication Instance
-            //See IAuthenticationService interface
-            string playerId = AuthenticationService.Instance.PlayerId;
-            await LobbyService.Instance.RemovePlayerAsync(joindlobbyID, playerId);
+            NetworkManager.Singleton.Shutdown();
+            await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, UserData.userId);
             SceneManager.LoadScene("Join-Create Game");
         }
         catch (LobbyServiceException e)
@@ -170,21 +177,7 @@ public class LobbyManager : Singeltone<LobbyManager>
             Debug.Log(e);
         }
     }
-
-    public async Task<string> GetLobbyID()
-    {
-        try
-        {
-            var lobbyIds = await LobbyService.Instance.GetJoinedLobbiesAsync();
-            return lobbyIds.FirstOrDefault();
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.Log(e);
-            return null;
-        }
-    }
-
+    
     // Hearbeat to the lobby, so it won't die
     IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
     {

@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 184608935}
   - component: {fileID: 184608934}
   - component: {fileID: 184608936}
+  - component: {fileID: 184608937}
   m_Layer: 0
   m_Name: LobbyScene
   m_TagString: Untagged
@@ -425,6 +426,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d39c8895c8daf4084dcb4dea973015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &184608937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184608933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0128b6b58ae23bf448d48fcae5996358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerID: 
 --- !u!1 &309817309
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,8 +524,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 33
+  m_fontSizeBase: 33
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
