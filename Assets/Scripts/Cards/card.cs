@@ -19,6 +19,7 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("clicked");
         if(hasBeenPlayed == false)
         {
             transform.position += Vector3.up * 5;

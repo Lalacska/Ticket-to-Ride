@@ -112,7 +112,10 @@ public class Auth : MonoBehaviour
         {
             yield return www.SendWebRequest();
 
-            Debug.Log(www);
+
+        //await SignInAnonymouslyAsync();
+        SceneManager.LoadScene("Login");
+
 
             Debug.Log(www.downloadHandler.text);
             if (www.result != UnityWebRequest.Result.Success)
@@ -157,7 +160,7 @@ public class Auth : MonoBehaviour
     // This method opens the Register scene. \\
     public static void RegisterOpenButtonclick()
     {
-        System.Diagnostics.Process.Start("https://www.bekbekbek.com/signup.php");
+        SceneManager.LoadScene("Register");
     }
 
     // This method sends the user back to the Home scene. \\

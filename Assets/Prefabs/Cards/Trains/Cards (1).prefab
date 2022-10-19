@@ -74,6 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasBeenPlayed: 0
   handIndex: 0
+  Color: 
+  ownerID: 0
 --- !u!1001 &7504130893935862704
 PrefabInstance:
   m_ObjectHideFlags: 0
