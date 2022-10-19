@@ -20,9 +20,6 @@ public class LobbyManager : Singeltone<LobbyManager>
     private const string JoinCodeKey = "j";
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
 
-    protected NetworkDriver m_networkDriver;
-    protected List<NetworkConnection> m_connections;
-    protected NetworkEndPoint m_endpointForServer;
 
     // Create Lobby
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
@@ -71,7 +68,10 @@ public class LobbyManager : Singeltone<LobbyManager>
             }
             LobbyScene.lobby = lobby;
             LobbyScene.code = relayHostData.JoinCode;
+            
             UserData.lobbyID = lobby.Id;
+            UserData.lobby = lobby;
+
             LobbyScene.Instance.DisplayCode();
             NetworkManager.Singleton.StartHost();
 
@@ -119,6 +119,7 @@ public class LobbyManager : Singeltone<LobbyManager>
             Debug.Log("Joined to relay");
             Debug.Log(lobby.Players);
             UserData.lobbyID = lobby.Id;
+            UserData.lobby = lobby;
             SceneManager.LoadScene("LobbyScene");
         }
         catch (LobbyServiceException e)
@@ -147,7 +148,7 @@ public class LobbyManager : Singeltone<LobbyManager>
             Debug.Log(lobby.Players);
             Debug.Log(UserData.username);
             UserData.lobbyID = lobby.Id;
-            UserData.lobbyID = lobby.Id;
+            UserData.lobby = lobby;
             SceneManager.LoadScene("LobbyScene");
             NetworkManager.Singleton.StartClient();
 
@@ -169,7 +170,21 @@ public class LobbyManager : Singeltone<LobbyManager>
         try
         {
             NetworkManager.Singleton.Shutdown();
-            await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, UserData.userId);
+            if (UserData.lobby.HostId == UserData.userId)
+            {
+                try
+                {
+                    await LobbyService.Instance.DeleteLobbyAsync(UserData.lobby.Id);
+                }
+                catch (LobbyServiceException e)
+                {
+                    Debug.Log(e);
+                }
+            }
+            else
+            {
+                await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, UserData.userId);
+            }
             SceneManager.LoadScene("Join-Create Game");
         }
         catch (LobbyServiceException e)
