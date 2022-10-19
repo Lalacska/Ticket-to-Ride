@@ -67,7 +67,7 @@ public class Auth : Singeltone<Auth>
     // This method opens the Register scene. \\
     public static void RegisterOpenButtonclick()
     {
-        System.Diagnostics.Process.Start("https://www.bekbekbek.com/signup.php");
+        SceneManager.LoadScene("Register");
     }
 
     // This method sends the user back to the Home scene. \\

@@ -13,18 +13,21 @@ public class GameManager : Singeltone<GameManager>
     public List<Card> SpecialDestinationTicket = new List<Card>();
     public List<Card> board = new List<Card>();
     public List<Card> discardPile = new List<Card>();
+    public List<Card> HandSlots = new List<Card>();
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
     public Transform[] cardSlots;
     public Transform[] cardSlotsDestination;
     public Transform[] cardSlotsSpecialDestination;
     public Transform[] discardPileDestination;
+    public Transform[] handSlots;
 
     // This is bools for availble slots, the cards can be playsed in. \\
     public bool[] availbleCardSlots;
     public bool[] availbleDestinationCardSlots;
     public bool[] availbleSpecialDestinationCardSlots;
     public bool[] availbleDiscardPileCardSlots;
+    public bool[] availbleHandslots;
 
     // This is a int for keeping track of Rainbow Cards. \\
     public int RainbowCount = 0;
@@ -146,12 +149,14 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
+    // ??? \\ 
     public void PickCard()
     {
 
         return;
     }
 
+    // This method shuffles the used/discared cards back into the deck. \\ NOT WORKING!
     public void Shuffle()
     {
         if (discardPile.Count >= 1)

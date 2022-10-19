@@ -7,12 +7,21 @@ using UnityEngine.SceneManagement;
 
 public class TTRE_Login : MonoBehaviour
 {
+    // These fields are for the Login part. \\
     [SerializeField] private TMP_InputField _loginEmail;
     [SerializeField] private TMP_InputField _loginPassword;
 
+    // These fields are for the Register part. \\
+    [SerializeField] private TMP_InputField _RegisterUserName;
+    [SerializeField] private TMP_InputField _RegisterEmail;
+    [SerializeField] private TMP_InputField _RegisterPassword1;
+    [SerializeField] private TMP_InputField _RegisterPassword2;
+
+    // This part is for identifying what window there is open. \\
     public enum CurrentWindow { Login, Register }
     public CurrentWindow currentWindow = CurrentWindow.Login;
 
+    // Her a lot of variables is being made, for use later on. \\
     string loginEmail = "";
     string loginPassword = "";
     string registerEmail = "";
@@ -25,22 +34,37 @@ public class TTRE_Login : MonoBehaviour
     bool registrationCompleted = false;
     bool isLoggedIn = false;
 
-    //Logged-in user data
+    // These variables are for the login portion. \\
     string userName = "";
     string userEmail = "";
 
-    string rootURL = "https://bekbekbek.com/Tuhu-Test/"; //Path where php files are located
+    string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located
 
+    // This method is for when the player clicks the Login button. \\
 
     public void LoginButtonClick()
     {
         loginEmail = _loginEmail.text;
         loginPassword = _loginPassword.text;
 
+        // This method starts the "Coroutine". \\
         StartCoroutine(LoginEnumerator());
 
     }
 
+
+    // This method is for when the user clicks "Register". \\
+    public void RegisterButtonClick()
+    {
+        registerEmail = _RegisterEmail.text;
+        registerUsername = _RegisterUserName.text;
+        registerPassword1 = _RegisterPassword1.text;
+        registerPassword2 = _RegisterPassword2.text;
+
+        StartCoroutine(RegisterEnumerator());
+    }
+
+    // This method handles the User's inputs and inserts them into the database. \\
     IEnumerator RegisterEnumerator()
     {
         isWorking = true;
@@ -70,6 +94,8 @@ public class TTRE_Login : MonoBehaviour
                     ResetValues();
                     registrationCompleted = true;
                     currentWindow = CurrentWindow.Login;
+                    SceneManager.LoadScene("Login-Register");
+
                 }
                 else
                 {
@@ -109,11 +135,12 @@ public class TTRE_Login : MonoBehaviour
                     userName = dataChunks[1];
                     userEmail = dataChunks[2];
                     isLoggedIn = true;
-
+                    
                     UserData.username = userName;
 
                     ResetValues();
                     SceneManager.LoadScene("Login-Register");
+
                 }
                 else
                 {
