@@ -183,4 +183,10 @@ public class GameManager : Singeltone<GameManager>
         //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
         //discardPileText.text = discardPile.Count.ToString();
     }
+
+    public void Button1()
+    {
+        Card card = board[0];
+        Debug.Log(card.Color);
+    }
 }
