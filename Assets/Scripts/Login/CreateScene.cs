@@ -9,6 +9,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class CreateScene : Singeltone<CreateScene>
 {
@@ -20,7 +21,7 @@ public class CreateScene : Singeltone<CreateScene>
     {
         string lobbyName = lobbyname.GetComponent<TMP_InputField>().text;
         int maxPlayers = Convert.ToInt32(players.value);
-        Task<bool> runing = LobbyManager.Instance.CreateLobby(lobbyName, maxPlayers);
-        SceneManager.LoadScene("LobbyScene");
+        Task<bool> runing = LobbyManager1.Instance.CreateLobby(lobbyName, maxPlayers);
+        //SceneManager.LoadScene("LobbyScene");
     }
 }
