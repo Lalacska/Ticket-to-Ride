@@ -37,7 +37,35 @@ public class GameManager : Singeltone<GameManager>
     public Text decksSizeText;
     public Text deckssSizeText;
 
-    public Text discardPileText;
+    // This part is for the counters of the players cards. \\
+    public int IBlackPlayerCount;
+    public Text TBlackPlayerCount;
+
+    public int IBluePlayerCount;
+    public Text TBluePlayerCount;
+
+    public int IBrownPlayerCount;
+    public Text TBrownPlayerCount;
+
+    public int IGreenPlayerCount;
+    public Text TGreenPlayerCount;
+
+    public int IOrangePlayerCount;
+    public Text TOrangePlayerCount;
+
+    public int IPurplePlayerCount;
+    public Text TPurplePlayerCount;
+
+    public int IWhitePlayerCount;
+    public Text TWhitePlayerCount;
+
+    public int IYellowPlayerCount;
+    public Text TYellowPlayerCount;
+
+    public int IRainbowPlayerCount;
+    public Text TRainbowPlayerCount;
+
+    public Text TdiscardPileText;
 
 
     // This method is for the Train-Destination Drawpile. \\
@@ -184,9 +212,318 @@ public class GameManager : Singeltone<GameManager>
         //discardPileText.text = discardPile.Count.ToString();
     }
 
+    // This method is for the first pick btn on the board. \\
     public void Button1()
     {
         Card card = board[0];
         Debug.Log(card.Color);
+
+        if(card.Color == "Black")
+        {
+            IBlackPlayerCount++;
+            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+        }
+        else if(card.Color == "Blue")
+        {
+            IBluePlayerCount++;
+            TBluePlayerCount.text = IBluePlayerCount.ToString();
+        }
+        else if(card.Color == "Brown")
+        {
+            IBrownPlayerCount++;
+            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+        }
+        else if (card.Color == "Green")
+        {
+            IGreenPlayerCount++;
+            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+        }
+        else if (card.Color == "Orange")
+        {
+            IOrangePlayerCount++;
+            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+        }
+        else if (card.Color == "Purple")
+        {
+            IPurplePlayerCount++;
+            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+        }
+        else if (card.Color == "White")
+        {
+            IWhitePlayerCount++;
+            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+        }
+        else if (card.Color == "Yellow")
+        {
+            IYellowPlayerCount++;
+            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+        }
+        else if (card.Color == "Rainbow")
+        {
+            IRainbowPlayerCount++;
+            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+        }
+
+        Card delete = board[0];
+        delete.transform.position = discardPileDestination[0].position;
+        availbleDiscardPileCardSlots[0] = false;
+        availbleCardSlots[0] = true;
+        delete.gameObject.SetActive(false);
+        board.Remove(delete);
+        discardPile.Add(delete);
+
+        discardPile.Clear();
+    }
+
+    // This method is for the secound pick btn on the board. \\
+    public void Button2()
+    {
+        Card card = board[1];
+        Debug.Log(card.Color);
+
+        if (card.Color == "Black")
+        {
+            IBlackPlayerCount++;
+            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+        }
+        else if (card.Color == "Blue")
+        {
+            IBluePlayerCount++;
+            TBluePlayerCount.text = IBluePlayerCount.ToString();
+        }
+        else if (card.Color == "Brown")
+        {
+            IBrownPlayerCount++;
+            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+        }
+        else if (card.Color == "Green")
+        {
+            IGreenPlayerCount++;
+            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+        }
+        else if (card.Color == "Orange")
+        {
+            IOrangePlayerCount++;
+            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+        }
+        else if (card.Color == "Purple")
+        {
+            IPurplePlayerCount++;
+            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+        }
+        else if (card.Color == "White")
+        {
+            IWhitePlayerCount++;
+            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+        }
+        else if (card.Color == "Yellow")
+        {
+            IYellowPlayerCount++;
+            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+        }
+        else if (card.Color == "Rainbow")
+        {
+            IRainbowPlayerCount++;
+            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+        }
+
+        Card delete = board[1];
+        delete.transform.position = discardPileDestination[1].position;
+        availbleDiscardPileCardSlots[1] = false;
+        availbleCardSlots[1] = true;
+        delete.gameObject.SetActive(false);
+        board.Remove(delete);
+        discardPile.Add(delete);
+
+        discardPile.Clear();
+    }
+
+    // This method is for the third pick btn on thr board. \\
+    public void Button3()
+    {
+        Card card = board[2];
+        Debug.Log(card.Color);
+
+        if (card.Color == "Black")
+        {
+            IBlackPlayerCount++;
+            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+        }
+        else if (card.Color == "Blue")
+        {
+            IBluePlayerCount++;
+            TBluePlayerCount.text = IBluePlayerCount.ToString();
+        }
+        else if (card.Color == "Brown")
+        {
+            IBrownPlayerCount++;
+            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+        }
+        else if (card.Color == "Green")
+        {
+            IGreenPlayerCount++;
+            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+        }
+        else if (card.Color == "Orange")
+        {
+            IOrangePlayerCount++;
+            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+        }
+        else if (card.Color == "Purple")
+        {
+            IPurplePlayerCount++;
+            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+        }
+        else if (card.Color == "White")
+        {
+            IWhitePlayerCount++;
+            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+        }
+        else if (card.Color == "Yellow")
+        {
+            IYellowPlayerCount++;
+            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+        }
+        else if (card.Color == "Rainbow")
+        {
+            IRainbowPlayerCount++;
+            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+        }
+
+        Card delete = board[2];
+        delete.transform.position = discardPileDestination[2].position;
+        availbleDiscardPileCardSlots[2] = false;
+        availbleCardSlots[2] = true;
+        delete.gameObject.SetActive(false);
+        board.Remove(delete);
+        discardPile.Add(delete);
+
+        discardPile.Clear();
+    }
+
+    // This method is for the fourth pick btn on the board. \\
+    public void Button4()
+    {
+        Card card = board[3];
+        Debug.Log(card.Color);
+
+        if (card.Color == "Black")
+        {
+            IBlackPlayerCount++;
+            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+        }
+        else if (card.Color == "Blue")
+        {
+            IBluePlayerCount++;
+            TBluePlayerCount.text = IBluePlayerCount.ToString();
+        }
+        else if (card.Color == "Brown")
+        {
+            IBrownPlayerCount++;
+            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+        }
+        else if (card.Color == "Green")
+        {
+            IGreenPlayerCount++;
+            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+        }
+        else if (card.Color == "Orange")
+        {
+            IOrangePlayerCount++;
+            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+        }
+        else if (card.Color == "Purple")
+        {
+            IPurplePlayerCount++;
+            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+        }
+        else if (card.Color == "White")
+        {
+            IWhitePlayerCount++;
+            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+        }
+        else if (card.Color == "Yellow")
+        {
+            IYellowPlayerCount++;
+            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+        }
+        else if (card.Color == "Rainbow")
+        {
+            IRainbowPlayerCount++;
+            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+        }
+
+        Card delete = board[3];
+        delete.transform.position = discardPileDestination[3].position;
+        availbleDiscardPileCardSlots[3] = false;
+        availbleCardSlots[3] = true;
+        delete.gameObject.SetActive(false);
+        board.Remove(delete);
+        discardPile.Add(delete);
+
+        discardPile.Clear();
+    }
+
+    // This method is for the fith pick btn on the board. \\
+    public void Button5()
+    {
+        Card card = board[4];
+        Debug.Log(card.Color);
+
+        if (card.Color == "Black")
+        {
+            IBlackPlayerCount++;
+            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+        }
+        else if (card.Color == "Blue")
+        {
+            IBluePlayerCount++;
+            TBluePlayerCount.text = IBluePlayerCount.ToString();
+        }
+        else if (card.Color == "Brown")
+        {
+            IBrownPlayerCount++;
+            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+        }
+        else if (card.Color == "Green")
+        {
+            IGreenPlayerCount++;
+            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+        }
+        else if (card.Color == "Orange")
+        {
+            IOrangePlayerCount++;
+            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+        }
+        else if (card.Color == "Purple")
+        {
+            IPurplePlayerCount++;
+            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+        }
+        else if (card.Color == "White")
+        {
+            IWhitePlayerCount++;
+            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+        }
+        else if (card.Color == "Yellow")
+        {
+            IYellowPlayerCount++;
+            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+        }
+        else if (card.Color == "Rainbow")
+        {
+            IRainbowPlayerCount++;
+            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+        }
+
+        Card delete = board[4];
+        delete.transform.position = discardPileDestination[4].position;
+        availbleDiscardPileCardSlots[4] = false;
+        availbleCardSlots[4] = true;
+        delete.gameObject.SetActive(false);
+        board.Remove(delete);
+        discardPile.Add(delete);
+
+        discardPile.Clear();
     }
 }
