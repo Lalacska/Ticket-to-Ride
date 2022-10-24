@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class handles all the values for the card. \\
 public class Card : MonoBehaviour
 {
     public bool hasBeenPlayed;

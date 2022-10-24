@@ -68,6 +68,21 @@ public class GameManager : Singeltone<GameManager>
     public Text TdiscardPileText;
 
 
+    // This method runs, when the programs starts. \\
+    private void Start()
+    {
+        DrawcardSpecialDestination();
+    }
+
+    // This method runs every frame & updates the scenes. \\
+    private void Update()
+    {
+        deckSizeText.text = deck.Count.ToString();
+        decksSizeText.text = DestinationTicket.Count.ToString();
+        //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
+        //discardPileText.text = discardPile.Count.ToString();
+    }
+
     // This method is for the Train-Destination Drawpile. \\
     public async void Drawcard()
     {
@@ -197,27 +212,13 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
-    // This method runs, when the programs starts. \\
-    private void Start()
-    {
-        DrawcardSpecialDestination();
-    }
-
-    // This method runs every frame & updates the scenes. \\
-    private void Update()
-    {
-        deckSizeText.text = deck.Count.ToString();
-        decksSizeText.text = DestinationTicket.Count.ToString();
-        //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
-        //discardPileText.text = discardPile.Count.ToString();
-    }
-
     // This method is for the first pick btn on the board. \\
     public void Button1()
     {
         Card card = board[0];
         Debug.Log(card.Color);
 
+        // Here we check for the color of the card. \\
         if(card.Color == "Black")
         {
             IBlackPlayerCount++;
@@ -263,7 +264,7 @@ public class GameManager : Singeltone<GameManager>
             IRainbowPlayerCount++;
             TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
         }
-
+        // When the color has been found, it will be added to the playerhand.\\
         Card delete = board[0];
         delete.transform.position = discardPileDestination[0].position;
         availbleDiscardPileCardSlots[0] = false;
