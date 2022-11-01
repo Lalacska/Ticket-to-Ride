@@ -15,6 +15,8 @@ public class Card : MonoBehaviour
 
     public int ownerID;
 
+    public int CardID;
+
     private void Start()
     {
         gm = FindObjectOfType<GameManager>();
