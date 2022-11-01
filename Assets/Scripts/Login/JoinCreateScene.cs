@@ -18,12 +18,12 @@ public class JoinCreateScene : Singeltone<JoinCreateScene>
         Debug.Log("You clicked the button");
         if(code != null && code != string.Empty)
         {
-            LobbyManager1.Instance.JoinLobby(code);
+            LobbyManager.Instance.JoinLobby(code);
         }
         else
         {
             Debug.Log("QUICK JOIN");
-            LobbyManager1.Instance.QuickJoin();
+            LobbyManager.Instance.QuickJoin();
         }
     }
     public static void CreateButtonclick()

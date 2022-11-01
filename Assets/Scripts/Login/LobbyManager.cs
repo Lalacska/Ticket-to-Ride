@@ -13,8 +13,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading;
 using UnityEditor.SceneManagement;
+using TMPro;
 
-public class LobbyManager1 : Singeltone<LobbyManager1>
+public class LobbyManager : Singeltone<LobbyManager>
 {
     private Scene loadedScene;
     private static Lobby lobby;
@@ -23,10 +24,13 @@ public class LobbyManager1 : Singeltone<LobbyManager1>
     private const string JoinCodeKey = "j";
     private const int LobbyRefreshRate = 2; // Rate limits at 2
     private const int HeartbeatInterval = 15;
-    private static string b = "";
-    private string c = "";
+
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
     public static event Action<Lobby> CurrentLobbyRefreshed;
+
+    public GameObject codeToSpawn;
+    [SerializeField] private TMP_Text joinCode;
+
 
 
     // Create Lobby
@@ -82,11 +86,27 @@ public class LobbyManager1 : Singeltone<LobbyManager1>
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
 
-            //LobbyScene.Instance.DisplayCode();
-            NetworkManager.Singleton.StartHost();
+            //LobbyScene.Instance.DisplayCode(relayHostData.JoinCode);
+
+            //Debug.Log("aa");
+            //NetworkManager.Singleton.StartHost();
+            Debug.Log("a");
             PeriodicallyRefreshLobby();
-            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
-            LobbyScene.Instance.DisplayCode(relayHostData.JoinCode);
+            Debug.Log("b");
+            //NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+            SceneManager.LoadScene("LobbyScene");
+            Debug.Log("c");
+
+            //Spawner.Instance.DisplayeGameCode(UserData.lobby.LobbyCode);
+            Debug.Log("aa");
+
+            Debug.Log(relayHostData.JoinCode);
+
+            NetworkManager.Singleton.StartHost();
+
+            //Debug.Log("c scene");
+            //Spawner.Instance.DisplayeGameCode(UserData.lobby.LobbyCode);
+            //Debug.Log("d");
             return true;
         }
         catch (Exception e)
@@ -238,5 +258,9 @@ public class LobbyManager1 : Singeltone<LobbyManager1>
             CurrentLobbyRefreshed?.Invoke(lobby);
             await Task.Delay(LobbyRefreshRate * 1000);
         } 
+    }
+
+    public void Sync1()
+    {
     }
 }

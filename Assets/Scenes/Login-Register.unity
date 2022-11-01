@@ -481,7 +481,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1967584342}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Auth, Assembly-CSharp
         m_MethodName: RegisterOpenButtonclick
         m_Mode: 1
@@ -885,7 +885,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1967584342}
+      - m_Target: {fileID: 1593705500}
         m_TargetAssemblyTypeName: Auth, Assembly-CSharp
         m_MethodName: LoginButtonclick
         m_Mode: 1
@@ -1365,6 +1365,72 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1593705498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593705501}
+  - component: {fileID: 1593705500}
+  - component: {fileID: 1593705499}
+  m_Layer: 0
+  m_Name: Authentication
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1593705499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593705498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1619304921
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1593705500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593705498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aceee47065c8fc45bd20a0decbad7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttons: {fileID: 0}
+  username: {fileID: 0}
+  password: {fileID: 0}
+  errorMessages: {fileID: 0}
+  url: 
+--- !u!4 &1593705501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593705498}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1343.8525, y: 659.35077, z: 253.39203}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1763384753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,33 +1642,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1967584343}
-  - component: {fileID: 1967584342}
   - component: {fileID: 1967584345}
   - component: {fileID: 1967584344}
   m_Layer: 0
-  m_Name: Authentication
+  m_Name: NetworkManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1967584342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967584341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aceee47065c8fc45bd20a0decbad7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _buttons: {fileID: 502123437}
-  username: {fileID: 0}
-  password: {fileID: 0}
-  errorMessages: {fileID: 0}
-  url: 
 --- !u!4 &1967584343
 Transform:
   m_ObjectHideFlags: 0
@@ -1664,12 +1712,7 @@ MonoBehaviour:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1967584344}
     PlayerPrefab: {fileID: 8524904791633794036, guid: abc99d68095808c4d9099d183cd81565, type: 3}
-    NetworkPrefabs:
-    - Override: 0
-      Prefab: {fileID: 8524904791633794036, guid: abc99d68095808c4d9099d183cd81565, type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
+    NetworkPrefabs: []
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0

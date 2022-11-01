@@ -21,7 +21,8 @@ public class CreateScene : Singeltone<CreateScene>
     {
         string lobbyName = lobbyname.GetComponent<TMP_InputField>().text;
         int maxPlayers = Convert.ToInt32(players.value);
-        Task<bool> runing = LobbyManager1.Instance.CreateLobby(lobbyName, maxPlayers);
+        Task<bool> runing = LobbyManager.Instance.CreateLobby(lobbyName, maxPlayers);
+
         //SceneManager.LoadScene("LobbyScene");
     }
 }
