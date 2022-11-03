@@ -21,7 +21,7 @@ public class TTRE_Login : MonoBehaviour
     public enum CurrentWindow { Login, Register }
     public CurrentWindow currentWindow = CurrentWindow.Login;
 
-    // Her a lot of variables is being made, for use later on. \\
+    // Here a lot of variables is being made, for use later on. \\
     string loginEmail = "";
     string loginPassword = "";
     string registerEmail = "";
@@ -49,7 +49,6 @@ public class TTRE_Login : MonoBehaviour
 
         // This method starts the "Coroutine". \\
         StartCoroutine(LoginEnumerator());
-
     }
 
 
@@ -95,7 +94,6 @@ public class TTRE_Login : MonoBehaviour
                     registrationCompleted = true;
                     currentWindow = CurrentWindow.Login;
                     SceneManager.LoadScene("Login-Register");
-
                 }
                 else
                 {
@@ -103,10 +101,10 @@ public class TTRE_Login : MonoBehaviour
                 }
             }
         }
-
         isWorking = false;
     }
 
+    // This method handles the users input and matches them to the database for login. \\
     IEnumerator LoginEnumerator()
     {
         isWorking = true;
@@ -137,10 +135,8 @@ public class TTRE_Login : MonoBehaviour
                     isLoggedIn = true;
                     
                     UserData.username = userName;
-
                     ResetValues();
                     SceneManager.LoadScene("Login-Register");
-
                 }
                 else
                 {
@@ -148,7 +144,6 @@ public class TTRE_Login : MonoBehaviour
                 }
             }
         }
-
         isWorking = false;
     }
 
@@ -162,5 +157,4 @@ public class TTRE_Login : MonoBehaviour
         registerPassword2 = "";
         registerUsername = "";
     }
-
 }
