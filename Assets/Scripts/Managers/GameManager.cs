@@ -13,21 +13,21 @@ public class GameManager : Singeltone<GameManager>
     public List<Card> SpecialDestinationTicket = new List<Card>();
     public List<Card> board = new List<Card>();
     public List<Card> discardPile = new List<Card>();
-    public List<Card> HandSlots = new List<Card>();
+
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
     public Transform[] cardSlots;
     public Transform[] cardSlotsDestination;
     public Transform[] cardSlotsSpecialDestination;
     public Transform[] discardPileDestination;
-    public Transform[] handSlots;
+
 
     // This is bools for availble slots, the cards can be playsed in. \\
     public bool[] availbleCardSlots;
     public bool[] availbleDestinationCardSlots;
     public bool[] availbleSpecialDestinationCardSlots;
     public bool[] availbleDiscardPileCardSlots;
-    public bool[] availbleHandslots;
+
 
     // This is a int for keeping track of Rainbow Cards. \\
     public int RainbowCount = 0;
@@ -38,13 +38,28 @@ public class GameManager : Singeltone<GameManager>
 
     public int CardId = 0;
 
+    public int HandId = 0;
+
     private string lastcard = "";
 
+
+    // These GameObjects are Serialized for later use. \\
     [SerializeField] private GameObject cardslot1;
     [SerializeField] private GameObject cardslot2;
     [SerializeField] private GameObject cardslot3;
     [SerializeField] private GameObject cardslot4;
     [SerializeField] private GameObject cardslot5;
+
+
+    [SerializeField] private GameObject Handslot1;
+    [SerializeField] private GameObject Handslot2;
+    [SerializeField] private GameObject Handslot3;
+    [SerializeField] private GameObject Handslot4;
+    [SerializeField] private GameObject Handslot5;
+    [SerializeField] private GameObject Handslot6;
+    [SerializeField] private GameObject Handslot7;
+    [SerializeField] private GameObject Handslot8;
+    [SerializeField] private GameObject Handslot9;
 
     // This is for the Card counter. (Tells how many cards are left) \\ 
     public Text deckSizeText;
@@ -86,7 +101,6 @@ public class GameManager : Singeltone<GameManager>
     private void Start()
     {
         DrawcardSpecialDestination();
-        
     }
 
     // This method runs every frame & updates the scenes. \\
@@ -96,14 +110,18 @@ public class GameManager : Singeltone<GameManager>
         decksSizeText.text = DestinationTicket.Count.ToString();
         //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
         //discardPileText.text = discardPile.Count.ToString();
-        AutomaticDrawPile();
+
+        // This if statment runs the automatic board filler until there are no more cards left in the deck. \\
+        if(deck.Count >= 1)
+        {
+            AutomaticDrawPile();
+        }
     }
 
     // This method is for the Train-Destination Drawpile. \\
     public async void Drawcard()
     {
         Card randCard = deck[0];
-
 
         if (deck.Count >= 1)
         {
@@ -118,7 +136,6 @@ public class GameManager : Singeltone<GameManager>
                     randCard.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = true;
 
-                
                     availbleCardSlots[i] = false;
                     deck.Remove(randCard);
                     board.Add(randCard);
@@ -201,12 +218,11 @@ public class GameManager : Singeltone<GameManager>
     // This method is for the automaticly fils out the board. \\
     public async void AutomaticDrawPile()
     {
-        Card randCard = deck[0];
-
+        //Card randCard = deck[0];
 
         if (deck.Count >= 1)
         {
-            //Card randCard = deck[Random.Range(0, deck.Count)];
+            Card randCard = deck[Random.Range(0, deck.Count)];
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
                 if (availbleCardSlots[i] == true)
@@ -216,7 +232,6 @@ public class GameManager : Singeltone<GameManager>
 
                     randCard.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = true;
-
 
                     availbleCardSlots[i] = false;
                     deck.Remove(randCard);
@@ -264,7 +279,7 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
-    // ??? \\ 
+    // This methos finds the cardslot the user presed & passes the id off. \\ 
     public void CardSlots(Card card, int i)
     {
         CardSlotsID cardslotsid = new CardSlotsID();
@@ -288,8 +303,9 @@ public class GameManager : Singeltone<GameManager>
             cardslotsid = cardslot5.GetComponent<CardSlotsID>();
         }
         cardslotsid.cardslotCardID = card.CardID;
-
     }
+
+    
 
     // This method shuffles the used/discared cards back into the deck. \\ NOT WORKING!
     public void Shuffle()
@@ -316,9 +332,6 @@ public class GameManager : Singeltone<GameManager>
                 CardColorPick(card,0);
             }
         }
-
-       
-        
     }
 
     // This method is for the secound pick btn on the board. \\
@@ -476,8 +489,124 @@ public class GameManager : Singeltone<GameManager>
                 " Du må maks trække 2 kort pr tur!");
         }
         Debug.Log("Player pick count = " + PlayerPickCount);
-
-
     }
 
+
+
+    /// <summary>
+    /// HHHHHEEEEEEEEEEEEELLLLLLLLLPPPPPPPPPPPP
+    /// </summary>
+    /// <param name="hand"></param>
+    /// <param name="i"></param>
+
+    // This methos finds the cardslot the user presed & passes the id off. \\ 
+    public void HandSlots(PlayerHand hand, int i)
+    {
+        PlayerSlotsID handslotsid = new PlayerSlotsID();
+        if (i == 0)
+        {
+            handslotsid = Handslot1.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 1)
+        {
+            handslotsid = Handslot2.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 2)
+        {
+            handslotsid = Handslot3.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 3)
+        {
+            handslotsid = Handslot4.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 4)
+        {
+            handslotsid = Handslot5.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 5)
+        {
+            handslotsid = Handslot6.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 6)
+        {
+            handslotsid = Handslot7.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 7)
+        {
+            handslotsid = Handslot8.GetComponent<PlayerSlotsID>();
+        }
+        else if (i == 8)
+        {
+            handslotsid = Handslot9.GetComponent<PlayerSlotsID>();
+        }
+        handslotsid.playerslotCardID = hand.HandID;
+    }
+
+
+    // This method is for the first pick btn on the board. \\
+    public void PlayBTN1()
+    {
+        PlayerSlotsID hand = new PlayerSlotsID();
+        hand = Handslot1.GetComponent<PlayerSlotsID>();
+        foreach (PlayerHand card in board)
+        {
+            if (card.HandID == hand.playerslotCardID)
+            {
+                PlayCardHand(hand, 0);
+            }
+        }
+    }
+    public void PlayCardHand(PlayerHand hand, int i)
+    {
+        Card card = new Card();
+
+
+
+        // Here we check for the color of the card. \\
+        if (card.Color == "Black")
+        {
+            IBlackPlayerCount--;
+            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+        }
+        else if (card.Color == "Blue")
+        {
+            IBluePlayerCount--;
+            TBluePlayerCount.text = IBluePlayerCount.ToString();
+        }
+        else if (card.Color == "Brown")
+        {
+            IBrownPlayerCount--;
+            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+        }
+        else if (card.Color == "Green")
+        {
+            IGreenPlayerCount--;
+            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+        }
+        else if (card.Color == "Orange")
+        {
+            IOrangePlayerCount--;
+            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+        }
+        else if (card.Color == "Purple")
+        {
+            IPurplePlayerCount--;
+            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+        }
+        else if (card.Color == "White")
+        {
+            IWhitePlayerCount--;
+            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+        }
+        else if (card.Color == "Yellow")
+        {
+            IYellowPlayerCount--;
+            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+        }
+        else if (card.Color == "Rainbow")
+        {
+            IRainbowPlayerCount--;
+            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+        }
+    }
 }

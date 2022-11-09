@@ -21,7 +21,7 @@ public class Card : MonoBehaviour
     {
         gm = FindObjectOfType<GameManager>();
     }
-
+    /*
     private void OnMouseDown()
     {
         Debug.Log("clicked");
@@ -39,6 +39,6 @@ public class Card : MonoBehaviour
         gm.discardPile.Add(this);
         gameObject.SetActive(false);
     }
-
+    */
 
 }
