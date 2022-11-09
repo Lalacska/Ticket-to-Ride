@@ -17,9 +17,7 @@ using TMPro;
 
 public class LobbyManager : Singeltone<LobbyManager>
 {
-    private Scene loadedScene;
     private static Lobby lobby;
-    private string joincode;
     private static CancellationTokenSource _updateLobbySource, _heartbeatSource;
     private const string JoinCodeKey = "j";
     private const int LobbyRefreshRate = 2; // Rate limits at 2
@@ -28,8 +26,6 @@ public class LobbyManager : Singeltone<LobbyManager>
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
     public static event Action<Lobby> CurrentLobbyRefreshed;
 
-    public GameObject codeToSpawn;
-    [SerializeField] private TMP_Text joinCode;
 
 
 
@@ -80,33 +76,19 @@ public class LobbyManager : Singeltone<LobbyManager>
             {
                 Debug.Log(player);
             }
-            //LobbyScene.lobby = lobby;
-            //LobbyScene.code = relayHostData.JoinCode;
             
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
 
-            //LobbyScene.Instance.DisplayCode(relayHostData.JoinCode);
-
-            //Debug.Log("aa");
-            //NetworkManager.Singleton.StartHost();
             Debug.Log("a");
             PeriodicallyRefreshLobby();
             Debug.Log("b");
-            //NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
-            SceneManager.LoadScene("LobbyScene");
-            Debug.Log("c");
-
-            //Spawner.Instance.DisplayeGameCode(UserData.lobby.LobbyCode);
-            Debug.Log("aa");
 
             Debug.Log(relayHostData.JoinCode);
 
             NetworkManager.Singleton.StartHost();
-
-            //Debug.Log("c scene");
-            //Spawner.Instance.DisplayeGameCode(UserData.lobby.LobbyCode);
-            //Debug.Log("d");
+            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+            
             return true;
         }
         catch (Exception e)
@@ -152,7 +134,6 @@ public class LobbyManager : Singeltone<LobbyManager>
             Debug.Log(lobby.Players);
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
-            SceneManager.LoadScene("LobbyScene");
             PeriodicallyRefreshLobby();
 
         }
@@ -184,9 +165,7 @@ public class LobbyManager : Singeltone<LobbyManager>
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
             PeriodicallyRefreshLobby();
-            SceneManager.LoadScene("LobbyScene");
             NetworkManager.Singleton.StartClient();
-
 
         }
         catch (Exception)
@@ -258,9 +237,5 @@ public class LobbyManager : Singeltone<LobbyManager>
             CurrentLobbyRefreshed?.Invoke(lobby);
             await Task.Delay(LobbyRefreshRate * 1000);
         } 
-    }
-
-    public void Sync1()
-    {
     }
 }

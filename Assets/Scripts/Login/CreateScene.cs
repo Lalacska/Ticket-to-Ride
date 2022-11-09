@@ -11,7 +11,7 @@ using Unity.Services.Relay.Models;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-public class CreateScene : Singeltone<CreateScene>
+public class CreateScene : MonoBehaviour
 {
     [SerializeField] TMP_InputField lobbyname;
     [SerializeField] Slider players;

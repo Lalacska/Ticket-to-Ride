@@ -81,17 +81,26 @@ public class GameManager : Singeltone<GameManager>
 
     public Text TdiscardPileText;
 
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        if (!IsHost) return;
+        DrawcardSpecialDestination();
+    }
 
     // This method runs, when the programs starts. \\
-    private void Start()
-    {
-        DrawcardSpecialDestination();
+    //private void Start()
+    //{
+
+    //    DrawcardSpecialDestination();
         
-    }
+    //}
 
     // This method runs every frame & updates the scenes. \\
     private void Update()
     {
+        Debug.Log(IsServer);
+        if (!IsServer) return;
         deckSizeText.text = deck.Count.ToString();
         decksSizeText.text = DestinationTicket.Count.ToString();
         //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
@@ -102,12 +111,12 @@ public class GameManager : Singeltone<GameManager>
     // This method is for the Train-Destination Drawpile. \\
     public async void Drawcard()
     {
-        Card randCard = deck[0];
+        //Card randCard = deck[0];
 
 
         if (deck.Count >= 1)
         {
-            //Card randCard = deck[Random.Range(0, deck.Count)];
+            Card randCard = deck[Random.Range(0, deck.Count)];
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
                 if (availbleCardSlots[i] == true)
