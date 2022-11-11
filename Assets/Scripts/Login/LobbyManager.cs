@@ -27,8 +27,6 @@ public class LobbyManager : Singeltone<LobbyManager>
     public static event Action<Lobby> CurrentLobbyRefreshed;
 
 
-
-
     // Create Lobby
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
     {

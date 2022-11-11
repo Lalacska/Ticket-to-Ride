@@ -1713,16 +1713,21 @@ MonoBehaviour:
     NetworkTransport: {fileID: 1967584344}
     PlayerPrefab: {fileID: 0}
     NetworkPrefabs:
-    - Override: 2
-      Prefab: {fileID: 3376952549547553790, guid: cc84f9ce5e2fece4292958dd2e5a35e5, type: 3}
-      SourcePrefabToOverride: {fileID: 3376952549547553790, guid: cc84f9ce5e2fece4292958dd2e5a35e5, type: 3}
-      SourceHashToOverride: 3637168050
-      OverridingTargetPrefab: {fileID: 3376952549547553790, guid: cc84f9ce5e2fece4292958dd2e5a35e5, type: 3}
+    - Override: 0
+      Prefab: {fileID: 8204703879503577446, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 2374768627
+      OverridingTargetPrefab: {fileID: 8718359467084168268, guid: ef9fe235a7246394da733de296c8a8a7, type: 3}
     - Override: 2
       Prefab: {fileID: 0}
       SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 3615030141
-      OverridingTargetPrefab: {fileID: 7880194362589942292, guid: a983437d166346d469dd85fd19055810, type: 3}
+      SourceHashToOverride: 204350427
+      OverridingTargetPrefab: {fileID: 640460593310163100, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 424238539
+      OverridingTargetPrefab: {fileID: 5853097603107442682, guid: 1afa5eb788244184c9e20a312b2fd255, type: 3}
     - Override: 2
       Prefab: {fileID: 0}
       SourcePrefabToOverride: {fileID: 0}

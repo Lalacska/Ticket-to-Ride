@@ -25,13 +25,14 @@ public class LobbyScene : Singeltone<LobbyScene>
 
     public void Button()
     {
-
+        SceneEvent sceneEvent = new SceneEvent();
         //GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
         Debug.Log(IsHost);
         Debug.Log(IsClient);
+        Debug.Log(sceneEvent.SceneEventType);
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
         if (IsHost)
         {

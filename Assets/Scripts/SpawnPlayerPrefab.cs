@@ -12,6 +12,7 @@ public class SpawnPlayerPrefab : Singeltone<SpawnPlayerPrefab>
     public override void OnNetworkSpawn()
     {
         SpawnServerRpc();
+         
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -20,7 +21,4 @@ public class SpawnPlayerPrefab : Singeltone<SpawnPlayerPrefab>
         var clientId = serverRpcParams.Receive.SenderClientId;
         Instantiate(playerPrefab, SpawnTo.transform).GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
     }
-
-
-
 }
