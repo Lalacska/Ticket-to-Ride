@@ -39,34 +39,19 @@ public class ParentPlayerToInSceneNetworkObject : Singeltone<ParentPlayerToInSce
         // OnSceneEvent is very useful for many things
         switch (sceneEvent.SceneEventType)
         {
-            case SceneEventType.LoadEventCompleted:
+            case SceneEventType.SynchronizeComplete:
             {
-                    if (sceneEvent.ClientId != NetworkManager.LocalClientId)
-                    {
-                        // Set the newly joined and synchronized client-player as a child of this in-scene placed NetworkObject
-                        SetPlayerParent(sceneEvent.ClientId);
-                    }
-                    break;
+                if (sceneEvent.ClientId != NetworkManager.LocalClientId)
+                {
+                    // Set the newly joined and synchronized client-player as a child of this in-scene placed NetworkObject
+                    SetPlayerParent(sceneEvent.ClientId);
                 }
+                break;
+            }
             case SceneEventType.LoadComplete:
                 {
                     break;
                 }
-            
-            //// The C2S_SyncComplete event tells the server that a client-player has:
-            //// 1.) Connected and Spawned
-            //// 2.) Loaded all scenes that were loaded on the server at the time of connecting
-            //// 3.) Synchronized (instantiated and spawned) all NetworkObjects in the network session
-            //case SceneEventData.SceneEventTypes.C2S_SyncComplete:
-            //    {
-            //        // As long as we are not the server-player
-            //        if (sceneEvent.ClientId != NetworkManager.LocalClientId)
-            //        {
-            //            // Set the newly joined and synchronized client-player as a child of this in-scene placed NetworkObject
-            //            SetPlayerParent(sceneEvent.ClientId);
-            //        }
-            //        break;
-            //    }
         }
     }
 }

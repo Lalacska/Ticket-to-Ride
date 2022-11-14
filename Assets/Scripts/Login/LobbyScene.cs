@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyScene : Singeltone<LobbyScene>
 {
@@ -12,7 +14,10 @@ public class LobbyScene : Singeltone<LobbyScene>
     [SerializeField] private TMP_Text joinCode;
     public static Lobby lobby;
 
-
+    private void Start()
+    {
+        joinCode.text = UserData.lobby.LobbyCode;
+    }
     public void StartButton()
     {
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
@@ -25,20 +30,19 @@ public class LobbyScene : Singeltone<LobbyScene>
 
     public void Button()
     {
-        SceneEvent sceneEvent = new SceneEvent();
-        //GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-        Debug.Log(IsHost);
-        Debug.Log(IsClient);
-        Debug.Log(sceneEvent.SceneEventType);
+        Debug.Log("a");
+        NetworkObject player = NetworkManager.LocalClient.PlayerObject;
+        Button button = player.GetComponentInChildren<Button>();
+        Debug.Log(player);
+        Debug.Log(button);
+        //Button button = player.GetComponent<Button>();
+        //Debug.Log(button);
+        //button.colors.normalColor = new Color(113,255,69);
+        ColorBlock c = button.colors;
+        c.normalColor = new Color(113, 255, 69);
+        button.colors = c;
     }
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsHost)
-        {
-            joinCode.text = UserData.lobby.LobbyCode;
-        }
-    }
 
 
 }
