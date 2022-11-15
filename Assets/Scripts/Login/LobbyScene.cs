@@ -12,6 +12,7 @@ public class LobbyScene : Singeltone<LobbyScene>
 {
     public GameObject codeToSpawn;
     [SerializeField] private TMP_Text joinCode;
+    [SerializeField] private Button Spawnbutton;
     public static Lobby lobby;
 
     private void Start()
@@ -28,21 +29,26 @@ public class LobbyScene : Singeltone<LobbyScene>
         //}
     }
 
+    public void CloseButton()
+    {
+        LobbyManager.Instance.LeaveLobby();
+    }
+
     public void Button()
     {
         Debug.Log("a");
-        NetworkObject player = NetworkManager.LocalClient.PlayerObject;
-        Button button = player.GetComponentInChildren<Button>();
-        Debug.Log(player);
-        Debug.Log(button);
-        //Button button = player.GetComponent<Button>();
-        //Debug.Log(button);
-        //button.colors.normalColor = new Color(113,255,69);
-        ColorBlock c = button.colors;
-        c.normalColor = new Color(113, 255, 69);
-        button.colors = c;
+        SpawnServerRpc(NetworkManager.LocalClientId);
+
     }
 
-
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
+    {
+        NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        NetworkObject GreenButton = Instantiate(Spawnbutton).GetComponent<NetworkObject>();
+        GreenButton.SpawnWithOwnership(clientId);
+        GreenButton.transform.SetParent(player.transform, false);
+        //GreenButton.TrySetParent(player, false);
+    }
 
 }

@@ -1,9 +1,13 @@
 using Unity.Netcode;
 using UnityEngine;
+using TMPro;
+using System.Collections.Generic;
 
 public class ParentPlayerToInSceneNetworkObject : Singeltone<ParentPlayerToInSceneNetworkObject>
 {
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private TextMeshProUGUI playername;
+    public List<PlayerInGame> players = new List<PlayerInGame>();
     public  void Start()
     {
         if (IsServer)
@@ -31,7 +35,18 @@ public class ParentPlayerToInSceneNetworkObject : Singeltone<ParentPlayerToInSce
     public void SpawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
     {
         Instantiate(playerPrefab).GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-        NetworkManager.ConnectedClients[clientId].PlayerObject.TrySetParent(NetworkObject, false);
+        //NetworkManager.ConnectedClients[clientId].PlayerObject.TrySetParent(NetworkObject, false);
+        NetworkManager.ConnectedClients[clientId].PlayerObject.transform.SetParent(NetworkObject.gameObject.transform, false);
+        NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        Debug.Log(playername);
+        Debug.Log(playername.text);
+        NetworkObject name = Instantiate(playername).GetComponent<NetworkObject>();
+        name.SpawnWithOwnership(clientId);
+        name.transform.SetParent(player.transform, false);
+        //TextMeshProUGUI nametext = name.GetComponent<TextMeshProUGUI>().text;
+        //nametext.text = UserData.username;
+
+
     }
 
     public void SceneManager_OnSceneEvent(SceneEvent sceneEvent)

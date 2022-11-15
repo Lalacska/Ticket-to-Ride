@@ -11,7 +11,7 @@ public class PlayerManager : Singeltone<PlayerManager>
     {
         foreach(PlayerInGame player in players)
         {
-            player.myTurn = player.ID == currentPlayerTurn;
+           // player.myTurn = player.ID == currentPlayerTurn;
         }
     }
 }

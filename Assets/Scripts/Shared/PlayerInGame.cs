@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerInGame : Singeltone<PlayerInGame>
 {
-    public int ID;
+    public string ID;
+    public ulong clientId;
     public string playername;
     public string color;
     public int station = 3;
@@ -14,11 +15,4 @@ public class PlayerInGame : Singeltone<PlayerInGame>
     public bool myTurn;
     public Camera playercam;
 
-    public PlayerInGame(int ID, string playername, string color, bool myTurn)
-    {
-        this.ID = ID;
-        this.playername = playername;
-        this.color = color;
-        this.myTurn = myTurn;
-    }
 }
