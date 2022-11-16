@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : Singeltone<GameManager>
 {
+    #region Variables
     // Here we make list for the diffrent kinds of cards piles. \\
     public List<Card> deck = new List<Card>();
     public List<Card> DestinationTicket = new List<Card>();
@@ -96,6 +97,8 @@ public class GameManager : Singeltone<GameManager>
 
     public Text TdiscardPileText;
 
+    #endregion Variables
+
 
     // This method runs, when the programs starts. \\
     private void Start()
@@ -117,6 +120,14 @@ public class GameManager : Singeltone<GameManager>
             AutomaticDrawPile();
         }
     }
+
+
+
+    /// <summary>
+    /// This part is for all the driffrent Draw functions, that is being used in the game. \\
+    /// </summary>
+
+    #region DrawFunctions
 
     // This method is for the Train-Destination Drawpile. \\
     public async void Drawcard()
@@ -163,7 +174,6 @@ public class GameManager : Singeltone<GameManager>
             }
         }
     }
-
 
     // This method is for the Destination Drawpile. \\
     public void DrawcardDestination()
@@ -261,6 +271,9 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
+    #endregion DrawFunctions
+
+
     // This method is for checking the cards on the board. \\
     // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
     public async Task CheckCards()
@@ -320,76 +333,6 @@ public class GameManager : Singeltone<GameManager>
         }
     }
 
-    // This method is for the first pick btn on the board. \\
-    public void Button1()
-    {
-        CardSlotsID slot = new CardSlotsID();
-        slot = cardslot1.GetComponent<CardSlotsID>();
-        foreach (Card card in board)
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card,0);
-            }
-        }
-    }
-
-    // This method is for the secound pick btn on the board. \\
-    public void Button2()
-    {
-        CardSlotsID slot = new CardSlotsID();
-        slot = cardslot2.GetComponent<CardSlotsID>();
-        foreach (Card card in board)
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card,1);
-            }
-        }
-    }
-
-    // This method is for the third pick btn on thr board. \\
-    public void Button3()
-    {
-        CardSlotsID slot = new CardSlotsID();
-        slot = cardslot3.GetComponent<CardSlotsID>();
-        foreach (Card card in board)
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card,2);
-            }
-        }
-    }
-
-    // This method is for the fourth pick btn on the board. \\
-    public void Button4()
-    {
-        CardSlotsID slot = new CardSlotsID();
-        slot = cardslot4.GetComponent<CardSlotsID>();
-        foreach (Card card in board)
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card,3);
-            }
-        }
-    }
-
-    // This method is for the fith pick btn on the board. \\
-    public void Button5()
-    {
-        CardSlotsID slot = new CardSlotsID();
-        slot = cardslot5.GetComponent<CardSlotsID>();
-        foreach (Card card in board)
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card,4);
-            }
-        }
-    }
-
     // This method changes the turn to the next player. \\
     public void SwitchTurn()
     {
@@ -397,6 +340,11 @@ public class GameManager : Singeltone<GameManager>
         PlayerPickCount = 0;
         lastcard = "";
     }
+
+
+
+   
+   
 
     // This method is for changeing the playces of the cards. \\
     public void CardColorPick(Card card, int i)
@@ -468,7 +416,7 @@ public class GameManager : Singeltone<GameManager>
             }
             lastcard = card.Color;
             // When the color has been found, it will be added to the playerhand.\\
-            //Card delete = board[0];
+            // Card delete = board[0];
             Card delete = card;
             delete.transform.position = discardPileDestination[0].position;
             availbleDiscardPileCardSlots[0] = false;
@@ -476,7 +424,7 @@ public class GameManager : Singeltone<GameManager>
             delete.gameObject.SetActive(false);
             board.Remove(delete);
             discardPile.Add(delete);
-
+            
             discardPile.Clear();
 
             availbleDiscardPileCardSlots[0] = true;
@@ -493,120 +441,310 @@ public class GameManager : Singeltone<GameManager>
 
 
 
+    #region BTNS
+
     /// <summary>
-    /// HHHHHEEEEEEEEEEEEELLLLLLLLLPPPPPPPPPPPP
+    /// This region "BTNS" are for alle the btn funcktions that are in this script. \\
     /// </summary>
-    /// <param name="hand"></param>
-    /// <param name="i"></param>
 
-    // This methos finds the cardslot the user presed & passes the id off. \\ 
-    public void HandSlots(PlayerHand hand, int i)
-    {
-        PlayerSlotsID handslotsid = new PlayerSlotsID();
-        if (i == 0)
-        {
-            handslotsid = Handslot1.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 1)
-        {
-            handslotsid = Handslot2.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 2)
-        {
-            handslotsid = Handslot3.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 3)
-        {
-            handslotsid = Handslot4.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 4)
-        {
-            handslotsid = Handslot5.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 5)
-        {
-            handslotsid = Handslot6.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 6)
-        {
-            handslotsid = Handslot7.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 7)
-        {
-            handslotsid = Handslot8.GetComponent<PlayerSlotsID>();
-        }
-        else if (i == 8)
-        {
-            handslotsid = Handslot9.GetComponent<PlayerSlotsID>();
-        }
-        handslotsid.playerslotCardID = hand.HandID;
-    }
 
+    // This part is for the btns that moves the cards from the "board" to the players hand. \\
 
     // This method is for the first pick btn on the board. \\
-    public void PlayBTN1()
+    public void Button1()
     {
-        PlayerSlotsID hand = new PlayerSlotsID();
-        hand = Handslot1.GetComponent<PlayerSlotsID>();
-        foreach (PlayerHand card in board)
+        CardSlotsID slot = new CardSlotsID();
+        slot = cardslot1.GetComponent<CardSlotsID>();
+        foreach (Card card in board)
         {
-            if (card.HandID == hand.playerslotCardID)
+            if (card.CardID == slot.cardslotCardID)
             {
-                PlayCardHand(hand, 0);
+                CardColorPick(card, 0);
             }
         }
     }
-    public void PlayCardHand(PlayerHand hand, int i)
+
+    // This method is for the secound pick btn on the board. \\
+    public void Button2()
     {
+        CardSlotsID slot = new CardSlotsID();
+        slot = cardslot2.GetComponent<CardSlotsID>();
+        foreach (Card card in board)
+        {
+            if (card.CardID == slot.cardslotCardID)
+            {
+                CardColorPick(card, 1);
+            }
+        }
+    }
+
+    // This method is for the third pick btn on thr board. \\
+    public void Button3()
+    {
+        CardSlotsID slot = new CardSlotsID();
+        slot = cardslot3.GetComponent<CardSlotsID>();
+        foreach (Card card in board)
+        {
+            if (card.CardID == slot.cardslotCardID)
+            {
+                CardColorPick(card, 2);
+            }
+        }
+    }
+
+    // This method is for the fourth pick btn on the board. \\
+    public void Button4()
+    {
+        CardSlotsID slot = new CardSlotsID();
+        slot = cardslot4.GetComponent<CardSlotsID>();
+        foreach (Card card in board)
+        {
+            if (card.CardID == slot.cardslotCardID)
+            {
+                CardColorPick(card, 3);
+            }
+        }
+    }
+
+    // This method is for the fith pick btn on the board. \\
+    public void Button5()
+    {
+        CardSlotsID slot = new CardSlotsID();
+        slot = cardslot5.GetComponent<CardSlotsID>();
+        foreach (Card card in board)
+        {
+            if (card.CardID == slot.cardslotCardID)
+            {
+                CardColorPick(card, 4);
+            }
+        }
+    }
+
+
+
+    // This part is for the "Play" btns. The play btns are the ones witch is used to "play" the cards from the players hands. \\
+
+    // This method is for the first pick btn on the board. \\
+    // This is for the "Black" card. \\
+    public void PlayBTN1()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
         Card card = new Card();
+        {
+            card.Color = "Black";
+        }
+        PlayCardHand(card);
+    }
 
+    // This method is for the secound pick btn on the board. \\
+    // This is for the "Blue" card. \\
+    public void PlayBTN2()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Blue";
+        }
+        PlayCardHand(card);
+    }
 
+    // This method is for the third pick btn on the board. \\
+    // This is for the "Brown" card. \\
+    public void PlayBTN3()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Brown";
+        }
+        PlayCardHand(card);
+    }
 
+    // This method is for the fourth pick btn on the board. \\
+    // This is for the "Green" card. \\
+    public void PlayBTN4()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Green";
+        }
+        PlayCardHand(card);
+    }
+
+    // This method is for the fith pick btn on the board. \\
+    // This is for the "Orange" card. \\
+    public void PlayBTN5()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Orange";
+        }
+        PlayCardHand(card);
+    }
+
+    // This method is for the Sixth pick btn on the board. \\
+    // This is for the "Purple" card. \\
+    public void PlayBTN6()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Purple";
+        }
+        PlayCardHand(card);
+    }
+
+    // This method is for the Seventh pick btn on the board. \\
+    // This is for the "White" card. \\
+    public void PlayBTN7()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "White";
+        }
+        PlayCardHand(card);
+    }
+
+    // This method is for the Eight pick btn on the board. \\
+    // This is for the "Yellow" card. \\
+    public void PlayBTN8()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Yellow";
+        }
+        PlayCardHand(card);
+    }
+
+    // This method is for the nith pick btn on the board. \\
+    // This is for the "Rainbow" card. \\
+    public void PlayBTN9()
+    {
+        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
+        Card card = new Card();
+        {
+            card.Color = "Rainbow";
+        }
+        PlayCardHand(card);
+    }
+
+    #endregion BTNS
+
+    // This method takes the players cards and plays them. \\
+    public void PlayCardHand(Card card)
+    {
         // Here we check for the color of the card. \\
         if (card.Color == "Black")
         {
-            IBlackPlayerCount--;
-            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+            if(IBlackPlayerCount >= 1)
+            {
+                IBlackPlayerCount--;
+                TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Blue")
         {
-            IBluePlayerCount--;
-            TBluePlayerCount.text = IBluePlayerCount.ToString();
+            if (IBluePlayerCount >= 1)
+            {
+                IBluePlayerCount--;
+                TBluePlayerCount.text = IBluePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Brown")
         {
-            IBrownPlayerCount--;
-            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+            if (IBrownPlayerCount >= 1)
+            {
+                IBrownPlayerCount--;
+                TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Green")
         {
-            IGreenPlayerCount--;
-            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+            if (IGreenPlayerCount >= 1)
+            {
+                IGreenPlayerCount--;
+                TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Orange")
         {
-            IOrangePlayerCount--;
-            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+            if (IOrangePlayerCount >= 1)
+            {
+                IOrangePlayerCount--;
+                TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Purple")
         {
-            IPurplePlayerCount--;
-            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+            if (IPurplePlayerCount >= 1)
+            {
+                IPurplePlayerCount--;
+                TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "White")
         {
-            IWhitePlayerCount--;
-            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+            if (IWhitePlayerCount >= 1)
+            {
+                IWhitePlayerCount--;
+                TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Yellow")
         {
-            IYellowPlayerCount--;
-            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+            if (IYellowPlayerCount >= 1)
+            {
+                IYellowPlayerCount--;
+                TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
         else if (card.Color == "Rainbow")
         {
-            IRainbowPlayerCount--;
-            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+            if (IRainbowPlayerCount >= 1)
+            {
+                IRainbowPlayerCount--;
+                TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
         }
     }
 }

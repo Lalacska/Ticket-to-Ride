@@ -8,6 +8,12 @@ public class SC_LoginSystem : MonoBehaviour
     public enum CurrentWindow { Login, Register }
     public CurrentWindow currentWindow = CurrentWindow.Login;
 
+    #region Variables 
+
+    /// <summary>
+    /// This region is for the variables of the script. \\
+    /// </summary>
+
     string loginEmail = "";
     string loginPassword = "";
     string registerEmail = "";
@@ -25,6 +31,8 @@ public class SC_LoginSystem : MonoBehaviour
     string userEmail = "";
 
     string rootURL = "https://bekbekbek.com/Tuhu-Test/"; //Path where php files are located
+
+    #endregion Variables
 
     void OnGUI()
     {
@@ -54,50 +62,10 @@ public class SC_LoginSystem : MonoBehaviour
         }
     }
 
-    void LoginWindow(int index)
-    {
-        if (isWorking)
-        {
-            GUI.enabled = false;
-        }
-
-        if (errorMessage != "")
-        {
-            GUI.color = Color.red;
-            GUILayout.Label(errorMessage);
-        }
-        if (registrationCompleted)
-        {
-            GUI.color = Color.green;
-            GUILayout.Label("Registration Completed!");
-        }
-
-        GUI.color = Color.white;
-
-        
-
-        GUILayout.Label("Email:");
-        loginEmail = GUILayout.TextField(loginEmail);
-        GUILayout.Label("Password:");
-        loginPassword = GUILayout.PasswordField(loginPassword, '*');
-
-        GUILayout.Space(50);
-
-        if (GUILayout.Button("Submit", GUILayout.Width(150), GUILayout.Height(50)))
-        {
-            GUI.skin.button.fontSize = 50;
-            StartCoroutine(LoginEnumerator());
-        }
-
-        GUILayout.FlexibleSpace();
-
-        GUILayout.Label("Do not have account?");
-        if (GUILayout.Button("Register", GUILayout.Width(125)))
-        {
-            ResetValues();
-            currentWindow = CurrentWindow.Register;
-        }
-    }
+    #region Register
+    /// <summary>
+    /// This region is for all the "Register" methods. \\
+    /// </summary>
 
     void RegisterWindow(int index)
     {
@@ -179,6 +147,59 @@ public class SC_LoginSystem : MonoBehaviour
         isWorking = false;
     }
 
+    #endregion Register
+
+    #region Login
+
+    /// <summary>
+    /// This region is for all the "login" methods. \\
+    /// </summary>
+    /// 
+    void LoginWindow(int index)
+    {
+        if (isWorking)
+        {
+            GUI.enabled = false;
+        }
+
+        if (errorMessage != "")
+        {
+            GUI.color = Color.red;
+            GUILayout.Label(errorMessage);
+        }
+        if (registrationCompleted)
+        {
+            GUI.color = Color.green;
+            GUILayout.Label("Registration Completed!");
+        }
+
+        GUI.color = Color.white;
+
+
+
+        GUILayout.Label("Email:");
+        loginEmail = GUILayout.TextField(loginEmail);
+        GUILayout.Label("Password:");
+        loginPassword = GUILayout.PasswordField(loginPassword, '*');
+
+        GUILayout.Space(50);
+
+        if (GUILayout.Button("Submit", GUILayout.Width(150), GUILayout.Height(50)))
+        {
+            GUI.skin.button.fontSize = 50;
+            StartCoroutine(LoginEnumerator());
+        }
+
+        GUILayout.FlexibleSpace();
+
+        GUILayout.Label("Do not have account?");
+        if (GUILayout.Button("Register", GUILayout.Width(125)))
+        {
+            ResetValues();
+            currentWindow = CurrentWindow.Register;
+        }
+    }
+
     IEnumerator LoginEnumerator()
     {
         isWorking = true;
@@ -223,6 +244,14 @@ public class SC_LoginSystem : MonoBehaviour
         isWorking = false;
     }
 
+    #endregion Login
+
+    #region Extra 
+
+    /// <summary>
+    /// This region is for the extra methods in this script. \\
+    /// </summary>
+    /// 
     void ResetValues()
     {
         errorMessage = "";
@@ -234,4 +263,5 @@ public class SC_LoginSystem : MonoBehaviour
         registerUsername = "";
     }
 
+    #endregion Extra
 }

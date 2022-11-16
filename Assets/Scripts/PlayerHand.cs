@@ -5,17 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerHand : MonoBehaviour 
 {
-    Card card = new Card();
+    //Card card = new Card();
     public int HandID;
-
-    
 
     public void PlayCardHand(Card card)
     {
         PlayerHand hand = new PlayerHand();
 
-
-
-       
     }
 }
