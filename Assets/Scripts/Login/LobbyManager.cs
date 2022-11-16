@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using System.Threading;
 using UnityEditor.SceneManagement;
 using TMPro;
+using System.Text;
 
 public class LobbyManager : Singeltone<LobbyManager>
 {
@@ -26,6 +27,25 @@ public class LobbyManager : Singeltone<LobbyManager>
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
     public static event Action<Lobby> CurrentLobbyRefreshed;
 
+    private static Dictionary<ulong, PlayerInGame> clientData;
+
+    private void Start()
+    {
+        //NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
+    }
+    private void OnDestroy()
+    {
+        //NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
+    }
+
+    private void HandleClientDisconnected(ulong clientId)
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            clientData.Remove(clientId);
+        }
+        throw new NotImplementedException();
+    }
 
     // Create Lobby
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
@@ -78,11 +98,15 @@ public class LobbyManager : Singeltone<LobbyManager>
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
 
-            Debug.Log("a");
+            clientData = new Dictionary<ulong, PlayerInGame>();
+            clientData[NetworkManager.Singleton.LocalClientId] = new PlayerInGame(UserData.username);
+
+
             PeriodicallyRefreshLobby();
-            Debug.Log("b");
 
             Debug.Log(relayHostData.JoinCode);
+
+
 
             NetworkManager.Singleton.StartHost();
             NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
@@ -126,13 +150,8 @@ public class LobbyManager : Singeltone<LobbyManager>
 
 
             SetTransformAsClient(a);
-
-            NetworkManager.Singleton.StartClient();
             Debug.Log("Joined to relay");
-            Debug.Log(lobby.Players);
-            UserData.lobbyID = lobby.Id;
-            UserData.lobby = lobby;
-            PeriodicallyRefreshLobby();
+            Client();
 
         }
         catch (LobbyServiceException e)
@@ -158,18 +177,29 @@ public class LobbyManager : Singeltone<LobbyManager>
 
             SetTransformAsClient(a);
             Debug.Log("Joined to relay");
-            Debug.Log(lobby.Players);
-            Debug.Log(UserData.username);
-            UserData.lobbyID = lobby.Id;
-            UserData.lobby = lobby;
-            PeriodicallyRefreshLobby();
-            NetworkManager.Singleton.StartClient();
+            Client();
 
         }
         catch (Exception)
         {
             Debug.Log("No lobbies available via quick join");
         }
+    }
+
+    public void Client()
+    {
+        UserData.lobbyID = lobby.Id;
+        UserData.lobby = lobby;
+        PeriodicallyRefreshLobby();
+        var playload = JsonUtility.ToJson(new ConnectionPlayload()
+        {
+            playerName = UserData.username
+        });
+
+        byte[] playeloadBytes = Encoding.ASCII.GetBytes(playload);
+
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = playeloadBytes;
+        NetworkManager.Singleton.StartClient();
     }
 
     // Client transport
@@ -184,8 +214,8 @@ public class LobbyManager : Singeltone<LobbyManager>
         _updateLobbySource?.Cancel();
         try
         {
-
-            if (UserData.lobby.HostId == UserData.userId)
+            
+            if (NetworkManager.Singleton.IsHost)
             {
                 try
                 {
@@ -235,6 +265,15 @@ public class LobbyManager : Singeltone<LobbyManager>
             CurrentLobbyRefreshed?.Invoke(lobby);
             await Task.Delay(LobbyRefreshRate * 1000);
         } 
+    }
+
+    public static PlayerInGame? GetPlayerData(ulong clientId)
+    {
+        if(clientData.TryGetValue(clientId, out PlayerInGame playerInGame))
+        {
+            return playerInGame;
+        }
+        return null;
     }
 
 }

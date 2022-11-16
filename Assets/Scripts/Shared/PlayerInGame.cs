@@ -15,4 +15,8 @@ public class PlayerInGame : Singeltone<PlayerInGame>
     public bool myTurn;
     public Camera playercam;
 
+    public PlayerInGame(string username)
+    {
+        this.playername = username;
+    }
 }

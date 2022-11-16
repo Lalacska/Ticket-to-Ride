@@ -2117,8 +2117,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 133672918}
+        m_TargetAssemblyTypeName: CreateScene, Assembly-CSharp
         m_MethodName: CloseButton
         m_Mode: 1
         m_Arguments:

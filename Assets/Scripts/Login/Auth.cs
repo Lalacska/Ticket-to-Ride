@@ -46,22 +46,13 @@ public class Auth : Singeltone<Auth>
             // Notify the player with the proper error message
             Debug.LogException(ex);
         }
-        catch (RequestFailedException ex)
-        {
-            // Compare error code to CommonErrorCodes
-            // Notify the player with the proper error message
-            Debug.LogException(ex);
-        }
     }
 
 
     // This method gets the users info & starts the login method. \\
     public async void LoginButtonclick()
     {
-        Debug.Log("You clicked the button");
-
         await SignInAnonymouslyAsync();
-
     }
 
     // This method opens the Register scene. \\

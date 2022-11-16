@@ -25,4 +25,9 @@ public class CreateScene : MonoBehaviour
 
         //SceneManager.LoadScene("LobbyScene");
     }
+
+   public void CloseButton()
+    {
+        SceneManager.LoadScene("Join-Create Game");
+    }
 }

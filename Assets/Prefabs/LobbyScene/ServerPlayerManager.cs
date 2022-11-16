@@ -8,7 +8,7 @@ public class ServerPlayerManager : Singeltone<ServerPlayerManager>
     // Start is called before the first frame update
     void Start()
     {
-        NetworkManager.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        //NetworkManager.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
 
     }
 
@@ -20,8 +20,7 @@ public class ServerPlayerManager : Singeltone<ServerPlayerManager>
 
     private void CreatePlayerInfo()
     {
-        PlayerInGame player = new PlayerInGame();
-        player.name = UserData.username;
+        PlayerInGame player = new PlayerInGame(UserData.username);
         player.ID = UserData.userId;
         player.clientId = NetworkManager.LocalClientId;
         players.Add(player);

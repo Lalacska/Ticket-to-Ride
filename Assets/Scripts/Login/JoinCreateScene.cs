@@ -31,4 +31,10 @@ public class JoinCreateScene : Singeltone<JoinCreateScene>
         Debug.Log("You clicked the button");
         SceneManager.LoadScene("Game Settings");
     }
+
+    public void CloseButton()
+    {
+        AuthenticationService.Instance.SignOut();
+        SceneManager.LoadScene("Login-Register");
+    }
 }
