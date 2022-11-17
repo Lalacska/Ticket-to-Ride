@@ -29,24 +29,7 @@ public class LobbyManager : Singeltone<LobbyManager>
 
     private static Dictionary<ulong, PlayerInGame> clientData;
 
-    private void Start()
-    {
-        //NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
-    }
-    private void OnDestroy()
-    {
-        //NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
-    }
-
-    private void HandleClientDisconnected(ulong clientId)
-    {
-        if (NetworkManager.Singleton.IsServer)
-        {
-            clientData.Remove(clientId);
-        }
-        throw new NotImplementedException();
-    }
-
+    
     // Create Lobby
     public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
     {
@@ -82,31 +65,18 @@ public class LobbyManager : Singeltone<LobbyManager>
             // Set the game room to use the relay allocation
             Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
-
             // Heartbeat the lobby every 15 seconds.
             Heartbeat();
 
             Debug.Log("Relay Server got created");
             Debug.Log("The lobby was created");
-            Debug.Log(lobby.LobbyCode);
-            Debug.Log(lobby.Players);
-            foreach(Player player in lobby.Players)
-            {
-                Debug.Log(player);
-            }
             
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
 
-            clientData = new Dictionary<ulong, PlayerInGame>();
-            clientData[NetworkManager.Singleton.LocalClientId] = new PlayerInGame(UserData.username);
-
-
             PeriodicallyRefreshLobby();
 
             Debug.Log(relayHostData.JoinCode);
-
-
 
             NetworkManager.Singleton.StartHost();
             NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
@@ -186,19 +156,22 @@ public class LobbyManager : Singeltone<LobbyManager>
         }
     }
 
+
     public void Client()
     {
         UserData.lobbyID = lobby.Id;
         UserData.lobby = lobby;
-        PeriodicallyRefreshLobby();
-        var playload = JsonUtility.ToJson(new ConnectionPlayload()
-        {
-            playerName = UserData.username
-        });
 
-        byte[] playeloadBytes = Encoding.ASCII.GetBytes(playload);
+        //PeriodicallyRefreshLobby();
+        //var playload = JsonUtility.ToJson(new ConnectionPlayload()
+        //{
+        //    playerName = UserData.username
+        //});
 
-        NetworkManager.Singleton.NetworkConfig.ConnectionData = playeloadBytes;
+        //byte[] playeloadBytes = Encoding.ASCII.GetBytes(playload);
+
+        //NetworkManager.Singleton.NetworkConfig.ConnectionData = playeloadBytes;
+
         NetworkManager.Singleton.StartClient();
     }
 
@@ -255,6 +228,7 @@ public class LobbyManager : Singeltone<LobbyManager>
         }
     }
 
+    // Refreshes the lobby
     private static async void PeriodicallyRefreshLobby()
     {
         _updateLobbySource = new CancellationTokenSource();
@@ -267,13 +241,5 @@ public class LobbyManager : Singeltone<LobbyManager>
         } 
     }
 
-    public static PlayerInGame? GetPlayerData(ulong clientId)
-    {
-        if(clientData.TryGetValue(clientId, out PlayerInGame playerInGame))
-        {
-            return playerInGame;
-        }
-        return null;
-    }
 
 }

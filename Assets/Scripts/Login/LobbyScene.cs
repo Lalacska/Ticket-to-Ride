@@ -15,32 +15,34 @@ public class LobbyScene : Singeltone<LobbyScene>
     [SerializeField] private Button Spawnbutton;
     public static Lobby lobby;
 
+
+    // Start is called before the first frame update
     private void Start()
     {
+        //Write out lobby code
         joinCode.text = UserData.lobby.LobbyCode;
     }
+
+    //When the host clicks it, it change everyones scene to the GameBoard scene
     public void StartButton()
     {
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
-        //Debug.Log(lobby.Players);
-        //foreach (Player player in lobby.Players)
-        //{
-        //    Debug.Log(player);
-        //}
     }
 
+    //Calls leave methode when the player click on it
     public void CloseButton()
     {
         LobbyManager.Instance.LeaveLobby();
     }
 
-    public void Button()
+    //Calls a ServerRPC which spawns a green button
+    public void ReadyButton()
     {
-        Debug.Log("a");
         SpawnServerRpc(NetworkManager.LocalClientId);
-
     }
 
+
+    //Gets the client object and spawn a green button owned by the client under the object
     [ServerRpc(RequireOwnership = false)]
     public void SpawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
     {
@@ -48,7 +50,6 @@ public class LobbyScene : Singeltone<LobbyScene>
         NetworkObject GreenButton = Instantiate(Spawnbutton).GetComponent<NetworkObject>();
         GreenButton.SpawnWithOwnership(clientId);
         GreenButton.transform.SetParent(player.transform, false);
-        //GreenButton.TrySetParent(player, false);
     }
 
 }
