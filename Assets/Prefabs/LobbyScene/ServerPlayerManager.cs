@@ -14,7 +14,7 @@ public class ServerPlayerManager : Singeltone<ServerPlayerManager>
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)
     {
-        CreatePlayerInfo();
+        //CreatePlayerInfo();
         Debug.Log("mmmmm");
     }
 
