@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardSlotsID : Singeltone<CardSlotsID>
+public class CardSlotsID : Singleton<CardSlotsID>
 {
     [SerializeField]
     int slotID;

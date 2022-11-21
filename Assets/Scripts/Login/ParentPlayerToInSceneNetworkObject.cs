@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
-public class ParentPlayerToInSceneNetworkObject : Singeltone<ParentPlayerToInSceneNetworkObject>
+public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInSceneNetworkObject>
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TextMeshProUGUI playername;

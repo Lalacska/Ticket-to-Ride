@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LobbyScene : Singeltone<LobbyScene>
+public class LobbyScene : Singleton<LobbyScene>
 {
     public GameObject codeToSpawn;
     [SerializeField] private TMP_Text joinCode;

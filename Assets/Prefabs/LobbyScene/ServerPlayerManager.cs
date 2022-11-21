@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ServerPlayerManager : Singeltone<ServerPlayerManager>
+public class ServerPlayerManager : Singleton<ServerPlayerManager>
 {
     public List<PlayerInGame> players = new List<PlayerInGame>();
     // Start is called before the first frame update

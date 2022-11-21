@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInGame : Singeltone<PlayerInGame>
+// Class to the in game player
+public class PlayerInGame : Singleton<PlayerInGame>
 {
     public string ID;
     public ulong clientId;
