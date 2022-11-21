@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-//Singleton to acces classes from eachother
+// Singleton to access classes from each other
 public class Singleton<T> : NetworkBehaviour where T : Component
 {
     private static T _instance;

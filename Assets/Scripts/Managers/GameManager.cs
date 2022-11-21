@@ -124,7 +124,7 @@ public class GameManager : Singleton<GameManager>
 
 
     /// <summary>
-    /// This part is for all the driffrent Draw functions, that is being used in the game. \\
+    /// This part is for all the different Draw functions that are being used in the game. \\
     /// </summary>
 
     #region DrawFunctions

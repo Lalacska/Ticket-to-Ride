@@ -156,7 +156,7 @@ public class LobbyManager : Singleton<LobbyManager>
     // Connects clients to the relay, set some local variable, and start client \\
     public void Client(JoinAllocation allocation)
     {
-        // Start the methode to which connects clients to the relay \\
+        // Start the method to which connects clients to the relay \\
         SetTransformAsClient(allocation);
         Debug.Log("Joined to relay");
 
@@ -216,7 +216,7 @@ public class LobbyManager : Singleton<LobbyManager>
         }
     }
 
-    // Hearbeat to the lobby, so it won't die \\
+    // Heartbeat to the lobby, so it won't die \\
     private static async void Heartbeat()
     {
         // Makes a new token and until cancellation is requested it pings the lobby every now and then to kep it allive \\

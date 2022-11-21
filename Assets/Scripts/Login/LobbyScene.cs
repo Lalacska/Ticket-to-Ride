@@ -23,7 +23,7 @@ public class LobbyScene : Singleton<LobbyScene>
         joinCode.text = UserData.lobby.LobbyCode;
     }
 
-    //When the host clicks it, it change everyones scene to the GameBoard scene
+    //When the host clicks it, it change everyone's  scene to the GameBoard scene
     public void StartButton()
     {
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
@@ -40,7 +40,6 @@ public class LobbyScene : Singleton<LobbyScene>
     {
         SpawnServerRpc(NetworkManager.LocalClientId);
     }
-
 
     //Gets the client object and spawn a green button owned by the client under the object
     [ServerRpc(RequireOwnership = false)]

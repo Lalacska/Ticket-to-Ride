@@ -18,8 +18,8 @@ public class JoinCreateScene : Singleton<JoinCreateScene>
     {
         string code = joinCode.GetComponent<TMP_InputField>().text;
         Debug.Log("You clicked the button");
-        // If the player wrote join code, it will try to make it connect to the chosed lobby \\
-        if(code != null && code != string.Empty)
+        // If the player wrote join code, it will try to make it connect to the chosen lobby \\
+        if (code != null && code != string.Empty)
         {
             LobbyManager.Instance.JoinLobby(code);
         }
@@ -37,7 +37,7 @@ public class JoinCreateScene : Singleton<JoinCreateScene>
         SceneManager.LoadScene("Game Settings");
     }
 
-    //Sign the player out, and switch back to the Login-Rgister scene \\
+    //Sign the player out, and switch back to the Login-Register scene \\
     public void CloseButton()
     {
         AuthenticationService.Instance.SignOut();

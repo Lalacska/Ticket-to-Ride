@@ -27,7 +27,7 @@ public class Auth : Singleton<Auth>
         await UnityServices.InitializeAsync();
     }
 
-    // This method makes the user signin anonymously \\
+    // This method makes the user sign in anonymously \\
     private static async Task SignInAnonymouslyAsync()
     {
         try

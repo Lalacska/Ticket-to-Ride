@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class TTRE_Login : MonoBehaviour
+public class Login_Register : MonoBehaviour
 {
     // These fields are for the Login part. \\
     [SerializeField] private TMP_InputField _loginEmail;

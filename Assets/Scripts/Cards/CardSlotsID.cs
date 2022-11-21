@@ -9,5 +9,4 @@ public class CardSlotsID : Singleton<CardSlotsID>
     int slotID;
 
     public int cardslotCardID;
-
 }
