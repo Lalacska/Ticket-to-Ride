@@ -1,0 +1,9 @@
+Preg_match = validates email. Returns whether a match was found in a string.
+ctyp_xdigit = Check if every character is hexadecimal. Such as all decimal numbers and chars from A-F & a-f. If not = false.
+password_hash = turns passwords (or any type of data) into short strings of letters and/or numbers using a encryption algorithm.
+PASSWORD_BCRYPT = basic hashing if no algorithm is given.
+bin2hex = converts binary to hexadecimal.
+random_bytes(8) = creates 8 random bytes.
+bin2hex(random_bytes(8)); converts bin2hex and then proceeds to make a 8 byte string. (Ved ik hvor lang 8 bytes er i chars såååå ja :-3 )
+mysqli_fetch_assoc = Fetches one row of data from the result and Returns it as an associative array.
+mysqli_stmt_init = uses a statments and returns an object
