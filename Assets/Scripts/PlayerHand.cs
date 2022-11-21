@@ -11,6 +11,5 @@ public class PlayerHand : MonoBehaviour
     public void PlayCardHand(Card card)
     {
         PlayerHand hand = new PlayerHand();
-
     }
 }

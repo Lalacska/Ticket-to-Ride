@@ -274,6 +274,7 @@ public class GameManager : Singeltone<GameManager>
     #endregion DrawFunctions
 
 
+
     // This method is for checking the cards on the board. \\
     // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
     public async Task CheckCards()
@@ -318,7 +319,9 @@ public class GameManager : Singeltone<GameManager>
         cardslotsid.cardslotCardID = card.CardID;
     }
 
-    
+
+
+    #region Random/Extra 
 
     // This method shuffles the used/discared cards back into the deck. \\ NOT WORKING!
     public void Shuffle()
@@ -340,11 +343,6 @@ public class GameManager : Singeltone<GameManager>
         PlayerPickCount = 0;
         lastcard = "";
     }
-
-
-
-   
-   
 
     // This method is for changeing the playces of the cards. \\
     public void CardColorPick(Card card, int i)
@@ -424,11 +422,8 @@ public class GameManager : Singeltone<GameManager>
             delete.gameObject.SetActive(false);
             board.Remove(delete);
             discardPile.Add(delete);
-            
             discardPile.Clear();
-
             availbleDiscardPileCardSlots[0] = true;
-
             PlayerPickCount++;
         }
         else if (PlayerPickCount > 1)
@@ -438,6 +433,123 @@ public class GameManager : Singeltone<GameManager>
         }
         Debug.Log("Player pick count = " + PlayerPickCount);
     }
+
+    // This method takes the players cards and plays them. \\
+    public void PlayCardHand(Card card)
+    {
+        // Here we check for the color of the card. \\
+        if (card.Color == "Black")
+        {
+            if (IBlackPlayerCount >= 1)
+            {
+                IBlackPlayerCount--;
+                TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Blue")
+        {
+            if (IBluePlayerCount >= 1)
+            {
+                IBluePlayerCount--;
+                TBluePlayerCount.text = IBluePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Brown")
+        {
+            if (IBrownPlayerCount >= 1)
+            {
+                IBrownPlayerCount--;
+                TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Green")
+        {
+            if (IGreenPlayerCount >= 1)
+            {
+                IGreenPlayerCount--;
+                TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Orange")
+        {
+            if (IOrangePlayerCount >= 1)
+            {
+                IOrangePlayerCount--;
+                TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Purple")
+        {
+            if (IPurplePlayerCount >= 1)
+            {
+                IPurplePlayerCount--;
+                TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "White")
+        {
+            if (IWhitePlayerCount >= 1)
+            {
+                IWhitePlayerCount--;
+                TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Yellow")
+        {
+            if (IYellowPlayerCount >= 1)
+            {
+                IYellowPlayerCount--;
+                TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        else if (card.Color == "Rainbow")
+        {
+            if (IRainbowPlayerCount >= 1)
+            {
+                IRainbowPlayerCount--;
+                TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+            }
+            else
+            {
+                Debug.Log("Du har ikke flere kort af den type tilbage!");
+            }
+        }
+        Debug.Log("Du har fjernet 1 " + card.Color + " kort");
+    }
+
+    #endregion Random/Extra
 
 
 
@@ -633,118 +745,4 @@ public class GameManager : Singeltone<GameManager>
     }
 
     #endregion BTNS
-
-    // This method takes the players cards and plays them. \\
-    public void PlayCardHand(Card card)
-    {
-        // Here we check for the color of the card. \\
-        if (card.Color == "Black")
-        {
-            if(IBlackPlayerCount >= 1)
-            {
-                IBlackPlayerCount--;
-                TBlackPlayerCount.text = IBlackPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Blue")
-        {
-            if (IBluePlayerCount >= 1)
-            {
-                IBluePlayerCount--;
-                TBluePlayerCount.text = IBluePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Brown")
-        {
-            if (IBrownPlayerCount >= 1)
-            {
-                IBrownPlayerCount--;
-                TBrownPlayerCount.text = IBrownPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Green")
-        {
-            if (IGreenPlayerCount >= 1)
-            {
-                IGreenPlayerCount--;
-                TGreenPlayerCount.text = IGreenPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Orange")
-        {
-            if (IOrangePlayerCount >= 1)
-            {
-                IOrangePlayerCount--;
-                TOrangePlayerCount.text = IOrangePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Purple")
-        {
-            if (IPurplePlayerCount >= 1)
-            {
-                IPurplePlayerCount--;
-                TPurplePlayerCount.text = IPurplePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "White")
-        {
-            if (IWhitePlayerCount >= 1)
-            {
-                IWhitePlayerCount--;
-                TWhitePlayerCount.text = IWhitePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Yellow")
-        {
-            if (IYellowPlayerCount >= 1)
-            {
-                IYellowPlayerCount--;
-                TYellowPlayerCount.text = IYellowPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (card.Color == "Rainbow")
-        {
-            if (IRainbowPlayerCount >= 1)
-            {
-                IRainbowPlayerCount--;
-                TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-    }
 }
