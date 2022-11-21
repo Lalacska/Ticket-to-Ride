@@ -21,24 +21,4 @@ public class Card : MonoBehaviour
     {
         gm = FindObjectOfType<GameManager>();
     }
-    /*
-    private void OnMouseDown()
-    {
-        Debug.Log("clicked");
-        if(hasBeenPlayed == false)
-        {
-            transform.position += Vector3.up * 5;
-            hasBeenPlayed = true;
-            gm.availbleCardSlots[handIndex] = true;
-            Invoke("MoveToDiscardPile", 2f);
-        }
-    }
-
-    void MoveToDiscardPile()
-    {
-        gm.discardPile.Add(this);
-        gameObject.SetActive(false);
-    }
-    */
-
 }

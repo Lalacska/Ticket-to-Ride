@@ -597,7 +597,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 23703523}
-  - component: {fileID: 23703524}
   m_Layer: 5
   m_Name: Card 2
   m_TagString: Untagged
@@ -627,20 +626,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &23703524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23703522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 1
-  playerslotCardID: 0
 --- !u!1001 &24739753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4086,7 +4071,6 @@ GameObject:
   m_Component:
   - component: {fileID: 156676168}
   - component: {fileID: 156676169}
-  - component: {fileID: 156676170}
   m_Layer: 5
   m_Name: Card 1
   m_TagString: Untagged
@@ -4130,23 +4114,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasBeenPlayed: 0
   handIndex: 0
-  Color: Black
+  Color: 
   ownerID: 0
   CardID: 0
---- !u!114 &156676170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156676167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 0
-  playerslotCardID: 0
 --- !u!1 &158267032
 GameObject:
   m_ObjectHideFlags: 0
@@ -13959,7 +13929,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 534225445}
-  - component: {fileID: 534225446}
   m_Layer: 5
   m_Name: Card 4
   m_TagString: Untagged
@@ -13989,20 +13958,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &534225446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534225444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 3
-  playerslotCardID: 0
 --- !u!1 &535176472
 GameObject:
   m_ObjectHideFlags: 0
@@ -19698,34 +19653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6e8558a5d8fa04d8c1917f261011d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RunInBackground: 1
-  LogLevel: 1
-  NetworkConfig:
-    ProtocolVersion: 0
-    NetworkTransport: {fileID: 0}
-    PlayerPrefab: {fileID: 0}
-    NetworkPrefabs: []
-    TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
-    ConnectionData: 
-    EnableTimeResync: 0
-    TimeResyncInterval: 30
-    EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
-    ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
-    LoadSceneTimeOut: 120
-    SpawnTimeout: 1
-    EnableNetworkLogs: 1
-  Cameras:
-  - {fileID: 1096598091}
-  - {fileID: 1060074615}
-  - {fileID: 1765072295}
-  - {fileID: 539364430}
-  - {fileID: 774509800}
 --- !u!4 &707820323
 Transform:
   m_ObjectHideFlags: 0
@@ -26199,7 +26126,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 959491458}
-  - component: {fileID: 959491459}
   m_Layer: 5
   m_Name: Card 6
   m_TagString: Untagged
@@ -26229,20 +26155,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &959491459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 959491457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 5
-  playerslotCardID: 0
 --- !u!1 &960226386
 GameObject:
   m_ObjectHideFlags: 0
@@ -27089,7 +27001,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 977251762}
-  - component: {fileID: 977251763}
   m_Layer: 5
   m_Name: Card 8
   m_TagString: Untagged
@@ -27119,20 +27030,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &977251763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977251761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 6
-  playerslotCardID: 0
 --- !u!1 &978561313
 GameObject:
   m_ObjectHideFlags: 0
@@ -27142,7 +27039,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978561314}
-  - component: {fileID: 978561315}
   m_Layer: 5
   m_Name: Card 9
   m_TagString: Untagged
@@ -27172,20 +27068,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &978561315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978561313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 7
-  playerslotCardID: 0
 --- !u!1 &978902007
 GameObject:
   m_ObjectHideFlags: 0
@@ -27195,7 +27077,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978902008}
-  - component: {fileID: 978902009}
   m_Layer: 5
   m_Name: Card 3
   m_TagString: Untagged
@@ -27225,20 +27106,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &978902009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978902007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 2
-  playerslotCardID: 0
 --- !u!1001 &981390510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34618,6 +34485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285157279}
   - component: {fileID: 1285157280}
+  - component: {fileID: 1285157281}
   m_Layer: 0
   m_Name: GameMangager
   m_TagString: Untagged
@@ -34877,6 +34745,22 @@ MonoBehaviour:
   IRainbowPlayerCount: 0
   TRainbowPlayerCount: {fileID: 1714166779}
   TdiscardPileText: {fileID: 0}
+--- !u!114 &1285157281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285157278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3618252772
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1285376057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36501,7 +36385,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1354371022}
-  - component: {fileID: 1354371023}
   m_Layer: 5
   m_Name: Card 7
   m_TagString: Untagged
@@ -36531,20 +36414,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1354371023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354371021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 8
-  playerslotCardID: 0
 --- !u!1001 &1359131596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53183,7 +53052,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1944880920}
-  - component: {fileID: 1944880921}
   m_Layer: 5
   m_Name: Card 5
   m_TagString: Untagged
@@ -53213,20 +53081,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1944880921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944880919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cceaec5cdd31f49ae1e5a4a362d44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotID: 4
-  playerslotCardID: 0
 --- !u!1001 &1945868837
 PrefabInstance:
   m_ObjectHideFlags: 0
