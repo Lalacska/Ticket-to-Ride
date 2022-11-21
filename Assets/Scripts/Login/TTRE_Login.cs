@@ -40,17 +40,73 @@ public class TTRE_Login : MonoBehaviour
 
     string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located
 
+
+    #region Login
+
+    /// <summary>
+    /// This region is for the login methods in the script. \\
+    /// </summary>
+
     // This method is for when the player clicks the Login button. \\
-
     public void LoginButtonClick()
-    {
-        loginEmail = _loginEmail.text;
-        loginPassword = _loginPassword.text;
+        {
+            loginEmail = _loginEmail.text;
+            loginPassword = _loginPassword.text;
 
-        // This method starts the "Coroutine". \\
-        StartCoroutine(LoginEnumerator());
-    }
+            // This method starts the "Coroutine". \\
+            StartCoroutine(LoginEnumerator());
+        }
 
+    // This method handles the users input and matches them to the database for login. \\
+    IEnumerator LoginEnumerator()
+        {
+            isWorking = true;
+            registrationCompleted = false;
+            errorMessage = "";
+
+            WWWForm form = new WWWForm();
+            form.AddField("email", loginEmail);
+            form.AddField("password", loginPassword);
+
+            using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "login.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.result != UnityWebRequest.Result.Success)
+                {
+                    errorMessage = www.error;
+                }
+                else
+                {
+                    string responseText = www.downloadHandler.text;
+
+                    if (responseText.StartsWith("Success"))
+                    {
+                        string[] dataChunks = responseText.Split('|');
+                        userName = dataChunks[1];
+                        userEmail = dataChunks[2];
+                        isLoggedIn = true;
+                    
+                        UserData.username = userName;
+                        ResetValues();
+                        SceneManager.LoadScene("Login-Register");
+                    }
+                    else
+                    {
+                        errorMessage = responseText;
+                    }
+                }
+            }
+            isWorking = false;
+        }
+
+    #endregion Login
+
+    #region Register
+
+    /// <summary>
+    /// This region is for the Register methods of the script. \\
+    /// </summary>
 
     // This method is for when the user clicks "Register". \\
     public void RegisterButtonClick()
@@ -104,48 +160,12 @@ public class TTRE_Login : MonoBehaviour
         isWorking = false;
     }
 
-    // This method handles the users input and matches them to the database for login. \\
-    IEnumerator LoginEnumerator()
-    {
-        isWorking = true;
-        registrationCompleted = false;
-        errorMessage = "";
+    #endregion Register
 
-        WWWForm form = new WWWForm();
-        form.AddField("email", loginEmail);
-        form.AddField("password", loginPassword);
-
-        using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "login.php", form))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                errorMessage = www.error;
-            }
-            else
-            {
-                string responseText = www.downloadHandler.text;
-
-                if (responseText.StartsWith("Success"))
-                {
-                    string[] dataChunks = responseText.Split('|');
-                    userName = dataChunks[1];
-                    userEmail = dataChunks[2];
-                    isLoggedIn = true;
-                    
-                    UserData.username = userName;
-                    ResetValues();
-                    SceneManager.LoadScene("Login-Register");
-                }
-                else
-                {
-                    errorMessage = responseText;
-                }
-            }
-        }
-        isWorking = false;
-    }
+    #region Extra
+    /// <summary>
+    /// This region is for the extra methods in the script. \\
+    /// </summary>
 
     void ResetValues()
     {
@@ -157,4 +177,6 @@ public class TTRE_Login : MonoBehaviour
         registerPassword2 = "";
         registerUsername = "";
     }
+
+    #endregion Extra
 }
