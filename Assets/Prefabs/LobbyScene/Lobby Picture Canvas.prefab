@@ -948,6 +948,7 @@ GameObject:
   - component: {fileID: 640460593020025990}
   - component: {fileID: 640460593020026010}
   - component: {fileID: 618934914839365793}
+  - component: {fileID: 7821031047227917320}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1109,6 +1110,20 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &7821031047227917320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640460593020025988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5beab8dd50debf4db6486e0ad50d268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 8204703879503577446, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
+  playername: {fileID: 6816814180458456417, guid: cd8a901b98f605c4d977758b22362610, type: 3}
 --- !u!1 &640460593046586281
 GameObject:
   m_ObjectHideFlags: 0
@@ -3518,6 +3533,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LobbyPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 8204703879503577446, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3536,7 +3555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_AnchorMin.x
@@ -3544,7 +3563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3588,7 +3607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -94
       objectReference: {fileID: 0}
     - target: {fileID: 8204703879503577447, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Class to the in game player
+// Class to the in game player \\
 public class PlayerInGame : Singleton<PlayerInGame>
 {
     public string ID;
@@ -14,10 +14,4 @@ public class PlayerInGame : Singleton<PlayerInGame>
     public int cards;
     public int destinationTickets;
     public bool myTurn;
-    public Camera playercam;
-
-    public PlayerInGame(string username)
-    {
-        this.playername = username;
-    }
 }

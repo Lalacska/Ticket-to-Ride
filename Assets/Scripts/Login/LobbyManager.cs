@@ -27,6 +27,15 @@ public class LobbyManager : Singleton<LobbyManager>
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
     public static event Action<Lobby> CurrentLobbyRefreshed;
 
+    private void Start()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += LeaveLobby;
+    }
+    //private void OnDestroy()
+    //{
+    //    NetworkManager.Singleton.OnClientDisconnectCallback -= LeaveLobby;
+    //}
+
     // Create a Lobby \\
     public async void CreateLobby(string lobbyName, int maxPlayers)
     {
@@ -167,7 +176,7 @@ public class LobbyManager : Singleton<LobbyManager>
         NetworkManager.Singleton.StartClient();
     }
 
-    // Client transport
+    // Client transport \\
     private void SetTransformAsClient(JoinAllocation a)
     {
         Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
@@ -206,6 +215,52 @@ public class LobbyManager : Singleton<LobbyManager>
                 NetworkManager.Singleton.Shutdown();
                 await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, UserData.userId);
                 lobby = null;
+            }
+            // Load tje Join-Create Game scene \\
+            SceneManager.LoadScene("Join-Create Game");
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+    public async void LeaveLobby(ulong clientId)
+    {
+        // Send Cancellation request to the tokens \\
+        _heartbeatSource?.Cancel();
+        _updateLobbySource?.Cancel();
+        try
+        {
+            // Runs when the client is the Host \\
+            if (ParentPlayerToInSceneNetworkObject.Instance.players[0].ClientId == clientId)
+            {
+                try
+                {
+                    // Switch everyone back to the Join-Create Game Scene \\
+                    NetworkManager.Singleton.SceneManager.LoadScene("Join-Create Game", LoadSceneMode.Single);
+                    await Task.Delay(1000);
+                    // Shut down the host and delete the lobby, set the lobby variable to null \\
+                    NetworkManager.Singleton.Shutdown();
+                    await LobbyService.Instance.DeleteLobbyAsync(UserData.lobby.Id);
+                    lobby = null;
+                }
+                catch (LobbyServiceException e)
+                {
+                    Debug.Log(e);
+                }
+            }
+            // Runs when we have a simple client \\
+            else
+            {
+                foreach(var player in ParentPlayerToInSceneNetworkObject.Instance.players)
+                {
+                    if (player.ClientId == clientId)
+                    {
+                        // Shut down the connection and remove the player from the lobby \\
+                        await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, player.ID.ToString());
+                        lobby = null;
+                    }
+                }
             }
             // Load tje Join-Create Game scene \\
             SceneManager.LoadScene("Join-Create Game");

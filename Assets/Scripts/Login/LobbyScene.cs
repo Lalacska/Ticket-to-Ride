@@ -41,7 +41,7 @@ public class LobbyScene : Singleton<LobbyScene>
         SpawnServerRpc(NetworkManager.LocalClientId);
     }
 
-    //Gets the client object and spawn a green button owned by the client under the object
+    //Gets the client object, Instantiate and spawn a green button owned by the client, then set the player as its parent
     [ServerRpc(RequireOwnership = false)]
     public void SpawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
     {
