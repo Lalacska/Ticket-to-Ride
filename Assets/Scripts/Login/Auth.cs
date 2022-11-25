@@ -40,7 +40,7 @@ public class Auth : Singleton<Auth>
             // Shows playerID \\
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
             UserData.userId = AuthenticationService.Instance.PlayerId;
-            SceneManager.LoadScene("Join-Create Game");
+            SceneManager.LoadScene("Login");
         }
         catch (AuthenticationException ex)
         {
@@ -55,6 +55,7 @@ public class Auth : Singleton<Auth>
     public async void LoginButtonclick()
     {
         await SignInAnonymouslyAsync();
+
     }
 
     // This method switch to the Register scene \\
@@ -66,6 +67,8 @@ public class Auth : Singleton<Auth>
     // This method sends the user back to the Home scene \\
     public static void BackToHome()
     {
+        //Sing out the anonymous ticket else the player can't choose login optionagain
+        AuthenticationService.Instance.SignOut();
         SceneManager.LoadScene("Login-Register");
     }
 }

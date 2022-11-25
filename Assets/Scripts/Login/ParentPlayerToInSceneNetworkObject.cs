@@ -27,7 +27,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
             SetPlayerParent(NetworkManager.LocalClientId);
         }
         // Spawns player names in serverside with the client id \\
-        AddPlayerNameServerRPC(NetworkManager.LocalClientId);
+        //AddPlayerNameServerRPC(NetworkManager.LocalClientId);
 
     }
 

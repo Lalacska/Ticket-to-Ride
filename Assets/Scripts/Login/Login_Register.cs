@@ -89,7 +89,7 @@ public class Login_Register : MonoBehaviour
                     
                         UserData.username = userName;
                         ResetValues();
-                        SceneManager.LoadScene("Login-Register");
+                        SceneManager.LoadScene("Join-Create Game");
                     }
                     else
                     {
