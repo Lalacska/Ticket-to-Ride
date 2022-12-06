@@ -27,7 +27,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
             SetPlayerParent(NetworkManager.LocalClientId);
         }
         // Spawns player names in serverside with the client id \\
-        //AddPlayerNameServerRPC(NetworkManager.LocalClientId);
+        AddPlayerNameServerRPC(NetworkManager.LocalClientId);
 
     }
 
@@ -62,7 +62,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         // OnSceneEvent is very useful for many things \\
         switch (sceneEvent.SceneEventType)
         {
-            // This trigers when the client got syncronized with the server \\
+            // This triggers when the client got synchronized with the server \\
             case SceneEventType.SynchronizeComplete:
             {
                 if (sceneEvent.ClientId != NetworkManager.LocalClientId)
@@ -83,7 +83,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         players.Add(player);
     }
 
-    // Adds player names to the playerobject in serverside \\
+    // Adds player names to the player object in server side \\
     [ServerRpc(RequireOwnership = false)]
     private void AddPlayerNameServerRPC(ulong clientId, ServerRpcParams serverRpcParams = default)
     {
@@ -104,28 +104,5 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         playername.text = "";
 
         Debug.Log(players.Count);
-
-        if(clientId == players[0].ClientId) { return; }
-        Debug.Log("Don't break pls");
-        foreach (var player in players)
-        {
-            Debug.Log(player);
-            NetworkObject playerobject1 = NetworkManager.Singleton.ConnectedClients[player.ClientId].PlayerObject;
-            NetworkObject nametext1 = playerobject.GetComponent<NetworkObject>();
-            Debug.Log(playername.text);
-            setplayername = nametext.GetComponent<TextMeshProUGUI>();
-            Debug.Log(setplayername.text);
-            SyncNamesClientRPC(player.PlayerName.ToString());
-        }
-    }
-    [ClientRpc]
-    public void SyncNamesClientRPC(string name)
-    {
-        if (IsHost) return;
-        Debug.Log(name);
-        Debug.Log(setplayername.text);
-        setplayername.text = name;
-        Debug.Log(setplayername.text);
-
     }
 }

@@ -31,11 +31,6 @@ public class LobbyManager : Singleton<LobbyManager>
     {
         NetworkManager.Singleton.OnClientDisconnectCallback += LeaveLobby;
     }
-    //private void OnDestroy()
-    //{
-    //    NetworkManager.Singleton.OnClientDisconnectCallback -= LeaveLobby;
-    //}
-
     // Create a Lobby \\
     public async void CreateLobby(string lobbyName, int maxPlayers)
     {
@@ -224,6 +219,7 @@ public class LobbyManager : Singleton<LobbyManager>
             Debug.Log(e);
         }
     }
+    // Handles when the player close the game without clicking the close button \\
     public async void LeaveLobby(ulong clientId)
     {
         // Send Cancellation request to the tokens \\

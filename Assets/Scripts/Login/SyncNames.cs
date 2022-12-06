@@ -12,18 +12,18 @@ public class SyncNames : Singleton<SyncNames>
 
     public void Start()
     {
-        if (!IsServer) { return; }
+        //if (!IsServer) { return; }
         
         
-        if (IsOwner)
-        {
-            SearchServerRpc(NetworkManager.LocalClientId);
-            if(name != null)
-            {
-                PlayerName.Value = name;
-                playername.text = PlayerName.Value.ToString();
-            }
-        }
+        //if (IsOwner)
+        //{
+        //    SearchServerRpc(NetworkManager.LocalClientId);
+        //    if(name != null)
+        //    {
+        //        PlayerName.Value = name;
+        //        playername.text = PlayerName.Value.ToString();
+        //    }
+        //}
         
     }
 
