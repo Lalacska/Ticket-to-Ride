@@ -1,38 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class LobbyScene : Singeltone<LobbyScene>
+public class LobbyScene : Singleton<LobbyScene>
 {
+    public GameObject codeToSpawn;
     [SerializeField] private TMP_Text joinCode;
+    [SerializeField] private Button Spawnbutton;
     public static Lobby lobby;
-    public static string code;
 
-
-    public void StartButton()
-    {
-        Debug.Log(lobby.Players);
-        foreach (Player player in lobby.Players)
-        {
-            Debug.Log(player);
-        }
-    }
-    public void DisplayCode()
-    {
-        joinCode.text = code;
-    }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
+        //Write out lobby code
+        joinCode.text = UserData.lobby.LobbyCode;
     }
 
-    // Update is called once per frame
-    void Update()
+    //When the host clicks it, it change everyone's  scene to the GameBoard scene
+    public void StartButton()
     {
-        
+        NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
     }
+
+    //Calls leave methode when the player click on it
+    public void CloseButton()
+    {
+        LobbyManager.Instance.LeaveLobby();
+    }
+
+    //Calls a ServerRPC which spawns a green button
+    public void ReadyButton()
+    {
+        SpawnServerRpc(NetworkManager.LocalClientId);
+    }
+
+    //Gets the client object, Instantiate and spawn a green button owned by the client, then set the player as its parent
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
+    {
+        NetworkObject player = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        NetworkObject GreenButton = Instantiate(Spawnbutton).GetComponent<NetworkObject>();
+        GreenButton.SpawnWithOwnership(clientId);
+        GreenButton.transform.SetParent(player.transform, false);
+    }
+
 }

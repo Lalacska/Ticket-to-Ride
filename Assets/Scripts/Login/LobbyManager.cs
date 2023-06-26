@@ -11,26 +11,37 @@ using Unity.Services.Relay.Models;
 using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading;
+using UnityEditor.SceneManagement;
+using TMPro;
+using System.Text;
 
-
-public class LobbyManager : Singeltone<LobbyManager>
+public class LobbyManager : Singleton<LobbyManager>
 {
-    private Lobby lobby;
-    private string joincode;
+    private static Lobby lobby;
+    private static CancellationTokenSource _updateLobbySource, _heartbeatSource;
     private const string JoinCodeKey = "j";
+    private const int LobbyRefreshRate = 2; // Rate limits at 2
+    private const int HeartbeatInterval = 15;
+
     public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+    public static event Action<Lobby> CurrentLobbyRefreshed;
 
-
-    // Create Lobby
-    public async Task<bool> CreateLobby(string lobbyName, int maxPlayers)
+    private void Start()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += LeaveLobby;
+    }
+    // Create a Lobby \\
+    public async void CreateLobby(string lobbyName, int maxPlayers)
     {
         try
         {
             Debug.Log("Relay Server starting");
 
-            // Create a relay allocation and generate a join code to share with the lobby
+            // Create a relay allocation and generate a join code to share with the lobby \\
             Allocation a = await RelayService.Instance.CreateAllocationAsync(maxPlayers);
 
+            // Set the relay host data \\
             RelayHostData relayHostData = new RelayHostData
             {
                 Key = a.Key,
@@ -41,65 +52,61 @@ public class LobbyManager : Singeltone<LobbyManager>
                 ConnectionData = a.ConnectionData,
             };
 
-
+            // Get join code to the Relay \\
             relayHostData.JoinCode = await RelayService.Instance.GetJoinCodeAsync(a.AllocationId);
 
-            // Create a lobby, adding the relay join code to the lobby
+            // Create a lobby, adding the relay join code to the lobby \\
             CreateLobbyOptions options = new CreateLobbyOptions()
             {
-                Data = new Dictionary<string, DataObject> { { JoinCodeKey, new DataObject(DataObject.VisibilityOptions.Public, relayHostData.JoinCode) } }
+                Data = new Dictionary<string, DataObject> {
+                    { JoinCodeKey, new DataObject(DataObject.VisibilityOptions.Public, relayHostData.JoinCode) } },
+            
             };
             lobby = await Lobbies.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
 
-            // Set the game room to use the relay allocation
+            // Set the game room to use the relay allocation \\
             Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData);
 
-
-            // Heartbeat the lobby every 15 seconds.
-            StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
+            // Heartbeat the lobby every 15 seconds. \\
+            Heartbeat();
 
             Debug.Log("Relay Server got created");
             Debug.Log("The lobby was created");
-            Debug.Log(lobby.LobbyCode);
-            Debug.Log(lobby.Players);
-            foreach(Player player in lobby.Players)
-            {
-                Debug.Log(player);
-            }
-            LobbyScene.lobby = lobby;
-            LobbyScene.code = relayHostData.JoinCode;
             
+            // Set some local variable \\
             UserData.lobbyID = lobby.Id;
             UserData.lobby = lobby;
 
-            LobbyScene.Instance.DisplayCode();
-            NetworkManager.Singleton.StartHost();
+            // Refreshes the lobby periodically \\
+            PeriodicallyRefreshLobby();
 
-            return true;
+            // Start host and change scene to LobbyScene \\
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
         }
         catch (Exception e)
         {
+            // If there is something wrong it writes out the problem \\
             Debug.LogFormat("Failed creating a lobby");
             Debug.Log(e);
-            return false;
         }
     }
 
-    // Uses the lobbyCode to join a specific lobby
+    // Uses the lobbyCode to join a specific lobby \\
     public async void JoinLobby(string lobbyCode)
     {
         try
         {
-            // Joining the lobby with the code
+            // Joining the lobby with the code \\
             Debug.Log("Joining to lobby");
-            var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
             Debug.Log("Joined");
 
-            // Setting relay Allocation
+            // Getting the relay data \\
             Debug.Log("Joining to Relay");
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
-            
 
+            // Set the relay data \\
             RelayJoinData relayJoinData = new RelayJoinData
             {
                 Key = a.Key,
@@ -112,45 +119,36 @@ public class LobbyManager : Singeltone<LobbyManager>
                 JoinCode = lobby.Data[JoinCodeKey].Value,
             };
 
+            // Connects client to the relay and starts client \\
+            Client(a);
 
-            SetTransformAsClient(a);
-
-            NetworkManager.Singleton.StartClient();
-            Debug.Log("Joined to relay");
-            Debug.Log(lobby.Players);
-            UserData.lobbyID = lobby.Id;
-            UserData.lobby = lobby;
-            SceneManager.LoadScene("LobbyScene");
         }
         catch (LobbyServiceException e)
         {
+            // If there is something wrong it writes out the problem \\
             Debug.Log(e);
         }
     }
 
-    // Finds a public lobby and join
+    // Finds a public lobby and join \\
     public async void QuickJoin()
     {
         try
         {
             Debug.Log("Joining to lobby");
-            // Quick-join a random lobby 
-            var lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+
+            // Quick-join to a random lobby 
+            lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+
             Debug.Log(lobby);
             Debug.Log("Joined");
-
             Debug.Log("Joining to Relay");
+
             // If we found a lobby, grab the relay allocation details
             JoinAllocation a = await RelayService.Instance.JoinAllocationAsync(lobby.Data[JoinCodeKey].Value);
 
-            SetTransformAsClient(a);
-            Debug.Log("Joined to relay");
-            Debug.Log(lobby.Players);
-            Debug.Log(UserData.username);
-            UserData.lobbyID = lobby.Id;
-            UserData.lobby = lobby;
-            SceneManager.LoadScene("LobbyScene");
-            NetworkManager.Singleton.StartClient();
+            // Connects client to the relay and starts client \\
+            Client(a);
 
         }
         catch (Exception)
@@ -159,32 +157,61 @@ public class LobbyManager : Singeltone<LobbyManager>
         }
     }
 
-    // Client transport
+    // Connects clients to the relay, set some local variable, and start client \\
+    public void Client(JoinAllocation allocation)
+    {
+        // Start the method to which connects clients to the relay \\
+        SetTransformAsClient(allocation);
+        Debug.Log("Joined to relay");
+
+        UserData.lobbyID = lobby.Id;
+        UserData.lobby = lobby;
+
+        // Start client \\
+        NetworkManager.Singleton.StartClient();
+    }
+
+    // Client transport \\
     private void SetTransformAsClient(JoinAllocation a)
     {
         Transport.SetRelayServerData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
     }
 
+    // Handles when the players leaving the lobby \\
     public async void LeaveLobby()
     {
+        // Send Cancellation request to the tokens \\
+        _heartbeatSource?.Cancel();
+        _updateLobbySource?.Cancel();
         try
         {
-            NetworkManager.Singleton.Shutdown();
-            if (UserData.lobby.HostId == UserData.userId)
+            // Runs when the client is the Host \\
+            if (NetworkManager.Singleton.IsHost)
             {
                 try
                 {
+                    // Switch everyone back to the Join-Create Game Scene \\
+                    NetworkManager.Singleton.SceneManager.LoadScene("Join-Create Game", LoadSceneMode.Single);
+                    await Task.Delay(1000);
+                    // Shut down the host and delete the lobby, set the lobby variable to null \\
+                    NetworkManager.Singleton.Shutdown();
                     await LobbyService.Instance.DeleteLobbyAsync(UserData.lobby.Id);
+                    lobby = null;
                 }
                 catch (LobbyServiceException e)
                 {
                     Debug.Log(e);
                 }
             }
+            // Runs when we have a simple client \\
             else
             {
+                // Shut down the connection and remove the player from the lobby \\
+                NetworkManager.Singleton.Shutdown();
                 await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, UserData.userId);
+                lobby = null;
             }
+            // Load tje Join-Create Game scene \\
             SceneManager.LoadScene("Join-Create Game");
         }
         catch (LobbyServiceException e)
@@ -192,16 +219,77 @@ public class LobbyManager : Singeltone<LobbyManager>
             Debug.Log(e);
         }
     }
-    
-    // Hearbeat to the lobby, so it won't die
-    IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
+    // Handles when the player close the game without clicking the close button \\
+    public async void LeaveLobby(ulong clientId)
     {
-        var delay = new WaitForSecondsRealtime(waitTimeSeconds);
-
-        while (true)
+        // Send Cancellation request to the tokens \\
+        _heartbeatSource?.Cancel();
+        _updateLobbySource?.Cancel();
+        try
         {
-            LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
-            yield return delay;
+            // Runs when the client is the Host \\
+            if (ParentPlayerToInSceneNetworkObject.Instance.players[0].ClientId == clientId)
+            {
+                try
+                {
+                    // Switch everyone back to the Join-Create Game Scene \\
+                    NetworkManager.Singleton.SceneManager.LoadScene("Join-Create Game", LoadSceneMode.Single);
+                    await Task.Delay(1000);
+                    // Shut down the host and delete the lobby, set the lobby variable to null \\
+                    NetworkManager.Singleton.Shutdown();
+                    await LobbyService.Instance.DeleteLobbyAsync(UserData.lobby.Id);
+                    lobby = null;
+                }
+                catch (LobbyServiceException e)
+                {
+                    Debug.Log(e);
+                }
+            }
+            // Runs when we have a simple client \\
+            else
+            {
+                foreach(var player in ParentPlayerToInSceneNetworkObject.Instance.players)
+                {
+                    if (player.ClientId == clientId)
+                    {
+                        // Shut down the connection and remove the player from the lobby \\
+                        await LobbyService.Instance.RemovePlayerAsync(UserData.lobbyID, player.ID.ToString());
+                        lobby = null;
+                    }
+                }
+            }
+            // Load tje Join-Create Game scene \\
+            SceneManager.LoadScene("Join-Create Game");
         }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    // Heartbeat to the lobby, so it won't die \\
+    private static async void Heartbeat()
+    {
+        // Makes a new token and until cancellation is requested it pings the lobby every now and then to kep it allive \\
+        _heartbeatSource = new CancellationTokenSource();
+        while (!_heartbeatSource.IsCancellationRequested && lobby != null)
+        {
+            await Lobbies.Instance.SendHeartbeatPingAsync(lobby.Id);
+            await Task.Delay(HeartbeatInterval * 1000);
+        }
+    }
+
+    // Refreshes the lobby so it stays accurate \\
+    private static async void PeriodicallyRefreshLobby()
+    {
+        // Makes a new token and until cancellation is requested it refreshes the lobby every now and then \\
+        _updateLobbySource = new CancellationTokenSource();
+        await Task.Delay(LobbyRefreshRate * 1000);
+        while (!_updateLobbySource.IsCancellationRequested && lobby != null)
+        {
+            lobby = await Lobbies.Instance.GetLobbyAsync(lobby.Id);
+            CurrentLobbyRefreshed?.Invoke(lobby);
+            await Task.Delay(LobbyRefreshRate * 1000);
+        } 
     }
 }

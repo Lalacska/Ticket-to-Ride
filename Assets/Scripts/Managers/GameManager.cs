@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : Singeltone<GameManager>
+public class GameManager : Singleton<GameManager>
 {
     #region Variables
     // Here we make list for the diffrent kinds of cards piles. \\
@@ -124,7 +124,7 @@ public class GameManager : Singeltone<GameManager>
 
 
     /// <summary>
-    /// This part is for all the driffrent Draw functions, that is being used in the game. \\
+    /// This part is for all the different Draw functions that are being used in the game. \\
     /// </summary>
 
     #region DrawFunctions

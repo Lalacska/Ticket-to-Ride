@@ -9,18 +9,24 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
-public class CreateScene : Singeltone<CreateScene>
+public class CreateScene : MonoBehaviour
 {
     [SerializeField] TMP_InputField lobbyname;
     [SerializeField] Slider players;
 
-    //Send the data to CreateLobby function then send the user to another scene
+    // Gets data then sends it to CreatLobby function \\
     public void CreateButtonclick()
     {
         string lobbyName = lobbyname.GetComponent<TMP_InputField>().text;
         int maxPlayers = Convert.ToInt32(players.value);
-        Task<bool> runing = LobbyManager.Instance.CreateLobby(lobbyName, maxPlayers);
-        SceneManager.LoadScene("LobbyScene");
+        LobbyManager.Instance.CreateLobby(lobbyName, maxPlayers);
+    }
+
+    // Switch the scene back to Join-Create Game
+   public void CloseButton()
+    {
+        SceneManager.LoadScene("Join-Create Game");
     }
 }

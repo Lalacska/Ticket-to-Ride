@@ -481,7 +481,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1967584342}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Auth, Assembly-CSharp
         m_MethodName: RegisterOpenButtonclick
         m_Mode: 1
@@ -885,7 +885,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1967584342}
+      - m_Target: {fileID: 1593705500}
         m_TargetAssemblyTypeName: Auth, Assembly-CSharp
         m_MethodName: LoginButtonclick
         m_Mode: 1
@@ -1365,6 +1365,72 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1593705498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593705501}
+  - component: {fileID: 1593705500}
+  - component: {fileID: 1593705499}
+  m_Layer: 0
+  m_Name: Authentication
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1593705499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593705498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1619304921
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1593705500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593705498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aceee47065c8fc45bd20a0decbad7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttons: {fileID: 0}
+  username: {fileID: 0}
+  password: {fileID: 0}
+  errorMessages: {fileID: 0}
+  url: 
+--- !u!4 &1593705501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593705498}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1343.8525, y: 659.35077, z: 253.39203}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1763384753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,33 +1642,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1967584343}
-  - component: {fileID: 1967584342}
   - component: {fileID: 1967584345}
   - component: {fileID: 1967584344}
   m_Layer: 0
-  m_Name: Authentication
+  m_Name: NetworkManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1967584342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967584341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aceee47065c8fc45bd20a0decbad7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _buttons: {fileID: 502123437}
-  username: {fileID: 0}
-  password: {fileID: 0}
-  errorMessages: {fileID: 0}
-  url: 
 --- !u!4 &1967584343
 Transform:
   m_ObjectHideFlags: 0
@@ -1663,13 +1711,78 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1967584344}
-    PlayerPrefab: {fileID: 8524904791633794036, guid: abc99d68095808c4d9099d183cd81565, type: 3}
+    PlayerPrefab: {fileID: 0}
     NetworkPrefabs:
     - Override: 0
-      Prefab: {fileID: 8524904791633794036, guid: abc99d68095808c4d9099d183cd81565, type: 3}
+      Prefab: {fileID: 8204703879503577446, guid: 9c8cb3ce2d4b8db4ab5ed24711053e13, type: 3}
       SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
+      SourceHashToOverride: 2374768627
+      OverridingTargetPrefab: {fileID: 8718359467084168268, guid: ef9fe235a7246394da733de296c8a8a7, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 204350427
+      OverridingTargetPrefab: {fileID: 640460593310163100, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
+    - Override: 0
+      Prefab: {fileID: 3750669027880892067, guid: ce04d87a163dac743bc3472f6f0af950, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 2374768627
+      OverridingTargetPrefab: {fileID: 8718359467084168268, guid: ef9fe235a7246394da733de296c8a8a7, type: 3}
+    - Override: 0
+      Prefab: {fileID: 6062674968603221196, guid: cd8a901b98f605c4d977758b22362610, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 2374768627
+      OverridingTargetPrefab: {fileID: 8718359467084168268, guid: ef9fe235a7246394da733de296c8a8a7, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 1063960531
+      OverridingTargetPrefab: {fileID: 7043902844449248326, guid: 63c0477633845464493589de9526702b, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 6458506
+      OverridingTargetPrefab: {fileID: 3230014194186434560, guid: 2f5d16b0443939e4a8e11efff62a41b4, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 1709204253
+      OverridingTargetPrefab: {fileID: 1281408459753953848, guid: 535d5efebd5177849ab77e50775992f9, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 702335286
+      OverridingTargetPrefab: {fileID: 3480553315656616973, guid: c8a496a69b3b21a43b5277d731d70cd3, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 4128961674
+      OverridingTargetPrefab: {fileID: 516206987313256511, guid: bcc5d6f0ffc70a447be86c076068237b, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 2826591321
+      OverridingTargetPrefab: {fileID: 8209193519175522178, guid: 11c77d7542405734c81537de6e4f5ce8, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 841397417
+      OverridingTargetPrefab: {fileID: 7247818150792116594, guid: a5714a04995d8b040b11da56aa25141d, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 3383288299
+      OverridingTargetPrefab: {fileID: 5866094860414650541, guid: d07c5f2012bf34b47ae49e4d52d7bd08, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 1957078155
+      OverridingTargetPrefab: {fileID: 980244811904355118, guid: 5dc8c94b9afc93a4aaf0f8de0062f91b, type: 3}
+    - Override: 2
+      Prefab: {fileID: 0}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 2374768627
+      OverridingTargetPrefab: {fileID: 8718359467084168268, guid: ef9fe235a7246394da733de296c8a8a7, type: 3}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
