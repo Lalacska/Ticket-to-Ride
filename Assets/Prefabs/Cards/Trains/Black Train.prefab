@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 7504130894838866288}
   - component: {fileID: 7504130894838866287}
   - component: {fileID: 7504130894838866286}
+  - component: {fileID: 1667549190749601892}
+  - component: {fileID: 7504130895023850529}
   m_Layer: 0
-  m_Name: Cards (1)
+  m_Name: Black Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7504130894838866289}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.543, y: 0, z: -0.15999998}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 65}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1516189945251915446}
@@ -74,8 +76,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasBeenPlayed: 0
   handIndex: 0
-  Color: 
+  Color: Black
   ownerID: 0
+  CardID: 4
+--- !u!114 &1667549190749601892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7504130894838866289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &7504130895023850529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7504130894838866289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &7504130893935862704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,11 +141,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8466734476316829330, guid: e15fee607ca5319488477ed4c9689996, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: e15fee607ca5319488477ed4c9689996, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020307575523411206, guid: e15fee607ca5319488477ed4c9689996, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020307575523411206, guid: e15fee607ca5319488477ed4c9689996, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.175
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: e15fee607ca5319488477ed4c9689996, type: 3}
       propertyPath: m_LocalPosition.x

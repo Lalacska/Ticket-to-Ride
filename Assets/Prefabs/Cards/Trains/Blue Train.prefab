@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 3443809874416738215}
   - component: {fileID: 3443809874416738208}
   - component: {fileID: 3443809874416738209}
+  - component: {fileID: 3443809873637584846}
+  - component: {fileID: 7297290692269087362}
   m_Layer: 0
-  m_Name: Cards (2)
+  m_Name: Blue Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3443809874416738214}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.528, y: 0, z: -0.15999998}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 65}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5972986035705267775}
@@ -74,6 +76,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasBeenPlayed: 0
   handIndex: 0
+  Color: Blue
+  ownerID: 0
+  CardID: 5
+--- !u!114 &3443809873637584846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443809874416738214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &7297290692269087362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443809874416738214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1001 &3443809875669435193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,11 +141,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8466734476316829330, guid: 1564a7df4fc41394cb849a495040dcbe, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 1564a7df4fc41394cb849a495040dcbe, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020307575523411206, guid: 1564a7df4fc41394cb849a495040dcbe, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020307575523411206, guid: 1564a7df4fc41394cb849a495040dcbe, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.175
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 1564a7df4fc41394cb849a495040dcbe, type: 3}
       propertyPath: m_LocalPosition.x

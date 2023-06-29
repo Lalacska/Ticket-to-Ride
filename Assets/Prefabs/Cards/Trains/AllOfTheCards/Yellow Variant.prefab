@@ -7,22 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3499588889377960704, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.175
-      objectReference: {fileID: 0}
-    - target: {fileID: 3499588889377960704, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.175
-      objectReference: {fileID: 0}
-    - target: {fileID: 3499588889377960704, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3499588889377960704, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4089402991385940116, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -77,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5602364133754088633, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5602364133754088634, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
       propertyPath: Color
@@ -108,6 +92,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 951099334
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &5971870683125099170
@@ -134,5 +121,9 @@ MonoBehaviour:
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
   InLocalSpace: 0
   Interpolate: 1
+  SlerpPosition: 0

@@ -11,14 +11,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2241986478670294441, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.175
-      objectReference: {fileID: 0}
-    - target: {fileID: 2241986478670294441, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.175
-      objectReference: {fileID: 0}
     - target: {fileID: 7076196390855846924, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
       propertyPath: Color
       value: Green
@@ -77,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7076196390855846927, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
@@ -100,6 +92,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 951099334
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &8470456560919072862
@@ -126,5 +121,9 @@ MonoBehaviour:
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
   InLocalSpace: 0
   Interpolate: 1
+  SlerpPosition: 0

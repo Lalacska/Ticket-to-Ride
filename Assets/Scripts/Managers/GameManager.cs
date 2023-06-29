@@ -2,12 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
     #region Variables
+
+    [SerializeField] private Transform Bruh;
+
+    [SerializeField] private Transform BlackPrefab;
+    [SerializeField] private Transform BluePrefab;
+    [SerializeField] private Transform BrownPrefab;
+    [SerializeField] private Transform GreenPrefab;
+    [SerializeField] private Transform OrangePrefab;
+    [SerializeField] private Transform PurplePrefab;
+    [SerializeField] private Transform WhitePrefab;
+    [SerializeField] private Transform YellowPrefab;
+    [SerializeField] private Transform RainbowPrefab;
+    [SerializeField] private GameObject Cards;
+    
+
     // Here we make list for the diffrent kinds of cards piles. \\
     public List<Card> deck = new List<Card>();
     public List<Card> DestinationTicket = new List<Card>();
@@ -97,6 +113,8 @@ public class GameManager : Singleton<GameManager>
 
     public Text TdiscardPileText;
 
+    private NetworkObject m;
+    
     #endregion Variables
 
 
@@ -106,9 +124,97 @@ public class GameManager : Singleton<GameManager>
         DrawcardSpecialDestination();
     }
 
+    public override void OnNetworkSpawn()
+    {
+        //Something();
+        CreateCards();
+    }
+
+    private void CreateCards()
+    {
+        GameObject cards = Instantiate(Cards, Vector3.up, Quaternion.identity);
+        cards.GetComponent<NetworkObject>().Spawn(true);
+        int Idcounter = 1;
+        Idcounter = CardLoop(false, BlackPrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, BluePrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, BrownPrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, GreenPrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, OrangePrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, PurplePrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, WhitePrefab, Idcounter, cards);
+        Idcounter = CardLoop(false, YellowPrefab, Idcounter, cards);
+        Idcounter = CardLoop(true, RainbowPrefab, Idcounter, cards);
+    }
+
+    private int CardLoop(bool rainbow, Transform prefab, int ID, GameObject Deck)
+    {
+        int counter = 12;
+        if (rainbow)
+        {
+            counter = 14;
+        }
+        for (int i = 0; i < counter; i++)
+        {
+            Transform go = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            Card card = go.GetComponent<Card>();
+            card.CardID = ID;
+            deck.Add(card);
+            go.GetComponent<NetworkObject>().Spawn(true);
+            go.transform.SetParent(Deck.transform, true);
+            ID++;
+        }
+
+        return ID;
+    }
+
+    private void Something()
+    {
+        Transform go = Instantiate(BlackPrefab, Vector3.zero, Quaternion.identity);
+        Card card = go.GetComponent<Card>();
+        card.CardID = 16;
+        deck.Add(card);
+        go.GetComponent<NetworkObject>().Spawn(true);
+
+    }
+
+    [ClientRpc]
+    void SetVisibilityClientRpc(/*GameObject obj,*/ bool status)
+    {
+        GameObject obj = GameObject.FindGameObjectWithTag("Card");
+        MeshRenderer mesh = obj.gameObject.GetComponent<MeshRenderer>();
+        mesh.enabled = status;
+    }
+
     // This method runs every frame & updates the scenes. \\
     private void Update()
     {
+        if (!IsOwner) return;
+
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            Transform spawnedObjectTransform = Instantiate(Bruh);
+            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Card");
+            if(obj != null)
+            {
+                MeshRenderer mesh = obj.gameObject.GetComponent<MeshRenderer>();
+                SetVisibilityClientRpc(/*obj,*/ true);
+                
+            }
+        } else if (Input.GetKeyUp(KeyCode.G))
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Card");
+            if (obj != null)
+            {
+                MeshRenderer mesh = obj.gameObject.GetComponent<MeshRenderer>();
+                SetVisibilityClientRpc(/*obj,*/ false);
+            }
+        }
+
         deckSizeText.text = deck.Count.ToString();
         decksSizeText.text = DestinationTicket.Count.ToString();
         //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
@@ -164,7 +270,7 @@ public class GameManager : Singleton<GameManager>
                         // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
                         if (RainbowCount == 3)
                         {
-                            await CheckCards();
+                            //await CheckCards();
                         }
                     }
                     Debug.Log(randCard.Color);
@@ -260,7 +366,7 @@ public class GameManager : Singleton<GameManager>
                         // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
                         if (RainbowCount == 3)
                         {
-                             await CheckCards();
+                              CheckCards();
                         }
                     }
                     Debug.Log(randCard.Color);
@@ -277,9 +383,9 @@ public class GameManager : Singleton<GameManager>
 
     // This method is for checking the cards on the board. \\
     // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
-    public async Task CheckCards()
+    public void /*Task*/ CheckCards()
     {
-        await Task.Delay(1000);
+        //await Task.Delay(1000);
         for (int b = 0; b < availbleDiscardPileCardSlots.Length; b++)
         {
             Card delete = board[0];

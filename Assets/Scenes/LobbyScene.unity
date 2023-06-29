@@ -157,6 +157,7 @@ MonoBehaviour:
   codeToSpawn: {fileID: 8524904791633794036, guid: abc99d68095808c4d9099d183cd81565, type: 3}
   joinCode: {fileID: 7880194363173780623}
   Spawnbutton: {fileID: 3399905117010380573, guid: ce04d87a163dac743bc3472f6f0af950, type: 3}
+  spawnObjectPrefab: {fileID: 7081116287128019603, guid: 12d08cf7f84320742b2af55785fa51f6, type: 3}
 --- !u!4 &184608935
 Transform:
   m_ObjectHideFlags: 0
@@ -198,6 +199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3680259624
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &710404364
@@ -324,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -380,6 +385,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 90342110
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &1901313284
@@ -905,6 +913,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 686250510
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &7880194363173780621
@@ -1057,6 +1068,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 2244360052
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1 &8426194289758244264

@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ef49db3e0010db245af69db95796c2eb, type: 2}
+  - {fileID: 2100000, guid: 9a26de8e208deea4295d3bdea69b64d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 6005448937909973540}
   - component: {fileID: 9005010734264294227}
   m_Layer: 0
-  m_Name: Train Card 5
+  m_Name: Train Card 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ Transform:
   m_GameObject: {fileID: 8466734476316829330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.508, y: 0, z: 0.982}
-  m_LocalScale: {x: 0.2, y: 0.001, z: 0.2}
+  m_LocalScale: {x: 0.175, y: 0.001, z: 0.175}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6962688413669375984}

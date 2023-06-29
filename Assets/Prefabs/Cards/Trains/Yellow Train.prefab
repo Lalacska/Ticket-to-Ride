@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 5602364133754088628}
   - component: {fileID: 5602364133754088635}
   - component: {fileID: 5602364133754088634}
+  - component: {fileID: 6685384338288368135}
+  - component: {fileID: 1646807009943292914}
   m_Layer: 0
-  m_Name: Cards (8)
+  m_Name: Yellow Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5602364133754088633}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.064999975, y: 0, z: -0.15999998}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 100, y: 1, z: 65}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3499588889377960704}
@@ -74,6 +76,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasBeenPlayed: 0
   handIndex: 0
+  Color: Yellow
+  ownerID: 0
+  CardID: 0
+--- !u!114 &6685384338288368135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602364133754088633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1646807009943292914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602364133754088633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1001 &5602364134320535046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8466734476316829330, guid: 7b5d068a2c3a1174182b10840d5d6149, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 7b5d068a2c3a1174182b10840d5d6149, type: 3}
       propertyPath: m_RootOrder
@@ -95,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 7b5d068a2c3a1174182b10840d5d6149, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.508
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 7b5d068a2c3a1174182b10840d5d6149, type: 3}
       propertyPath: m_LocalPosition.y
@@ -103,7 +157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 7b5d068a2c3a1174182b10840d5d6149, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.982
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9020307575523411206, guid: 7b5d068a2c3a1174182b10840d5d6149, type: 3}
       propertyPath: m_LocalRotation.w
