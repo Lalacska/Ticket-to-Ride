@@ -1,3 +1,4 @@
+using Assets.Scripts.Cards;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -22,14 +23,14 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Transform YellowPrefab;
     [SerializeField] private Transform RainbowPrefab;
     [SerializeField] private GameObject Cards;
-    
+
 
     // Here we make list for the diffrent kinds of cards piles. \\
-    public List<Card> deck = new List<Card>();
-    public List<Card> DestinationTicket = new List<Card>();
-    public List<Card> SpecialDestinationTicket = new List<Card>();
-    public List<Card> board = new List<Card>();
-    public List<Card> discardPile = new List<Card>();
+    public NetworkList<Card> deck;
+    public NetworkList<Card> DestinationTicket;
+    public NetworkList<Card> SpecialDestinationTicket;
+    public NetworkList<Card> board;
+    public NetworkList<Card> discardPile;
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
@@ -114,9 +115,17 @@ public class GameManager : Singleton<GameManager>
     public Text TdiscardPileText;
 
     private NetworkObject m;
-    
+
     #endregion Variables
 
+    private void Awake()
+    {
+        deck = new NetworkList<Card>();
+        DestinationTicket = new NetworkList<Card>();
+        SpecialDestinationTicket = new NetworkList<Card>();
+        board = new NetworkList<Card>();
+        discardPile = new NetworkList<Card>();
+    }
 
     // This method runs, when the programs starts. \\
     private void Start()
@@ -129,6 +138,7 @@ public class GameManager : Singleton<GameManager>
         //Something();
         CreateCards();
     }
+
 
     private void CreateCards()
     {
@@ -146,6 +156,7 @@ public class GameManager : Singleton<GameManager>
         Idcounter = CardLoop(true, RainbowPrefab, Idcounter, cards);
     }
 
+    // Spawn every card
     private int CardLoop(bool rainbow, Transform prefab, int ID, GameObject Deck)
     {
         int counter = 12;
@@ -156,6 +167,7 @@ public class GameManager : Singleton<GameManager>
         for (int i = 0; i < counter; i++)
         {
             Transform go = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            go.transform.eulerAngles = new Vector3(0, 180, 0);
             Card card = go.GetComponent<Card>();
             card.CardID = ID;
             deck.Add(card);
@@ -177,12 +189,32 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+    //[ServerRpc]
+    //void SetVisibilityServerRpc(bool status)
+    //{
+    //    GameObject obj = GameObject.FindGameObjectWithTag("Card");
+    //    GameObject cardbase = obj.gameObject.transform.GetChild(0).gameObject;
+    //    MeshRenderer basemesh = cardbase.gameObject.GetComponent<MeshRenderer>();
+    //    GameObject picture = cardbase.gameObject.transform.GetChild(0).gameObject;
+    //    MeshRenderer picturemesh = picture.gameObject.GetComponent<MeshRenderer>();
+    //    picturemesh.enabled = status;
+    //    basemesh.enabled = status;
+    //}
+
+
     [ClientRpc]
-    void SetVisibilityClientRpc(/*GameObject obj,*/ bool status)
+    void SetVisibilityClientRpc(bool status)
     {
+        Debug.Log("HEYO");
         GameObject obj = GameObject.FindGameObjectWithTag("Card");
-        MeshRenderer mesh = obj.gameObject.GetComponent<MeshRenderer>();
-        mesh.enabled = status;
+        GameObject cardbase = obj.gameObject.transform.GetChild(0).gameObject;
+        MeshRenderer basemesh = cardbase.gameObject.GetComponent<MeshRenderer>();
+        GameObject picture = cardbase.gameObject.transform.GetChild(0).gameObject;
+        MeshRenderer picturemesh = picture.gameObject.GetComponent<MeshRenderer>();
+        picturemesh.enabled = status;
+        basemesh.enabled = status;
+        Debug.Log("HEYO 2");
+        //cardbase.SetActive(status);
     }
 
     // This method runs every frame & updates the scenes. \\
@@ -193,6 +225,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyUp(KeyCode.O))
         {
             Transform spawnedObjectTransform = Instantiate(Bruh);
+            spawnedObjectTransform.position = new Vector3(0, 5, 0);
             spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
         }
 
@@ -201,8 +234,8 @@ public class GameManager : Singleton<GameManager>
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
             if(obj != null)
             {
-                MeshRenderer mesh = obj.gameObject.GetComponent<MeshRenderer>();
-                SetVisibilityClientRpc(/*obj,*/ true);
+                Debug.Log("HEY");
+                SetVisibilityClientRpc(true);
                 
             }
         } else if (Input.GetKeyUp(KeyCode.G))
@@ -210,8 +243,8 @@ public class GameManager : Singleton<GameManager>
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
             if (obj != null)
             {
-                MeshRenderer mesh = obj.gameObject.GetComponent<MeshRenderer>();
-                SetVisibilityClientRpc(/*obj,*/ false);
+                Debug.Log("HEY");
+                SetVisibilityClientRpc(false);
             }
         }
 
@@ -223,7 +256,8 @@ public class GameManager : Singleton<GameManager>
         // This if statment runs the automatic board filler until there are no more cards left in the deck. \\
         if(deck.Count >= 1)
         {
-            AutomaticDrawPile();
+            //AutomaticDrawPile();
+            AutomaticDrawPileClientRpc();
         }
     }
 
@@ -239,6 +273,8 @@ public class GameManager : Singleton<GameManager>
     public async void Drawcard()
     {
         Card randCard = deck[0];
+        GameObject rc = transform.parent.GetComponent<GameObject>();
+        Debug.Log(rc);
 
         if (deck.Count >= 1)
         {
@@ -247,10 +283,11 @@ public class GameManager : Singleton<GameManager>
             {
                 if (availbleCardSlots[i] == true)
                 {
-                    randCard.gameObject.SetActive(true);
+                    //randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
 
-                    randCard.transform.position = cardSlots[i].position;
+                    //NetworkObject c = randCard.transform.GetComponent<NetworkObject>();
+                    //c.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = true;
 
                     availbleCardSlots[i] = false;
@@ -327,6 +364,54 @@ public class GameManager : Singleton<GameManager>
                     SpecialDestinationTicket.Remove(randCard);
                     return;
                 }
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void AutomaticDrawPileClientRpc()
+    {
+        //Card randCard = deck[0];
+
+        if (deck.Count >= 1)
+        {
+            Card randCard = deck[Random.Range(0, deck.Count)];
+
+            for (int i = 0; i < availbleCardSlots.Length; i++)
+            {
+                if (availbleCardSlots[i] == true)
+                {
+                    //randCard.gameObject.SetActive(true);
+
+                    randCard.handIndex = i;
+
+                    randCard.transform.position = cardSlots[i].position;
+                    randCard.hasBeenPlayed = true;
+
+                    availbleCardSlots[i] = false;
+                    deck.Remove(randCard);
+                    board.Add(randCard);
+
+                    CardSlots(randCard, i);
+
+                    // Here we check if a Rainbow cards is drawn onto the board. \\
+                    if (randCard.Color == "Rainbow")
+                    {
+                        RainbowCount++;
+                        Debug.Log(RainbowCount);
+                    }
+                    if (availbleCardSlots[4] == false)
+                    {
+                        // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
+                        if (RainbowCount == 3)
+                        {
+                            CheckCards();
+                        }
+                    }
+                    Debug.Log(randCard.Color);
+                    return;
+                }
+                //Debug.Log(cardSlots);
             }
         }
     }
