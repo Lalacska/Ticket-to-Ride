@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3443809874416738209}
   - component: {fileID: 3443809873637584846}
   - component: {fileID: 7297290692269087362}
+  - component: {fileID: -8728303875588274220}
   m_Layer: 0
   m_Name: Blue Train
   m_TagString: Untagged
@@ -123,6 +124,22 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-8728303875588274220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443809874416738214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasBeenPlayed: 0
+  handIndex: 0
+  Color: Blue
+  ownerID: 0
 --- !u!1001 &3443809875669435193
 PrefabInstance:
   m_ObjectHideFlags: 0

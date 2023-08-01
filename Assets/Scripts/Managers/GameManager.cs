@@ -15,25 +15,31 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private Transform Bruh;
 
-    [SerializeField] private Transform BlackPrefab;
-    [SerializeField] private Transform BluePrefab;
-    [SerializeField] private Transform BrownPrefab;
-    [SerializeField] private Transform GreenPrefab;
-    [SerializeField] private Transform OrangePrefab;
-    [SerializeField] private Transform PurplePrefab;
-    [SerializeField] private Transform WhitePrefab;
-    [SerializeField] private Transform YellowPrefab;
-    [SerializeField] private Transform RainbowPrefab;
-    [SerializeField] private GameObject Cards; 
+    [SerializeField] private GameObject BlackPrefab;
+    [SerializeField] private GameObject BluePrefab;
+    [SerializeField] private GameObject BrownPrefab;
+    [SerializeField] private GameObject GreenPrefab;
+    [SerializeField] private GameObject OrangePrefab;
+    [SerializeField] private GameObject PurplePrefab;
+    [SerializeField] private GameObject WhitePrefab;
+    [SerializeField] private GameObject YellowPrefab;
+    [SerializeField] private GameObject RainbowPrefab;
+    [SerializeField] private GameObject Cards;
 
 
 
-    // Here we make list for the diffrent kinds of cards piles. \\
-    public NetworkList<CardStruct> deck;
-    public NetworkList<CardStruct> DestinationTicket;
-    public NetworkList<CardStruct> SpecialDestinationTicket;
-    public NetworkList<CardStruct> board;
-    public NetworkList<CardStruct> discardPile;
+    //// Here we make list for the diffrent kinds of cards piles. \\
+    //public NetworkList<CardStruct> deck;
+    //public NetworkList<CardStruct> DestinationTicket;
+    //public NetworkList<CardStruct> SpecialDestinationTicket;
+    //public NetworkList<CardStruct> board;
+    //public NetworkList<CardStruct> discardPile;
+    public List<CardVariables> deck;
+    public List<CardVariables> DestinationTicket;
+    public List<CardVariables> SpecialDestinationTicket;
+    public List<CardVariables> board;
+    public List<CardVariables> discardPile;
+
 
 
 
@@ -120,96 +126,38 @@ public class GameManager : Singleton<GameManager>
 
     private NetworkObject m;
 
+    private int CardsSpawnCounter = 0;
+
+    public bool DestroyWithSpawner;
+    private NetworkObject m_SpawnedNetworkObject;
+
     #endregion Variables
 
     private void Awake()
     {
-        deck = new NetworkList<CardStruct>();
-        DestinationTicket = new NetworkList<CardStruct>();
-        SpecialDestinationTicket = new NetworkList<CardStruct>();
-        board = new NetworkList<CardStruct>();
-        discardPile = new NetworkList<CardStruct>();
+        //deck = new NetworkList<CardStruct>();
+        //DestinationTicket = new NetworkList<CardStruct>();
+        //SpecialDestinationTicket = new NetworkList<CardStruct>();
+        //board = new NetworkList<CardStruct>();
+        //discardPile = new NetworkList<CardStruct>();
+        deck = new List<CardVariables>();
+        DestinationTicket = new List<CardVariables>();
+        SpecialDestinationTicket = new List<CardVariables>();
+        board = new List<CardVariables>();
+        discardPile = new List<CardVariables>();
     }
 
     // This method runs, when the programs starts. \\
     private void Start()
     {
-        //DrawcardSpecialDestination();
-        CreateCardsServerRpc();
-    }
-
-    private void OnDestroy()
-    {
-        Debug.Log(":c");
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        //Something();
-        //CreateCardsClientRpc();
-    }
-
-   
-
-   [ServerRpc(RequireOwnership = false)]
-    private void CreateCardsServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        GameObject cards = Instantiate(Cards, Vector3.up, Quaternion.identity);
-        cards.GetComponent<NetworkObject>().Spawn(true);
-        int Idcounter = 1;
-        Idcounter = CardLoop(false, BlackPrefab, Idcounter, cards, "Black");
-        Idcounter = CardLoop(false, BluePrefab, Idcounter, cards, "Blue");
-        Idcounter = CardLoop(false, BrownPrefab, Idcounter, cards, "Brown");
-        Idcounter = CardLoop(false, GreenPrefab, Idcounter, cards, "Green");
-        Idcounter = CardLoop(false, OrangePrefab, Idcounter, cards, "Orange");
-        Idcounter = CardLoop(false, PurplePrefab, Idcounter, cards, "Purple");
-        Idcounter = CardLoop(false, WhitePrefab, Idcounter, cards, "White");
-        Idcounter = CardLoop(false, YellowPrefab, Idcounter, cards, "Yellow");
-        Idcounter = CardLoop(true, RainbowPrefab, Idcounter, cards, "Rainbow");
-    }
-
-    // Spawn every card
-    private int CardLoop(bool rainbow, Transform prefab, int ID, GameObject Deck, string color)
-    {
-        int counter = 12;
-        if (rainbow)
-        {
-            counter = 14;
-        }
-        for (int i = 0; i < counter; i++)
-        {
-            Transform go = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            go.transform.eulerAngles = new Vector3(0, 180, 0);
-            go.GetComponent<NetworkObject>().Spawn(true);
-            go.transform.SetParent(Deck.transform, true);
-            //Card card = go.GetComponent<Card>();
-            //CardStruct cs = new CardStruct();
-            //cs.CardID = ID;
-            //cs.Color = color;
-            //go.name = color + i;
-            //cs.CardName = go.name;
-            //card.Cardstruct = cs;
-            //deck.Add(card.Cardstruct);
-            ID++;
-        }
-
-        return ID;
-    }
-
-    private void Something()
-    {
-        Transform go = Instantiate(BlackPrefab, Vector3.zero, Quaternion.identity);
-        Card card = go.GetComponent<Card>();
-        //card.CardID = 16;
-        //deck.Add(card);
-        go.GetComponent<NetworkObject>().Spawn(true);
-
+        AutomaticDrawPile();
     }
 
 
-    //[ServerRpc]
-    //void SetVisibilityServerRpc(bool status)
+    //[ClientRpc]
+    //void SetVisibilityClientRpc(bool status)
     //{
+    //    Debug.Log("HEYO");
     //    GameObject obj = GameObject.FindGameObjectWithTag("Card");
     //    GameObject cardbase = obj.gameObject.transform.GetChild(0).gameObject;
     //    MeshRenderer basemesh = cardbase.gameObject.GetComponent<MeshRenderer>();
@@ -217,42 +165,18 @@ public class GameManager : Singleton<GameManager>
     //    MeshRenderer picturemesh = picture.gameObject.GetComponent<MeshRenderer>();
     //    picturemesh.enabled = status;
     //    basemesh.enabled = status;
+    //    Debug.Log("HEYO 2");
+    //    //cardbase.SetActive(status);
     //}
-
-    //[ClientRpc]
-    //public void SyncListsClientRpc(NetworkList<CardStruct> s_deck, NetworkList<CardStruct> s_DestinationTicket, NetworkList<CardStruct> s_SpecialDestinationTicket, NetworkList<CardStruct> s_board, NetworkList<CardStruct> s_discardPile)
-    //{
-    //    deck = s_deck;
-    //    DestinationTicket = s_DestinationTicket;
-    //    SpecialDestinationTicket = s_SpecialDestinationTicket;
-    //    board = s_board;
-    //    discardPile = s_discardPile;
-    //}
-
-
-    [ClientRpc]
-    void SetVisibilityClientRpc(bool status)
-    {
-        Debug.Log("HEYO");
-        GameObject obj = GameObject.FindGameObjectWithTag("Card");
-        GameObject cardbase = obj.gameObject.transform.GetChild(0).gameObject;
-        MeshRenderer basemesh = cardbase.gameObject.GetComponent<MeshRenderer>();
-        GameObject picture = cardbase.gameObject.transform.GetChild(0).gameObject;
-        MeshRenderer picturemesh = picture.gameObject.GetComponent<MeshRenderer>();
-        picturemesh.enabled = status;
-        basemesh.enabled = status;
-        Debug.Log("HEYO 2");
-        //cardbase.SetActive(status);
-    }
 
     // This method runs every frame & updates the scenes. \\
     private void Update()
     {
         if (!IsOwner) return;
 
-        if (Input.GetKeyUp(KeyCode.O))
+        if (Input.GetKeyUp(KeyCode.N))
         {
-            Transform spawnedObjectTransform = Instantiate(Bruh);
+            Transform spawnedObjectTransform =  Instantiate(Bruh);
             spawnedObjectTransform.position = new Vector3(0, 5, 0);
             spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
         }
@@ -263,7 +187,7 @@ public class GameManager : Singleton<GameManager>
             if(obj != null)
             {
                 Debug.Log("HEY");
-                SetVisibilityClientRpc(true);
+                //SetVisibilityClientRpc(true);
                 
             }
         } else if (Input.GetKeyUp(KeyCode.G))
@@ -272,7 +196,7 @@ public class GameManager : Singleton<GameManager>
             if (obj != null)
             {
                 Debug.Log("HEY");
-                SetVisibilityClientRpc(false);
+                //SetVisibilityClientRpc(false);
             }
         }
 
@@ -300,17 +224,22 @@ public class GameManager : Singleton<GameManager>
     // This method is for the Train-Destination Drawpile. \\
     public async void Drawcard()
     {
-        CardStruct randCard = deck[0];
-        GameObject rc = transform.parent.GetComponent<GameObject>();
-        Debug.Log(rc);
 
         if (deck.Count >= 1)
         {
+            GameObject randomCardPrefab = CardColorByNumber(Random.Range(1, 111));
+            NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+            _card.GetComponent<NetworkObject>().Spawn(true);
+            CardVariables randCard = _card.GetComponent<CardVariables>();
+            GameObject rc = transform.parent.GetComponent<GameObject>();
+            Debug.Log(rc);
             //Card randCard = deck[Random.Range(0, deck.Count)];
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
                 if (availbleCardSlots[i] == true)
                 {
+                    
+
                     //randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
 
@@ -322,7 +251,7 @@ public class GameManager : Singleton<GameManager>
                     deck.Remove(randCard);
                     board.Add(randCard);
 
-                    CardSlots(randCard, i);
+                    //CardSlots(randCard, i);
 
                     // Here we check if a Rainbow cards is drawn onto the board. \\
                     if (randCard.Color == "Rainbow")
@@ -351,7 +280,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (DestinationTicket.Count >= 1)
         {
-            CardStruct randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
+            CardVariables randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
 
             for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
             {
@@ -376,7 +305,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (SpecialDestinationTicket.Count >= 1)
         {
-            CardStruct randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
+            CardVariables randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
 
             for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
             {
@@ -403,25 +332,25 @@ public class GameManager : Singleton<GameManager>
 
         if (deck.Count >= 1)
         {
-            CardStruct randCard = deck[Random.Range(0, deck.Count)];
+            CardVariables randCard = deck[Random.Range(0, deck.Count)];
 
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
                 if (availbleCardSlots[i] == true)
                 {
                     //randCard.gameObject.SetActive(true);
-                    GameObject cardObject = GameObject.Find(randCard.CardName.ToString());
+                    //GameObject cardObject = GameObject.Find(randCard.CardName.ToString());
 
                     randCard.handIndex = i;
 
-                    cardObject.transform.position = cardSlots[i].position;
+                    //cardObject.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = true;
 
                     availbleCardSlots[i] = false;
                     deck.Remove(randCard);
                     board.Add(randCard);
 
-                    CardSlots(randCard, i);
+                    //CardSlots(randCard, i);
 
                     // Here we check if a Rainbow cards is drawn onto the board. \\
                     if (randCard.Color == "Rainbow")
@@ -452,17 +381,24 @@ public class GameManager : Singleton<GameManager>
 
         if (deck.Count >= 1)
         {
-            CardStruct randCard = deck[Random.Range(0, deck.Count)];
+            
+            //GameObject rc = transform.parent.GetComponent<GameObject>();
+            //Debug.Log(rc);
+            //CardVariables randCard = deck[Random.Range(0, deck.Count)];
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
+                GameObject randomCardPrefab = CardColorByNumber(Random.Range(1, 111));
+                NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+                _card.GetComponent<NetworkObject>().Spawn(true);
+                CardVariables randCard = _card.GetComponent<CardVariables>();
                 if (availbleCardSlots[i] == true)
                 {
                     //randCard.gameObject.SetActive(true);
-                    GameObject cardObject = GameObject.Find(randCard.CardName.ToString());
+                    //GameObject cardObject = GameObject.Find(randCard.CardName.ToString());
 
                     randCard.handIndex = i;
 
-                    cardObject.transform.position = cardSlots[i].position;
+                    _card.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = true;
 
                     availbleCardSlots[i] = false;
@@ -486,13 +422,58 @@ public class GameManager : Singleton<GameManager>
                         }
                     }
                     Debug.Log(randCard.Color);
-                    return;
+                    //return;
                 }
-                //Debug.Log(cardSlots);
+                Debug.Log(cardSlots);
             }
         }
         //SyncListsClientRpc(deck, DestinationTicket, SpecialDestinationTicket, board, discardPile);
     }
+
+    private GameObject CardColorByNumber(int number)
+    {
+
+        if(1<=number && number <= 12)
+        {
+            return BlackPrefab;
+        }
+        else if (13 <= number && number <= 24)
+        {
+            return BluePrefab;
+        }
+        else if (25 <= number && number <= 36)
+        {
+            return BrownPrefab;
+        }
+        else if (37 <= number && number <= 48)
+        {
+            return GreenPrefab;
+        }
+        else if (49 <= number && number <= 60)
+        {
+            return OrangePrefab;
+        }
+        else if (61 <= number && number <= 72)
+        {
+            return PurplePrefab;
+        }
+        else if (73 <= number && number <= 84)
+        {
+            return WhitePrefab;
+        }
+        else if (85 <= number && number <= 96)
+        {
+            return YellowPrefab;
+        }
+        else
+        {
+            return RainbowPrefab;
+        }
+    }
+
+
+
+
 
     #endregion DrawFunctions
 
@@ -505,7 +486,7 @@ public class GameManager : Singleton<GameManager>
         //await Task.Delay(1000);
         for (int b = 0; b < availbleDiscardPileCardSlots.Length; b++)
         {
-            CardStruct delete = board[0];
+            CardVariables delete = board[0];
             //delete.transform.position = discardPileDestination[b].position;
             availbleDiscardPileCardSlots[b] = false;
             availbleCardSlots[b] = true;
@@ -517,7 +498,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     // This methos finds the cardslot the user presed & passes the id off. \\ 
-    public void CardSlots(CardStruct card, int i)
+    public void CardSlots(CardVariables card, int i)
     {
         CardSlotsID cardslotsid = new CardSlotsID();
         if (i == 0)
@@ -551,7 +532,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (discardPile.Count >= 1)
         {
-            foreach (CardStruct card in discardPile)
+            foreach (CardVariables card in discardPile)
             {
                 deck.Add(card);
             }
@@ -568,7 +549,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     // This method is for changeing the playces of the cards. \\
-    public void CardColorPick(CardStruct card, int i)
+    public void CardColorPick(CardVariables card, int i)
     {
         if (PlayerPickCount <= 1)
         {
@@ -638,7 +619,7 @@ public class GameManager : Singleton<GameManager>
             lastcard = card.Color;
             // When the color has been found, it will be added to the playerhand.\\
             // Card delete = board[0];
-            CardStruct delete = card;
+            CardVariables delete = card;
             //delete.transform.position = discardPileDestination[0].position;
             availbleDiscardPileCardSlots[0] = false;
             availbleCardSlots[i] = true;
@@ -790,12 +771,12 @@ public class GameManager : Singleton<GameManager>
     {
         CardSlotsID slot = new CardSlotsID();
         slot = cardslot1.GetComponent<CardSlotsID>();
-        foreach (CardStruct card in board)
+        foreach (CardVariables card in board)
         {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 0);
-            }
+            //if (card.CardID == slot.cardslotCardID)
+            //{
+            //    CardColorPick(card, 0);
+            //}
         }
     }
 
@@ -804,12 +785,12 @@ public class GameManager : Singleton<GameManager>
     {
         CardSlotsID slot = new CardSlotsID();
         slot = cardslot2.GetComponent<CardSlotsID>();
-        foreach (CardStruct card in board)
+        foreach (CardVariables card in board)
         {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 1);
-            }
+            //if (card.CardID == slot.cardslotCardID)
+            //{
+            //    CardColorPick(card, 1);
+            //}
         }
     }
 
@@ -818,12 +799,12 @@ public class GameManager : Singleton<GameManager>
     {
         CardSlotsID slot = new CardSlotsID();
         slot = cardslot3.GetComponent<CardSlotsID>();
-        foreach (CardStruct card in board)
+        foreach (CardVariables card in board)
         {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 2);
-            }
+            //if (card.CardID == slot.cardslotCardID)
+            //{
+            //    CardColorPick(card, 2);
+            //}
         }
     }
 
@@ -832,12 +813,12 @@ public class GameManager : Singleton<GameManager>
     {
         CardSlotsID slot = new CardSlotsID();
         slot = cardslot4.GetComponent<CardSlotsID>();
-        foreach (CardStruct card in board)
+        foreach (CardVariables card in board)
         {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 3);
-            }
+            //if (card.CardID == slot.cardslotCardID)
+            //{
+            //    CardColorPick(card, 3);
+            //}
         }
     }
 
@@ -846,12 +827,12 @@ public class GameManager : Singleton<GameManager>
     {
         CardSlotsID slot = new CardSlotsID();
         slot = cardslot5.GetComponent<CardSlotsID>();
-        foreach (CardStruct card in board)
+        foreach (CardVariables card in board)
         {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 4);
-            }
+            //if (card.CardID == slot.cardslotCardID)
+            //{
+            //    CardColorPick(card, 4);
+            //}
         }
     }
 

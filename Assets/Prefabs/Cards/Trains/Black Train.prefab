@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7504130894838866286}
   - component: {fileID: 1667549190749601892}
   - component: {fileID: 7504130895023850529}
+  - component: {fileID: -9219556702740858272}
   m_Layer: 0
   m_Name: Black Train
   m_TagString: Untagged
@@ -123,6 +124,22 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
+--- !u!114 &-9219556702740858272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7504130894838866289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasBeenPlayed: 0
+  handIndex: 0
+  Color: Black
+  ownerID: 0
 --- !u!1001 &7504130893935862704
 PrefabInstance:
   m_ObjectHideFlags: 0

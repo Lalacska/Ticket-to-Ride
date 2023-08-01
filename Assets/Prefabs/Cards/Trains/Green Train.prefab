@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7076196390855846924}
   - component: {fileID: 261764074332529303}
   - component: {fileID: -756502065441450261}
+  - component: {fileID: -4988757234208895816}
   m_Layer: 0
   m_Name: Green Train
   m_TagString: Untagged
@@ -123,6 +124,22 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-4988757234208895816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076196390855846927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasBeenPlayed: 0
+  handIndex: 0
+  Color: Green
+  ownerID: 0
 --- !u!1001 &7076196390212839599
 PrefabInstance:
   m_ObjectHideFlags: 0

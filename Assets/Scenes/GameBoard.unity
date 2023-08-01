@@ -15347,6 +15347,8 @@ GameObject:
   - component: {fileID: 707820323}
   - component: {fileID: 707820325}
   - component: {fileID: 707820324}
+  - component: {fileID: 707820327}
+  - component: {fileID: 707820326}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -15400,6 +15402,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8697b3ca2f0d2994a943802c59d2e898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &707820326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707820321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb0178eef3375343a65493709ef21d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlackPrefab: {fileID: 7504130894838866289, guid: f08f5b854ef246848a1ff4e340537a06, type: 3}
+  BluePrefab: {fileID: 3443809874416738214, guid: 7786f8971661e824eb4e27ccef73c0a0, type: 3}
+  BrownPrefab: {fileID: 8955678365925418387, guid: 01761d4f6c6b56c41b2f9b068564d494, type: 3}
+  GreenPrefab: {fileID: 7076196390855846927, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
+  OrangePrefab: {fileID: 8213150071486787173, guid: ed9dd397692fa3c4990be689506a66b2, type: 3}
+  PurplePrefab: {fileID: 3132999033116348136, guid: a1f9818009ae94a4dbd17281e9f85cbe, type: 3}
+  WhitePrefab: {fileID: 8002832274782476092, guid: c7a43d0ea6e198f43a673a1af5b6e160, type: 3}
+  YellowPrefab: {fileID: 5602364133754088633, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
+  RainbowPrefab: {fileID: 5961595430149746958, guid: 3306e9672ce4e4244b9bbf879ac3b072, type: 3}
+--- !u!114 &707820327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707820321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ff798d1c9e4344c886911899350f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PooledPrefabsList:
+  - Prefab: {fileID: 7504130894838866289, guid: f08f5b854ef246848a1ff4e340537a06, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 3443809874416738214, guid: 7786f8971661e824eb4e27ccef73c0a0, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 8955678365925418387, guid: 01761d4f6c6b56c41b2f9b068564d494, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 7076196390855846927, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 8213150071486787173, guid: ed9dd397692fa3c4990be689506a66b2, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 3132999033116348136, guid: a1f9818009ae94a4dbd17281e9f85cbe, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 8002832274782476092, guid: c7a43d0ea6e198f43a673a1af5b6e160, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 5602364133754088633, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
+    PrewarmCount: 12
+  - Prefab: {fileID: 5961595430149746958, guid: 3306e9672ce4e4244b9bbf879ac3b072, type: 3}
+    PrewarmCount: 14
 --- !u!1001 &711731916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26708,15 +26762,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bruh: {fileID: 7504130894838866288, guid: f8d8a08e7741d49478479abbdad29b46, type: 3}
-  BlackPrefab: {fileID: 7504130894838866288, guid: f08f5b854ef246848a1ff4e340537a06, type: 3}
-  BluePrefab: {fileID: 3443809874416738215, guid: 7786f8971661e824eb4e27ccef73c0a0, type: 3}
-  BrownPrefab: {fileID: 8955678365925418386, guid: 01761d4f6c6b56c41b2f9b068564d494, type: 3}
-  GreenPrefab: {fileID: 7076196390855846926, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
-  OrangePrefab: {fileID: 8213150071486787174, guid: ed9dd397692fa3c4990be689506a66b2, type: 3}
-  PurplePrefab: {fileID: 3132999033116348135, guid: a1f9818009ae94a4dbd17281e9f85cbe, type: 3}
-  WhitePrefab: {fileID: 8002832274782476093, guid: c7a43d0ea6e198f43a673a1af5b6e160, type: 3}
-  YellowPrefab: {fileID: 5602364133754088628, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
-  RainbowPrefab: {fileID: 5961595430149746959, guid: 3306e9672ce4e4244b9bbf879ac3b072, type: 3}
+  BlackPrefab: {fileID: 7504130894838866289, guid: f08f5b854ef246848a1ff4e340537a06, type: 3}
+  BluePrefab: {fileID: 3443809874416738214, guid: 7786f8971661e824eb4e27ccef73c0a0, type: 3}
+  BrownPrefab: {fileID: 8955678365925418387, guid: 01761d4f6c6b56c41b2f9b068564d494, type: 3}
+  GreenPrefab: {fileID: 7076196390855846927, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
+  OrangePrefab: {fileID: 8213150071486787173, guid: ed9dd397692fa3c4990be689506a66b2, type: 3}
+  PurplePrefab: {fileID: 3132999033116348136, guid: a1f9818009ae94a4dbd17281e9f85cbe, type: 3}
+  WhitePrefab: {fileID: 8002832274782476092, guid: c7a43d0ea6e198f43a673a1af5b6e160, type: 3}
+  YellowPrefab: {fileID: 5602364133754088633, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
+  RainbowPrefab: {fileID: 5961595430149746958, guid: 3306e9672ce4e4244b9bbf879ac3b072, type: 3}
   Cards: {fileID: 3938576099555777602, guid: 6d1c982055fbf7d4085aaac5cb123b59, type: 3}
   cardSlots:
   - {fileID: 1575385767}
@@ -26782,6 +26836,7 @@ MonoBehaviour:
   IRainbowPlayerCount: 0
   TRainbowPlayerCount: {fileID: 1714166779}
   TdiscardPileText: {fileID: 0}
+  DestroyWithSpawner: 0
 --- !u!114 &1285157281
 MonoBehaviour:
   m_ObjectHideFlags: 0
