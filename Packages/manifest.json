@@ -6,6 +6,7 @@
     "com.unity.ide.visualstudio": "2.0.18",
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.inputsystem": "1.6.1",
+    "com.unity.multiplayer.tools": "1.0.0",
     "com.unity.netcode.gameobjects": "1.4.0",
     "com.unity.services.authentication": "https://github.com/needle-mirror/com.unity.services.authentication.git",
     "com.unity.services.lobby": "1.0.3",
