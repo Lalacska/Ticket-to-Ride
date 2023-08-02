@@ -55,7 +55,6 @@ public class Auth : Singleton<Auth>
     public async void LoginButtonclick()
     {
         await SignInAnonymouslyAsync();
-
     }
 
     // This method switch to the Register scene \\

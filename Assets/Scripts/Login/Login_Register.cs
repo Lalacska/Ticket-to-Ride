@@ -38,8 +38,8 @@ public class Login_Register : MonoBehaviour
     string userName = "";
     string userEmail = "";
 
-    string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located
-
+    /*string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located */
+    string rootURL = "https://double-suicide.rehab/Tuhu-Test/"; // Path where php files are located
 
     #region Login
 
