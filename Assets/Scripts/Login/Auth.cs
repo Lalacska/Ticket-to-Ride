@@ -40,7 +40,8 @@ public class Auth : Singleton<Auth>
             // Shows playerID \\
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
             UserData.userId = AuthenticationService.Instance.PlayerId;
-            SceneManager.LoadScene("Login");
+            //SceneManager.LoadScene("Login");
+            SceneManager.LoadScene("Join-Create Game");
         }
         catch (AuthenticationException ex)
         {

@@ -15,12 +15,25 @@ public class LobbyScene : Singleton<LobbyScene>
     [SerializeField] private Button Spawnbutton;
     public static Lobby lobby;
 
+    [SerializeField] private Transform spawnObjectPrefab;
+    
 
     // Start is called before the first frame update
     private void Start()
     {
         //Write out lobby code
         joinCode.text = UserData.lobby.LobbyCode;
+    }
+
+    private void Update()
+    {
+        if (!IsOwner) return;
+
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            Transform spawnedObjectTransform = Instantiate(spawnObjectPrefab);
+            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+        }
     }
 
     //When the host clicks it, it change everyone's  scene to the GameBoard scene
