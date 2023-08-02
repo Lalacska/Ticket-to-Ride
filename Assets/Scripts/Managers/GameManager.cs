@@ -795,7 +795,7 @@ public class GameManager : Singleton<GameManager>
     #region BTNS
 
     /// <summary>
-    /// This region "BTNS" are for alle the btn funcktions that are in this script. \\
+    /// This region "BTNS" are for all the btn funcktions that are in this script. \\
     /// </summary>
 
 
