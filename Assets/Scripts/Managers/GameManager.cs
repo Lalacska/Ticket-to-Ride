@@ -978,5 +978,27 @@ public class GameManager : Singleton<GameManager>
         PlayCardHand(card);
     }
 
+
+    // ToggleBtn. \\
+    // 
+    public GameObject GameBoard;
+    public GameObject Turn;
+    public void Togglebtn()
+    {
+        if (GameBoard.activeInHierarchy == false)
+        {
+            GameBoard.SetActive(true);
+        }
+        //else
+        //{
+        //    gameboard.setactive(false);
+        //}
+
+        Turn.SetActive(false);
+
+    }
+
+
+
     #endregion BTNS
 }

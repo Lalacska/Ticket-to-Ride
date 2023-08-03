@@ -27406,6 +27406,8 @@ MonoBehaviour:
   TRainbowPlayerCount: {fileID: 1714166779}
   TdiscardPileText: {fileID: 0}
   DestroyWithSpawner: 0
+  GameBoard: {fileID: 1803552392}
+  Turn: {fileID: 1852324040}
 --- !u!114 &1285157281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32541,17 +32543,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1852324040}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1285157280}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Togglebtn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1506282204
 MonoBehaviour:
@@ -35874,6 +35876,7 @@ GameObject:
   - component: {fileID: 1663915115}
   - component: {fileID: 1663915114}
   - component: {fileID: 1663915113}
+  - component: {fileID: 1663915116}
   m_Layer: 5
   m_Name: ToggleKnap
   m_TagString: Untagged
@@ -35996,6 +35999,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1663915111}
   m_CullTransparentMesh: 1
+--- !u!114 &1663915116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663915111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c15a6d905a4c4545b997629027f15c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bruh: {fileID: 0}
+  BlackPrefab: {fileID: 0}
+  BluePrefab: {fileID: 0}
+  BrownPrefab: {fileID: 0}
+  GreenPrefab: {fileID: 0}
+  OrangePrefab: {fileID: 0}
+  PurplePrefab: {fileID: 0}
+  WhitePrefab: {fileID: 0}
+  YellowPrefab: {fileID: 0}
+  RainbowPrefab: {fileID: 0}
+  Cards: {fileID: 0}
+  deck: []
+  DestinationTicket: []
+  SpecialDestinationTicket: []
+  board: []
+  discardPile: []
+  cardSlots: []
+  cardSlotsDestination: []
+  cardSlotsSpecialDestination: []
+  discardPileDestination: []
+  availbleCardSlots: 
+  availbleDestinationCardSlots: 
+  availbleSpecialDestinationCardSlots: 
+  availbleDiscardPileCardSlots: 
+  RainbowCount: 0
+  PlayerPickCount: 0
+  BoardIndex: 0
+  CardId: 0
+  HandId: 0
+  cardslot1: {fileID: 0}
+  cardslot2: {fileID: 0}
+  cardslot3: {fileID: 0}
+  cardslot4: {fileID: 0}
+  cardslot5: {fileID: 0}
+  Handslot1: {fileID: 0}
+  Handslot2: {fileID: 0}
+  Handslot3: {fileID: 0}
+  Handslot4: {fileID: 0}
+  Handslot5: {fileID: 0}
+  Handslot6: {fileID: 0}
+  Handslot7: {fileID: 0}
+  Handslot8: {fileID: 0}
+  Handslot9: {fileID: 0}
+  deckSizeText: {fileID: 0}
+  decksSizeText: {fileID: 0}
+  deckssSizeText: {fileID: 0}
+  IBlackPlayerCount: 0
+  TBlackPlayerCount: {fileID: 0}
+  IBluePlayerCount: 0
+  TBluePlayerCount: {fileID: 0}
+  IBrownPlayerCount: 0
+  TBrownPlayerCount: {fileID: 0}
+  IGreenPlayerCount: 0
+  TGreenPlayerCount: {fileID: 0}
+  IOrangePlayerCount: 0
+  TOrangePlayerCount: {fileID: 0}
+  IPurplePlayerCount: 0
+  TPurplePlayerCount: {fileID: 0}
+  IWhitePlayerCount: 0
+  TWhitePlayerCount: {fileID: 0}
+  IYellowPlayerCount: 0
+  TYellowPlayerCount: {fileID: 0}
+  IRainbowPlayerCount: 0
+  TRainbowPlayerCount: {fileID: 0}
+  TdiscardPileText: {fileID: 0}
+  DestroyWithSpawner: 0
+  GameBoard: {fileID: 0}
+  Turn: {fileID: 0}
 --- !u!1 &1665314306
 GameObject:
   m_ObjectHideFlags: 0
@@ -39324,7 +39407,7 @@ GameObject:
   - component: {fileID: 1803552395}
   - component: {fileID: 1803552394}
   m_Layer: 0
-  m_Name: Game board
+  m_Name: GameBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
