@@ -138,15 +138,12 @@ namespace Assets.Scripts.Cards
             for (var i = 0; i < prewarmCount; i++)
             {
                 prewarmNetworkObjects.Add(m_PooledObjects[prefab].Get());
+
             }
             foreach (var networkObject in prewarmNetworkObjects)
             {
                 m_PooledObjects[prefab].Release(networkObject);
                 GameManager.Instance.deck.Add(networkObject.GetComponent<CardVariables>());
-            }
-            foreach(var networkObject in prewarmNetworkObjects)
-            {
-
             }
 
             // Register Netcode Spawn handlers

@@ -12,5 +12,6 @@ public class PlayerStat : Singleton<PlayerStat>
     public string Color;
 
     public int ownerID;
+
 }
 

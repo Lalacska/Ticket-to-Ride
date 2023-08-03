@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3938576099555777600}
   - component: {fileID: 3938576099555777601}
-  - component: {fileID: 6048264821119555049}
   m_Layer: 0
   m_Name: Cards
   m_TagString: Untagged
@@ -52,15 +51,3 @@ MonoBehaviour:
   SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &6048264821119555049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3938576099555777602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c412104d5b8d14d9cb6bcf9115aa1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
