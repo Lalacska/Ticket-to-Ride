@@ -406,7 +406,7 @@ public class GameManager : Singleton<GameManager>
                     CardVariables cardVariables = deck[Random.Range(0, deck.Count)];
                     if(cardVariables == null) { return; }
                     GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
-                    NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.Euler(0, 180, 0));
+                    NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
                     _card.GetComponent<NetworkObject>().Spawn(true);
                     CardVariables randCard = _card.GetComponent<CardVariables>();
                     if (randCard.CardID == 0)
