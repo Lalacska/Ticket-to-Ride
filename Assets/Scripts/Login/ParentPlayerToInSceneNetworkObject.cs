@@ -99,7 +99,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         }
         //Instantiate the object, spawn with an owner and set under a parent \\
         NetworkObject nametext = Instantiate(playername).GetComponent<NetworkObject>();
-        nametext.SpawnWithOwnership(clientId);
+        //nametext.SpawnWithOwnership(clientId);
         nametext.transform.SetParent(playerobject.transform, false);
         playername.text = "";
 

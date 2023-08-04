@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +22,11 @@ namespace Assets.Scripts.Managers
         [SerializeField] private GameObject Player4;
         [SerializeField] private GameObject Player5;
 
+        [SerializeField] private NetworkObject Statplace;
+
         [SerializeField] private List<PlayerStat> Stats;
+
+        private int playerCount = 0;
 
         public override void OnNetworkSpawn()
         {
@@ -30,20 +36,15 @@ namespace Assets.Scripts.Managers
         [ServerRpc(RequireOwnership = false)]
         public void MyGlobalServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            var clientid = serverRpcParams.Receive.SenderClientId;
-            Debug.Log("Hello " + clientid);
-            int id = Convert.ToInt32(clientid);
-
-            foreach(PlayerStat stat in Stats)
-            {
-                if(id == stat.StatCardID - 1)
-                {
-                    stat.ownerID = id;
-                    GameObject StatCard = PrefabChoser(stat.StatCardID);
-                    StatCard.GetComponent<NetworkObject>().Spawn();
-
-                }
-            }
+            playerCount++;
+            GameObject prefab = PrefabChoser(playerCount);
+            NetworkObject meh = Instantiate(prefab).GetComponent<NetworkObject>();
+            meh.Spawn();
+            meh.TrySetParent(Statplace.transform, false);
+            PlayerStat stat = meh.GetComponent<PlayerStat>();
+            stat.ownerID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
+            meh.GetComponent<TextMesh>().text = "1000";
+            meh.GetComponentInChildren<TextMesh>().text = "200";
 
         }
 

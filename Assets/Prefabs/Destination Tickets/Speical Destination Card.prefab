@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1487553764409699860}
   - component: {fileID: 1487553764409699863}
   - component: {fileID: 1487553764409699862}
+  - component: {fileID: -3357847087920100027}
   m_Layer: 0
   m_Name: Speical Destination Card
   m_TagString: Untagged
@@ -72,9 +73,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9dd1a056cb4a3429d765a1beed6d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasBeenPlayed: 0
-  handIndex: 0
-  Color: 
+--- !u!114 &-3357847087920100027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487553764409699861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &1487553763949363237
 PrefabInstance:
   m_ObjectHideFlags: 0

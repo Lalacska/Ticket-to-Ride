@@ -133,6 +133,7 @@ public class GameManager : Singleton<GameManager>
 
     public bool DestroyWithSpawner;
 
+    CardVariables card;
     CardSlotsID slot;
 
     private int BlackCardCounter = 0;
@@ -160,7 +161,6 @@ public class GameManager : Singleton<GameManager>
         SpecialDestinationTicket = new List<CardVariables>();
         board = new List<CardVariables>();
         discardPile = new List<CardVariables>();
-        slot = new CardSlotsID();
     }
 
     // This method runs, when the programs starts. \\
@@ -391,7 +391,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     // This method is for the automaticly fils out the board. \\
-    public async void AutomaticDrawPile()
+    public void AutomaticDrawPile()
     {
         //Card randCard = deck[0];
 
@@ -520,7 +520,8 @@ public class GameManager : Singleton<GameManager>
         {
             availbleDiscardPileCardSlots[b] = false;
             availbleCardSlots[b] = true;
-            if(board != null && board[0] != null)
+            bool isEmpty = !board.Any();
+            if(board != null && !isEmpty)
             {
                 CardVariables delete = board[0];
                 delete.transform.position = discardPileDestination[b].position;
@@ -534,7 +535,7 @@ public class GameManager : Singleton<GameManager>
     // This methos finds the cardslot the user presed & passes the id off. \\ 
     public void CardSlots(CardVariables card, int i)
     {
-        CardSlotsID cardslotsid = new CardSlotsID();
+        CardSlotsID cardslotsid = slot;
         if (i == 0)
         {
             cardslotsid = cardslot1.GetComponent<CardSlotsID>();
@@ -674,10 +675,10 @@ public class GameManager : Singleton<GameManager>
     }
 
     // This method takes the players cards and plays them. \\
-    public void PlayCardHand(CardStruct card)
+    public void PlayCardHand(string cardcolor)
     {
         // Here we check for the color of the card. \\
-        if (card.Color == "Black")
+        if (cardcolor == "Black")
         {
             if (IBlackPlayerCount >= 1)
             {
@@ -689,7 +690,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Blue")
+        else if (cardcolor == "Blue")
         {
             if (IBluePlayerCount >= 1)
             {
@@ -701,7 +702,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Brown")
+        else if (cardcolor == "Brown")
         {
             if (IBrownPlayerCount >= 1)
             {
@@ -713,7 +714,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Green")
+        else if (cardcolor == "Green")
         {
             if (IGreenPlayerCount >= 1)
             {
@@ -725,7 +726,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Orange")
+        else if (cardcolor == "Orange")
         {
             if (IOrangePlayerCount >= 1)
             {
@@ -737,7 +738,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Purple")
+        else if (cardcolor == "Purple")
         {
             if (IPurplePlayerCount >= 1)
             {
@@ -749,7 +750,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "White")
+        else if (cardcolor == "White")
         {
             if (IWhitePlayerCount >= 1)
             {
@@ -761,7 +762,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Yellow")
+        else if (cardcolor == "Yellow")
         {
             if (IYellowPlayerCount >= 1)
             {
@@ -773,7 +774,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        else if (card.Color == "Rainbow")
+        else if (cardcolor == "Rainbow")
         {
             if (IRainbowPlayerCount >= 1)
             {
@@ -785,7 +786,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("Du har ikke flere kort af den type tilbage!");
             }
         }
-        Debug.Log("Du har fjernet 1 " + card.Color + " kort");
+        Debug.Log("Du har fjernet 1 " + cardcolor + " kort");
     }
 
     #endregion Random/Extra
@@ -875,11 +876,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN1()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Black";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Black");
     }
 
     // This method is for the secound pick btn on the board. \\
@@ -887,11 +884,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN2()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Blue";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Blue");
     }
 
     // This method is for the third pick btn on the board. \\
@@ -899,11 +892,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN3()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Brown";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Brown");
     }
 
     // This method is for the fourth pick btn on the board. \\
@@ -911,11 +900,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN4()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Green";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Green");
     }
 
     // This method is for the fith pick btn on the board. \\
@@ -923,11 +908,8 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN5()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Orange";
-        }
-        PlayCardHand(card);
+   
+        PlayCardHand("Orange");
     }
 
     // This method is for the Sixth pick btn on the board. \\
@@ -935,11 +917,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN6()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Purple";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Purple");
     }
 
     // This method is for the Seventh pick btn on the board. \\
@@ -947,11 +925,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN7()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "White";
-        }
-        PlayCardHand(card);
+        PlayCardHand("White");
     }
 
     // This method is for the Eight pick btn on the board. \\
@@ -959,11 +933,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN8()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Yellow";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Yellow");
     }
 
     // This method is for the nith pick btn on the board. \\
@@ -971,11 +941,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayBTN9()
     {
         // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        CardStruct card = new CardStruct();
-        {
-            card.Color = "Rainbow";
-        }
-        PlayCardHand(card);
+        PlayCardHand("Rainbow");
     }
 
     #endregion BTNS

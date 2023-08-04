@@ -11,7 +11,7 @@ public class PlayerStat : Singleton<PlayerStat>
 
     public string Color;
 
-    public int ownerID;
+    public int ownerID = 100;
 
 }
 
