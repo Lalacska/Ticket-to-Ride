@@ -254,8 +254,6 @@ public class GameManager : Singleton<GameManager>
             {
                 if (availbleCardSlots[i] == true)
                 {
-                    
-
                     //randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
 
@@ -988,6 +986,15 @@ public class GameManager : Singleton<GameManager>
         if (GameBoard.activeInHierarchy == false)
         {
             GameBoard.SetActive(true);
+
+            //slot = cardslot4.GetComponent<CardSlotsID>();
+            //foreach (CardVariables card in board.ToList())
+            //{
+            //    if (card.CardID == slot.cardslotCardID)
+            //    {
+            //        CardColorPick(card, 3);
+            //    }
+            //}
         }
         //else
         //{
