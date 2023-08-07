@@ -8,7 +8,6 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using static Assets.Scripts.Cards.Card;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -151,11 +150,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        //deck = new NetworkList<CardStruct>();
-        //DestinationTicket = new NetworkList<CardStruct>();
-        //SpecialDestinationTicket = new NetworkList<CardStruct>();
-        //board = new NetworkList<CardStruct>();
-        //discardPile = new NetworkList<CardStruct>();
         deck = new List<CardVariables>();
         DestinationTicket = new List<CardVariables>();
         SpecialDestinationTicket = new List<CardVariables>();
@@ -166,24 +160,11 @@ public class GameManager : Singleton<GameManager>
     // This method runs, when the programs starts. \\
     private void Start()
     {
-        AutomaticDrawPile();
+        if (IsServer)
+        {
+            AutomaticDrawPile();
+        }
     }
-
-
-    //[ClientRpc]
-    //void SetVisibilityClientRpc(bool status)
-    //{
-    //    Debug.Log("HEYO");
-    //    GameObject obj = GameObject.FindGameObjectWithTag("Card");
-    //    GameObject cardbase = obj.gameObject.transform.GetChild(0).gameObject;
-    //    MeshRenderer basemesh = cardbase.gameObject.GetComponent<MeshRenderer>();
-    //    GameObject picture = cardbase.gameObject.transform.GetChild(0).gameObject;
-    //    MeshRenderer picturemesh = picture.gameObject.GetComponent<MeshRenderer>();
-    //    picturemesh.enabled = status;
-    //    basemesh.enabled = status;
-    //    Debug.Log("HEYO 2");
-    //    //cardbase.SetActive(status);
-    //}
 
     // This method runs every frame & updates the scenes. \\
     private void Update()
@@ -225,7 +206,6 @@ public class GameManager : Singleton<GameManager>
         if(deck.Count >= 1)
         {
             //AutomaticDrawPile();
-            //AutomaticDrawPileClientRpc();
         }
     }
 

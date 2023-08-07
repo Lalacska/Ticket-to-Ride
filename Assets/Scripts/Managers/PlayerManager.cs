@@ -37,14 +37,13 @@ namespace Assets.Scripts.Managers
         public void MyGlobalServerRpc(ServerRpcParams serverRpcParams = default)
         {
             playerCount++;
+            Debug.Log(playerCount);
             GameObject prefab = PrefabChoser(playerCount);
             NetworkObject meh = Instantiate(prefab).GetComponent<NetworkObject>();
             meh.Spawn();
             meh.TrySetParent(Statplace.transform, false);
             PlayerStat stat = meh.GetComponent<PlayerStat>();
             stat.ownerID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
-            meh.GetComponent<TextMesh>().text = "1000";
-            meh.GetComponentInChildren<TextMesh>().text = "200";
 
         }
 

@@ -14,6 +14,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
 
     public void Start()
     {
+
         // Sends the local player data to a ServerRPC to make a player and add it to the list on the server \\ 
         AddPlayerServerRPC(NetworkManager.LocalClientId, UserData.userId, UserData.username);
 

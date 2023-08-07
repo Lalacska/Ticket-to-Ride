@@ -36,20 +36,20 @@ namespace Assets.Scripts.Cards
         /// <param name="position">The position to spawn the object at.</param>
         /// <param name="rotation">The rotation to spawn the object with.</param>
         /// <returns></returns>
-        private void Update()
-        {
-            if (!IsServer)
-            {
-                return;
-            }
-            if (Input.GetKeyUp(KeyCode.O))
-            {
-                Vector3 pos = new Vector3(0, 5, 0);
-                NetworkObject spawnedObjectTransform = NetworkObjectPool.Instance.GetNetworkObject(BlackPrefab,pos, Quaternion.identity);
-                //spawnedObjectTransform.position = new Vector3(0, 5, 0);
-                spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
-            }
-        }
+        //private void Update()
+        //{
+        //    if (!IsServer)
+        //    {
+        //        return;
+        //    }
+        //    if (Input.GetKeyUp(KeyCode.O))
+        //    {
+        //        Vector3 pos = new Vector3(0, 5, 0);
+        //        NetworkObject spawnedObjectTransform = NetworkObjectPool.Instance.GetNetworkObject(BlackPrefab,pos, Quaternion.identity);
+        //        //spawnedObjectTransform.position = new Vector3(0, 5, 0);
+        //        spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+        //    }
+        //}
 
     }
 }
