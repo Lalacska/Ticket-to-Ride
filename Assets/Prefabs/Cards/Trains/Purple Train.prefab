@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3132999033116348135}
   - component: {fileID: 3132999033116348134}
-  - component: {fileID: 3132999033116348133}
   - component: {fileID: -4182585961160592371}
   - component: {fileID: -8471231024893287078}
   - component: {fileID: -1950257255625235616}
@@ -63,18 +62,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3132999033116348133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132999033116348136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c9dd1a056cb4a3429d765a1beed6d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-4182585961160592371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +79,7 @@ MonoBehaviour:
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
 --- !u!114 &-8471231024893287078
@@ -140,6 +128,7 @@ MonoBehaviour:
   handIndex: 0
   Color: Purple
   ownerID: 0
+  CardID: 0
 --- !u!1001 &3132999031385898687
 PrefabInstance:
   m_ObjectHideFlags: 0

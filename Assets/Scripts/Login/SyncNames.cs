@@ -7,36 +7,50 @@ using Unity.Collections;
 
 public class SyncNames : Singleton<SyncNames>
 {
-    [SerializeField] private TextMeshProUGUI playername;
-    private NetworkVariable<FixedString64Bytes> PlayerName = new NetworkVariable<FixedString64Bytes>();
+    [SerializeField] private TMP_Text playername;
+    private NetworkVariable<FixedString128Bytes> PlayerName = new NetworkVariable<FixedString128Bytes>();
 
-    public void Start()
+    public override void OnNetworkSpawn()
     {
-        //if (!IsServer) { return; }
-        
-        
-        //if (IsOwner)
-        //{
-        //    SearchServerRpc(NetworkManager.LocalClientId);
-        //    if(name != null)
-        //    {
-        //        PlayerName.Value = name;
-        //        playername.text = PlayerName.Value.ToString();
-        //    }
-        //}
-        
-    }
+        playername = GetComponent<TMPro.TMP_Text>();
 
-    [ServerRpc(RequireOwnership = false)]
-    public void SearchServerRpc(ulong clientId, ServerRpcParams serverRpcParams = default)
-    {
-        foreach (var player in ParentPlayerToInSceneNetworkObject.Instance.players)
+        if (IsServer)
         {
-            if(player.ClientId == clientId)
-            {
-                
-            }
+            // Assin the current value based on the current message index value
+            PlayerName.Value = playername.text;
+        }
+        else
+        {
+            // Subscribe to the OnValueChanged event
+            PlayerName.OnValueChanged += OnTextStringChanged;
+            // Log the current value of the text string when the client connected
+            Debug.Log($"Client-{NetworkManager.LocalClientId}'s TextString = {PlayerName.Value}");
         }
     }
+    public override void OnNetworkDespawn()
+    {
+        PlayerName.OnValueChanged -= OnTextStringChanged;
+    }
+    private void OnTextStringChanged(FixedString128Bytes previous, FixedString128Bytes current)
+    {
+        // Just log a notification when m_TextString changes
+        Debug.Log($"Client-{NetworkManager.LocalClientId}'s TextString = {PlayerName.Value}");
+        playername.text = PlayerName.Value.ToString();
+    }
+
+    private void LateUpdate()
+    {
+        if (!IsServer)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            playername.text = PlayerName.Value.ToString();
+        }
+    }
+
 }
+
 

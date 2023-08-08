@@ -14,6 +14,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
 
     public void Start()
     {
+
         // Sends the local player data to a ServerRPC to make a player and add it to the list on the server \\ 
         AddPlayerServerRPC(NetworkManager.LocalClientId, UserData.userId, UserData.username);
 
@@ -99,7 +100,7 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         }
         //Instantiate the object, spawn with an owner and set under a parent \\
         NetworkObject nametext = Instantiate(playername).GetComponent<NetworkObject>();
-        nametext.SpawnWithOwnership(clientId);
+        //nametext.SpawnWithOwnership(clientId);
         nametext.transform.SetParent(playerobject.transform, false);
         playername.text = "";
 

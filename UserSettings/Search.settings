@@ -1,12 +1,18 @@
 trackSelection = true
 fetchPreview = true
-wantsMore = false
+defaultFlags = 0
 keepOpen = false
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"last_search.DA949528" = "pref"
+	"OpenInspectorPreview.DA949528" = "0"
+	"currentGroup.DA949528" = "asset"
+	"last_search.2138236A" = "h"
+	"OpenInspectorPreview.2138236A" = "0"
+	"currentGroup.2138236A" = "all"
 }
 providers = {
 	adb = {
@@ -49,6 +55,13 @@ providers = {
 		priority = 50
 		defaultAction = null
 	}
+	profilermarkers = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+}
+objectSelectors = {
 }
 recentSearches = [
 ]
@@ -62,3 +75,4 @@ queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
+minIndexVariations = 2
