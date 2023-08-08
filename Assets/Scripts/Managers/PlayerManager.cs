@@ -40,10 +40,11 @@ namespace Assets.Scripts.Managers
             Debug.Log(playerCount);
             GameObject prefab = PrefabChoser(playerCount);
             NetworkObject meh = Instantiate(prefab).GetComponent<NetworkObject>();
-            meh.Spawn();
+            meh.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
             meh.TrySetParent(Statplace.transform, false);
             PlayerStat stat = meh.GetComponent<PlayerStat>();
             stat.ownerID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
+
 
         }
 

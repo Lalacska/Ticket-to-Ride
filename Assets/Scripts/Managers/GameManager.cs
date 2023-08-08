@@ -29,18 +29,11 @@ public class GameManager : Singleton<GameManager>
 
 
     //// Here we make list for the diffrent kinds of cards piles. \\
-    //public NetworkList<CardStruct> deck;
-    //public NetworkList<CardStruct> DestinationTicket;
-    //public NetworkList<CardStruct> SpecialDestinationTicket;
-    //public NetworkList<CardStruct> board;
-    //public NetworkList<CardStruct> discardPile;
-    public List<CardVariables> deck;
-    public List<CardVariables> DestinationTicket;
-    public List<CardVariables> SpecialDestinationTicket;
-    public List<CardVariables> board;
-    public List<CardVariables> discardPile;
-
-
+    public List<Card> deck;
+    public List<Card> DestinationTicket;
+    public List<Card> SpecialDestinationTicket;
+    public List<Card> board;
+    public List<Card> discardPile;
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
@@ -78,17 +71,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject cardslot4;
     [SerializeField] private GameObject cardslot5;
 
-
-    [SerializeField] private GameObject Handslot1;
-    [SerializeField] private GameObject Handslot2;
-    [SerializeField] private GameObject Handslot3;
-    [SerializeField] private GameObject Handslot4;
-    [SerializeField] private GameObject Handslot5;
-    [SerializeField] private GameObject Handslot6;
-    [SerializeField] private GameObject Handslot7;
-    [SerializeField] private GameObject Handslot8;
-    [SerializeField] private GameObject Handslot9;
-
     // This is for the Card counter. (Tells how many cards are left) \\ 
     public Text deckSizeText;
     public Text decksSizeText;
@@ -124,15 +106,10 @@ public class GameManager : Singleton<GameManager>
 
     public Text TdiscardPileText;
 
-    private NetworkObject m;
-
-    private int CardsSpawnCounter = 0;
-
     private int _CardID = 1;
 
     public bool DestroyWithSpawner;
 
-    CardVariables card;
     CardSlotsID slot;
 
     private int BlackCardCounter = 0;
@@ -150,11 +127,11 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        deck = new List<CardVariables>();
-        DestinationTicket = new List<CardVariables>();
-        SpecialDestinationTicket = new List<CardVariables>();
-        board = new List<CardVariables>();
-        discardPile = new List<CardVariables>();
+        deck = new List<Card>();
+        DestinationTicket = new List<Card>();
+        SpecialDestinationTicket = new List<Card>();
+        board = new List<Card>();
+        discardPile = new List<Card>();
     }
 
     // This method runs, when the programs starts. \\
@@ -226,7 +203,7 @@ public class GameManager : Singleton<GameManager>
             GameObject randomCardPrefab = CardColorByNumber(Random.Range(1, 111), "nope");
             NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
             _card.GetComponent<NetworkObject>().Spawn(true);
-            CardVariables randCard = _card.GetComponent<CardVariables>();
+            Card randCard = _card.GetComponent<Card>();
             GameObject rc = transform.parent.GetComponent<GameObject>();
             Debug.Log(rc);
             //Card randCard = deck[Random.Range(0, deck.Count)];
@@ -276,7 +253,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (DestinationTicket.Count >= 1)
         {
-            CardVariables randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
+            Card randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
 
             for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
             {
@@ -301,7 +278,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (SpecialDestinationTicket.Count >= 1)
         {
-            CardVariables randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
+            Card randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
 
             for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
             {
@@ -321,55 +298,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    [ClientRpc]
-    public void AutomaticDrawPileClientRpc()
-    {
-        //Card randCard = deck[0];
-
-        if (deck.Count >= 1)
-        {
-            CardVariables randCard = deck[Random.Range(0, deck.Count)];
-
-            for (int i = 0; i < availbleCardSlots.Length; i++)
-            {
-                if (availbleCardSlots[i] == true)
-                {
-                    //randCard.gameObject.SetActive(true);
-                    //GameObject cardObject = GameObject.Find(randCard.CardName.ToString());
-
-                    randCard.handIndex = i;
-
-                    //cardObject.transform.position = cardSlots[i].position;
-                    randCard.hasBeenPlayed = true;
-
-                    availbleCardSlots[i] = false;
-                    deck.Remove(randCard);
-                    board.Add(randCard);
-
-                    //CardSlots(randCard, i);
-
-                    // Here we check if a Rainbow cards is drawn onto the board. \\
-                    if (randCard.Color == "Rainbow")
-                    {
-                        RainbowCount++;
-                        Debug.Log(RainbowCount);
-                    }
-                    if (availbleCardSlots[4] == false)
-                    {
-                        // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
-                        if (RainbowCount == 3)
-                        {
-                            CheckCards();
-                        }
-                    }
-                    Debug.Log(randCard.Color);
-                    return;
-                }
-                //Debug.Log(cardSlots);
-            }
-        }
-    }
-
     // This method is for the automaticly fils out the board. \\
     public void AutomaticDrawPile()
     {
@@ -383,12 +311,12 @@ public class GameManager : Singleton<GameManager>
             {
                 if (availbleCardSlots[i] == true && deck.Count != 0)
                 {
-                    CardVariables cardVariables = deck[Random.Range(0, deck.Count)];
+                    Card cardVariables = deck[Random.Range(0, deck.Count)];
                     if(cardVariables == null) { return; }
                     GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
                     NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
                     _card.GetComponent<NetworkObject>().Spawn(true);
-                    CardVariables randCard = _card.GetComponent<CardVariables>();
+                    Card randCard = _card.GetComponent<Card>();
                     if (randCard.CardID == 0)
                     {
                         randCard.CardID = _CardID;
@@ -503,7 +431,7 @@ public class GameManager : Singleton<GameManager>
             bool isEmpty = !board.Any();
             if(board != null && !isEmpty)
             {
-                CardVariables delete = board[0];
+                Card delete = board[0];
                 delete.transform.position = discardPileDestination[b].position;
                 board.Remove(delete);
                 discardPile.Add(delete);
@@ -513,7 +441,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     // This methos finds the cardslot the user presed & passes the id off. \\ 
-    public void CardSlots(CardVariables card, int i)
+    public void CardSlots(Card card, int i)
     {
         CardSlotsID cardslotsid = slot;
         if (i == 0)
@@ -547,7 +475,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (discardPile.Count >= 1)
         {
-            foreach (CardVariables card in discardPile)
+            foreach (Card card in discardPile)
             {
                 deck.Add(card);
             }
@@ -565,7 +493,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     // This method is for changeing the playces of the cards. \\
-    public void CardColorPick(CardVariables card, int i)
+    public void CardColorPick(Card card, int slotnumber)
     {
         if (PlayerPickCount <= 1)
         {
@@ -635,10 +563,10 @@ public class GameManager : Singleton<GameManager>
             lastcard = card.Color;
             // When the color has been found, it will be added to the playerhand.\\
             //Card delete = board[0];
-            CardVariables delete = card;
+            Card delete = card;
             delete.transform.position = discardPileDestination[0].position;
             availbleDiscardPileCardSlots[0] = false;
-            availbleCardSlots[i] = true;
+            availbleCardSlots[slotnumber] = true;
             //delete.gameObject.SetActive(false);
             board.Remove(delete);
             discardPile.Add(delete);
@@ -779,149 +707,74 @@ public class GameManager : Singleton<GameManager>
     /// This region "BTNS" are for all the btn funcktions that are in this script. \\
     /// </summary>
 
-
-    // This part is for the btns that moves the cards from the "board" to the players hand. \\
-
-    // This method is for the first pick btn on the board. \\
-    public void Button1()
+    // This methode is for the buttons on the board, these moves the cards to the players hand.
+    // When the player clicks one of the buttons, it sends it's slot id and set the right slot
+    // then calls CardColorPick metode, with the card that is in the slot and with the slotnu,ber
+    public void BoardButtons(int slotnumber)
     {
-        slot = cardslot1.GetComponent<CardSlotsID>();
-        foreach (CardVariables card in board.ToList())
+        switch (slotnumber)
+        {
+            case 0:
+                slot = cardslot1.GetComponent<CardSlotsID>();
+                break;
+            case 1:
+                slot = cardslot2.GetComponent<CardSlotsID>();
+                break;
+            case 2:
+                slot = cardslot3.GetComponent<CardSlotsID>();
+                break;
+            case 3:
+                slot = cardslot4.GetComponent<CardSlotsID>();
+                break;
+            case 4:
+                slot = cardslot5.GetComponent<CardSlotsID>();
+                break;
+        }
+        foreach (Card card in board.ToList())
         {
             if (card.CardID == slot.cardslotCardID)
             {
-                CardColorPick(card, 0);
+                CardColorPick(card, slotnumber);
             }
         }
     }
 
-    // This method is for the secound pick btn on the board. \\
-    public void Button2()
+    // This methode is for the card play buttons, it gets an int from the button, sets the color
+    // then calls PlayCardHand methode with the color
+    public void PlayCardBTN(int button)
     {
-        slot = cardslot2.GetComponent<CardSlotsID>();
-        foreach (CardVariables card in board.ToList())
+        string color = "";
+        switch (button)
         {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 1);
-            }
+            case 1: 
+                color = "Black";
+                break;
+            case 2:
+                color = "Blue";
+                break;
+            case 3:
+                color = "Brown";
+                break;
+            case 4:
+                color = "Green";
+                break;
+            case 5:
+                color = "Orange";
+                break;
+            case 6:
+                color = "Purple";
+                break;
+            case 7:
+                color = "White";
+                break;
+            case 8:
+                color = "Yellow";
+                break;
+            case 9:
+                color = "Rainbow";
+                break;
         }
-    }
-
-    // This method is for the third pick btn on thr board. \\
-    public void Button3()
-    {
-        slot = cardslot3.GetComponent<CardSlotsID>();
-        foreach (CardVariables card in board.ToList())
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 2);
-            }
-        }
-    }
-
-    // This method is for the fourth pick btn on the board. \\
-    public void Button4()
-    {
-        slot = cardslot4.GetComponent<CardSlotsID>();
-        foreach (CardVariables card in board.ToList())
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 3);
-            }
-        }
-    }
-
-    // This method is for the fith pick btn on the board. \\
-    public void Button5()
-    {
-        slot = cardslot5.GetComponent<CardSlotsID>();
-        foreach (CardVariables card in board.ToList())
-        {
-            if (card.CardID == slot.cardslotCardID)
-            {
-                CardColorPick(card, 4);
-            }
-        }
-    }
-
-
-
-    // This part is for the "Play" btns. The play btns are the ones witch is used to "play" the cards from the players hands. \\
-
-    // This method is for the first pick btn on the board. \\
-    // This is for the "Black" card. \\
-    public void PlayBTN1()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Black");
-    }
-
-    // This method is for the secound pick btn on the board. \\
-    // This is for the "Blue" card. \\
-    public void PlayBTN2()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Blue");
-    }
-
-    // This method is for the third pick btn on the board. \\
-    // This is for the "Brown" card. \\
-    public void PlayBTN3()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Brown");
-    }
-
-    // This method is for the fourth pick btn on the board. \\
-    // This is for the "Green" card. \\
-    public void PlayBTN4()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Green");
-    }
-
-    // This method is for the fith pick btn on the board. \\
-    // This is for the "Orange" card. \\
-    public void PlayBTN5()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-   
-        PlayCardHand("Orange");
-    }
-
-    // This method is for the Sixth pick btn on the board. \\
-    // This is for the "Purple" card. \\
-    public void PlayBTN6()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Purple");
-    }
-
-    // This method is for the Seventh pick btn on the board. \\
-    // This is for the "White" card. \\
-    public void PlayBTN7()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("White");
-    }
-
-    // This method is for the Eight pick btn on the board. \\
-    // This is for the "Yellow" card. \\
-    public void PlayBTN8()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Yellow");
-    }
-
-    // This method is for the nith pick btn on the board. \\
-    // This is for the "Rainbow" card. \\
-    public void PlayBTN9()
-    {
-        // This method set the color of the card, then runs the method that retracks "1" from the playerTotal. \\
-        PlayCardHand("Rainbow");
+        PlayCardHand(color);
     }
 
     #endregion BTNS

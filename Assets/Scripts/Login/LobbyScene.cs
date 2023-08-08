@@ -44,6 +44,7 @@ public class LobbyScene : Singleton<LobbyScene>
     //When the host clicks it, it change everyone's  scene to the GameBoard scene
     public void StartButton()
     {
+
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
     }
 

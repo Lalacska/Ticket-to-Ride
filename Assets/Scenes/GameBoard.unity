@@ -768,7 +768,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &25965353
@@ -784,7 +784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1315,12 +1315,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN3
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2349,6 +2349,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2346531317497889772, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2346531317497889775, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2432,6 +2436,14 @@ PrefabInstance:
     - target: {fileID: 2346531317497889775, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346531318533499076, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2346531319549782787, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
@@ -3103,12 +3115,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN4
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3555,7 +3567,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 156676168}
-  - component: {fileID: 156676169}
   m_Layer: 5
   m_Name: Card 1
   m_TagString: Untagged
@@ -3585,18 +3596,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &156676169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156676167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c9dd1a056cb4a3429d765a1beed6d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &158267032
 GameObject:
   m_ObjectHideFlags: 0
@@ -5693,12 +5692,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN1
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9846,7 +9845,7 @@ PrefabInstance:
     - target: {fileID: 5456220651035412687, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
       propertyPath: Score
       value: 
-      objectReference: {fileID: 3678028752256566622, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
+      objectReference: {fileID: 2017276571}
     - target: {fileID: 5847349387025549964, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
       propertyPath: m_Name
       value: Player 1
@@ -16150,7 +16149,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &707820324
 MonoBehaviour:
@@ -17460,12 +17459,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN9
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 9
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -19681,7 +19680,6 @@ Transform:
   m_Children:
   - {fileID: 1803552393}
   - {fileID: 483592698}
-  - {fileID: 1285157279}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -19837,12 +19835,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN2
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -24129,7 +24127,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093546788}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
@@ -24139,7 +24137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1093546790
@@ -24155,7 +24153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -24286,7 +24284,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1101773381
 GameObject:
@@ -25032,12 +25030,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Button2
-        m_Mode: 1
+        m_MethodName: BoardButtons
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -25247,7 +25245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136497577
@@ -25263,7 +25261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -25393,7 +25391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1139831362
@@ -25409,7 +25407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -25718,7 +25716,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1166363356
@@ -25734,7 +25732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28285,13 +28283,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285157278}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.024999999, y: 1, z: -0.15}
-  m_LocalScale: {x: 0.6999999, y: 1, z: 0.7}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 3.7499995, y: 0.1, z: 12}
+  m_LocalScale: {x: 105, y: 0.1, z: 56}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 877608102}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1285157280
 MonoBehaviour:
@@ -28354,15 +28352,6 @@ MonoBehaviour:
   cardslot3: {fileID: 119739011}
   cardslot4: {fileID: 418450163}
   cardslot5: {fileID: 893535238}
-  Handslot1: {fileID: 156676167}
-  Handslot2: {fileID: 0}
-  Handslot3: {fileID: 0}
-  Handslot4: {fileID: 0}
-  Handslot5: {fileID: 0}
-  Handslot6: {fileID: 0}
-  Handslot7: {fileID: 0}
-  Handslot8: {fileID: 0}
-  Handslot9: {fileID: 0}
   deckSizeText: {fileID: 960226387}
   decksSizeText: {fileID: 1009333477}
   deckssSizeText: {fileID: 0}
@@ -31692,8 +31681,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Button1
-        m_Mode: 1
+        m_MethodName: BoardButtons
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -33997,7 +33986,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1518012124
@@ -34013,7 +34002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -36983,12 +36972,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN5
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37178,12 +37167,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Button5
-        m_Mode: 1
+        m_MethodName: BoardButtons
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37821,7 +37810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1714166779
@@ -37837,7 +37826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -38768,14 +38757,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN6
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 6
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 6
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1767312736
@@ -40425,12 +40414,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN7
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -40739,12 +40728,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Button4
-        m_Mode: 1
+        m_MethodName: BoardButtons
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -40856,7 +40845,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1820324148
@@ -40872,7 +40861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -41267,7 +41256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -30, y: 100}
+  m_AnchoredPosition: {x: -20.2, y: 96.8}
   m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1857058739
@@ -41283,7 +41272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -43722,12 +43711,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayBTN8
-        m_Mode: 1
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 8
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -44962,6 +44951,17 @@ Transform:
   m_Father: {fileID: 653080894}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2017276571 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 445102335, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
+  m_PrefabInstance: {fileID: 445102332}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2018484208
 GameObject:
   m_ObjectHideFlags: 0
@@ -46103,12 +46103,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Button3
-        m_Mode: 1
+        m_MethodName: BoardButtons
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

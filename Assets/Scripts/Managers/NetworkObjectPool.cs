@@ -143,7 +143,7 @@ namespace Assets.Scripts.Cards
             foreach (var networkObject in prewarmNetworkObjects)
             {
                 m_PooledObjects[prefab].Release(networkObject);
-                GameManager.Instance.deck.Add(networkObject.GetComponent<CardVariables>());
+                GameManager.Instance.deck.Add(networkObject.GetComponent<Card>());
             }
 
             // Register Netcode Spawn handlers
