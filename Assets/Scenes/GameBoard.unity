@@ -16241,12 +16241,7 @@ MonoBehaviour:
   Player4: {fileID: 8708250188893654629, guid: 56addc9d30b5f1f4898e31342b4d1a85, type: 3}
   Player5: {fileID: 2273942798134478201, guid: 788630eb5a2da0a428a5487114b93d4f, type: 3}
   Statplace: {fileID: 275626663}
-  Stats:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Stats: []
 --- !u!1001 &711731916
 PrefabInstance:
   m_ObjectHideFlags: 0
