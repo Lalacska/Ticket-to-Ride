@@ -71,7 +71,6 @@ public class Login_Register : MonoBehaviour
             using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "login.php", form))
             {
                 yield return www.SendWebRequest();
-
                 if (www.result != UnityWebRequest.Result.Success)
                 {
                     errorMessage = www.error;

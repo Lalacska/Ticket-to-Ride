@@ -977,35 +977,5 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-    // ToggleBtn. \\
-    // 
-    public GameObject GameBoard;
-    public GameObject Turn;
-    public void Togglebtn()
-    {
-        if (GameBoard.activeInHierarchy == false)
-        {
-            GameBoard.SetActive(true);
-
-            //slot = cardslot4.GetComponent<CardSlotsID>();
-            //foreach (CardVariables card in board.ToList())
-            //{
-            //    if (card.CardID == slot.cardslotCardID)
-            //    {
-            //        CardColorPick(card, 3);
-            //    }
-            //}
-        }
-        //else
-        //{
-        //    gameboard.setactive(false);
-        //}
-
-        Turn.SetActive(false);
-
-    }
-
-
-
     #endregion BTNS
 }

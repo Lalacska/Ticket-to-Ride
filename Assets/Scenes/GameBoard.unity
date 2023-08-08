@@ -5085,9 +5085,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1285157280}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1572893709}
+        m_TargetAssemblyTypeName: TurnM, Assembly-CSharp
         m_MethodName: SwitchTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1572893709}
+        m_TargetAssemblyTypeName: TurnM, Assembly-CSharp
+        m_MethodName: Switch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7899,6 +7911,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1038983765818980381, guid: cde6474fe5876794ab4bbbe23a10180f, type: 3}
   m_PrefabInstance: {fileID: 366015699}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &366366501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 366366502}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &366366502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366366501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 633.04297, y: 514.3366, z: -6.1336884}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &366913314
 GameObject:
   m_ObjectHideFlags: 0
@@ -15602,7 +15645,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &707820321
 GameObject:
@@ -15637,7 +15680,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &707820324
 MonoBehaviour:
@@ -19061,9 +19104,10 @@ Transform:
   - {fileID: 1803552393}
   - {fileID: 483592698}
   - {fileID: 1285157279}
+  - {fileID: 1572893707}
   - {fileID: 1665314307}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &879298401
 PrefabInstance:
@@ -21087,7 +21131,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &963357338
 PrefabInstance:
@@ -23556,7 +23600,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1101773381
 GameObject:
@@ -27406,8 +27450,6 @@ MonoBehaviour:
   TRainbowPlayerCount: {fileID: 1714166779}
   TdiscardPileText: {fileID: 0}
   DestroyWithSpawner: 0
-  GameBoard: {fileID: 1803552392}
-  Turn: {fileID: 1852324040}
 --- !u!114 &1285157281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32543,8 +32585,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1285157280}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1572893709}
+        m_TargetAssemblyTypeName: TurnM, Assembly-CSharp
         m_MethodName: Togglebtn
         m_Mode: 1
         m_Arguments:
@@ -34089,7 +34131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1572893707}
-  - component: {fileID: 1572893708}
+  - component: {fileID: 1572893709}
   m_Layer: 0
   m_Name: TurnSystem
   m_TagString: Untagged
@@ -34104,15 +34146,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572893706}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.0066666664, y: 10, z: 0.0125}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Father: {fileID: 877608102}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1572893708
+--- !u!114 &1572893709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34121,10 +34163,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1572893706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb4115f070a1027488a2e2a2e3c042de, type: 3}
+  m_Script: {fileID: 11500000, guid: fa3bb25283051d944827350b5344acc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerPickCount: 0
   state: 0
+  GameBoard: {fileID: 1803552392}
+  Turn: {fileID: 1852324040}
 --- !u!1 &1574588341
 GameObject:
   m_ObjectHideFlags: 0
@@ -36122,8 +36167,6 @@ MonoBehaviour:
   TRainbowPlayerCount: {fileID: 0}
   TdiscardPileText: {fileID: 0}
   DestroyWithSpawner: 0
-  GameBoard: {fileID: 0}
-  Turn: {fileID: 0}
 --- !u!1 &1665314306
 GameObject:
   m_ObjectHideFlags: 0
@@ -36157,7 +36200,7 @@ RectTransform:
   m_Children:
   - {fileID: 1663915112}
   m_Father: {fileID: 877608102}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -40577,7 +40620,7 @@ Transform:
   m_Children:
   - {fileID: 1627798040}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1853708984
 GameObject:
