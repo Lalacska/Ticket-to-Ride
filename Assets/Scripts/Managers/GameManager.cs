@@ -243,8 +243,6 @@ public class GameManager : Singleton<GameManager>
             {
                 if (availbleCardSlots[i] == true)
                 {
-                    
-
                     //randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
 
@@ -803,6 +801,7 @@ public class GameManager : Singleton<GameManager>
         }
         PlayCardHand(color);
     }
+
 
     #endregion BTNS
 }
