@@ -28,10 +28,14 @@ namespace Assets.Scripts.Managers
 
         private int playerCount = 0;
 
-        public override void OnNetworkSpawn()
+        private void Start()
         {
             MyGlobalServerRpc();
         }
+        //public override void OnNetworkSpawn()
+        //{
+        //    MyGlobalServerRpc();
+        //}
 
         [ServerRpc(RequireOwnership = false)]
         public void MyGlobalServerRpc(ServerRpcParams serverRpcParams = default)

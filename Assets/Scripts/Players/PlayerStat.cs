@@ -8,13 +8,16 @@ using UnityEngine;
 
 public class PlayerStat : Singleton<PlayerStat>
 {
-    public int StatCardID;
+    [SerializeField] private int m_StatCardID;
+    [SerializeField] private string m_Color;
+    [SerializeField] private bool m_myTurn = false;
+    [SerializeField] private int m_ownerID;
 
-    public string Color;
+    public int StatCardID { get { return m_StatCardID; } set { m_StatCardID = value; } }
+    public string Color { get { return m_Color; } set { m_Color = value; } }
+    public bool myTurn { get { return m_myTurn; } set { m_myTurn = value; } }
+    public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
 
-    public bool myTurn = false;
-
-    public int ownerID;
 
     public List<Card> hand;
 

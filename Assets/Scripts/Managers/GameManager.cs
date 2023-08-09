@@ -195,16 +195,18 @@ public class GameManager : Singleton<GameManager>
     #region DrawFunctions
 
 
+    // This methode deals 4 card to every player at the start of the game  from the deck
     public List<Card> DealCards(int clientID, List<Card> hand)
     {
         for (int i = 0; i < 4; i++)
         {
-            Card randCard = deck[Random.Range(0, deck.Count)];
-            //if (cardVariables == null) { return null; }
-            //GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
-            //NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
-            //_card.GetComponent<NetworkObject>().Spawn(true);
-            //Card randCard = _card.GetComponent<Card>();
+            Card cardVariables = deck[Random.Range(0, deck.Count)];
+            if (cardVariables == null) { return null; }
+            GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
+            NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+            _card.GetComponent<NetworkObject>().Spawn(true);
+            Card randCard = _card.GetComponent<Card>();
+            //Card randCard = deck[Random.Range(0, deck.Count)];
             if (randCard.CardID == 0)
             {
                 randCard.CardID = _CardID;
@@ -225,6 +227,8 @@ public class GameManager : Singleton<GameManager>
         }
         return hand;
     }
+
+    public void DealTickets() { }
 
     // This method is for the Train-Destination Drawpile. \\
     public void Drawcard()
