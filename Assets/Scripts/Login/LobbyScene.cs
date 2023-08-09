@@ -1,7 +1,10 @@
+using Assets.Scripts.Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
+using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -34,11 +37,14 @@ public class LobbyScene : Singleton<LobbyScene>
             Transform spawnedObjectTransform = Instantiate(spawnObjectPrefab);
             spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
         }
+
+        
     }
 
     //When the host clicks it, it change everyone's  scene to the GameBoard scene
     public void StartButton()
     {
+
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
     }
 
