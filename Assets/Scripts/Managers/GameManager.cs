@@ -194,8 +194,40 @@ public class GameManager : Singleton<GameManager>
 
     #region DrawFunctions
 
+
+    public List<Card> DealCards(int clientID, List<Card> hand)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Card randCard = deck[Random.Range(0, deck.Count)];
+            //if (cardVariables == null) { return null; }
+            //GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
+            //NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+            //_card.GetComponent<NetworkObject>().Spawn(true);
+            //Card randCard = _card.GetComponent<Card>();
+            if (randCard.CardID == 0)
+            {
+                randCard.CardID = _CardID;
+                _CardID++;
+            }
+
+            randCard.handIndex = clientID;
+
+            //_card.transform.position = cardSlots[i].position;
+            randCard.hasBeenPlayed = false;
+
+            deck.Remove(randCard);
+            hand.Add(randCard);
+
+          
+            Debug.Log(randCard.Color);
+            //return;
+        }
+        return hand;
+    }
+
     // This method is for the Train-Destination Drawpile. \\
-    public async void Drawcard()
+    public void Drawcard()
     {
 
         if (deck.Count >= 1)
@@ -323,10 +355,8 @@ public class GameManager : Singleton<GameManager>
                         _CardID++;
                     }
 
-                    randCard.handIndex = i;
-
                     _card.transform.position = cardSlots[i].position;
-                    randCard.hasBeenPlayed = true;
+                    randCard.hasBeenPlayed = false;
 
                     availbleCardSlots[i] = false;
                     deck.Remove(randCard);
@@ -410,9 +440,6 @@ public class GameManager : Singleton<GameManager>
 
         return prefab;
     }
-
-
-
 
 
     #endregion DrawFunctions

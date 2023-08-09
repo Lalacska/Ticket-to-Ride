@@ -36,6 +36,7 @@ namespace Assets.Scripts.Managers
         [ServerRpc(RequireOwnership = false)]
         public void MyGlobalServerRpc(ServerRpcParams serverRpcParams = default)
         {
+            int clientID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
             playerCount++;
             Debug.Log(playerCount);
             GameObject prefab = PrefabChoser(playerCount);
@@ -43,9 +44,13 @@ namespace Assets.Scripts.Managers
             meh.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
             meh.TrySetParent(Statplace.transform, false);
             PlayerStat stat = meh.GetComponent<PlayerStat>();
-            stat.ownerID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
-
-
+            stat.ownerID = clientID;
+            stat.hand = GameManager.Instance.DealCards(clientID, stat.hand);
+            if(playerCount == 1)
+            {
+                stat.myTurn = true;
+            }
+            Stats.Add(stat);
         }
 
         public GameObject PrefabChoser(int id)
