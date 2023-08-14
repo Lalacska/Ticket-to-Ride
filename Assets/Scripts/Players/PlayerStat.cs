@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -12,11 +13,13 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private string m_Color;
     [SerializeField] private bool m_myTurn = false;
     [SerializeField] private int m_ownerID;
+    [SerializeField] private ulong m_clientId;
 
     public int StatCardID { get { return m_StatCardID; } set { m_StatCardID = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
     public bool myTurn { get { return m_myTurn; } set { m_myTurn = value; } }
     public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
+    public ulong clientId { get { return m_clientId; } set { m_clientId = value; } }
 
 
     [SerializeField] private List<Card> m_hand;
@@ -36,8 +39,11 @@ public class PlayerStat : Singleton<PlayerStat>
     private NetworkVariable<FixedString128Bytes> m_CardsString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TicketsString = new NetworkVariable<FixedString128Bytes>();
 
+    private Dictionary<FixedString128Bytes, int> cardsInHand = new Dictionary<FixedString128Bytes, int>()
+        { { "Black", 0 }, { "Blue", 0 }, { "Brown", 0 }, { "Green", 0 }, {"Orange", 0 }, {"Purple", 0 }, {"Yellow", 0 }, {"White", 0 }, {"Rainbow", 0 } };
 
-    private void Start()
+
+private void Start()
     {
         if (IsServer)
         {
@@ -64,6 +70,11 @@ public class PlayerStat : Singleton<PlayerStat>
             m_TicketsString.OnValueChanged += OnTextStringChanged;
             // Log the current value of the text string when the client connected
         }
+        
+    }
+    public override void OnNetworkSpawn()
+    {
+
     }
 
     public override void OnNetworkDespawn()
@@ -82,6 +93,15 @@ public class PlayerStat : Singleton<PlayerStat>
             if (m_CardsString.Value != hand.Count.ToString())
             {
                 m_CardsString.Value = hand.Count.ToString();
+                foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+                {
+                    Debug.Log("Cards in hand before: " + kvp.Key +" number: " + kvp.Value);
+                }
+                CardCheck(clientId);
+                foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+                {
+                    Debug.Log("Cards in hand after: " + kvp.Key + " number: " + kvp.Value);
+                }
             }
             if(m_TicketsString.Value != tickets.Count.ToString())
             {
@@ -110,6 +130,75 @@ public class PlayerStat : Singleton<PlayerStat>
         Stations.text = m_StationsString.Value.ToString();
         Cards.text = m_CardsString.Value.ToString();
         Tickets.text = m_TicketsString.Value.ToString();
+    }
+
+
+   public void CardCheck(ulong clientId)
+    {
+        if (!IsServer) return;
+
+
+        foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+        {
+          cardsInHand[kvp.Key] = 0;
+        }
+        foreach (Card card in hand)
+        {
+            foreach(KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+            {
+                if(card.Color == kvp.Key)
+                {
+                    cardsInHand[kvp.Key] +=1;
+                }
+            }
+        }
+
+        FixedString128Bytes[] cardscolor = new FixedString128Bytes[hand.Count];
+        int[] cardsnumber = new int[hand.Count];
+
+        for(int i = 0; i < hand.Count; i++)
+        {
+            cardscolor[i] = cardsInHand.ElementAt(i).Key;
+            cardsnumber[i] = cardsInHand.ElementAt(i).Value;
+        }
+        //foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+        //{
+        //    cardscolor.Add(kvp.Key.ToString());
+        //    cardsnumber.Add(kvp.Value.ToString());
+        //}
+
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { clientId }
+            }
+        };
+        Debug.Log("Ello");
+        CardUpdateClientRpc(cardscolor, cardsnumber, clientRpcParams);
+    }
+
+    [ClientRpc]
+    public void CardUpdateClientRpc(FixedString128Bytes[] color, int[] number, ClientRpcParams clientRpcParams = default)
+    {
+        Debug.Log("Ello 2");
+        if (!IsOwner) return;
+
+        Debug.Log("Ello 3");
+        var dictionary = new Dictionary<FixedString128Bytes, int>();
+
+        for (int index = 0; index < color.Length; index++)
+        {
+            dictionary.Add(color[index], number[index]);
+        }
+
+        Debug.Log("Ello 4");
+        cardsInHand.Clear();
+        cardsInHand = dictionary;
+        foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+        {
+            Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
+        }
     }
 }
 

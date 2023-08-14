@@ -51,6 +51,7 @@ namespace Assets.Scripts.Managers
             meh.TrySetParent(Statplace.transform, false);
             PlayerStat stat = meh.GetComponent<PlayerStat>();
 
+            stat.clientId = serverRpcParams.Receive.SenderClientId;
             stat.ownerID = clientID;
             stat.hand = GameManager.Instance.DealCards(clientID, stat.hand);
             stat.tickets = GameManager.Instance.DealTickets(clientID, stat.tickets);
