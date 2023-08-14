@@ -55,15 +55,15 @@ public class GameManager : Singleton<GameManager>
 
 
     // This is a int for keeping track of Rainbow Cards. \\
-    public int RainbowCount = 0;
+    private int RainbowCount = 0;
 
-    public int PlayerPickCount = 0;
+    private int PlayerPickCount = 0;
 
-    public int BoardIndex = 0;
+    private int BoardIndex = 0;
 
-    public int CardId = 0;
+    private int CardId = 0;
 
-    public int HandId = 0;
+    private int HandId = 0;
 
     private FixedString128Bytes lastcard = "";
 
@@ -112,9 +112,9 @@ public class GameManager : Singleton<GameManager>
 
     private int _CardID = 1;
 
-    public bool DestroyWithSpawner;
+    private bool DestroyWithSpawner;
 
-    CardSlotsID slot;
+    private CardSlotsID slot;
 
     private int BlackCardCounter = 0;
     private int BlueCardCounter = 0;
