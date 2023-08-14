@@ -32,6 +32,7 @@ namespace Assets.Scripts.Managers
         {
             MyGlobalServerRpc();
         }
+
         //public override void OnNetworkSpawn()
         //{
         //    MyGlobalServerRpc();
@@ -42,15 +43,19 @@ namespace Assets.Scripts.Managers
         {
             int clientID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
             playerCount++;
-            Debug.Log(playerCount);
+            Debug.Log("playercount: " + playerCount + " " + gameObject);
+
             GameObject prefab = PrefabChoser(playerCount);
             NetworkObject meh = Instantiate(prefab).GetComponent<NetworkObject>();
             meh.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
             meh.TrySetParent(Statplace.transform, false);
             PlayerStat stat = meh.GetComponent<PlayerStat>();
+
             stat.ownerID = clientID;
             stat.hand = GameManager.Instance.DealCards(clientID, stat.hand);
-            if(playerCount == 1)
+            stat.tickets = GameManager.Instance.DealTickets(clientID, stat.tickets);
+
+            if (playerCount == 1)
             {
                 stat.myTurn = true;
             }

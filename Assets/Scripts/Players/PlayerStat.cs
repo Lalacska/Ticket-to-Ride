@@ -19,7 +19,10 @@ public class PlayerStat : Singleton<PlayerStat>
     public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
 
 
-    public List<Card> hand;
+    [SerializeField] private List<Card> m_hand;
+    [SerializeField] private List<Ticket> m_tickets;
+    public List<Card> hand { get { return m_hand; } set { m_hand = value; } }
+    public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
 
     [SerializeField] private TMP_Text Score;
     [SerializeField] private TMP_Text Trains;
@@ -43,7 +46,7 @@ public class PlayerStat : Singleton<PlayerStat>
             m_TrainsString.Value = "50";
             m_StationsString.Value = "3";
             m_CardsString.Value = "0" /*hand.Count.ToString()*/;
-            m_TicketsString.Value = "4";
+            m_TicketsString.Value = "0";
             Score.text = m_ScoreString.Value.ToString();
             Trains.text = m_TrainsString.Value.ToString();
             Stations.text = m_StationsString.Value.ToString();
@@ -79,6 +82,10 @@ public class PlayerStat : Singleton<PlayerStat>
             if (m_CardsString.Value != hand.Count.ToString())
             {
                 m_CardsString.Value = hand.Count.ToString();
+            }
+            if(m_TicketsString.Value != tickets.Count.ToString())
+            {
+                m_TicketsString.Value = tickets.Count.ToString();
             }
         }
         if (Input.GetKeyDown(KeyCode.O))

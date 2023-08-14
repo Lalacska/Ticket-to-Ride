@@ -28,10 +28,14 @@ public class GameManager : Singleton<GameManager>
 
 
 
-    //// Here we make list for the diffrent kinds of cards piles. \\
-    public List<Card> deck;
-    public List<Card> DestinationTicket;
-    public List<Card> SpecialDestinationTicket;
+    // Here we make list for the diffrent kinds of cards piles. \\
+    [SerializeField] private List<Card> m_deck;
+    [SerializeField] private List<Ticket> m_tickets;
+    [SerializeField] private List<Ticket> m_specialTickets;
+    public List<Card> deck { get { return m_deck; } set { m_deck = value; } }
+    public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
+    public List<Ticket> specialTickets { get { return m_specialTickets; } set { m_specialTickets = value; } }
+
     public List<Card> board;
     public List<Card> discardPile;
 
@@ -128,8 +132,6 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         deck = new List<Card>();
-        DestinationTicket = new List<Card>();
-        SpecialDestinationTicket = new List<Card>();
         board = new List<Card>();
         discardPile = new List<Card>();
     }
@@ -152,7 +154,9 @@ public class GameManager : Singleton<GameManager>
         {
             Transform spawnedObjectTransform =  Instantiate(Bruh);
             spawnedObjectTransform.position = new Vector3(0, 5, 0);
-            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+            NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
+            no.SpawnWithObservers = false;
+            no.Spawn(true);
         }
 
         if (Input.GetKeyUp(KeyCode.T))
@@ -160,22 +164,23 @@ public class GameManager : Singleton<GameManager>
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
             if(obj != null)
             {
-                Debug.Log("HEY");
-                //SetVisibilityClientRpc(true);
-                
+                NetworkObject ob = obj.GetComponent<NetworkObject>();
+                ob.NetworkShow(1);
             }
         } else if (Input.GetKeyUp(KeyCode.G))
         {
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
             if (obj != null)
             {
+                NetworkObject ob = obj.GetComponent<NetworkObject>();
+                ob.NetworkHide(1);
                 Debug.Log("HEY");
                 //SetVisibilityClientRpc(false);
             }
         }
 
         deckSizeText.text = deck.Count.ToString();
-        decksSizeText.text = DestinationTicket.Count.ToString();
+        decksSizeText.text = tickets.Count.ToString();
         //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
         //discardPileText.text = discardPile.Count.ToString();
 
@@ -228,7 +233,22 @@ public class GameManager : Singleton<GameManager>
         return hand;
     }
 
-    public void DealTickets() { }
+    public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand) 
+    {
+        Ticket specialticket = specialTickets[Random.Range(0, specialTickets.Count)];
+        specialticket.ownerID = clientID;
+        specialTickets.Remove(specialticket);
+        ticketsInHand.Add(specialticket);
+        for (int i = 0; i < 3; i++)
+        {
+            Ticket ticket = tickets[Random.Range(0, tickets.Count)];
+            ticket.ownerID = clientID;
+            tickets.Remove(ticket);
+            ticketsInHand.Add(ticket);
+        }
+        Debug.Log("Tickets: "+ticketsInHand.Count);
+        return ticketsInHand;
+    }
 
     // This method is for the Train-Destination Drawpile. \\
     public void Drawcard()
@@ -285,51 +305,51 @@ public class GameManager : Singleton<GameManager>
     // This method is for the Destination Drawpile. \\
     public void DrawcardDestination()
     {
-        if (DestinationTicket.Count >= 1)
-        {
-            Card randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
+        //if (DestinationTicket.Count >= 1)
+        //{
+        //    Card randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
 
-            for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
-            {
-                if (availbleDestinationCardSlots[i] == true)
-                {
-                    //randCard.gameObject.SetActive(true);
-                    randCard.handIndex = i;
+        //    for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
+        //    {
+        //        if (availbleDestinationCardSlots[i] == true)
+        //        {
+        //            //randCard.gameObject.SetActive(true);
+        //            randCard.handIndex = i;
 
-                    //randCard.transform.position = cardSlotsDestination[i].position;
-                    randCard.hasBeenPlayed = false;
+        //            //randCard.transform.position = cardSlotsDestination[i].position;
+        //            randCard.hasBeenPlayed = false;
 
-                    availbleDestinationCardSlots[i] = false;
-                    DestinationTicket.Remove(randCard);
-                    return;
-                }
-            }
-        }
+        //            availbleDestinationCardSlots[i] = false;
+        //            DestinationTicket.Remove(randCard);
+        //            return;
+        //        }
+        //    }
+        //}
     }
 
     // This method is for the SpecialDestination Drawpile. \\
     public void DrawcardSpecialDestination()
     {
-        if (SpecialDestinationTicket.Count >= 1)
-        {
-            Card randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
+        //if (SpecialDestinationTicket.Count >= 1)
+        //{
+        //    Card randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
 
-            for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
-            {
-                if (availbleSpecialDestinationCardSlots[i] == true)
-                {
-                    //randCard.gameObject.SetActive(true);
-                    randCard.handIndex = i;
+        //    for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
+        //    {
+        //        if (availbleSpecialDestinationCardSlots[i] == true)
+        //        {
+        //            //randCard.gameObject.SetActive(true);
+        //            randCard.handIndex = i;
 
-                    //randCard.transform.position = cardSlotsSpecialDestination[i].position;
-                    randCard.hasBeenPlayed = false;
+        //            //randCard.transform.position = cardSlotsSpecialDestination[i].position;
+        //            randCard.hasBeenPlayed = false;
 
-                    availbleSpecialDestinationCardSlots[i] = false;
-                    SpecialDestinationTicket.Remove(randCard);
-                    return;
-                }
-            }
-        }
+        //            availbleSpecialDestinationCardSlots[i] = false;
+        //            SpecialDestinationTicket.Remove(randCard);
+        //            return;
+        //        }
+        //    }
+        //}
     }
 
     // This method is for the automaticly fils out the board. \\
