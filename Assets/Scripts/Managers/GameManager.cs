@@ -54,6 +54,7 @@ public class GameManager : Singleton<GameManager>
     public bool[] availbleSpecialDestinationCardSlots;
     public bool[] availbleDiscardPileCardSlots;
 
+    [SerializeField] private GameObject ticketArea;
 
     // This is a int for keeping track of Rainbow Cards. \\
     private int RainbowCount = 0;
@@ -135,6 +136,15 @@ public class GameManager : Singleton<GameManager>
         deck = new List<Card>();
         board = new List<Card>();
         discardPile = new List<Card>();
+
+        foreach(Ticket ticket in tickets.ToList())
+        {
+            ticket.ownerID = 0;
+        }
+        foreach (Ticket ticket in specialTickets.ToList())
+        {
+            ticket.ownerID = 0;
+        }
     }
 
     // This method runs, when the programs starts. \\
@@ -515,6 +525,40 @@ public class GameManager : Singleton<GameManager>
         }
         cardslotsid.cardslotCardID = card.CardID;
     }
+
+
+
+    #region Tickets
+
+    [ClientRpc]
+    public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ClientRpcParams clientRpcParams = default)
+    {
+        Debug.Log("Hehe");
+        //if (!IsOwner) return;
+
+        Debug.Log("Hehe 1 ");
+        for (int i = 0; i < ticketIds.Length; i++)
+        {
+            Debug.Log("Hehe 2");
+            GameObject ticketToSpawn = TicketSpawner.Instance.TicketChoser(ticketIds[i]);
+            if(ticketToSpawn != null)
+            {
+                Debug.Log("Hehe 3");
+                GameObject go_ticket = Instantiate(ticketToSpawn);
+                go_ticket.transform.SetParent(ticketArea.transform, true);
+                RectTransform rt = go_ticket.GetComponent<RectTransform>();
+                rt.position = ticketArea.transform.position;
+                Debug.Log("Hehe 4");
+            }
+        }
+        Debug.Log("Hehe 5");
+    }
+
+
+
+
+    #endregion Tickets
+
 
 
 

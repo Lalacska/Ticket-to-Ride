@@ -16,6 +16,16 @@ namespace Assets.Scripts.Managers
 {
     public class PlayerManager : Singleton<PlayerManager>
     {
+        [SerializeField] private Button blackButton;
+        [SerializeField] private Button blueButton;
+        [SerializeField] private Button brownButton;
+        [SerializeField] private Button greenButton;
+        [SerializeField] private Button orangeButton;
+        [SerializeField] private Button purpleButton;
+        [SerializeField] private Button whiteButton;
+        [SerializeField] private Button yellowButton;
+        [SerializeField] private Button rainbowButton;
+
         [SerializeField] private GameObject Player1;
         [SerializeField] private GameObject Player2;
         [SerializeField] private GameObject Player3;
@@ -61,6 +71,25 @@ namespace Assets.Scripts.Managers
                 stat.myTurn = true;
             }
             Stats.Add(stat);
+
+            // This set the ClientRpc
+            ClientRpcParams clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
+                }
+            };
+
+            int[] ticketIDs = new int[stat.tickets.Count];
+
+
+            for (int i = 0; i < stat.tickets.Count; i++)
+            {
+                ticketIDs[i] = stat.tickets[i].ticketID;
+            }
+
+            GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, clientRpcParams);
         }
 
         public GameObject PrefabChoser(int id)
@@ -72,6 +101,55 @@ namespace Assets.Scripts.Managers
             else if(id == 4) { prefab = Player4; }
             else if(id == 5) { prefab = Player5; }
             return prefab;
+        }
+
+        public void Enable_Disable()
+        {
+            if(blackButton.interactable)
+            {
+                blackButton.interactable = false;
+            }else { blackButton.interactable = true; }
+            if (blueButton.interactable)
+            {
+                blueButton.interactable = false;
+            }
+            else { blueButton.interactable = true; }
+            if (brownButton.interactable)
+            {
+                brownButton.interactable = false;
+            }
+            else { brownButton.interactable = true; }
+            if (greenButton.interactable)
+            {
+                greenButton.interactable = false;
+            }
+            else { greenButton.interactable = true; }
+            if (orangeButton.interactable)
+            {
+                orangeButton.interactable = false;
+            }
+            else { orangeButton.interactable = true; }
+            if (purpleButton.interactable)
+            {
+                purpleButton.interactable = false;
+            }
+            else { purpleButton.interactable = true; }
+            if (whiteButton.interactable)
+            {
+                whiteButton.interactable = false;
+            }
+            else { whiteButton.interactable = true; }
+            if (yellowButton.interactable)
+            {
+                yellowButton.interactable = false;
+            }
+            else { yellowButton.interactable = true; }
+            if (rainbowButton.interactable)
+            {
+                rainbowButton.interactable = false;
+            }
+            else { rainbowButton.interactable = true; }
+
         }
 
     }

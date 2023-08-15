@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7462542121922905243}
   - component: {fileID: 7519318841222524469}
   - component: {fileID: 3091033856597640581}
-  - component: {fileID: -3873384285215516935}
   m_Layer: 0
   m_Name: Ticket 28
   m_TagString: Untagged
@@ -122,23 +121,3 @@ MonoBehaviour:
   m_station1: Berlin
   m_station2: Bucuresti
   m_isSpecial: 0
---- !u!114 &-3873384285215516935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6710146403230457450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1

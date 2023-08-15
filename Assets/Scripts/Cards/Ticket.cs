@@ -5,7 +5,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Ticket : Singleton<Ticket>
+public class Ticket : MonoBehaviour
 {
     [SerializeField] private int m_ticketID;
 

@@ -74,10 +74,6 @@ public class PlayerStat : Singleton<PlayerStat>
         }
         
     }
-    public override void OnNetworkSpawn()
-    {
-
-    }
 
     public override void OnNetworkDespawn()
     {
