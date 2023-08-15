@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -82,31 +83,31 @@ public class GameManager : Singleton<GameManager>
 
     // This part is for the counters of the players cards. \\
     public int IBlackPlayerCount;
-    public Text TBlackPlayerCount;
+    public TMP_Text TBlackPlayerCount;
 
     public int IBluePlayerCount;
-    public Text TBluePlayerCount;
+    public TMP_Text TBluePlayerCount;
 
     public int IBrownPlayerCount;
-    public Text TBrownPlayerCount;
+    public TMP_Text TBrownPlayerCount;
 
     public int IGreenPlayerCount;
-    public Text TGreenPlayerCount;
+    public TMP_Text TGreenPlayerCount;
 
     public int IOrangePlayerCount;
-    public Text TOrangePlayerCount;
+    public TMP_Text TOrangePlayerCount;
 
     public int IPurplePlayerCount;
-    public Text TPurplePlayerCount;
+    public TMP_Text TPurplePlayerCount;
 
     public int IWhitePlayerCount;
-    public Text TWhitePlayerCount;
+    public TMP_Text TWhitePlayerCount;
 
     public int IYellowPlayerCount;
-    public Text TYellowPlayerCount;
+    public TMP_Text TYellowPlayerCount;
 
     public int IRainbowPlayerCount;
-    public Text TRainbowPlayerCount;
+    public TMP_Text TRainbowPlayerCount;
 
     public Text TdiscardPileText;
 

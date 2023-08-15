@@ -39,11 +39,13 @@ public class PlayerStat : Singleton<PlayerStat>
     private NetworkVariable<FixedString128Bytes> m_CardsString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TicketsString = new NetworkVariable<FixedString128Bytes>();
 
-    private Dictionary<FixedString128Bytes, int> cardsInHand = new Dictionary<FixedString128Bytes, int>()
+    private Dictionary<FixedString128Bytes, int> m_cardsInHand = new Dictionary<FixedString128Bytes, int>()
         { { "Black", 0 }, { "Blue", 0 }, { "Brown", 0 }, { "Green", 0 }, {"Orange", 0 }, {"Purple", 0 }, {"Yellow", 0 }, {"White", 0 }, {"Rainbow", 0 } };
 
+    public Dictionary<FixedString128Bytes, int> cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
 
-private void Start()
+
+    private void Start()
     {
         if (IsServer)
         {
@@ -133,15 +135,19 @@ private void Start()
     }
 
 
-   public void CardCheck(ulong clientId)
+    // This metode chek the cards in the players hand when their list changes and then send the data to the client
+    public void CardCheck(ulong clientId)
     {
         if (!IsServer) return;
 
-
+        // This cleares the keys in the dictionary, so the player won't get extra cards
         foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
         {
           cardsInHand[kvp.Key] = 0;
         }
+
+        // This goes trough the player cards and then the dictionary and when the card has the same color as the key 
+        // It adds plus 1 to the value
         foreach (Card card in hand)
         {
             foreach(KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
@@ -153,20 +159,18 @@ private void Start()
             }
         }
 
-        FixedString128Bytes[] cardscolor = new FixedString128Bytes[hand.Count];
-        int[] cardsnumber = new int[hand.Count];
+        // Here we make two new strings with the size of the dictionary
+        FixedString128Bytes[] cardscolor = new FixedString128Bytes[cardsInHand.Count];
+        int[] cardsnumber = new int[cardsInHand.Count];
 
-        for(int i = 0; i < hand.Count; i++)
+        // Here we go trough the dictionary and set the elements into the arrays
+        for(int i = 0; i < cardsInHand.Count; i++)
         {
             cardscolor[i] = cardsInHand.ElementAt(i).Key;
             cardsnumber[i] = cardsInHand.ElementAt(i).Value;
         }
-        //foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-        //{
-        //    cardscolor.Add(kvp.Key.ToString());
-        //    cardsnumber.Add(kvp.Value.ToString());
-        //}
 
+        // This set the ClientRpc
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -175,9 +179,13 @@ private void Start()
             }
         };
         Debug.Log("Ello");
+
+        // This sends the two array and the client params to a metode which will run on the clients side
         CardUpdateClientRpc(cardscolor, cardsnumber, clientRpcParams);
     }
 
+
+    // This ClientRpc runs only the owners client, it puts together the dictionary again and sets it localy
     [ClientRpc]
     public void CardUpdateClientRpc(FixedString128Bytes[] color, int[] number, ClientRpcParams clientRpcParams = default)
     {
@@ -187,18 +195,22 @@ private void Start()
         Debug.Log("Ello 3");
         var dictionary = new Dictionary<FixedString128Bytes, int>();
 
+        // This puts the two array together to a dictionary again
         for (int index = 0; index < color.Length; index++)
         {
             dictionary.Add(color[index], number[index]);
         }
 
         Debug.Log("Ello 4");
+        // These clears and sets the dictionary localy to the client
         cardsInHand.Clear();
         cardsInHand = dictionary;
         foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
         {
             Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
         }
+
+        PlayerHand.Instance.setCardsLocaly(cardsInHand);
     }
 }
 
