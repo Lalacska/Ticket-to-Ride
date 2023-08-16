@@ -121,3 +121,10 @@ MonoBehaviour:
   m_station1: Cadiz
   m_station2: Stockholm
   m_isSpecial: 0
+  m_isChosen: 0
+  emissiveMaterial: {fileID: 2100000, guid: b27eba53f8fd4174dbe4981d924b3285, type: 2}
+  objectToChange: {fileID: 8115025303307345036}
+  definedButton: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []

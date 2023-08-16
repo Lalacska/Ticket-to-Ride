@@ -121,3 +121,10 @@ MonoBehaviour:
   m_station1: Edinburgh
   m_station2: Athina
   m_isSpecial: 0
+  m_isChosen: 0
+  emissiveMaterial: {fileID: 2100000, guid: 8f9b49f9bf92e1a4ab3e776c80619ede, type: 2}
+  objectToChange: {fileID: 8746994665797583860}
+  definedButton: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []

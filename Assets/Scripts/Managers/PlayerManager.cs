@@ -7,8 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,7 +32,9 @@ namespace Assets.Scripts.Managers
 
         [SerializeField] private NetworkObject Statplace;
 
-        [SerializeField] private List<PlayerStat> Stats;
+        [SerializeField] private List<PlayerStat> m_stats;
+        public List<PlayerStat> stats { get { return m_stats; } set { m_stats = value; } }
+
 
         private int playerCount = 0;
 
@@ -70,7 +70,7 @@ namespace Assets.Scripts.Managers
             {
                 stat.myTurn = true;
             }
-            Stats.Add(stat);
+            stats.Add(stat);
 
             // This set the ClientRpc
             ClientRpcParams clientRpcParams = new ClientRpcParams
@@ -89,7 +89,7 @@ namespace Assets.Scripts.Managers
                 ticketIDs[i] = stat.tickets[i].ticketID;
             }
 
-            GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, clientRpcParams);
+            GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, stat.clientId, clientRpcParams);
         }
 
         public GameObject PrefabChoser(int id)

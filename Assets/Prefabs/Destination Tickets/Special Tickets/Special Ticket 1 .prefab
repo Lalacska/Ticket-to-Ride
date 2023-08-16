@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 525068145828753810}
   - component: {fileID: 612718876745816892}
   - component: {fileID: 1680716428073272894}
+  - component: {fileID: 5383181027726794114}
   m_Layer: 0
   m_Name: 'Special Ticket 1 '
   m_TagString: Untagged
@@ -57,7 +58,7 @@ MeshRenderer:
   m_GameObject: {fileID: 4451270217259985763}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -121,3 +122,18 @@ MonoBehaviour:
   m_station1: Lisboa
   m_station2: Danzig
   m_isSpecial: 0
+  m_isChosen: 0
+  emissiveMaterial: {fileID: 2100000, guid: cc2e2c259f621fa43a70eb8bbc7a9d69, type: 2}
+  objectToChange: {fileID: 525068145828753810}
+  definedButton: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!222 &5383181027726794114
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4451270217259985763}
+  m_CullTransparentMesh: 1

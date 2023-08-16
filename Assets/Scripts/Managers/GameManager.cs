@@ -1,4 +1,5 @@
 using Assets.Scripts.Cards;
+using Assets.Scripts.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,12 +34,15 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private List<Card> m_deck;
     [SerializeField] private List<Ticket> m_tickets;
     [SerializeField] private List<Ticket> m_specialTickets;
+    [SerializeField] private List<Ticket> m_choosedTicket;
     public List<Card> deck { get { return m_deck; } set { m_deck = value; } }
     public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
     public List<Ticket> specialTickets { get { return m_specialTickets; } set { m_specialTickets = value; } }
+    public List<Ticket> choosedTicket { get { return m_choosedTicket; } set { m_choosedTicket = value; } }
 
     public List<Card> board;
     public List<Card> discardPile;
+    
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
@@ -531,7 +535,7 @@ public class GameManager : Singleton<GameManager>
     #region Tickets
 
     [ClientRpc]
-    public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ClientRpcParams clientRpcParams = default)
+    public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ulong clientId, ClientRpcParams clientRpcParams = default)
     {
         Debug.Log("Hehe");
         //if (!IsOwner) return;
@@ -548,12 +552,72 @@ public class GameManager : Singleton<GameManager>
                 go_ticket.transform.SetParent(ticketArea.transform, true);
                 RectTransform rt = go_ticket.GetComponent<RectTransform>();
                 rt.position = ticketArea.transform.position;
+                Ticket spawendTicket = go_ticket.GetComponent<Ticket>();
+                choosedTicket.Add(spawendTicket);
                 Debug.Log("Hehe 4");
             }
         }
+
+        
         Debug.Log("Hehe 5");
     }
 
+
+    public void SendChoosenTicketsToServer()
+    {
+        int[] ticketIds = new int[choosedTicket.Count];
+        bool[] ticketStatus = new bool[choosedTicket.Count];
+
+        Debug.Log("Blep");
+
+        for(int i = 0; i < choosedTicket.Count; i++)
+        {
+            ticketIds[i] = choosedTicket[i].ticketID;
+            ticketStatus[i] = choosedTicket[i].isChosen;
+        }
+
+        Debug.Log("Blep 2");
+        CheckChoosenTicketsServerRpc(ticketIds, ticketStatus);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CheckChoosenTicketsServerRpc(int[] ticketIds, bool[] ticketStatus, ServerRpcParams serverRpcParams = default)
+    {
+        Debug.Log("Blep 3");
+        int index = 1000;
+        List<Ticket> ticketList = new List<Ticket>();
+        PlayerStat stat = null;
+        
+        for(int i = 0; i < PlayerManager.Instance.stats.Count; i++)
+        {
+            if(serverRpcParams.Receive.SenderClientId == PlayerManager.Instance.stats[i].clientId)
+            {
+                index = i;
+                stat = PlayerManager.Instance.stats[i];
+                Debug.Log("Blep 4: " + stat);
+            }
+        }
+
+        if (stat == null) return;
+
+        Debug.Log("Blep 5");
+        for (int i = 0; i < ticketIds.Length; i++)
+        {
+            if (stat.tickets[i].ticketID == ticketIds[i])
+            {
+                if (ticketStatus[i])
+                {
+                    Debug.Log("Blep 6");
+                    ticketList.Add(stat.tickets[i]);
+                }
+            }
+        }
+
+        Debug.Log("Blep 7");
+        PlayerManager.Instance.stats[index].tickets = ticketList;
+
+        Debug.Log("Blep 8");
+    }
 
 
 

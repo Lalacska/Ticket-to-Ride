@@ -121,3 +121,10 @@ MonoBehaviour:
   m_station1: Palermo
   m_station2: Moskva
   m_isSpecial: 0
+  m_isChosen: 0
+  emissiveMaterial: {fileID: 2100000, guid: 1dc2d0fe650eaf143a32e9d23e1bfcfc, type: 2}
+  objectToChange: {fileID: 5637272408737106954}
+  definedButton: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []

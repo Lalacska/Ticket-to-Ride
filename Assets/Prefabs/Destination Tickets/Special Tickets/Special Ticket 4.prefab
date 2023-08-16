@@ -121,3 +121,10 @@ MonoBehaviour:
   m_station1: "K\xF8benhavn"
   m_station2: Erzurum
   m_isSpecial: 0
+  m_isChosen: 0
+  emissiveMaterial: {fileID: 2100000, guid: 7e3dcbe135c2121429be8105165c1c67, type: 2}
+  objectToChange: {fileID: 841766901823308983}
+  definedButton: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []

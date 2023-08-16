@@ -121,3 +121,10 @@ MonoBehaviour:
   m_station1: Brest
   m_station2: Petrograd
   m_isSpecial: 0
+  m_isChosen: 0
+  emissiveMaterial: {fileID: 2100000, guid: fbad241034da51b46a705a9cd1285f8a, type: 2}
+  objectToChange: {fileID: 3146463622575306880}
+  definedButton: {fileID: 0}
+  OnClick:
+    m_PersistentCalls:
+      m_Calls: []
