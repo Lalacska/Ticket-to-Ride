@@ -35687,8 +35687,6 @@ GameObject:
   - component: {fileID: 1663915115}
   - component: {fileID: 1663915114}
   - component: {fileID: 1663915113}
-  - component: {fileID: 1663915116}
-  - component: {fileID: 1663915117}
   m_Layer: 5
   m_Name: ToggleKnap
   m_TagString: Untagged
@@ -40021,6 +40019,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Black Route
       objectReference: {fileID: 0}
+    - target: {fileID: 4974843772777961299, guid: cde6474fe5876794ab4bbbe23a10180f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cde6474fe5876794ab4bbbe23a10180f, type: 3}
 --- !u!4 &1807113002 stripped
@@ -42147,6 +42149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893924363}
+  - component: {fileID: 1893924364}
   m_Layer: 0
   m_Name: Routes
   m_TagString: Untagged
@@ -42242,6 +42245,19 @@ Transform:
   m_Father: {fileID: 1803552393}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1893924364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893924362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab6acfc9840e4f42afe866397dcc460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  route: {fileID: 0}
 --- !u!1001 &1894226900
 PrefabInstance:
   m_ObjectHideFlags: 0
