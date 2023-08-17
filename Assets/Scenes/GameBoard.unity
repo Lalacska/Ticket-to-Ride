@@ -15559,7 +15559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 355, y: -116}
+  m_AnchoredPosition: {x: 374, y: -125}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670650236
@@ -35923,7 +35923,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPickCount: 0
+  TurnCount: 0
   state: 0
+  SwitchTrun: {fileID: 215536159}
   GameBoard: {fileID: 1803552392}
   Turn: {fileID: 1852324040}
 --- !u!1 &1574588341

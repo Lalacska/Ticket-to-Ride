@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 
 
-public enum TurnState { Start, PlayerTurn, OpponentTurn, Won, Lost }
+public enum TurnState { Start, PlayerTurn, OpponentTurn, Won, Lost, End }
 
 public class TurnM : Singleton<TurnM>
 {
@@ -20,6 +20,8 @@ public class TurnM : Singleton<TurnM>
     #region Variables
 
     public int PlayerPickCount = 0;
+
+    public int TurnCount = 0;
 
     #endregion
 
@@ -42,16 +44,38 @@ public class TurnM : Singleton<TurnM>
         //AutomaticDrawPile();
     }
 
+    public GameObject SwitchTrun;
+
     public void Switch()
     {
-        if (state == TurnState.Start)
+        if (TurnCount < 10)
         {
-            state = TurnState.PlayerTurn;
-
+            if (state == TurnState.Start)
+            {
+                state = TurnState.PlayerTurn;
+                TurnCount++;
+            }
+            else if (state == TurnState.PlayerTurn)
+            {
+                state = TurnState.OpponentTurn;
+                TurnCount++;
+            }
+            else if (state == TurnState.OpponentTurn)
+            {
+                state = TurnState.PlayerTurn;
+                TurnCount++;
+            }
+            else
+            {
+                state = TurnState.Lost;
+            }
         }
         else
         {
-            state = TurnState.Lost;
+            Debug.Log("Spillet er slut");
+            state = TurnState.End;
+            
+            SwitchTrun.SetActive(false);
         }
     }
 
