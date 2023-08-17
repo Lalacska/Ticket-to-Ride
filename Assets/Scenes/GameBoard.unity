@@ -320,6 +320,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2748326}
   m_CullTransparentMesh: 1
+--- !u!21 &7529641
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &15307647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,7 +1388,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 57361749}
   m_OnClick:
     m_PersistentCalls:
@@ -2148,6 +2184,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 275626659}
     m_Modifications:
+    - target: {fileID: 128074261329211278, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 7529641}
     - target: {fileID: 2346531317497889769, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4230141256
@@ -2252,6 +2292,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3121901332506402183, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2081229546}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
 --- !u!224 &114409529 stripped
@@ -2915,7 +2959,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 143305574}
   m_OnClick:
     m_PersistentCalls:
@@ -3301,7 +3345,7 @@ Transform:
   m_Children:
   - {fileID: 1912777127}
   m_Father: {fileID: 1803552393}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &159847177
 PrefabInstance:
@@ -5134,26 +5178,14 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 215536162}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1572893709}
         m_TargetAssemblyTypeName: TurnM, Assembly-CSharp
-        m_MethodName: SwitchTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1572893709}
-        m_TargetAssemblyTypeName: TurnM, Assembly-CSharp
-        m_MethodName: Switch
+        m_MethodName: EndTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5474,7 +5506,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 238609763}
   m_OnClick:
     m_PersistentCalls:
@@ -9464,6 +9496,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 275626659}
     m_Modifications:
+    - target: {fileID: 2709941836895510066, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 747405987}
     - target: {fileID: 5456220651035412687, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
       propertyPath: Score
       value: 
@@ -9559,6 +9595,10 @@ PrefabInstance:
     - target: {fileID: 5847349387025550001, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 279325762
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233723615749834616, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -6.9000244
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
@@ -10503,37 +10543,6 @@ Transform:
   - {fileID: 135620098}
   m_Father: {fileID: 2093646317}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &486343740
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 486343741}
-  m_Layer: 0
-  m_Name: Special Tickets
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &486343741
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 486343740}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -57, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1803552393}
-  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &492618466
 GameObject:
@@ -16047,6 +16056,42 @@ Transform:
   m_Father: {fileID: 918713391}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &747405987
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &749510545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16217,37 +16262,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756753788}
   m_CullTransparentMesh: 1
---- !u!1 &760380541
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 760380542}
-  m_Layer: 0
-  m_Name: Destination Tickets
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &760380542
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760380541}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1803552393}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &761472069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16530,7 +16544,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 766032771}
   m_OnClick:
     m_PersistentCalls:
@@ -16726,7 +16740,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 773943338}
   m_OnClick:
     m_PersistentCalls:
@@ -17657,10 +17671,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1852324040}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1285157280}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: DrawDestinatonTickets
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -18943,7 +18957,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 883706735}
   m_OnClick:
     m_PersistentCalls:
@@ -23121,6 +23135,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1093546788}
   m_CullTransparentMesh: 1
+--- !u!21 &1097718726
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1098261299
 GameObject:
   m_ObjectHideFlags: 0
@@ -23926,7 +23976,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1126724723}
   m_OnClick:
     m_PersistentCalls:
@@ -30406,7 +30456,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1421885613}
   m_OnClick:
     m_PersistentCalls:
@@ -30594,8 +30644,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -33917,6 +33967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1572893707}
   - component: {fileID: 1572893709}
+  - component: {fileID: 1572893710}
   m_Layer: 0
   m_Name: TurnSystem
   m_TagString: Untagged
@@ -33953,10 +34004,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPickCount: 0
   TurnCount: 0
-  state: 0
+  m_players: []
+  endTurnBtn: {fileID: 215536161}
   SwitchTrun: {fileID: 215536159}
   GameBoard: {fileID: 1803552392}
   Turn: {fileID: 1852324040}
+  state: 0
+--- !u!114 &1572893710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572893706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3111888967
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1574588341
 GameObject:
   m_ObjectHideFlags: 0
@@ -35687,8 +35760,6 @@ GameObject:
   - component: {fileID: 1663915115}
   - component: {fileID: 1663915114}
   - component: {fileID: 1663915113}
-  - component: {fileID: 1663915116}
-  - component: {fileID: 1663915117}
   m_Layer: 5
   m_Name: ToggleKnap
   m_TagString: Untagged
@@ -36056,7 +36127,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1674753451}
   m_OnClick:
     m_PersistentCalls:
@@ -36251,7 +36322,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1676958575}
   m_OnClick:
     m_PersistentCalls:
@@ -37253,6 +37324,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4789222781548258983, guid: 1db1ddb3a591e934cac24959e880d927, type: 3}
   m_PrefabInstance: {fileID: 1730109695}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1733780414
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1740147674
 GameObject:
   m_ObjectHideFlags: 0
@@ -38014,7 +38121,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1767312736}
   m_OnClick:
     m_PersistentCalls:
@@ -39885,8 +39992,6 @@ Transform:
   - {fileID: 1347462396}
   - {fileID: 653080894}
   - {fileID: 1396827077}
-  - {fileID: 760380542}
-  - {fileID: 486343741}
   - {fileID: 158267033}
   m_Father: {fileID: 877608102}
   m_RootOrder: 0
@@ -40277,7 +40382,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1814744282}
   m_OnClick:
     m_PersistentCalls:
@@ -40591,7 +40696,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1816505501}
   m_OnClick:
     m_PersistentCalls:
@@ -43575,7 +43680,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1949694211}
   m_OnClick:
     m_PersistentCalls:
@@ -46494,7 +46599,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2073691085}
   m_OnClick:
     m_PersistentCalls:
@@ -46762,6 +46867,42 @@ Transform:
   m_Father: {fileID: 1803552393}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &2081229546
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &2081705434
 GameObject:
   m_ObjectHideFlags: 0

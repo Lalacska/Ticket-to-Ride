@@ -65,7 +65,7 @@ namespace Assets.Scripts.Managers
             stat.clientId = serverRpcParams.Receive.SenderClientId;
             stat.ownerID = clientID;
             stat.hand = GameManager.Instance.DealCards(clientID, stat.hand);
-            stat.tickets = GameManager.Instance.DealTickets(clientID, stat.tickets);
+            stat.tickets = GameManager.Instance.DealTickets(clientID, stat.tickets, true);
 
             stats.Add(stat);
 
@@ -103,7 +103,12 @@ namespace Assets.Scripts.Managers
                 int randomplayer = UnityEngine.Random.Range(0, stats.Count);
                 firstPlayer = stats[randomplayer];
                 stats[randomplayer].myTurn = true;
+                TurnM.Instance.firstPlayerId = stats[randomplayer].ownerID;
+                TurnM.Instance.currentPlayerIndex = randomplayer;
+                TurnM.Instance.players = stats;
                 gameStarted = true;
+
+                TurnM.Instance.TurnStarted(firstPlayer.clientId);
                 Debug.Log("Game started! First player: "+stats[randomplayer].clientId);
             }
 

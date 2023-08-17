@@ -1,5 +1,6 @@
 using Assets.Scripts.Cards;
 using Assets.Scripts.Managers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -224,13 +225,13 @@ public class GameManager : Singleton<GameManager>
     {
         for (int i = 0; i < 4; i++)
         {
-            Card cardVariables = deck[Random.Range(0, deck.Count)];
+            Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
             if (cardVariables == null) { return null; }
             GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
             NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
             _card.GetComponent<NetworkObject>().Spawn(true);
             Card randCard = _card.GetComponent<Card>();
-            //Card randCard = deck[Random.Range(0, deck.Count)];
+            //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
             if (randCard.CardID == 0)
             {
                 randCard.CardID = _CardID;
@@ -252,15 +253,19 @@ public class GameManager : Singleton<GameManager>
         return hand;
     }
 
-    public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand) 
+    public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand = default, bool firstDeal = false) 
     {
-        Ticket specialticket = specialTickets[Random.Range(0, specialTickets.Count)];
-        specialticket.ownerID = clientID;
-        specialTickets.Remove(specialticket);
-        ticketsInHand.Add(specialticket);
+        ticketsInHand = new List<Ticket>();
+        if (firstDeal)
+        {
+            Ticket specialticket = specialTickets[UnityEngine.Random.Range(0, specialTickets.Count)];
+            specialticket.ownerID = clientID;
+            specialTickets.Remove(specialticket);
+            ticketsInHand.Add(specialticket);
+        }
         for (int i = 0; i < 3; i++)
         {
-            Ticket ticket = tickets[Random.Range(0, tickets.Count)];
+            Ticket ticket = tickets[UnityEngine.Random.Range(0, tickets.Count)];
             ticket.ownerID = clientID;
             tickets.Remove(ticket);
             ticketsInHand.Add(ticket);
@@ -275,13 +280,13 @@ public class GameManager : Singleton<GameManager>
 
         if (deck.Count >= 1)
         {
-            GameObject randomCardPrefab = CardColorByNumber(Random.Range(1, 111), "nope");
+            GameObject randomCardPrefab = CardColorByNumber(UnityEngine.Random.Range(1, 111), "nope");
             NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
             _card.GetComponent<NetworkObject>().Spawn(true);
             Card randCard = _card.GetComponent<Card>();
             GameObject rc = transform.parent.GetComponent<GameObject>();
             Debug.Log(rc);
-            //Card randCard = deck[Random.Range(0, deck.Count)];
+            //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
                 if (availbleCardSlots[i] == true)
@@ -326,7 +331,7 @@ public class GameManager : Singleton<GameManager>
     {
         //if (DestinationTicket.Count >= 1)
         //{
-        //    Card randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
+        //    Card randCard = DestinationTicket[UnityEngine.Random.Range(0, DestinationTicket.Count)];
 
         //    for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
         //    {
@@ -351,7 +356,7 @@ public class GameManager : Singleton<GameManager>
     {
         //if (SpecialDestinationTicket.Count >= 1)
         //{
-        //    Card randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
+        //    Card randCard = SpecialDestinationTicket[UnityEngine.Random.Range(0, SpecialDestinationTicket.Count)];
 
         //    for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
         //    {
@@ -379,12 +384,12 @@ public class GameManager : Singleton<GameManager>
         if (deck.Count >= 1)
         {
             
-            //CardVariables randCard = deck[Random.Range(0, deck.Count)];
+            //CardVariables randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
             for (int i = 0; i < availbleCardSlots.Length; i++)
             {
                 if (availbleCardSlots[i] == true && deck.Count != 0)
                 {
-                    Card cardVariables = deck[Random.Range(0, deck.Count)];
+                    Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
                     if(cardVariables == null) { return; }
                     GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
                     NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
@@ -538,10 +543,51 @@ public class GameManager : Singleton<GameManager>
 
     #region Tickets
 
+    public void DrawDestinatonTickets()
+    {
+        DrawDestinatonTicketsServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DrawDestinatonTicketsServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        PlayerStat player;
+        List<Ticket> choosedTickets;
+        ulong clientID = serverRpcParams.Receive.SenderClientId;
+        for(int i = 0; i < PlayerManager.Instance.stats.Count; i++)
+        {
+            if(PlayerManager.Instance.stats[i].clientId == clientID)
+            {
+                player = PlayerManager.Instance.stats[i];
+            }
+        }
+        choosedTickets = DealTickets(Convert.ToInt32(clientID));
+
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
+            }
+        };
+
+        int[] ticketIDs = new int[choosedTickets.Count];
+        for (int i = 0; i < choosedTickets.Count; i++)
+        {
+            ticketIDs[i] = choosedTickets[i].ticketID;
+        }
+
+        GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, clientID, clientRpcParams);
+
+
+    }
+
+
     // This metode gets the ticket ids from the server, and spawns the game objects localy on the client and adds them to a list
     [ClientRpc]
     public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ulong clientId, ClientRpcParams clientRpcParams = default)
     {
+        choosingtArea.SetActive(true);
         Debug.Log("Hehe");
         //if (!IsOwner) return;
 
@@ -564,7 +610,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        
         Debug.Log("Hehe 5");
     }
 
@@ -592,9 +637,12 @@ public class GameManager : Singleton<GameManager>
         }
 
 
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Here
+
+
         // This for populates the arrays, and goes troug the objects if the object is chosen it get re-parented under another gameobject
         // if it's not selected it gets destroyed
-        ticketArea.active = true;
+        ticketArea.SetActive(true);
         for (int i = 0; i < choosedTicket.Count; i++)
         {
             ticketIds[i] = choosedTicket[i].ticketID;
@@ -617,8 +665,8 @@ public class GameManager : Singleton<GameManager>
                 }
             }
         }
-        choosingtArea.active = false;
-        ticketArea.active = false;
+        choosingtArea.SetActive(false);
+        ticketArea.SetActive(false);
 
         Debug.Log("Blep 2");
         CheckChoosenTicketsServerRpc(ticketIds, ticketStatus);
@@ -681,13 +729,13 @@ public class GameManager : Singleton<GameManager>
 
    public void OpenCloseTicketArea()
     {
-        if (ticketArea.active)
+        if (ticketArea.activeInHierarchy)
         {
-            ticketArea.active = false;
+            ticketArea.SetActive(false);
         }
         else
         {
-            ticketArea.active = true;
+            ticketArea.SetActive(true);
         }
     }
 
@@ -696,7 +744,7 @@ public class GameManager : Singleton<GameManager>
 
 
 
-    #region Random/Extra 
+    #region UnityEngine.Random/Extra 
 
     // This method shuffles the used/discared cards back into the deck. \\ NOT WORKING!
     public void Shuffle()
@@ -925,7 +973,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Du har fjernet 1 " + cardcolor + " kort");
     }
 
-    #endregion Random/Extra
+    #endregion UnityEngine.Random/Extra
 
 
 
