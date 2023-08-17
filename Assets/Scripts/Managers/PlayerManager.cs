@@ -7,8 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +14,16 @@ namespace Assets.Scripts.Managers
 {
     public class PlayerManager : Singleton<PlayerManager>
     {
+        [SerializeField] private Button blackButton;
+        [SerializeField] private Button blueButton;
+        [SerializeField] private Button brownButton;
+        [SerializeField] private Button greenButton;
+        [SerializeField] private Button orangeButton;
+        [SerializeField] private Button purpleButton;
+        [SerializeField] private Button whiteButton;
+        [SerializeField] private Button yellowButton;
+        [SerializeField] private Button rainbowButton;
+
         [SerializeField] private GameObject Player1;
         [SerializeField] private GameObject Player2;
         [SerializeField] private GameObject Player3;
@@ -24,33 +32,82 @@ namespace Assets.Scripts.Managers
 
         [SerializeField] private NetworkObject Statplace;
 
-        [SerializeField] private List<PlayerStat> Stats;
+        [SerializeField] private List<PlayerStat> m_stats;
+        public List<PlayerStat> stats { get { return m_stats; } set { m_stats = value; } }
 
+        private bool gameStarted = false;
         private int playerCount = 0;
-
-        public override void OnNetworkSpawn()
+        private PlayerStat m_firstPlayer;
+        public PlayerStat firstPlayer { get { return m_firstPlayer; } set { m_firstPlayer = value; } }
+        private void Start()
         {
             MyGlobalServerRpc();
         }
+
+        //public override void OnNetworkSpawn()
+        //{
+        //    MyGlobalServerRpc();
+        //}
 
         [ServerRpc(RequireOwnership = false)]
         public void MyGlobalServerRpc(ServerRpcParams serverRpcParams = default)
         {
             int clientID = Convert.ToInt32(serverRpcParams.Receive.SenderClientId);
             playerCount++;
-            Debug.Log(playerCount);
+            Debug.Log("playercount: " + playerCount + " " + gameObject);
+
             GameObject prefab = PrefabChoser(playerCount);
             NetworkObject meh = Instantiate(prefab).GetComponent<NetworkObject>();
             meh.SpawnWithOwnership(serverRpcParams.Receive.SenderClientId);
             meh.TrySetParent(Statplace.transform, false);
             PlayerStat stat = meh.GetComponent<PlayerStat>();
+
+            stat.clientId = serverRpcParams.Receive.SenderClientId;
             stat.ownerID = clientID;
             stat.hand = GameManager.Instance.DealCards(clientID, stat.hand);
-            if(playerCount == 1)
+            stat.tickets = GameManager.Instance.DealTickets(clientID, stat.tickets);
+
+            stats.Add(stat);
+
+            // This set the ClientRpc
+            ClientRpcParams clientRpcParams = new ClientRpcParams
             {
-                stat.myTurn = true;
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
+                }
+            };
+
+            int[] ticketIDs = new int[stat.tickets.Count];
+
+
+            for (int i = 0; i < stat.tickets.Count; i++)
+            {
+                ticketIDs[i] = stat.tickets[i].ticketID;
             }
-            Stats.Add(stat);
+
+            GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, stat.clientId, clientRpcParams);
+        }
+
+        private void Update()
+        {
+            if (!IsServer) return;
+
+            // If the game is not started yet it will go trough the player list and check if everyone is ready, then draw a random player who will be the first
+            if (!gameStarted)
+            {
+                foreach (PlayerStat stat in stats)
+                {
+                    if (!stat.isReady) return;
+                }
+                int randomplayer = UnityEngine.Random.Range(0, stats.Count);
+                firstPlayer = stats[randomplayer];
+                stats[randomplayer].myTurn = true;
+                gameStarted = true;
+                Debug.Log("Game started! First player: "+stats[randomplayer].clientId);
+            }
+
+
         }
 
         public GameObject PrefabChoser(int id)
@@ -62,6 +119,55 @@ namespace Assets.Scripts.Managers
             else if(id == 4) { prefab = Player4; }
             else if(id == 5) { prefab = Player5; }
             return prefab;
+        }
+
+        public void Enable_Disable()
+        {
+            if(blackButton.interactable)
+            {
+                blackButton.interactable = false;
+            }else { blackButton.interactable = true; }
+            if (blueButton.interactable)
+            {
+                blueButton.interactable = false;
+            }
+            else { blueButton.interactable = true; }
+            if (brownButton.interactable)
+            {
+                brownButton.interactable = false;
+            }
+            else { brownButton.interactable = true; }
+            if (greenButton.interactable)
+            {
+                greenButton.interactable = false;
+            }
+            else { greenButton.interactable = true; }
+            if (orangeButton.interactable)
+            {
+                orangeButton.interactable = false;
+            }
+            else { orangeButton.interactable = true; }
+            if (purpleButton.interactable)
+            {
+                purpleButton.interactable = false;
+            }
+            else { purpleButton.interactable = true; }
+            if (whiteButton.interactable)
+            {
+                whiteButton.interactable = false;
+            }
+            else { whiteButton.interactable = true; }
+            if (yellowButton.interactable)
+            {
+                yellowButton.interactable = false;
+            }
+            else { yellowButton.interactable = true; }
+            if (rainbowButton.interactable)
+            {
+                rainbowButton.interactable = false;
+            }
+            else { rainbowButton.interactable = true; }
+
         }
 
     }
