@@ -41,7 +41,6 @@ public class TurnM : Singleton<TurnM>
         PlayerPickCount = 0;
         //lastcaz= "";
         GameManager.Instance.AutomaticDrawPile();
-        //AutomaticDrawPile();
     }
 
     public GameObject SwitchTrun;

@@ -72,9 +72,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30aeb3886e6a2f4a974831b6a43f804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatCardID: 2
-  Color: Red
-  ownerID: 100
+  m_StatCardID: 2
+  m_Color: Red
+  m_myTurn: 0
+  m_ownerID: 0
+  hand: []
   Score: {fileID: 6110200148550665869}
   Trains: {fileID: 8095789911840551044}
   Stations: {fileID: 389118547041845710}

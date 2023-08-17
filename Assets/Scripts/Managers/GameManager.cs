@@ -1,9 +1,11 @@
 using Assets.Scripts.Cards;
+using Assets.Scripts.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -28,12 +30,22 @@ public class GameManager : Singleton<GameManager>
 
 
 
-    //// Here we make list for the diffrent kinds of cards piles. \\
-    public List<Card> deck;
-    public List<Card> DestinationTicket;
-    public List<Card> SpecialDestinationTicket;
+    // Here we make list for the diffrent kinds of cards piles. \\
+    [SerializeField] private List<Card> m_deck;
+    [SerializeField] private List<Ticket> m_tickets;
+    [SerializeField] private List<Ticket> m_specialTickets;
+    [SerializeField] private List<Ticket> m_choosedTicket;
+    [SerializeField] private List<GameObject> m_ticketObjects;
+    public List<Card> deck { get { return m_deck; } set { m_deck = value; } }
+    public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
+    public List<Ticket> specialTickets { get { return m_specialTickets; } set { m_specialTickets = value; } }
+    public List<Ticket> choosedTicket { get { return m_choosedTicket; } set { m_choosedTicket = value; } }
+    public List<GameObject> ticketObjects { get { return m_ticketObjects; } set { m_ticketObjects = value; } }
+
+
     public List<Card> board;
     public List<Card> discardPile;
+    
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
@@ -49,17 +61,19 @@ public class GameManager : Singleton<GameManager>
     public bool[] availbleSpecialDestinationCardSlots;
     public bool[] availbleDiscardPileCardSlots;
 
+    [SerializeField] private GameObject choosingtArea;
+    [SerializeField] private GameObject ticketArea;
 
     // This is a int for keeping track of Rainbow Cards. \\
-    public int RainbowCount = 0;
+    private int RainbowCount = 0;
 
-    public int PlayerPickCount = 0;
+    private int PlayerPickCount = 0;
 
-    public int BoardIndex = 0;
+    private int BoardIndex = 0;
 
-    public int CardId = 0;
+    private int CardId = 0;
 
-    public int HandId = 0;
+    private int HandId = 0;
 
     private FixedString128Bytes lastcard = "";
 
@@ -78,39 +92,39 @@ public class GameManager : Singleton<GameManager>
 
     // This part is for the counters of the players cards. \\
     public int IBlackPlayerCount;
-    public Text TBlackPlayerCount;
+    public TMP_Text TBlackPlayerCount;
 
     public int IBluePlayerCount;
-    public Text TBluePlayerCount;
+    public TMP_Text TBluePlayerCount;
 
     public int IBrownPlayerCount;
-    public Text TBrownPlayerCount;
+    public TMP_Text TBrownPlayerCount;
 
     public int IGreenPlayerCount;
-    public Text TGreenPlayerCount;
+    public TMP_Text TGreenPlayerCount;
 
     public int IOrangePlayerCount;
-    public Text TOrangePlayerCount;
+    public TMP_Text TOrangePlayerCount;
 
     public int IPurplePlayerCount;
-    public Text TPurplePlayerCount;
+    public TMP_Text TPurplePlayerCount;
 
     public int IWhitePlayerCount;
-    public Text TWhitePlayerCount;
+    public TMP_Text TWhitePlayerCount;
 
     public int IYellowPlayerCount;
-    public Text TYellowPlayerCount;
+    public TMP_Text TYellowPlayerCount;
 
     public int IRainbowPlayerCount;
-    public Text TRainbowPlayerCount;
+    public TMP_Text TRainbowPlayerCount;
 
     public Text TdiscardPileText;
 
     private int _CardID = 1;
 
-    public bool DestroyWithSpawner;
+    private bool DestroyWithSpawner;
 
-    CardSlotsID slot;
+    private CardSlotsID slot;
 
     private int BlackCardCounter = 0;
     private int BlueCardCounter = 0;
@@ -128,10 +142,17 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         deck = new List<Card>();
-        DestinationTicket = new List<Card>();
-        SpecialDestinationTicket = new List<Card>();
         board = new List<Card>();
         discardPile = new List<Card>();
+
+        foreach(Ticket ticket in tickets.ToList())
+        {
+            ticket.ownerID = 0;
+        }
+        foreach (Ticket ticket in specialTickets.ToList())
+        {
+            ticket.ownerID = 0;
+        }
     }
 
     // This method runs, when the programs starts. \\
@@ -152,7 +173,9 @@ public class GameManager : Singleton<GameManager>
         {
             Transform spawnedObjectTransform =  Instantiate(Bruh);
             spawnedObjectTransform.position = new Vector3(0, 5, 0);
-            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+            NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
+            no.SpawnWithObservers = false;
+            no.Spawn(true);
         }
 
         if (Input.GetKeyUp(KeyCode.T))
@@ -160,22 +183,23 @@ public class GameManager : Singleton<GameManager>
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
             if(obj != null)
             {
-                Debug.Log("HEY");
-                //SetVisibilityClientRpc(true);
-                
+                NetworkObject ob = obj.GetComponent<NetworkObject>();
+                ob.NetworkShow(1);
             }
         } else if (Input.GetKeyUp(KeyCode.G))
         {
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
             if (obj != null)
             {
+                NetworkObject ob = obj.GetComponent<NetworkObject>();
+                ob.NetworkHide(1);
                 Debug.Log("HEY");
                 //SetVisibilityClientRpc(false);
             }
         }
 
         deckSizeText.text = deck.Count.ToString();
-        decksSizeText.text = DestinationTicket.Count.ToString();
+        decksSizeText.text = tickets.Count.ToString();
         //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
         //discardPileText.text = discardPile.Count.ToString();
 
@@ -195,16 +219,18 @@ public class GameManager : Singleton<GameManager>
     #region DrawFunctions
 
 
+    // This methode deals 4 card to every player at the start of the game  from the deck
     public List<Card> DealCards(int clientID, List<Card> hand)
     {
         for (int i = 0; i < 4; i++)
         {
-            Card randCard = deck[Random.Range(0, deck.Count)];
-            //if (cardVariables == null) { return null; }
-            //GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
-            //NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
-            //_card.GetComponent<NetworkObject>().Spawn(true);
-            //Card randCard = _card.GetComponent<Card>();
+            Card cardVariables = deck[Random.Range(0, deck.Count)];
+            if (cardVariables == null) { return null; }
+            GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
+            NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+            _card.GetComponent<NetworkObject>().Spawn(true);
+            Card randCard = _card.GetComponent<Card>();
+            //Card randCard = deck[Random.Range(0, deck.Count)];
             if (randCard.CardID == 0)
             {
                 randCard.CardID = _CardID;
@@ -224,6 +250,23 @@ public class GameManager : Singleton<GameManager>
             //return;
         }
         return hand;
+    }
+
+    public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand) 
+    {
+        Ticket specialticket = specialTickets[Random.Range(0, specialTickets.Count)];
+        specialticket.ownerID = clientID;
+        specialTickets.Remove(specialticket);
+        ticketsInHand.Add(specialticket);
+        for (int i = 0; i < 3; i++)
+        {
+            Ticket ticket = tickets[Random.Range(0, tickets.Count)];
+            ticket.ownerID = clientID;
+            tickets.Remove(ticket);
+            ticketsInHand.Add(ticket);
+        }
+        Debug.Log("Tickets: "+ticketsInHand.Count);
+        return ticketsInHand;
     }
 
     // This method is for the Train-Destination Drawpile. \\
@@ -281,51 +324,51 @@ public class GameManager : Singleton<GameManager>
     // This method is for the Destination Drawpile. \\
     public void DrawcardDestination()
     {
-        if (DestinationTicket.Count >= 1)
-        {
-            Card randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
+        //if (DestinationTicket.Count >= 1)
+        //{
+        //    Card randCard = DestinationTicket[Random.Range(0, DestinationTicket.Count)];
 
-            for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
-            {
-                if (availbleDestinationCardSlots[i] == true)
-                {
-                    //randCard.gameObject.SetActive(true);
-                    randCard.handIndex = i;
+        //    for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
+        //    {
+        //        if (availbleDestinationCardSlots[i] == true)
+        //        {
+        //            //randCard.gameObject.SetActive(true);
+        //            randCard.handIndex = i;
 
-                    //randCard.transform.position = cardSlotsDestination[i].position;
-                    randCard.hasBeenPlayed = false;
+        //            //randCard.transform.position = cardSlotsDestination[i].position;
+        //            randCard.hasBeenPlayed = false;
 
-                    availbleDestinationCardSlots[i] = false;
-                    DestinationTicket.Remove(randCard);
-                    return;
-                }
-            }
-        }
+        //            availbleDestinationCardSlots[i] = false;
+        //            DestinationTicket.Remove(randCard);
+        //            return;
+        //        }
+        //    }
+        //}
     }
 
     // This method is for the SpecialDestination Drawpile. \\
     public void DrawcardSpecialDestination()
     {
-        if (SpecialDestinationTicket.Count >= 1)
-        {
-            Card randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
+        //if (SpecialDestinationTicket.Count >= 1)
+        //{
+        //    Card randCard = SpecialDestinationTicket[Random.Range(0, SpecialDestinationTicket.Count)];
 
-            for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
-            {
-                if (availbleSpecialDestinationCardSlots[i] == true)
-                {
-                    //randCard.gameObject.SetActive(true);
-                    randCard.handIndex = i;
+        //    for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
+        //    {
+        //        if (availbleSpecialDestinationCardSlots[i] == true)
+        //        {
+        //            //randCard.gameObject.SetActive(true);
+        //            randCard.handIndex = i;
 
-                    //randCard.transform.position = cardSlotsSpecialDestination[i].position;
-                    randCard.hasBeenPlayed = false;
+        //            //randCard.transform.position = cardSlotsSpecialDestination[i].position;
+        //            randCard.hasBeenPlayed = false;
 
-                    availbleSpecialDestinationCardSlots[i] = false;
-                    SpecialDestinationTicket.Remove(randCard);
-                    return;
-                }
-            }
-        }
+        //            availbleSpecialDestinationCardSlots[i] = false;
+        //            SpecialDestinationTicket.Remove(randCard);
+        //            return;
+        //        }
+        //    }
+        //}
     }
 
     // This method is for the automaticly fils out the board. \\
@@ -490,6 +533,166 @@ public class GameManager : Singleton<GameManager>
         }
         cardslotsid.cardslotCardID = card.CardID;
     }
+
+
+
+    #region Tickets
+
+    // This metode gets the ticket ids from the server, and spawns the game objects localy on the client and adds them to a list
+    [ClientRpc]
+    public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ulong clientId, ClientRpcParams clientRpcParams = default)
+    {
+        Debug.Log("Hehe");
+        //if (!IsOwner) return;
+
+        Debug.Log("Hehe 1 ");
+        for (int i = 0; i < ticketIds.Length; i++)
+        {
+            Debug.Log("Hehe 2");
+            GameObject ticketToSpawn = TicketSpawner.Instance.TicketChoser(ticketIds[i]);
+            if(ticketToSpawn != null)
+            {
+                Debug.Log("Hehe 3");
+                GameObject go_ticket = Instantiate(ticketToSpawn);
+                go_ticket.transform.SetParent(choosingtArea.transform, true);
+                RectTransform rt = go_ticket.GetComponent<RectTransform>();
+                rt.position = choosingtArea.transform.position;
+                Ticket spawendTicket = go_ticket.GetComponent<Ticket>();
+                choosedTicket.Add(spawendTicket);
+                ticketObjects.Add(go_ticket);
+                Debug.Log("Hehe 4");
+            }
+        }
+
+        
+        Debug.Log("Hehe 5");
+    }
+
+    // This metode converts the impoortant elements from the choosedTicket list into two array, and sends them to a SeververRPC
+    // Also checks and sends an indication if the player doesn't have at least 2 tickets selected and also updates the objects
+    public void SendChoosenTicketsToServer()
+    {
+        int[] ticketIds = new int[choosedTicket.Count];
+        bool[] ticketStatus = new bool[choosedTicket.Count];
+        int checkcounter = 0;
+
+        // This checks that how many tickets is selected, returns the metode and sends a warning if its under two
+        for(int i = 0; i < choosedTicket.Count; i++)
+        {
+            if (choosedTicket[i].isChosen)
+            {
+                checkcounter++;
+            }
+        }
+
+        if (checkcounter < 2)
+        {
+            Debug.Log("You need to choose minimum 2 tickets!");
+            return;
+        }
+
+
+        // This for populates the arrays, and goes troug the objects if the object is chosen it get re-parented under another gameobject
+        // if it's not selected it gets destroyed
+        ticketArea.active = true;
+        for (int i = 0; i < choosedTicket.Count; i++)
+        {
+            ticketIds[i] = choosedTicket[i].ticketID;
+            ticketStatus[i] = choosedTicket[i].isChosen;
+            foreach (GameObject go_ticket in ticketObjects.ToList())
+            {
+                Ticket go_ticket_ticket = go_ticket.GetComponent<Ticket>();
+                if (go_ticket_ticket.ticketID == ticketIds[i])
+                {
+                    if (ticketStatus[i])
+                    {
+                        RectTransform rt = go_ticket.GetComponent<RectTransform>();
+                        go_ticket.transform.SetParent(ticketArea.transform, true);
+                        DeactivateInteractionWithTicket(go_ticket);
+                    }
+                    else
+                    {
+                        Destroy(go_ticket);
+                    }
+                }
+            }
+        }
+        choosingtArea.active = false;
+        ticketArea.active = false;
+
+        Debug.Log("Blep 2");
+        CheckChoosenTicketsServerRpc(ticketIds, ticketStatus);
+    }
+
+    // This metode, update the client's tickets list in their status object on the server
+    [ServerRpc(RequireOwnership = false)]
+    public void CheckChoosenTicketsServerRpc(int[] ticketIds, bool[] ticketStatus, ServerRpcParams serverRpcParams = default)
+    {
+        Debug.Log("Blep 3");
+        int index = 1000;
+        List<Ticket> ticketList = new List<Ticket>();
+        PlayerStat stat = null;
+
+        // This finds the client's PlayerStat and index of its playerStat 
+        for (int i = 0; i < PlayerManager.Instance.stats.Count; i++)
+        {
+            if(serverRpcParams.Receive.SenderClientId == PlayerManager.Instance.stats[i].clientId)
+            {
+                index = i;
+                stat = PlayerManager.Instance.stats[i];
+                Debug.Log("Blep 4: " + stat);
+            }
+        }
+
+        if (stat == null) return;
+
+        // This goes trough the ticketIds array, and where the id is the same as the stats id from the list, check whats the status is for the ticket
+        // where the ticketStatus is true it adds the ticket to the ticketList
+        Debug.Log("Blep 5");
+        for (int i = 0; i < ticketIds.Length; i++)
+        {
+            if (stat.tickets[i].ticketID == ticketIds[i])
+            {
+                if (ticketStatus[i])
+                {
+                    Debug.Log("Blep 6");
+                    ticketList.Add(stat.tickets[i]);
+                }
+            }
+        }
+
+        Debug.Log("Blep 7");
+        // This finds the client's stat again, and set the new list for the tickets
+        PlayerManager.Instance.stats[index].tickets = ticketList;
+        PlayerManager.Instance.stats[index].isReady = true;
+
+        Debug.Log("Blep 8");
+    }
+
+    // Tis metode turns off the emission on the ticket, and disables the collider, so the player can's interact with it anymore
+    public void DeactivateInteractionWithTicket(GameObject go_ticket)
+    {
+        Ticket ticket = go_ticket.GetComponent<Ticket>();
+        ticket.TurnEmissionOff();
+        BoxCollider collider = go_ticket.GetComponent<BoxCollider>();
+        collider.enabled = false;
+        
+    }
+
+   public void OpenCloseTicketArea()
+    {
+        if (ticketArea.active)
+        {
+            ticketArea.active = false;
+        }
+        else
+        {
+            ticketArea.active = true;
+        }
+    }
+
+    #endregion Tickets
+
 
 
 
