@@ -14,12 +14,16 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private bool m_myTurn = false;
     [SerializeField] private int m_ownerID;
     [SerializeField] private ulong m_clientId;
+    [SerializeField] private string m_name;
+    [SerializeField] private bool m_isReady = false;
 
     public int StatCardID { get { return m_StatCardID; } set { m_StatCardID = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
     public bool myTurn { get { return m_myTurn; } set { m_myTurn = value; } }
     public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
     public ulong clientId { get { return m_clientId; } set { m_clientId = value; } }
+    public string name { get { return m_name; } set { m_name = value; } }
+    public bool isReady { get { return m_isReady; } set { m_isReady = value; } }
 
 
     [SerializeField] private List<Card> m_hand;

@@ -618,6 +618,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
         choosingtArea.active = false;
+        ticketArea.active = false;
 
         Debug.Log("Blep 2");
         CheckChoosenTicketsServerRpc(ticketIds, ticketStatus);
@@ -663,6 +664,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Blep 7");
         // This finds the client's stat again, and set the new list for the tickets
         PlayerManager.Instance.stats[index].tickets = ticketList;
+        PlayerManager.Instance.stats[index].isReady = true;
 
         Debug.Log("Blep 8");
     }
@@ -675,6 +677,18 @@ public class GameManager : Singleton<GameManager>
         BoxCollider collider = go_ticket.GetComponent<BoxCollider>();
         collider.enabled = false;
         
+    }
+
+   public void OpenCloseTicketArea()
+    {
+        if (ticketArea.active)
+        {
+            ticketArea.active = false;
+        }
+        else
+        {
+            ticketArea.active = true;
+        }
     }
 
     #endregion Tickets

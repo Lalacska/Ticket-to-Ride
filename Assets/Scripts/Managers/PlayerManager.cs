@@ -35,9 +35,10 @@ namespace Assets.Scripts.Managers
         [SerializeField] private List<PlayerStat> m_stats;
         public List<PlayerStat> stats { get { return m_stats; } set { m_stats = value; } }
 
-
+        private bool gameStarted = false;
         private int playerCount = 0;
-
+        private PlayerStat m_firstPlayer;
+        public PlayerStat firstPlayer { get { return m_firstPlayer; } set { m_firstPlayer = value; } }
         private void Start()
         {
             MyGlobalServerRpc();
@@ -66,10 +67,6 @@ namespace Assets.Scripts.Managers
             stat.hand = GameManager.Instance.DealCards(clientID, stat.hand);
             stat.tickets = GameManager.Instance.DealTickets(clientID, stat.tickets);
 
-            if (playerCount == 1)
-            {
-                stat.myTurn = true;
-            }
             stats.Add(stat);
 
             // This set the ClientRpc
@@ -90,6 +87,27 @@ namespace Assets.Scripts.Managers
             }
 
             GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, stat.clientId, clientRpcParams);
+        }
+
+        private void Update()
+        {
+            if (!IsServer) return;
+
+            // If the game is not started yet it will go trough the player list and check if everyone is ready, then draw a random player who will be the first
+            if (!gameStarted)
+            {
+                foreach (PlayerStat stat in stats)
+                {
+                    if (!stat.isReady) return;
+                }
+                int randomplayer = UnityEngine.Random.Range(0, stats.Count);
+                firstPlayer = stats[randomplayer];
+                stats[randomplayer].myTurn = true;
+                gameStarted = true;
+                Debug.Log("Game started! First player: "+stats[randomplayer].clientId);
+            }
+
+
         }
 
         public GameObject PrefabChoser(int id)
