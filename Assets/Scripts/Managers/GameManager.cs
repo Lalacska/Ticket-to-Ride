@@ -500,7 +500,9 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-
+    /// <summary>
+    /// This part is for all the different functions for Tickets that are being used in the game. \\
+    /// </summary>
     #region Tickets
 
     // This metode is called, when the player choose Draw Destination Ticket action
