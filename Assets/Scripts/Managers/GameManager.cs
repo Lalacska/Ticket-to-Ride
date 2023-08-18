@@ -37,13 +37,13 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private List<Ticket> m_specialTickets;
     [SerializeField] private List<Ticket> m_choosedTicket;
     [SerializeField] private List<GameObject> m_ticketObjects;
-    [SerializeField] private List<Ticket> m_ticketDrawing;
+    [SerializeField] private List<Ticket> m_drawnTickets;
     public List<Card> deck { get { return m_deck; } set { m_deck = value; } }
     public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
     public List<Ticket> specialTickets { get { return m_specialTickets; } set { m_specialTickets = value; } }
     public List<Ticket> choosedTicket { get { return m_choosedTicket; } set { m_choosedTicket = value; } }
     public List<GameObject> ticketObjects { get { return m_ticketObjects; } set { m_ticketObjects = value; } }
-    public List<Ticket> ticketDrawing { get { return m_ticketDrawing; } set { m_ticketDrawing = value; } }
+    public List<Ticket> drawnTickets { get { return m_drawnTickets; } set { m_drawnTickets = value; } }
 
 
     public List<Card> board;
@@ -257,11 +257,15 @@ public class GameManager : Singleton<GameManager>
         return hand;
     }
 
+    // This methode deals 3 tickets to the player, when firstDeal is true at the start of the game, it deals an aditional special ticket too
+    // Then it returns the list with tickets
     public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand = default, bool firstDeal = false) 
     {
         ticketsInHand = new List<Ticket>();
         if (firstDeal)
         {
+            // Getting a random ticket from the list that has all the special tickets
+            // Then sets ownerId for the ticket, it removes it from the same list, and ads it to the list that the methode will return
             Ticket specialticket = specialTickets[UnityEngine.Random.Range(0, specialTickets.Count)];
             specialticket.ownerID = clientID;
             specialTickets.Remove(specialticket);
@@ -269,6 +273,8 @@ public class GameManager : Singleton<GameManager>
         }
         for (int i = 0; i < 3; i++)
         {
+            // Getting a random ticket from the list that has all the normal tickets
+            // Then sets ownerId for the ticket, it removes it from the same list, and ads it to the list that the methode will return
             Ticket ticket = tickets[UnityEngine.Random.Range(0, tickets.Count)];
             ticket.ownerID = clientID;
             tickets.Remove(ticket);
@@ -328,56 +334,6 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log(cardSlots);
             }
         }
-    }
-
-    // This method is for the Destination Drawpile. \\
-    public void DrawcardDestination()
-    {
-        //if (DestinationTicket.Count >= 1)
-        //{
-        //    Card randCard = DestinationTicket[UnityEngine.Random.Range(0, DestinationTicket.Count)];
-
-        //    for (int i = 0; i < availbleDestinationCardSlots.Length; i++)
-        //    {
-        //        if (availbleDestinationCardSlots[i] == true)
-        //        {
-        //            //randCard.gameObject.SetActive(true);
-        //            randCard.handIndex = i;
-
-        //            //randCard.transform.position = cardSlotsDestination[i].position;
-        //            randCard.hasBeenPlayed = false;
-
-        //            availbleDestinationCardSlots[i] = false;
-        //            DestinationTicket.Remove(randCard);
-        //            return;
-        //        }
-        //    }
-        //}
-    }
-
-    // This method is for the SpecialDestination Drawpile. \\
-    public void DrawcardSpecialDestination()
-    {
-        //if (SpecialDestinationTicket.Count >= 1)
-        //{
-        //    Card randCard = SpecialDestinationTicket[UnityEngine.Random.Range(0, SpecialDestinationTicket.Count)];
-
-        //    for (int i = 0; i < availbleSpecialDestinationCardSlots.Length; i++)
-        //    {
-        //        if (availbleSpecialDestinationCardSlots[i] == true)
-        //        {
-        //            //randCard.gameObject.SetActive(true);
-        //            randCard.handIndex = i;
-
-        //            //randCard.transform.position = cardSlotsSpecialDestination[i].position;
-        //            randCard.hasBeenPlayed = false;
-
-        //            availbleSpecialDestinationCardSlots[i] = false;
-        //            SpecialDestinationTicket.Remove(randCard);
-        //            return;
-        //        }
-        //    }
-        //}
     }
 
     // This method is for the automaticly fils out the board. \\
@@ -547,84 +503,84 @@ public class GameManager : Singleton<GameManager>
 
     #region Tickets
 
+    // This metode is called, when the player choose Draw Destination Ticket action
     public void DrawDestinatonTickets()
     {
+        // This disables the choosing area
         TurnM.Instance.Enable_DisableActionChooser();
+        // This starts a ServerRpc metode, so the things will run on the server, not on the client
         DrawDestinatonTicketsServerRpc();
-        //TurnM.Instance.EndTurn();
 
     }
 
+    // This metod gets the dealt tickets from another metode, then sets the target client, 
+    // Convert the list into an array, so we can send it trough the network and sets thr drawnTickets list
     [ServerRpc(RequireOwnership = false)]
     public void DrawDestinatonTicketsServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        ticketDrawing.Clear();
-        PlayerStat player;
-        List<Ticket> choosedTickets;
+        // This clear the list, so we don't use cards from an earlier drawing
+        drawnTickets.Clear();
+        List<Ticket> dealtTickets;
+        // Gets, thesender clientID
         ulong clientID = serverRpcParams.Receive.SenderClientId;
-        for(int i = 0; i < PlayerManager.Instance.stats.Count; i++)
-        {
-            if(PlayerManager.Instance.stats[i].clientId == clientID)
-            {
-                player = PlayerManager.Instance.stats[i];
-            }
-        }
-        choosedTickets = DealTickets(Convert.ToInt32(clientID));
+        dealtTickets = DealTickets(Convert.ToInt32(clientID));
 
+        //Set the target client
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
             {
-                TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
+                TargetClientIds = new ulong[] { clientID }
             }
         };
 
-        int[] ticketIDs = new int[choosedTickets.Count];
-        for (int i = 0; i < choosedTickets.Count; i++)
+        // Make a new array, then get all the ticketId in it
+        int[] ticketIDs = new int[dealtTickets.Count];
+        for (int i = 0; i < dealtTickets.Count; i++)
         {
-            ticketIDs[i] = choosedTickets[i].ticketID;
+            ticketIDs[i] = dealtTickets[i].ticketID;
         }
 
-        ticketDrawing = choosedTickets;
-        GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, clientID, clientRpcParams);
-
+        // Sets the list, with the dealt tickets
+        drawnTickets = dealtTickets;
+        SpawnTicketsLocalyClientRpc(ticketIDs, clientID, clientRpcParams);
 
     }
-
 
     // This metode gets the ticket ids from the server, and spawns the game objects localy on the client and adds them to a list
     [ClientRpc]
     public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ulong clientId, ClientRpcParams clientRpcParams = default)
     {
+        // Sets the ticket choosing area true
         choosingtArea.SetActive(true);
+        // Cleares the object list, so we don't use objects from an earlier drawing
         ticketObjects.Clear();
-        Debug.Log("Hehe");
-        //if (!IsOwner) return;
 
-        Debug.Log("Hehe 1 ");
+        // This goes trough the ticketIds array
         for (int i = 0; i < ticketIds.Length; i++)
         {
-            Debug.Log("Hehe 2");
+            // This gets the right gameobject by the ticketId and spawns it if it's not null
             GameObject ticketToSpawn = TicketSpawner.Instance.TicketChoser(ticketIds[i]);
             if(ticketToSpawn != null)
             {
-                Debug.Log("Hehe 3");
+                // Spawns the ticket and set parent
                 GameObject go_ticket = Instantiate(ticketToSpawn);
                 go_ticket.transform.SetParent(choosingtArea.transform, true);
+
+                // Edits the ticket transform, so it shows in the correct place
                 RectTransform rt = go_ticket.GetComponent<RectTransform>();
                 rt.position = choosingtArea.transform.position;
+
+                // Get the Ticket component, and ads the ticket to the choosed ticket list and the gameobject to the ticketObject list
                 Ticket spawendTicket = go_ticket.GetComponent<Ticket>();
                 choosedTicket.Add(spawendTicket);
                 ticketObjects.Add(go_ticket);
-                Debug.Log("Hehe 4");
             }
         }
-
-        Debug.Log("Hehe 5");
     }
 
     // This metode converts the impoortant elements from the choosedTicket list into two array, and sends them to a SeververRPC
-    // Also checks and sends an indication if the player doesn't have at least 2 tickets selected and also updates the objects
+    // Also checks and sends an indication if the player doesn't have the required amount of tickets selected and also updates the objects
     public void SendChoosenTicketsToServer()
     {
         int[] ticketIds = new int[choosedTicket.Count];
@@ -632,7 +588,7 @@ public class GameManager : Singleton<GameManager>
         int checkcounter = 0;
         int neededCardAmount = 1;
 
-        // This checks that how many tickets is selected, returns the metode and sends a warning if its under two
+        // This goes trough the choosedTicket list and add 1 to the checkcounter if a ticket is chosen
         for(int i = 0; i < choosedTicket.Count; i++)
         {
             if (choosedTicket[i].isChosen)
@@ -641,19 +597,19 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        Debug.Log("First Choice: "+firstChoice);
-
+        // This checks if this is the first time, and if it is sets the required amount to 2
         if (firstChoice)
         {
-            neededCardAmount++;
+            neededCardAmount = 2;
         }
+        // This checks if the chosed ticket amounr it under the required one, sends a warning and returns if it is. 
         if (checkcounter < neededCardAmount)
         {
             Debug.Log("You need to choose minimum "+ neededCardAmount+ " ticket!" );
             return;
         }
 
-        // This for populates the arrays, and goes troug the objects if the object is chosen it get re-parented under another gameobject
+        // This populates the arrays, and goes troug the objects if the object is chosen it get re-parented under another gameobject
         // if it's not selected it gets destroyed
         ticketArea.SetActive(true);
         for (int i = 0; i < choosedTicket.Count; i++)
@@ -667,6 +623,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     if (ticketStatus[i])
                     {
+                        // If the ticket is chosed this gets the transform and re-parents it
                         RectTransform rt = go_ticket.GetComponent<RectTransform>();
                         go_ticket.transform.SetParent(ticketArea.transform, true);
                         DeactivateInteractionWithTicket(go_ticket);
@@ -678,11 +635,14 @@ public class GameManager : Singleton<GameManager>
                 }
             }
         }
+        // These deacticates the areas, so it won't be visible for the player
         choosingtArea.SetActive(false);
         ticketArea.SetActive(false);
 
-        Debug.Log("Blep 2");
+        
         CheckChoosenTicketsServerRpc(ticketIds, ticketStatus, firstChoice);
+
+        // If its not the start of the game, this ends the player turn
         if (!firstChoice)
         {
             TurnM.Instance.EndTurn();
@@ -694,49 +654,50 @@ public class GameManager : Singleton<GameManager>
     [ServerRpc(RequireOwnership = false)]
     public void CheckChoosenTicketsServerRpc(int[] ticketIds, bool[] ticketStatus, bool choice, ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("Blep 3");
         int index = 1000;
         List<Ticket> ticketList = new List<Ticket>();
         PlayerStat stat = null;
 
-        // This finds the client's PlayerStat and index of its playerStat 
+        // This finds and sets the client's PlayerStat and index of its playerStat from the player stat list 
         for (int i = 0; i < PlayerManager.Instance.stats.Count; i++)
         {
             if(serverRpcParams.Receive.SenderClientId == PlayerManager.Instance.stats[i].clientId)
             {
                 index = i;
                 stat = PlayerManager.Instance.stats[i];
-                Debug.Log("Blep 4: " + stat);
             }
         }
 
+        //if the stat is null it returns
         if (stat == null) return;
 
+  
         // This goes trough the ticketIds array, and where the id is the same as the stats id from the list, check whats the status is for the ticket
         // where the ticketStatus is true it adds the ticket to the ticketList
-        Debug.Log("Blep 5");
         for (int i = 0; i < ticketIds.Length; i++)
         {
+            // If this is the start if the game, this goes trough the players ticket list, and if the ids are matching
+            // and the status is trough it adds the ticket to the list
             if (choice)
             {
                 if (stat.tickets[i].ticketID == ticketIds[i])
                 {
                     if (ticketStatus[i])
                     {
-                        Debug.Log("Blep 6");
                         ticketList.Add(stat.tickets[i]);
                     }
                 }
             }
             else
             {
-                foreach (Ticket StatTicket in ticketDrawing.ToList())
+                // If this is the player action, it goes trough the drawnTicket list, which we sat earlier and
+                // If one of the tickets id is the same as the id from the array and the status is true it adds the ticket to the list
+                foreach (Ticket StatTicket in drawnTickets.ToList())
                 {
                     if (StatTicket.ticketID == ticketIds[i])
                     {
                         if (ticketStatus[i])
                         {
-                            Debug.Log("Blep 6");
                             ticketList.Add(StatTicket);
                         }
                     }
@@ -745,6 +706,8 @@ public class GameManager : Singleton<GameManager>
         }
 
         Debug.Log("Blep 7");
+        // If this is the start if the game this sets the list to the clients ticket list,
+        // and indicates that the player is ready for start the game
         if (choice)
         {
             PlayerManager.Instance.stats[index].tickets = ticketList;
@@ -752,20 +715,13 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            Debug.Log("EEEEEEEEEEEEEE");
-            foreach(Ticket ticket in ticketList)
+            // If this is a players action, it goes trough the ticketList, we set befire, and adds the tickets individually to the list
+            foreach (Ticket ticket in ticketList)
             {
-                Debug.Log("Something and " + ticket);
                 PlayerManager.Instance.stats[index].tickets.Add(ticket);
             }
         }
 
-
-        // This finds the client's stat again, and set the new list for the ticket
-        //PlayerManager.Instance.stats[index].tickets = ticketList;
-        //PlayerManager.Instance.stats[index].isReady = true;
-
-        Debug.Log("Blep 8");
     }
 
     // Tis metode turns off the emission on the ticket, and disables the collider, so the player can's interact with it anymore
@@ -790,7 +746,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    #endregion Tickets
+   #endregion Tickets
 
 
 
