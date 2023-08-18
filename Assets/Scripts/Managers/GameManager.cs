@@ -37,11 +37,13 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private List<Ticket> m_specialTickets;
     [SerializeField] private List<Ticket> m_choosedTicket;
     [SerializeField] private List<GameObject> m_ticketObjects;
+    [SerializeField] private List<Ticket> m_ticketDrawing;
     public List<Card> deck { get { return m_deck; } set { m_deck = value; } }
     public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
     public List<Ticket> specialTickets { get { return m_specialTickets; } set { m_specialTickets = value; } }
     public List<Ticket> choosedTicket { get { return m_choosedTicket; } set { m_choosedTicket = value; } }
     public List<GameObject> ticketObjects { get { return m_ticketObjects; } set { m_ticketObjects = value; } }
+    public List<Ticket> ticketDrawing { get { return m_ticketDrawing; } set { m_ticketDrawing = value; } }
 
 
     public List<Card> board;
@@ -69,6 +71,8 @@ public class GameManager : Singleton<GameManager>
     private int RainbowCount = 0;
 
     private int PlayerPickCount = 0;
+
+    private bool firstChoice = true;
 
     private int BoardIndex = 0;
 
@@ -545,12 +549,16 @@ public class GameManager : Singleton<GameManager>
 
     public void DrawDestinatonTickets()
     {
+        TurnM.Instance.Enable_DisableActionChooser();
         DrawDestinatonTicketsServerRpc();
+        //TurnM.Instance.EndTurn();
+
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void DrawDestinatonTicketsServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        ticketDrawing.Clear();
         PlayerStat player;
         List<Ticket> choosedTickets;
         ulong clientID = serverRpcParams.Receive.SenderClientId;
@@ -577,6 +585,7 @@ public class GameManager : Singleton<GameManager>
             ticketIDs[i] = choosedTickets[i].ticketID;
         }
 
+        ticketDrawing = choosedTickets;
         GameManager.Instance.SpawnTicketsLocalyClientRpc(ticketIDs, clientID, clientRpcParams);
 
 
@@ -588,6 +597,7 @@ public class GameManager : Singleton<GameManager>
     public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ulong clientId, ClientRpcParams clientRpcParams = default)
     {
         choosingtArea.SetActive(true);
+        ticketObjects.Clear();
         Debug.Log("Hehe");
         //if (!IsOwner) return;
 
@@ -620,6 +630,7 @@ public class GameManager : Singleton<GameManager>
         int[] ticketIds = new int[choosedTicket.Count];
         bool[] ticketStatus = new bool[choosedTicket.Count];
         int checkcounter = 0;
+        int neededCardAmount = 1;
 
         // This checks that how many tickets is selected, returns the metode and sends a warning if its under two
         for(int i = 0; i < choosedTicket.Count; i++)
@@ -630,15 +641,17 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        if (checkcounter < 2)
+        Debug.Log("First Choice: "+firstChoice);
+
+        if (firstChoice)
         {
-            Debug.Log("You need to choose minimum 2 tickets!");
+            neededCardAmount++;
+        }
+        if (checkcounter < neededCardAmount)
+        {
+            Debug.Log("You need to choose minimum "+ neededCardAmount+ " ticket!" );
             return;
         }
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Here
-
 
         // This for populates the arrays, and goes troug the objects if the object is chosen it get re-parented under another gameobject
         // if it's not selected it gets destroyed
@@ -669,12 +682,17 @@ public class GameManager : Singleton<GameManager>
         ticketArea.SetActive(false);
 
         Debug.Log("Blep 2");
-        CheckChoosenTicketsServerRpc(ticketIds, ticketStatus);
+        CheckChoosenTicketsServerRpc(ticketIds, ticketStatus, firstChoice);
+        if (!firstChoice)
+        {
+            TurnM.Instance.EndTurn();
+        }
+        firstChoice = false;
     }
 
     // This metode, update the client's tickets list in their status object on the server
     [ServerRpc(RequireOwnership = false)]
-    public void CheckChoosenTicketsServerRpc(int[] ticketIds, bool[] ticketStatus, ServerRpcParams serverRpcParams = default)
+    public void CheckChoosenTicketsServerRpc(int[] ticketIds, bool[] ticketStatus, bool choice, ServerRpcParams serverRpcParams = default)
     {
         Debug.Log("Blep 3");
         int index = 1000;
@@ -699,20 +717,53 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Blep 5");
         for (int i = 0; i < ticketIds.Length; i++)
         {
-            if (stat.tickets[i].ticketID == ticketIds[i])
+            if (choice)
             {
-                if (ticketStatus[i])
+                if (stat.tickets[i].ticketID == ticketIds[i])
                 {
-                    Debug.Log("Blep 6");
-                    ticketList.Add(stat.tickets[i]);
+                    if (ticketStatus[i])
+                    {
+                        Debug.Log("Blep 6");
+                        ticketList.Add(stat.tickets[i]);
+                    }
+                }
+            }
+            else
+            {
+                foreach (Ticket StatTicket in ticketDrawing.ToList())
+                {
+                    if (StatTicket.ticketID == ticketIds[i])
+                    {
+                        if (ticketStatus[i])
+                        {
+                            Debug.Log("Blep 6");
+                            ticketList.Add(StatTicket);
+                        }
+                    }
                 }
             }
         }
 
         Debug.Log("Blep 7");
-        // This finds the client's stat again, and set the new list for the tickets
-        PlayerManager.Instance.stats[index].tickets = ticketList;
-        PlayerManager.Instance.stats[index].isReady = true;
+        if (choice)
+        {
+            PlayerManager.Instance.stats[index].tickets = ticketList;
+            PlayerManager.Instance.stats[index].isReady = true;
+        }
+        else
+        {
+            Debug.Log("EEEEEEEEEEEEEE");
+            foreach(Ticket ticket in ticketList)
+            {
+                Debug.Log("Something and " + ticket);
+                PlayerManager.Instance.stats[index].tickets.Add(ticket);
+            }
+        }
+
+
+        // This finds the client's stat again, and set the new list for the ticket
+        //PlayerManager.Instance.stats[index].tickets = ticketList;
+        //PlayerManager.Instance.stats[index].isReady = true;
 
         Debug.Log("Blep 8");
     }

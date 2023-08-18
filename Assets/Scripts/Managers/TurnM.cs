@@ -57,7 +57,7 @@ public class TurnM : Singleton<TurnM>
     public void EndTurn()
     {
 
-        Enable_DisableActionChooser();
+        //Enable_DisableActionChooser();
         Enable_DisableEndTurnBtn();
         SwitchTurnServerRpc();
     }
