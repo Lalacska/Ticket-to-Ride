@@ -858,7 +858,7 @@ MonoBehaviour:
   m_myTurn: 0
   m_ownerID: 0
   m_clientId: 0
-  m_name: 
+  m_playerName: 
   m_isReady: 0
   m_hand: []
   m_tickets: []
@@ -868,6 +868,8 @@ MonoBehaviour:
   Stations: {fileID: 6403125976270655638}
   Cards: {fileID: 2837830779136654417}
   Tickets: {fileID: 6355278763751093037}
+  m_isTurn:
+    m_InternalValue: 0
 --- !u!1 &5847349387233841387
 GameObject:
   m_ObjectHideFlags: 0
