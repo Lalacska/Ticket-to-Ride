@@ -9,6 +9,9 @@ public class Route : MonoBehaviour
 
     public GameObject route;
 
+    public bool isClaimed;
+
+
     #endregion
 
 
