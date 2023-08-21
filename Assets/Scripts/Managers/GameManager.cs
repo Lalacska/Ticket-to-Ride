@@ -234,10 +234,12 @@ public class GameManager : Singleton<GameManager>
         {
             Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
             if (cardVariables == null) { return null; }
+
             GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
             NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
             _card.GetComponent<NetworkObject>().Spawn(true);
             Card randCard = _card.GetComponent<Card>();
+
             //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
             if (randCard.CardID == 0)
             {
@@ -534,10 +536,7 @@ public class GameManager : Singleton<GameManager>
     {
         if(PlayerPickCount < 2 && RainbowCount < 1)
         {
-           
-
-
-
+            BoardButtonsServerRpc(button);
             PlayerPickCount++;
         }
         else if (PlayerPickCount > 1)
@@ -553,8 +552,9 @@ public class GameManager : Singleton<GameManager>
     // When the player clicks one of the buttons, it sends it's slot id and set the right slot
     // then calls CardColorPick metode, with the card that is in the slot and with the slotnu,ber
     [ServerRpc(RequireOwnership = false)]
-    public void BoardButtons(int slotnumber, ServerRpcParams serverRpcParams = default)
+    public void BoardButtonsServerRpc(int slotnumber, ServerRpcParams serverRpcParams = default)
     {
+        Card card = null;
         ulong clientID = serverRpcParams.Receive.SenderClientId;
         //Set the target client
         ClientRpcParams clientRpcParams = new ClientRpcParams
@@ -582,40 +582,70 @@ public class GameManager : Singleton<GameManager>
             case 5:
                 slot = cardslot5.GetComponent<CardSlotsID>();
                 break;
+            case 6:
+                card = deck[UnityEngine.Random.Range(0, deck.Count)];
+                deck.Remove(card);
+                break;
         }
 
-        foreach (Card card in board.ToList())
+        if(slotnumber > 0 && slotnumber < 6)
         {
-            if (card.CardID == slot.cardslotCardID)
+            foreach (Card m_card in board.ToList())
             {
-                //CardColorPick(card, slotnumber);
+                if (m_card.CardID == slot.cardslotCardID)
+                {
+                    card = m_card;
+                }
             }
+        }
+
+        if(card != null)
+        {
+            CardColorPick(card, slotnumber, clientID);
         }
     }
 
     // This method is for changeing the playces of the cards. \\
-    public void CardColorPick(Card card, int slotnumber)
+    public void CardColorPick(Card card, int slotnumber, ulong clientId)
     {
-            Debug.Log(card.Color);
-            lastcard = card.Color;
+        int index = 100;
+        List<Ticket> ticketList = new List<Ticket>();
+        PlayerStat stat = null;
 
-            // When the color has been found, it will be added to the playerhand.\\
-            //Card delete = board[0];
-            Card delete = card;
-            delete.transform.position = discardPileDestination[0].position;
-            availbleDiscardPileCardSlots[0] = false;
+        // This finds and sets the client's PlayerStat and index of its playerStat from the player stat list 
+        for (int i = 0; i < PlayerManager.Instance.stats.Count; i++)
+        {
+            if (clientId == PlayerManager.Instance.stats[i].clientId)
+            {
+                index = i;
+                stat = PlayerManager.Instance.stats[i];
+            }
+        }
+
+        Debug.Log(card.Color);
+        lastcard = card.Color;
+
+        // When the color has been found, it will be added to the playerhand.\\
+
+        //Card delete = board[0];
+
+        Card delete = card;
+        delete.transform.position = discardPileDestination[0].position;
+
+        if (slotnumber > 0 && slotnumber < 6)
+        {
             availbleCardSlots[slotnumber] = true;
-
-            //delete.gameObject.SetActive(false);
             board.Remove(delete);
-            discardPile.Add(delete);
-            discardPile.Clear();
-            availbleDiscardPileCardSlots[0] = true;
-            PlayerPickCount++;
-        
+        }
+
+        //delete.gameObject.SetActive(false);
+        stat.hand.Add(card);
     }
 
-
+    public void ResetPickCounter()
+    {
+        PlayerPickCount = 0;
+    }
 
 
 
