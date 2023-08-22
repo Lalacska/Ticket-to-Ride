@@ -111,13 +111,11 @@ public class PlayerStat : Singleton<PlayerStat>
     {
         if (IsServer)
         {
+            // It runs when the value and the players card count is not the same
             if (m_CardsString.Value != hand.Count.ToString())
             {
+                // First set the value, then runs the CardCheck with the clientId
                 m_CardsString.Value = hand.Count.ToString();
-                foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-                {
-                    //Debug.Log("Cards in hand before: " + kvp.Key +" number: " + kvp.Value);
-                }
                 CardCheck(clientId);
                 foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
                 {
@@ -200,7 +198,6 @@ public class PlayerStat : Singleton<PlayerStat>
                 TargetClientIds = new ulong[] { clientId }
             }
         };
-        Debug.Log("Ello");
 
         // This sends the two array and the client params to a metode which will run on the clients side
         CardUpdateClientRpc(cardscolor, cardsnumber, clientRpcParams);
@@ -211,10 +208,8 @@ public class PlayerStat : Singleton<PlayerStat>
     [ClientRpc]
     public void CardUpdateClientRpc(FixedString128Bytes[] color, int[] number, ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log("Ello 2");
         if (!IsOwner) return;
 
-        Debug.Log("Ello 3");
         var dictionary = new Dictionary<FixedString128Bytes, int>();
 
         // This puts the two array together to a dictionary again
@@ -223,15 +218,15 @@ public class PlayerStat : Singleton<PlayerStat>
             dictionary.Add(color[index], number[index]);
         }
 
-        Debug.Log("Ello 4");
         // These clears and sets the dictionary localy to the client
         cardsInHand.Clear();
         cardsInHand = dictionary;
-        foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-        {
-            Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
-        }
+        //foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+        //{
+        //    Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
+        //}
 
+        // This calles a metode which sets the card counter localy for the player
         PlayerHand.Instance.setCardsLocaly(cardsInHand);
     }
 }

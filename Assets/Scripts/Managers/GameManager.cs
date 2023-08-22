@@ -53,18 +53,14 @@ public class GameManager : Singleton<GameManager>
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
     public Transform[] cardSlots;
-    public Transform[] cardSlotsDestination;
-    public Transform[] cardSlotsSpecialDestination;
     public Transform[] discardPileDestination;
 
     [SerializeField] private RectTransform[] cardSlotButtons;
 
 
-    // This is bools for availble slots, the cards can be playsed in. \\
-    public bool[] availbleCardSlots;
-    public bool[] availbleDestinationCardSlots;
-    public bool[] availbleSpecialDestinationCardSlots;
-    public bool[] availbleDiscardPileCardSlots;
+    // This is bools for available slots, the cards can be playsed in. \\
+    [SerializeField] private bool[] availableCardSlots;
+    [SerializeField] private bool[] availableDiscardPileCardSlots;
 
     [SerializeField] private GameObject choosingtArea;
     [SerializeField] private GameObject ticketArea;
@@ -97,34 +93,6 @@ public class GameManager : Singleton<GameManager>
     public Text deckSizeText;
     public Text decksSizeText;
     public Text deckssSizeText;
-
-    // This part is for the counters of the players cards. \\
-    public int IBlackPlayerCount;
-    public TMP_Text TBlackPlayerCount;
-
-    public int IBluePlayerCount;
-    public TMP_Text TBluePlayerCount;
-
-    public int IBrownPlayerCount;
-    public TMP_Text TBrownPlayerCount;
-
-    public int IGreenPlayerCount;
-    public TMP_Text TGreenPlayerCount;
-
-    public int IOrangePlayerCount;
-    public TMP_Text TOrangePlayerCount;
-
-    public int IPurplePlayerCount;
-    public TMP_Text TPurplePlayerCount;
-
-    public int IWhitePlayerCount;
-    public TMP_Text TWhitePlayerCount;
-
-    public int IYellowPlayerCount;
-    public TMP_Text TYellowPlayerCount;
-
-    public int IRainbowPlayerCount;
-    public TMP_Text TRainbowPlayerCount;
 
     public Text TdiscardPileText;
 
@@ -302,9 +270,9 @@ public class GameManager : Singleton<GameManager>
             GameObject rc = transform.parent.GetComponent<GameObject>();
             Debug.Log(rc);
             //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
-            for (int i = 0; i < availbleCardSlots.Length; i++)
+            for (int i = 0; i < availableCardSlots.Length; i++)
             {
-                if (availbleCardSlots[i] == true)
+                if (availableCardSlots[i] == true)
                 {
                     //randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
@@ -313,7 +281,7 @@ public class GameManager : Singleton<GameManager>
                     //c.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = true;
 
-                    availbleCardSlots[i] = false;
+                    availableCardSlots[i] = false;
                     deck.Remove(randCard);
                     board.Add(randCard);
 
@@ -325,7 +293,7 @@ public class GameManager : Singleton<GameManager>
                         RainbowCount++;
                         Debug.Log(RainbowCount);
                     }
-                    if (availbleCardSlots[4] == false)
+                    if (availableCardSlots[4] == false)
                     {
                         // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
                         if (RainbowCount == 3)
@@ -350,9 +318,9 @@ public class GameManager : Singleton<GameManager>
         {
             
             //CardVariables randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
-            for (int i = 0; i < availbleCardSlots.Length; i++)
+            for (int i = 0; i < availableCardSlots.Length; i++)
             {
-                if (availbleCardSlots[i] == true && deck.Count != 0)
+                if (availableCardSlots[i] == true && deck.Count != 0)
                 {
                     Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
                     if(cardVariables == null) { return; }
@@ -370,7 +338,7 @@ public class GameManager : Singleton<GameManager>
                     _card.transform.position = cardSlotButtons[i].position;
                     randCard.hasBeenPlayed = false;
 
-                    availbleCardSlots[i] = false;
+                    availableCardSlots[i] = false;
                     deck.Remove(randCard);
                     board.Add(randCard);
 
@@ -382,7 +350,7 @@ public class GameManager : Singleton<GameManager>
                         RainbowCount++;
                         Debug.Log(RainbowCount);
                     }
-                    if (availbleCardSlots[4] == false)
+                    if (availableCardSlots[4] == false)
                     {
                         // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
                         if (RainbowCount >= 3)
@@ -463,10 +431,10 @@ public class GameManager : Singleton<GameManager>
     public void /*Task*/ CheckCards()
     {
         //await Task.Delay(1000);
-        for (int b = 0; b < availbleDiscardPileCardSlots.Length; b++)
+        for (int b = 0; b < availableDiscardPileCardSlots.Length; b++)
         {
-            availbleDiscardPileCardSlots[b] = false;
-            availbleCardSlots[b] = true;
+            availableDiscardPileCardSlots[b] = false;
+            availableCardSlots[b] = true;
             bool isEmpty = !board.Any();
             if(board != null && !isEmpty)
             {
@@ -523,20 +491,29 @@ public class GameManager : Singleton<GameManager>
 
     #region DrawCards
 
-
+    // This metode is called when the player choose the Draw Card action
     public void DrawCards()
     {
+        // This enables the buttons on the board, so the client can draw cards
         CardButtonsEnable_Disable();
+        TurnM.Instance.Enable_DisableActionChooser();
+
+        // Sets the pick count and Rainbow count to 0
         PlayerPickCount = 0;
         RainbowCount = 0;
     }
 
 
+    // When the player clicks on card button, or the pile this metode runs
+    // Its get an int which identifies which button the player pushed
     public void DrawCardButtons(int button)
     {
+        // It checks that the pick and the rainbow count is not bigger than it should be
         if(PlayerPickCount < 2 && RainbowCount < 1)
         {
-            BoardButtonsServerRpc(button);
+            // This sends the button id to a server rpc
+            bool a = BoardButtonsServerRpc(button,PlayerPickCount);
+            // Add 1 to the pick count
             PlayerPickCount++;
         }
         else if (PlayerPickCount > 1)
@@ -544,19 +521,31 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("Du kan ikke trække flere kort!" +
                 " Du må maks trække 2 kort pr tur!");
         }
+
+        Debug.Log("PPC: " + PlayerPickCount);
+
+        // If the player picked enough card this will run
+        if(PlayerPickCount >= 2 || RainbowCount > 1)
+        {
+            Debug.Log("Hereeee ");
+            // This will disable the buttons, and draw new cards, then end the player turn
+            CardButtonsEnable_Disable();
+            FillTheBoardServerRpc();
+            TurnM.Instance.EndTurn();
+        }
         Debug.Log("Player pick count = " + PlayerPickCount);
 
     }
 
-    // This methode is for the buttons on the board, these moves the cards to the players hand.
-    // When the player clicks one of the buttons, it sends it's slot id and set the right slot
-    // then calls CardColorPick metode, with the card that is in the slot and with the slotnu,ber
+    // This metode gets an buttonId when its called, it uses that to set, the correct slot for the button
+    // or if the player clicked on the pile then it gets a random card from the deck
     [ServerRpc(RequireOwnership = false)]
-    public void BoardButtonsServerRpc(int slotnumber, ServerRpcParams serverRpcParams = default)
+    public bool BoardButtonsServerRpc(int buttonId, int _PlayerPickCount, ServerRpcParams serverRpcParams = default)
     {
+        bool firstRainbow = true;
         Card card = null;
         ulong clientID = serverRpcParams.Receive.SenderClientId;
-        //Set the target client
+        // Set the target client
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams
@@ -565,7 +554,8 @@ public class GameManager : Singleton<GameManager>
             }
         };
 
-        switch (slotnumber)
+        // Gets the slot component, or a random card
+        switch (buttonId)
         {
             case 1:
                 slot = cardslot1.GetComponent<CardSlotsID>();
@@ -588,7 +578,9 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
 
-        if(slotnumber > 0 && slotnumber < 6)
+        // If the player pick card from the board, it goes trough the lists of the cards thats on the board
+        // and set the card if the Ids are matching
+        if(buttonId > 0 && buttonId < 6)
         {
             foreach (Card m_card in board.ToList())
             {
@@ -597,18 +589,32 @@ public class GameManager : Singleton<GameManager>
                     card = m_card;
                 }
             }
+            if(card.Color == "Rainbow")
+            {
+                if(_PlayerPickCount == 0)
+                {
+                    firstRainbow = true;
+                }
+                else
+                {
+                    firstRainbow = false;
+                }
+            }
         }
 
+        if (!firstRainbow) return firstRainbow;
+        // If the card is not empty it calles CardColorPick
         if(card != null)
         {
-            CardColorPick(card, slotnumber, clientID);
+            AddCardToHand(card, buttonId, clientID);
         }
+
+        return firstRainbow;
     }
 
     // This method is for changeing the playces of the cards. \\
-    public void CardColorPick(Card card, int slotnumber, ulong clientId)
+    public void AddCardToHand(Card card, int buttonId, ulong clientId)
     {
-        int index = 100;
         List<Ticket> ticketList = new List<Ticket>();
         PlayerStat stat = null;
 
@@ -617,31 +623,35 @@ public class GameManager : Singleton<GameManager>
         {
             if (clientId == PlayerManager.Instance.stats[i].clientId)
             {
-                index = i;
                 stat = PlayerManager.Instance.stats[i];
             }
         }
 
+
         Debug.Log(card.Color);
         lastcard = card.Color;
 
-        // When the color has been found, it will be added to the playerhand.\\
+        // It sets the card position
+        card.transform.position = discardPileDestination[0].position;
 
-        //Card delete = board[0];
-
-        Card delete = card;
-        delete.transform.position = discardPileDestination[0].position;
-
-        if (slotnumber > 0 && slotnumber < 6)
+        // If the card was picked from the board, this make sure the slot where it was is available again and removes the card from the board list
+        if (buttonId > 0 && buttonId < 6)
         {
-            availbleCardSlots[slotnumber] = true;
-            board.Remove(delete);
+            availableCardSlots[buttonId-1] = true;
+            board.Remove(card);
         }
 
-        //delete.gameObject.SetActive(false);
+        // This adds the card to the player's hand
         stat.hand.Add(card);
     }
 
+    // Calls AutomaticDrawPile from the server
+    [ServerRpc(RequireOwnership = false)]
+    public void FillTheBoardServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        AutomaticDrawPile();
+    }
+    
     public void ResetPickCounter()
     {
         PlayerPickCount = 0;
@@ -653,7 +663,7 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
+    // This metode gets the button component from the gameobjects and enable or disable the button interaction depending if its on or off
     public void CardButtonsEnable_Disable()
     {
         Button btn1 = cardslot1.GetComponent<Button>();
@@ -981,124 +991,123 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Du har skiftet tur!");
         PlayerPickCount = 0;
         lastcard = "";
-        AutomaticDrawPile();
     }
 
 
     // This method takes the players cards and plays them. \\
-    public void PlayCardHand(string cardcolor)
-    {
-        // Here we check for the color of the card. \\
-        if (cardcolor == "Black")
-        {
-            if (IBlackPlayerCount >= 1)
-            {
-                IBlackPlayerCount--;
-                TBlackPlayerCount.text = IBlackPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Blue")
-        {
-            if (IBluePlayerCount >= 1)
-            {
-                IBluePlayerCount--;
-                TBluePlayerCount.text = IBluePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Brown")
-        {
-            if (IBrownPlayerCount >= 1)
-            {
-                IBrownPlayerCount--;
-                TBrownPlayerCount.text = IBrownPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Green")
-        {
-            if (IGreenPlayerCount >= 1)
-            {
-                IGreenPlayerCount--;
-                TGreenPlayerCount.text = IGreenPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Orange")
-        {
-            if (IOrangePlayerCount >= 1)
-            {
-                IOrangePlayerCount--;
-                TOrangePlayerCount.text = IOrangePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Purple")
-        {
-            if (IPurplePlayerCount >= 1)
-            {
-                IPurplePlayerCount--;
-                TPurplePlayerCount.text = IPurplePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "White")
-        {
-            if (IWhitePlayerCount >= 1)
-            {
-                IWhitePlayerCount--;
-                TWhitePlayerCount.text = IWhitePlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Yellow")
-        {
-            if (IYellowPlayerCount >= 1)
-            {
-                IYellowPlayerCount--;
-                TYellowPlayerCount.text = IYellowPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        else if (cardcolor == "Rainbow")
-        {
-            if (IRainbowPlayerCount >= 1)
-            {
-                IRainbowPlayerCount--;
-                TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
-            }
-            else
-            {
-                Debug.Log("Du har ikke flere kort af den type tilbage!");
-            }
-        }
-        Debug.Log("Du har fjernet 1 " + cardcolor + " kort");
-    }
+    //public void PlayCardHand(string cardcolor)
+    //{
+    //    // Here we check for the color of the card. \\
+    //    if (cardcolor == "Black")
+    //    {
+    //        if (IBlackPlayerCount >= 1)
+    //        {
+    //            IBlackPlayerCount--;
+    //            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Blue")
+    //    {
+    //        if (IBluePlayerCount >= 1)
+    //        {
+    //            IBluePlayerCount--;
+    //            TBluePlayerCount.text = IBluePlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Brown")
+    //    {
+    //        if (IBrownPlayerCount >= 1)
+    //        {
+    //            IBrownPlayerCount--;
+    //            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Green")
+    //    {
+    //        if (IGreenPlayerCount >= 1)
+    //        {
+    //            IGreenPlayerCount--;
+    //            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Orange")
+    //    {
+    //        if (IOrangePlayerCount >= 1)
+    //        {
+    //            IOrangePlayerCount--;
+    //            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Purple")
+    //    {
+    //        if (IPurplePlayerCount >= 1)
+    //        {
+    //            IPurplePlayerCount--;
+    //            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "White")
+    //    {
+    //        if (IWhitePlayerCount >= 1)
+    //        {
+    //            IWhitePlayerCount--;
+    //            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Yellow")
+    //    {
+    //        if (IYellowPlayerCount >= 1)
+    //        {
+    //            IYellowPlayerCount--;
+    //            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    else if (cardcolor == "Rainbow")
+    //    {
+    //        if (IRainbowPlayerCount >= 1)
+    //        {
+    //            IRainbowPlayerCount--;
+    //            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
+    //        }
+    //    }
+    //    Debug.Log("Du har fjernet 1 " + cardcolor + " kort");
+    //}
 
     #endregion UnityEngine.Random/Extra
 
@@ -1154,7 +1163,7 @@ public class GameManager : Singleton<GameManager>
                 color = "Rainbow";
                 break;
         }
-        PlayCardHand(color);
+        //PlayCardHand(color);
     }
 
 

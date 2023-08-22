@@ -54,33 +54,50 @@ public class TurnM : Singleton<TurnM>
         state = TurnState.Start;
 
     }
+
+    // This metode is called when the player finished their action and their needs to end
     public void EndTurn()
     {
 
         //Enable_DisableActionChooser();
+
+        Debug.Log("End turn");
+        // This disables the end buttom
         Enable_DisableEndTurnBtn();
         SwitchTurnServerRpc();
+        
     }
 
     // This method changes the turn to the next player. \\
     [ServerRpc(RequireOwnership = false)]
     public void SwitchTurnServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        // This gets the current player and set its turn to false
         ulong clientId;
         PlayerStat player = players[currentPlayerIndex];
         player.myTurn = false;
 
+        // Adds one to the currentPlayerIndex 
         currentPlayerIndex++;
         Debug.Log("Du har skiftet tur!");
         Debug.Log("PlayerCount: " + players.Count + " CurrentIndex: "+currentPlayerIndex);
+
+        // If the currentPlayerIndey is bigger than the players list, its set the index back to 0
         if(currentPlayerIndex > players.Count-1)
         {
             currentPlayerIndex = 0;
+
+            // Adds one to the over all TurnCount
+            TurnCount++;
         }
+
+        // Gets the new current players data, and set its myturn to true
         clientId = players[currentPlayerIndex].clientId;
         player = players[currentPlayerIndex];
         player.myTurn = true;
         turnCounter++;
+
+        // Sends the client id to the turnStarted metode
         TurnStarted(clientId);
         Debug.Log(" CurrentIndex: " + currentPlayerIndex);
         
@@ -119,7 +136,7 @@ public class TurnM : Singleton<TurnM>
         }
     }
 
-
+    // This metode gets the clientId, sets the target client and then calls a clientrpc with the target
     public void TurnStarted(ulong clientId)
     {
         currentPlayerId = clientId;
@@ -132,8 +149,12 @@ public class TurnM : Singleton<TurnM>
             }
         };
 
+        // Sends the clientrpc params with the target client to a client rpc metode
         ActivateTurnClientRpc(clientRpcParams);
     }
+
+
+    // This metode runs on the client and make Action Chooser visible
 
     [ClientRpc]
     public void ActivateTurnClientRpc(ClientRpcParams clientRpcParams = default)
@@ -149,7 +170,7 @@ public class TurnM : Singleton<TurnM>
 
 
     // ToggleBtn. \\
-    // 
+    // Enable or Disable the end turn button depending if its on or off
     public void Enable_DisableEndTurnBtn()
     {
         if (endTurnBtn.interactable)
@@ -160,6 +181,8 @@ public class TurnM : Singleton<TurnM>
             endTurnBtn.interactable = true;
         }
     }
+    
+    // It hides or make Action Chooser visible depending if its on or off
     public void Enable_DisableActionChooser()
     {
         if(!Turn.activeInHierarchy)
