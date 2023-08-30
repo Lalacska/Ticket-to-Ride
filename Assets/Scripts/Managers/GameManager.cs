@@ -70,15 +70,11 @@ public class GameManager : Singleton<GameManager>
 
     private int PlayerPickCount = 0;
 
+    private int PickedRainbowCard = 0;
+
+
+
     private bool firstChoice = true;
-
-    private int BoardIndex = 0;
-
-    private int CardId = 0;
-
-    private int HandId = 0;
-
-    private FixedString128Bytes lastcard = "";
 
 
     // These GameObjects are Serialized for later use. \\
@@ -90,11 +86,12 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Button cardpile;
 
     // This is for the Card counter. (Tells how many cards are left) \\ 
-    public Text deckSizeText;
-    public Text decksSizeText;
-    public Text deckssSizeText;
+    [SerializeField] private TMP_Text cardPiletxt;
+    [SerializeField] private TMP_Text ticketPiletxt;
 
-    public Text TdiscardPileText;
+    private NetworkVariable<FixedString128Bytes> m_cardPileString = new NetworkVariable<FixedString128Bytes>();
+    private NetworkVariable<FixedString128Bytes> m_ticketPileString = new NetworkVariable<FixedString128Bytes>();
+
 
     private int _CardID = 1;
 
@@ -136,13 +133,55 @@ public class GameManager : Singleton<GameManager>
     {
         if (IsServer)
         {
+            m_cardPileString.Value = deck.Count.ToString(); 
+            m_ticketPileString.Value = tickets.Count.ToString();
+            cardPiletxt.text = m_cardPileString.Value.ToString();
+            ticketPiletxt.text = m_ticketPileString.Value.ToString();
+            m_cardPileString.OnValueChanged += OnTextStringChanged;
+            m_ticketPileString.OnValueChanged += OnTextStringChanged;
             AutomaticDrawPile();
         }
+        else
+        {
+            m_cardPileString.OnValueChanged += OnTextStringChanged;
+            m_ticketPileString.OnValueChanged += OnTextStringChanged;
+        }
     }
+    //public override void OnNetworkSpawn()
+    //{
+    //    if (IsServer)
+    //    {
+    //        m_cardPileString.Value = deck.Count.ToString();
+    //        m_ticketPileString.Value = tickets.Count.ToString();
+    //        cardPiletxt.text = m_cardPileString.Value.ToString();
+    //        ticketPiletxt.text = m_ticketPileString.Value.ToString();
+    //        AutomaticDrawPile();
+    //    }
+    //    else
+    //    {
+    //        m_cardPileString.OnValueChanged += OnTextStringChanged;
+    //        m_cardPileString.OnValueChanged += OnTextStringChanged;
+    //    }
+    //}
 
     // This method runs every frame & updates the scenes. \\
+
     private void Update()
     {
+        if (IsServer)
+        {
+            if (m_cardPileString.Value != deck.Count.ToString())
+            {
+                Debug.Log("B");
+                m_cardPileString.Value = deck.Count.ToString();
+            }
+            if (m_ticketPileString.Value != tickets.Count.ToString())
+            {
+                Debug.Log("C");
+                m_ticketPileString.Value = tickets.Count.ToString();
+            }
+        }
+
         if (!IsOwner) return;
 
         if (Input.GetKeyUp(KeyCode.N))
@@ -174,18 +213,18 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        deckSizeText.text = deck.Count.ToString();
-        decksSizeText.text = tickets.Count.ToString();
-        //deckssSizeText.text = SpecialDestinationTicket.Count.ToString();
-        //discardPileText.text = discardPile.Count.ToString();
-
-        // This if statment runs the automatic board filler until there are no more cards left in the deck. \\
-        if(deck.Count >= 1)
-        {
-            //AutomaticDrawPile();
-        }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        m_cardPileString.OnValueChanged -= OnTextStringChanged;
+        m_ticketPileString.OnValueChanged -= OnTextStringChanged;
+    }
+    private void OnTextStringChanged(FixedString128Bytes previous, FixedString128Bytes current)
+    {
+        cardPiletxt.text = m_cardPileString.Value.ToString();
+        ticketPiletxt.text = m_ticketPileString.Value.ToString();
+    }
 
 
     /// <summary>
@@ -253,6 +292,7 @@ public class GameManager : Singleton<GameManager>
             tickets.Remove(ticket);
             ticketsInHand.Add(ticket);
         }
+        m_ticketPileString.Value = tickets.Count.ToString();
         Debug.Log("Tickets: "+ticketsInHand.Count);
         return ticketsInHand;
     }
@@ -348,7 +388,7 @@ public class GameManager : Singleton<GameManager>
                     if (randCard.Color == "Rainbow")
                     {
                         RainbowCount++;
-                        Debug.Log(RainbowCount);
+                        Debug.Log("Rainbow Count: "+RainbowCount);
                     }
                     if (availableCardSlots[4] == false)
                     {
@@ -428,9 +468,8 @@ public class GameManager : Singleton<GameManager>
 
     // This method is for checking the cards on the board. \\
     // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
-    public void /*Task*/ CheckCards()
+    public void CheckCards()
     {
-        //await Task.Delay(1000);
         for (int b = 0; b < availableDiscardPileCardSlots.Length; b++)
         {
             availableDiscardPileCardSlots[b] = false;
@@ -500,7 +539,7 @@ public class GameManager : Singleton<GameManager>
 
         // Sets the pick count and Rainbow count to 0
         PlayerPickCount = 0;
-        RainbowCount = 0;
+        PickedRainbowCard = 0;
     }
 
 
@@ -509,40 +548,24 @@ public class GameManager : Singleton<GameManager>
     public void DrawCardButtons(int button)
     {
         // It checks that the pick and the rainbow count is not bigger than it should be
-        if(PlayerPickCount < 2 && RainbowCount < 1)
+        if(PlayerPickCount < 2 && PickedRainbowCard < 1)
         {
             // This sends the button id to a server rpc
-            bool a = BoardButtonsServerRpc(button,PlayerPickCount);
-            // Add 1 to the pick count
-            PlayerPickCount++;
+            BoardButtonsServerRpc(button);
         }
         else if (PlayerPickCount > 1)
         {
             Debug.Log("Du kan ikke trække flere kort!" +
                 " Du må maks trække 2 kort pr tur!");
         }
-
-        Debug.Log("PPC: " + PlayerPickCount);
-
-        // If the player picked enough card this will run
-        if(PlayerPickCount >= 2 || RainbowCount > 1)
-        {
-            Debug.Log("Hereeee ");
-            // This will disable the buttons, and draw new cards, then end the player turn
-            CardButtonsEnable_Disable();
-            FillTheBoardServerRpc();
-            TurnM.Instance.EndTurn();
-        }
-        Debug.Log("Player pick count = " + PlayerPickCount);
-
     }
 
     // This metode gets an buttonId when its called, it uses that to set, the correct slot for the button
     // or if the player clicked on the pile then it gets a random card from the deck
     [ServerRpc(RequireOwnership = false)]
-    public bool BoardButtonsServerRpc(int buttonId, int _PlayerPickCount, ServerRpcParams serverRpcParams = default)
+    public void BoardButtonsServerRpc(int buttonId, ServerRpcParams serverRpcParams = default)
     {
-        bool firstRainbow = true;
+        bool isRainbow = false;
         Card card = null;
         ulong clientID = serverRpcParams.Receive.SenderClientId;
         // Set the target client
@@ -553,6 +576,101 @@ public class GameManager : Singleton<GameManager>
                 TargetClientIds = new ulong[] { clientID }
             }
         };
+
+        // Gets the slot component, or a random card
+        card = GetCard(buttonId);
+        // If the player pick card from the board, it goes trough the lists of the cards thats on the board
+        // and set the card if the Ids are matching
+       
+        Debug.Log(card.Color);
+        if (card.Color == "Rainbow")
+        {
+            Debug.Log("Its a rainbow card");
+            isRainbow = true;
+        }
+        
+
+        DrawCardHandlerClientRpc(isRainbow, buttonId, clientID, clientRpcParams);
+
+    }
+
+    // This method is for changeing the playces of the cards. \\
+    [ServerRpc(RequireOwnership = false)]
+    public void AddCardToHandServerRpc(int buttonId, ulong clientId, ServerRpcParams serverRpcParams = default)
+    {
+        Card card = GetCard(buttonId);
+        PlayerStat stat = null;
+
+        // This finds and sets the client's PlayerStat and index of its playerStat from the player stat list 
+        for (int i = 0; i < PlayerManager.Instance.stats.Count; i++)
+        {
+            if (clientId == PlayerManager.Instance.stats[i].clientId)
+            {
+                stat = PlayerManager.Instance.stats[i];
+            }
+        }
+
+
+        Debug.Log(card.Color);
+
+        // It sets the card position
+        card.transform.position = discardPileDestination[0].position;
+
+        // If the card was picked from the board, this make sure the slot where it was is available again and removes the card from the board list
+        if (buttonId > 0 && buttonId < 6)
+        {
+            availableCardSlots[buttonId-1] = true;
+            board.Remove(card);
+        }
+        else if(buttonId == 6)
+        {
+            deck.Remove(card);
+        }
+
+        // This adds the card to the player's hand
+        stat.hand.Add(card);
+    }
+
+    // Calls AutomaticDrawPile from the server
+    [ServerRpc(RequireOwnership = false)]
+    public void FillTheBoardServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        AutomaticDrawPile();
+    }
+    
+    [ClientRpc]
+    public void DrawCardHandlerClientRpc(bool isRainbow, int buttonId, ulong clientID, ClientRpcParams clientRpcParams)
+    {
+        Debug.Log("Client Rpc");
+        
+        if (isRainbow && PlayerPickCount >=1 && buttonId != 6)
+        {
+            Debug.Log("Wrong Pick! Pick a new card");
+            return;
+        }
+        else if (isRainbow && buttonId != 6)
+        {
+            PickedRainbowCard++;
+        }
+        AddCardToHandServerRpc(buttonId, clientID);
+        PlayerPickCount++;
+
+
+        if (PlayerPickCount >= 2 || PickedRainbowCard > 0)
+        {
+            Debug.Log("Hereeee ");
+            // This will disable the buttons, and draw new cards, then end the player turn
+            CardButtonsEnable_Disable();
+            FillTheBoardServerRpc();
+            TurnM.Instance.EndTurn();
+        }
+        Debug.Log("Player pick count = " + PlayerPickCount);
+    }
+
+
+    public Card GetCard(int buttonId)
+    {
+        Card card = null;
 
         // Gets the slot component, or a random card
         switch (buttonId)
@@ -574,13 +692,12 @@ public class GameManager : Singleton<GameManager>
                 break;
             case 6:
                 card = deck[UnityEngine.Random.Range(0, deck.Count)];
-                deck.Remove(card);
                 break;
         }
 
         // If the player pick card from the board, it goes trough the lists of the cards thats on the board
         // and set the card if the Ids are matching
-        if(buttonId > 0 && buttonId < 6)
+        if (buttonId > 0 && buttonId < 6)
         {
             foreach (Card m_card in board.ToList())
             {
@@ -589,69 +706,11 @@ public class GameManager : Singleton<GameManager>
                     card = m_card;
                 }
             }
-            if(card.Color == "Rainbow")
-            {
-                if(_PlayerPickCount == 0)
-                {
-                    firstRainbow = true;
-                }
-                else
-                {
-                    firstRainbow = false;
-                }
-            }
         }
 
-        if (!firstRainbow) return firstRainbow;
-        // If the card is not empty it calles CardColorPick
-        if(card != null)
-        {
-            AddCardToHand(card, buttonId, clientID);
-        }
-
-        return firstRainbow;
+        return card;
     }
 
-    // This method is for changeing the playces of the cards. \\
-    public void AddCardToHand(Card card, int buttonId, ulong clientId)
-    {
-        List<Ticket> ticketList = new List<Ticket>();
-        PlayerStat stat = null;
-
-        // This finds and sets the client's PlayerStat and index of its playerStat from the player stat list 
-        for (int i = 0; i < PlayerManager.Instance.stats.Count; i++)
-        {
-            if (clientId == PlayerManager.Instance.stats[i].clientId)
-            {
-                stat = PlayerManager.Instance.stats[i];
-            }
-        }
-
-
-        Debug.Log(card.Color);
-        lastcard = card.Color;
-
-        // It sets the card position
-        card.transform.position = discardPileDestination[0].position;
-
-        // If the card was picked from the board, this make sure the slot where it was is available again and removes the card from the board list
-        if (buttonId > 0 && buttonId < 6)
-        {
-            availableCardSlots[buttonId-1] = true;
-            board.Remove(card);
-        }
-
-        // This adds the card to the player's hand
-        stat.hand.Add(card);
-    }
-
-    // Calls AutomaticDrawPile from the server
-    [ServerRpc(RequireOwnership = false)]
-    public void FillTheBoardServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        AutomaticDrawPile();
-    }
-    
     public void ResetPickCounter()
     {
         PlayerPickCount = 0;
@@ -990,7 +1049,6 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Du har skiftet tur!");
         PlayerPickCount = 0;
-        lastcard = "";
     }
 
 
