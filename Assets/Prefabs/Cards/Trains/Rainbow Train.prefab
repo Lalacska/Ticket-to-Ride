@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -7094479799407709131}
   - component: {fileID: -4023577816460680007}
   - component: {fileID: 9023205930539175093}
+  - component: {fileID: -2125816326361555767}
   m_Layer: 0
   m_Name: Rainbow Train
   m_TagString: Untagged
@@ -129,11 +130,19 @@ MonoBehaviour:
   m_Color: Rainbow
   m_ownerID: 0
   m_CardID: 0
-  hasBeenPlayed: 0
-  handIndex: 0
-  Color: Rainbow
-  ownerID: 0
-  CardID: 0
+--- !u!114 &-2125816326361555767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961595430149746958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe31e93ec5c72f47a460706012f4390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: -7094479799407709131}
 --- !u!1001 &5961595429521645374
 PrefabInstance:
   m_ObjectHideFlags: 0

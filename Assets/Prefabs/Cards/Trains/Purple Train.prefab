@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4182585961160592371}
   - component: {fileID: -8471231024893287078}
   - component: {fileID: -1950257255625235616}
+  - component: {fileID: 49561391419734524}
   m_Layer: 0
   m_Name: Purple Train
   m_TagString: Untagged
@@ -129,11 +130,19 @@ MonoBehaviour:
   m_Color: Purple
   m_ownerID: 0
   m_CardID: 0
-  hasBeenPlayed: 0
-  handIndex: 0
-  Color: Purple
-  ownerID: 0
-  CardID: 0
+--- !u!114 &49561391419734524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3132999033116348136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe31e93ec5c72f47a460706012f4390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: -4182585961160592371}
 --- !u!1001 &3132999031385898687
 PrefabInstance:
   m_ObjectHideFlags: 0

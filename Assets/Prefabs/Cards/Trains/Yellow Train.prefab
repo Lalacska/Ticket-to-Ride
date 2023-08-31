@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6685384338288368135}
   - component: {fileID: 1646807009943292914}
   - component: {fileID: -4707062100971422609}
+  - component: {fileID: -6549173011194272945}
   m_Layer: 0
   m_Name: Yellow Train
   m_TagString: Untagged
@@ -129,11 +130,19 @@ MonoBehaviour:
   m_Color: Yellow
   m_ownerID: 0
   m_CardID: 0
-  hasBeenPlayed: 0
-  handIndex: 0
-  Color: Yellow
-  ownerID: 0
-  CardID: 0
+--- !u!114 &-6549173011194272945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5602364133754088633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe31e93ec5c72f47a460706012f4390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: 6685384338288368135}
 --- !u!1001 &5602364134320535046
 PrefabInstance:
   m_ObjectHideFlags: 0

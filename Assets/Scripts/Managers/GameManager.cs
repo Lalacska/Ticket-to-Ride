@@ -46,14 +46,29 @@ public class GameManager : Singleton<GameManager>
     public List<Ticket> drawnTickets { get { return m_drawnTickets; } set { m_drawnTickets = value; } }
 
 
-    public List<Card> board;
-    public List<Card> discardPile;
-    
+
+    public List<Card> m_board;
+    public List<Card> m_discardPile;
+    public List<Card> board { get { return m_board; } set { m_board = value; } }
+    public List<Card> discardPile { get { return m_discardPile; } set { m_discardPile = value; } }
+
+
+
+
+
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
-    public Transform[] cardSlots;
-    public Transform[] discardPileDestination;
+    [SerializeField] private Transform m_cardsInHand;
+    [SerializeField] private Transform m_discardPileDestination;
+
+    public Transform cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
+    public Transform discardPileDestination { get { return m_discardPileDestination; } set { m_discardPileDestination = value; } }
+
+    private bool m_isDeckEmpty = false;
+    public bool isDeckEmpty { get { return m_isDeckEmpty; } set { m_isDeckEmpty = value; } }
+
+
 
     [SerializeField] private RectTransform[] cardSlotButtons;
 
@@ -99,15 +114,15 @@ public class GameManager : Singleton<GameManager>
 
     private CardSlotsID slot;
 
-    private int BlackCardCounter = 0;
-    private int BlueCardCounter = 0;
-    private int BrownCardCounter = 0;
-    private int GreenCardCounter = 0;
-    private int OrangeCardCounter = 0;
-    private int PurpleCardCounter = 0;
-    private int WhiteCardCounter = 0;
-    private int YellowCardCounter = 0;
-    private int RainbowCardCounter = 0;
+    [SerializeField] private int BlackCardCounter = 0;
+    [SerializeField] private int BlueCardCounter = 0;
+    [SerializeField] private int BrownCardCounter = 0;
+    [SerializeField] private int GreenCardCounter = 0;
+    [SerializeField] private int OrangeCardCounter = 0;
+    [SerializeField] private int PurpleCardCounter = 0;
+    [SerializeField] private int WhiteCardCounter = 0;
+    [SerializeField] private int YellowCardCounter = 0;
+    [SerializeField] private int RainbowCardCounter = 0;
 
 
     #endregion Variables
@@ -147,22 +162,6 @@ public class GameManager : Singleton<GameManager>
             m_ticketPileString.OnValueChanged += OnTextStringChanged;
         }
     }
-    //public override void OnNetworkSpawn()
-    //{
-    //    if (IsServer)
-    //    {
-    //        m_cardPileString.Value = deck.Count.ToString();
-    //        m_ticketPileString.Value = tickets.Count.ToString();
-    //        cardPiletxt.text = m_cardPileString.Value.ToString();
-    //        ticketPiletxt.text = m_ticketPileString.Value.ToString();
-    //        AutomaticDrawPile();
-    //    }
-    //    else
-    //    {
-    //        m_cardPileString.OnValueChanged += OnTextStringChanged;
-    //        m_cardPileString.OnValueChanged += OnTextStringChanged;
-    //    }
-    //}
 
     // This method runs every frame & updates the scenes. \\
 
@@ -172,13 +171,18 @@ public class GameManager : Singleton<GameManager>
         {
             if (m_cardPileString.Value != deck.Count.ToString())
             {
-                Debug.Log("B");
                 m_cardPileString.Value = deck.Count.ToString();
             }
             if (m_ticketPileString.Value != tickets.Count.ToString())
             {
-                Debug.Log("C");
                 m_ticketPileString.Value = tickets.Count.ToString();
+            }
+            if(deck.Count == 0)
+            {
+                isDeckEmpty = true;
+                deck = new List<Card>(new List<Card>(discardPile));
+                discardPile.Clear();
+                AutomaticDrawPile();
             }
         }
 
@@ -297,58 +301,6 @@ public class GameManager : Singleton<GameManager>
         return ticketsInHand;
     }
 
-    // This method is for the Train-Destination Drawpile. \\
-    public void PileDrawcard()
-    {
-
-        if (deck.Count >= 1)
-        {
-            GameObject randomCardPrefab = CardColorByNumber(UnityEngine.Random.Range(1, 111), "nope");
-            NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
-            _card.GetComponent<NetworkObject>().Spawn(true);
-            Card randCard = _card.GetComponent<Card>();
-            GameObject rc = transform.parent.GetComponent<GameObject>();
-            Debug.Log(rc);
-            //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
-            for (int i = 0; i < availableCardSlots.Length; i++)
-            {
-                if (availableCardSlots[i] == true)
-                {
-                    //randCard.gameObject.SetActive(true);
-                    randCard.handIndex = i;
-
-                    //NetworkObject c = randCard.transform.GetComponent<NetworkObject>();
-                    //c.transform.position = cardSlots[i].position;
-                    randCard.hasBeenPlayed = true;
-
-                    availableCardSlots[i] = false;
-                    deck.Remove(randCard);
-                    board.Add(randCard);
-
-                    //CardSlots(randCard, i);
-
-                    // Here we check if a Rainbow cards is drawn onto the board. \\
-                    if (randCard.Color == "Rainbow")
-                    {
-                        RainbowCount++;
-                        Debug.Log(RainbowCount);
-                    }
-                    if (availableCardSlots[4] == false)
-                    {
-                        // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
-                        if (RainbowCount == 3)
-                        {
-                            //await CheckCards();
-                        }
-                    }
-                    Debug.Log(randCard.Color);
-                    return;
-                }
-                Debug.Log(cardSlots);
-            }
-        }
-    }
-
     // This method is for the automaticly fils out the board. \\
     public void AutomaticDrawPile()
     {
@@ -356,17 +308,21 @@ public class GameManager : Singleton<GameManager>
 
         if (deck.Count >= 1)
         {
-            
             //CardVariables randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
                 if (availableCardSlots[i] == true && deck.Count != 0)
                 {
                     Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
-                    if(cardVariables == null) { return; }
+                    if(cardVariables == null) return; 
                     GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
+                    Debug.Log(cardVariables.Color);
+                    if(randomCardPrefab == null) return;
                     NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
-                    _card.GetComponent<NetworkObject>().Spawn(true);
+                    if(_card != IsSpawned)
+                    {
+                        _card.GetComponent<NetworkObject>().Spawn(true);
+                    }
                     Card randCard = _card.GetComponent<Card>();
                     if (randCard.CardID == 0)
                     {
@@ -402,7 +358,6 @@ public class GameManager : Singleton<GameManager>
                     Debug.Log(randCard.Color);
                     //return;
                 }
-                Debug.Log(cardSlots);
             }
         }
         //SyncListsClientRpc(deck, DestinationTicket, SpecialDestinationTicket, board, discardPile);
@@ -461,6 +416,89 @@ public class GameManager : Singleton<GameManager>
         return prefab;
     }
 
+    public GameObject GetPrefabByColor(string color)
+    {
+        GameObject prefab = null;
+
+        if (color == "Black")
+        {
+            prefab = BlackPrefab;
+        }
+        else if (color == "Blue")
+        {
+            prefab = BluePrefab;
+        }
+        else if (color == "Brown")
+        {
+            prefab = BrownPrefab;
+        }
+        else if (color == "Green")
+        {
+            prefab = GreenPrefab;
+        }
+        else if (color == "Orange")
+        {
+            prefab = OrangePrefab;
+        }
+        else if (color == "Purple")
+        {
+            prefab = PurplePrefab;
+        }
+        else if (color == "White")
+        {
+            prefab = WhitePrefab;
+        }
+        else if (color == "Yellow")
+        {
+            prefab = YellowPrefab;
+        }
+        else if (color == "Rainbow")
+        {
+            prefab = RainbowPrefab;
+        }
+        return prefab;
+    }
+
+    public void CardCounterControll(string color)
+    {
+        if (color == "Black")
+        {
+            BlackCardCounter--;
+        }
+        else if (color == "Blue")
+        {
+           BlueCardCounter--;
+        }
+        else if (color == "Brown")
+        {
+           BrownCardCounter--;
+        }
+        else if (color == "Green")
+        {
+            GreenCardCounter--;
+        }
+        else if (color == "Orange")
+        {
+            OrangeCardCounter--;
+        }
+        else if (color == "Purple")
+        {
+            PurpleCardCounter--;
+        }
+        else if (color == "White")
+        {
+            WhiteCardCounter--;
+        }
+        else if (color == "Yellow")
+        {
+            YellowCardCounter--;
+        }
+        else if (color == "Rainbow")
+        {
+           RainbowCardCounter--;
+        }
+    }
+
 
     #endregion DrawFunctions
 
@@ -478,7 +516,7 @@ public class GameManager : Singleton<GameManager>
             if(board != null && !isEmpty)
             {
                 Card delete = board[0];
-                delete.transform.position = discardPileDestination[b].position;
+                delete.transform.position = discardPileDestination.position;
                 board.Remove(delete);
                 discardPile.Add(delete);
             }
@@ -614,7 +652,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log(card.Color);
 
         // It sets the card position
-        card.transform.position = discardPileDestination[0].position;
+        card.transform.position = cardsInHand.position;
 
         // If the card was picked from the board, this make sure the slot where it was is available again and removes the card from the board list
         if (buttonId > 0 && buttonId < 6)
