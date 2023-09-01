@@ -32,7 +32,7 @@ namespace Assets.Scripts.Players
                 // Subscribe to the OnValueChanged event
                 m_TextString.OnValueChanged += OnTextStringChanged;
                 // Log the current value of the text string when the client connected
-                Debug.Log($"Client-{NetworkManager.LocalClientId}'s TextString = {m_TextString.Value}");
+                //Debug.Log($"Client-{NetworkManager.LocalClientId}'s TextString = {m_TextString.Value}");
             }
         }
         public override void OnNetworkDespawn()

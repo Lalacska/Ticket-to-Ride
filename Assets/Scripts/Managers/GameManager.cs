@@ -181,6 +181,7 @@ public class GameManager : Singleton<GameManager>
             {
                 isDeckEmpty = true;
                 deck = new List<Card>(new List<Card>(discardPile));
+                EmptyDiscardPile();
                 discardPile.Clear();
                 AutomaticDrawPile();
             }
@@ -219,11 +220,24 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+    //This goes trough the cards in the discardPile and calls the card's ReleaseCard metode
+    public void EmptyDiscardPile()
+    {
+        foreach(Card card in discardPile)
+        {
+            NetworkObject no = card.ReleaseCard();
+            //no.Despawn();
+        }
+    }
+
+    // When the network despawns this is unsubscribe from the onValueChanged events
     public override void OnNetworkDespawn()
     {
         m_cardPileString.OnValueChanged -= OnTextStringChanged;
         m_ticketPileString.OnValueChanged -= OnTextStringChanged;
     }
+    
+    // This sets the text value for the deck counters
     private void OnTextStringChanged(FixedString128Bytes previous, FixedString128Bytes current)
     {
         cardPiletxt.text = m_cardPileString.Value.ToString();
@@ -235,7 +249,6 @@ public class GameManager : Singleton<GameManager>
     /// This part is for all the different Draw functions that are being used in the game. \\
     /// </summary>
 
-    #region DrawFunctions
 
 
     // This methode deals 4 card to every player at the start of the game  from the deck
@@ -246,9 +259,11 @@ public class GameManager : Singleton<GameManager>
             Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
             if (cardVariables == null) { return null; }
 
-            GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
+            GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color,true);
             NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+
             _card.GetComponent<NetworkObject>().Spawn(true);
+   
             Card randCard = _card.GetComponent<Card>();
 
             //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
@@ -296,7 +311,6 @@ public class GameManager : Singleton<GameManager>
             tickets.Remove(ticket);
             ticketsInHand.Add(ticket);
         }
-        m_ticketPileString.Value = tickets.Count.ToString();
         Debug.Log("Tickets: "+ticketsInHand.Count);
         return ticketsInHand;
     }
@@ -304,37 +318,35 @@ public class GameManager : Singleton<GameManager>
     // This method is for the automaticly fils out the board. \\
     public void AutomaticDrawPile()
     {
-        //Card randCard = deck[0];
-
+      
         if (deck.Count >= 1)
         {
-            //CardVariables randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
                 if (availableCardSlots[i] == true && deck.Count != 0)
                 {
+                    // This gets a random card from the deck, then calls a metode and gets a prefab from it
                     Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
                     if(cardVariables == null) return; 
-                    GameObject randomCardPrefab = CardColorByNumber(0, cardVariables.Color);
+                    GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color,true);
                     Debug.Log(cardVariables.Color);
-                    if(randomCardPrefab == null) return;
+
+                    // Whit the prefab, we can get a network object from the pool
                     NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
-                    if(_card != IsSpawned)
-                    {
-                        _card.GetComponent<NetworkObject>().Spawn(true);
-                    }
+
+                    // This gets the card component from the N-object, and gives an id if it doesn't have id.
                     Card randCard = _card.GetComponent<Card>();
                     if (randCard.CardID == 0)
                     {
+                        _card.GetComponent<NetworkObject>().Spawn(true);
                         randCard.CardID = _CardID;
                         _CardID++;
                     }
 
-                    //_card.transform.position = cardSlots[i].position;
                     _card.transform.position = cardSlotButtons[i].position;
                     randCard.hasBeenPlayed = false;
-
                     availableCardSlots[i] = false;
+
                     deck.Remove(randCard);
                     board.Add(randCard);
 
@@ -346,6 +358,7 @@ public class GameManager : Singleton<GameManager>
                         RainbowCount++;
                         Debug.Log("Rainbow Count: "+RainbowCount);
                     }
+                    // If there is 5 card on the board this runs
                     if (availableCardSlots[4] == false)
                     {
                         // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
@@ -356,152 +369,128 @@ public class GameManager : Singleton<GameManager>
                         }
                     }
                     Debug.Log(randCard.Color);
-                    //return;
                 }
             }
         }
-        //SyncListsClientRpc(deck, DestinationTicket, SpecialDestinationTicket, board, discardPile);
     }
 
-    private GameObject CardColorByNumber(int number, string color)
-    {
-        GameObject prefab = null;
-
-        if(1<=number && number <= 12 && BlackCardCounter < 12 || color == "Black" && BlackCardCounter < 12)
-        {
-            prefab = BlackPrefab;
-            BlackCardCounter++;
-        }
-        else if (13 <= number && number <= 24 && BlueCardCounter < 12 || color == "Blue" && BlueCardCounter < 12)
-        {
-            prefab = BluePrefab;
-            BlueCardCounter++;
-        }
-        else if (25 <= number && number <= 36 && BrownCardCounter < 12 || color == "Brown" && BrownCardCounter < 12)
-        {
-            prefab = BrownPrefab;
-            BrownCardCounter++;
-        }
-        else if (37 <= number && number <= 48 && GreenCardCounter < 12 || color == "Green" && GreenCardCounter < 12)
-        {
-            prefab = GreenPrefab;
-            GreenCardCounter++;
-        }
-        else if (49 <= number && number <= 60 && OrangeCardCounter < 12 || color == "Orange" && OrangeCardCounter < 12)
-        {
-            prefab = OrangePrefab;
-            OrangeCardCounter++;
-        }
-        else if (61 <= number && number <= 72 && PurpleCardCounter < 12 || color == "Purple" && PurpleCardCounter < 12)
-        {
-            prefab = PurplePrefab;
-            PurpleCardCounter++;
-        }
-        else if (73 <= number && number <= 84 && WhiteCardCounter < 12 || color == "White" && WhiteCardCounter < 12)
-        {
-            prefab = WhitePrefab;
-            WhiteCardCounter++;
-        }
-        else if (85 <= number && number <= 96 && YellowCardCounter < 12 || color == "Yellow" && YellowCardCounter < 12)
-        {
-            prefab = YellowPrefab;
-            YellowCardCounter++;
-        }
-        else if (97 <= number && number <= 110 && RainbowCardCounter < 14 || color == "Rainbow" && RainbowCardCounter < 14)
-        {
-            prefab = RainbowPrefab;
-            RainbowCardCounter++;
-        }
-
-        return prefab;
-    }
-
-    public GameObject GetPrefabByColor(string color)
+    // This metode sets a prefab according to the color, and increaseas or decrases the counter for that color
+    public GameObject GetPrefabByColor(string color, bool increase)
     {
         GameObject prefab = null;
 
         if (color == "Black")
         {
             prefab = BlackPrefab;
+            if (increase)
+            {
+                BlackCardCounter++;
+            }
+            else
+            {
+                BlackCardCounter--;
+            }
         }
         else if (color == "Blue")
         {
             prefab = BluePrefab;
+            if (increase)
+            {
+                BlueCardCounter++;
+            }
+            else
+            {
+                BlueCardCounter--;
+            }
         }
         else if (color == "Brown")
         {
             prefab = BrownPrefab;
+            if (increase)
+            {
+                BrownCardCounter++;
+            }
+            else
+            {
+                BrownCardCounter--;
+            }
         }
         else if (color == "Green")
         {
             prefab = GreenPrefab;
+            if (increase)
+            {
+                GreenCardCounter++;
+            }
+            else
+            {
+                GreenCardCounter--;
+            }
         }
         else if (color == "Orange")
         {
             prefab = OrangePrefab;
+            if (increase)
+            {
+                OrangeCardCounter++;
+            }
+            else
+            {
+                OrangeCardCounter--;
+            }
         }
         else if (color == "Purple")
         {
             prefab = PurplePrefab;
+            if (increase)
+            {
+                PurpleCardCounter++;
+            }
+            else
+            {
+                PurpleCardCounter--;
+            }
         }
         else if (color == "White")
         {
             prefab = WhitePrefab;
+            if (increase)
+            {
+                WhiteCardCounter++;
+            }
+            else
+            {
+                WhiteCardCounter--;
+            }
         }
         else if (color == "Yellow")
         {
             prefab = YellowPrefab;
+            if (increase)
+            {
+                YellowCardCounter++;
+            }
+            else
+            {
+                YellowCardCounter--;
+            }
         }
         else if (color == "Rainbow")
         {
             prefab = RainbowPrefab;
+            if (increase)
+            {
+                RainbowCardCounter++;
+            }
+            else
+            {
+                RainbowCardCounter--;
+            }
         }
         return prefab;
     }
 
-    public void CardCounterControll(string color)
-    {
-        if (color == "Black")
-        {
-            BlackCardCounter--;
-        }
-        else if (color == "Blue")
-        {
-           BlueCardCounter--;
-        }
-        else if (color == "Brown")
-        {
-           BrownCardCounter--;
-        }
-        else if (color == "Green")
-        {
-            GreenCardCounter--;
-        }
-        else if (color == "Orange")
-        {
-            OrangeCardCounter--;
-        }
-        else if (color == "Purple")
-        {
-            PurpleCardCounter--;
-        }
-        else if (color == "White")
-        {
-            WhiteCardCounter--;
-        }
-        else if (color == "Yellow")
-        {
-            YellowCardCounter--;
-        }
-        else if (color == "Rainbow")
-        {
-           RainbowCardCounter--;
-        }
-    }
-
-
-    #endregion DrawFunctions
-
+    
 
 
     // This method is for checking the cards on the board. \\

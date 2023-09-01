@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3294108290094326479}
   - component: {fileID: 5344267477193049184}
   - component: {fileID: 458263254722644095}
-  - component: {fileID: 7973812803378931311}
   m_Layer: 0
   m_Name: Orange Train
   m_TagString: Untagged
@@ -125,24 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  go: {fileID: 3294108290094326479}
   m_hasBeenPlayed: 0
   m_handIndex: 0
   m_Color: Orange
   m_ownerID: 0
   m_CardID: 0
---- !u!114 &7973812803378931311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8213150071486787173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe31e93ec5c72f47a460706012f4390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go: {fileID: 3294108290094326479}
 --- !u!1001 &8213150072594705113
 PrefabInstance:
   m_ObjectHideFlags: 0

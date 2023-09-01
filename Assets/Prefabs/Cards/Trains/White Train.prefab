@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: -2217716937457710165}
   - component: {fileID: 4982826947470387746}
   - component: {fileID: -722281560724568589}
-  - component: {fileID: 7614250449219728346}
   m_Layer: 0
   m_Name: White Train
   m_TagString: Untagged
@@ -125,24 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  go: {fileID: -2217716937457710165}
   m_hasBeenPlayed: 0
   m_handIndex: 0
   m_Color: White
   m_ownerID: 0
   m_CardID: 0
---- !u!114 &7614250449219728346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8002832274782476092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe31e93ec5c72f47a460706012f4390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go: {fileID: -2217716937457710165}
 --- !u!1001 &8002832276517038797
 PrefabInstance:
   m_ObjectHideFlags: 0

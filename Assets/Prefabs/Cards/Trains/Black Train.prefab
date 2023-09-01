@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1667549190749601892}
   - component: {fileID: 7504130895023850529}
   - component: {fileID: -9219556702740858272}
-  - component: {fileID: -8491868155920542761}
   m_Layer: 0
   m_Name: Black Train
   m_TagString: Untagged
@@ -125,25 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  go: {fileID: 7504130895023850529}
   m_hasBeenPlayed: 0
   m_handIndex: 0
   m_Color: Black
   m_ownerID: 0
   m_CardID: 0
---- !u!114 &-8491868155920542761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7504130894838866289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe31e93ec5c72f47a460706012f4390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  go: {fileID: 7504130895023850529}
-  card: {fileID: 0}
 --- !u!1001 &7504130893935862704
 PrefabInstance:
   m_ObjectHideFlags: 0

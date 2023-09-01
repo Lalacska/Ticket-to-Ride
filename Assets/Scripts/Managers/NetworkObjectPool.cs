@@ -142,6 +142,7 @@ namespace Assets.Scripts.Cards
             }
             foreach (var networkObject in prewarmNetworkObjects)
             {
+                //networkObject.Spawn();
                 m_PooledObjects[prefab].Release(networkObject);
                 GameManager.Instance.deck.Add(networkObject.GetComponent<Card>());
             }
