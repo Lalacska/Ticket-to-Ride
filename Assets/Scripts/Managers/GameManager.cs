@@ -54,6 +54,8 @@ public class GameManager : Singleton<GameManager>
 
 
 
+    [SerializeField] private List<GameObject> m_stations;
+    public List<GameObject> stations { get { return m_stations; } set { m_stations = value; } }
 
 
 
@@ -243,13 +245,6 @@ public class GameManager : Singleton<GameManager>
         cardPiletxt.text = m_cardPileString.Value.ToString();
         ticketPiletxt.text = m_ticketPileString.Value.ToString();
     }
-
-
-    /// <summary>
-    /// This part is for all the different Draw functions that are being used in the game. \\
-    /// </summary>
-
-
 
     // This methode deals 4 card to every player at the start of the game  from the deck
     public List<Card> DealCards(int clientID, List<Card> hand)
@@ -490,8 +485,6 @@ public class GameManager : Singleton<GameManager>
         return prefab;
     }
 
-    
-
 
     // This method is for checking the cards on the board. \\
     // It checks to make sure that there are not more than 3 Rainbow cards at ones. \\
@@ -553,7 +546,9 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
+    /// <summary>
+    /// This part is for all the different functions for Draw cards that are being used in the game. \\
+    /// </summary>
 
     #region DrawCards
 
@@ -665,6 +660,11 @@ public class GameManager : Singleton<GameManager>
         AutomaticDrawPile();
     }
     
+
+    
+
+
+
     [ClientRpc]
     public void DrawCardHandlerClientRpc(bool isRainbow, int buttonId, ulong clientID, ClientRpcParams clientRpcParams)
     {
@@ -791,11 +791,6 @@ public class GameManager : Singleton<GameManager>
     }
     
     #endregion 
-
-
-
-
-
 
 
 
@@ -1051,7 +1046,39 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-   #endregion Tickets
+    #endregion Tickets
+
+
+
+
+
+
+    #region Station
+
+    public void ActiveStation()
+    {
+        TurnM.Instance.Enable_DisableActionChooser();
+        Debug.Log("A");
+        foreach(GameObject go in stations)
+        {
+            Debug.Log("B");
+            Station station = go.GetComponent<Station>();
+            if (!station.isTaken)
+            {
+                Debug.Log("C");
+                station.TurnEmissionOn();
+            }  
+        }
+    }
+
+
+
+
+
+    #endregion
+
+
+
 
 
 
@@ -1077,122 +1104,6 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Du har skiftet tur!");
         PlayerPickCount = 0;
     }
-
-
-    // This method takes the players cards and plays them. \\
-    //public void PlayCardHand(string cardcolor)
-    //{
-    //    // Here we check for the color of the card. \\
-    //    if (cardcolor == "Black")
-    //    {
-    //        if (IBlackPlayerCount >= 1)
-    //        {
-    //            IBlackPlayerCount--;
-    //            TBlackPlayerCount.text = IBlackPlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Blue")
-    //    {
-    //        if (IBluePlayerCount >= 1)
-    //        {
-    //            IBluePlayerCount--;
-    //            TBluePlayerCount.text = IBluePlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Brown")
-    //    {
-    //        if (IBrownPlayerCount >= 1)
-    //        {
-    //            IBrownPlayerCount--;
-    //            TBrownPlayerCount.text = IBrownPlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Green")
-    //    {
-    //        if (IGreenPlayerCount >= 1)
-    //        {
-    //            IGreenPlayerCount--;
-    //            TGreenPlayerCount.text = IGreenPlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Orange")
-    //    {
-    //        if (IOrangePlayerCount >= 1)
-    //        {
-    //            IOrangePlayerCount--;
-    //            TOrangePlayerCount.text = IOrangePlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Purple")
-    //    {
-    //        if (IPurplePlayerCount >= 1)
-    //        {
-    //            IPurplePlayerCount--;
-    //            TPurplePlayerCount.text = IPurplePlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "White")
-    //    {
-    //        if (IWhitePlayerCount >= 1)
-    //        {
-    //            IWhitePlayerCount--;
-    //            TWhitePlayerCount.text = IWhitePlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Yellow")
-    //    {
-    //        if (IYellowPlayerCount >= 1)
-    //        {
-    //            IYellowPlayerCount--;
-    //            TYellowPlayerCount.text = IYellowPlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    else if (cardcolor == "Rainbow")
-    //    {
-    //        if (IRainbowPlayerCount >= 1)
-    //        {
-    //            IRainbowPlayerCount--;
-    //            TRainbowPlayerCount.text = IRainbowPlayerCount.ToString();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Du har ikke flere kort af den type tilbage!");
-    //        }
-    //    }
-    //    Debug.Log("Du har fjernet 1 " + cardcolor + " kort");
-    //}
 
     #endregion UnityEngine.Random/Extra
 
