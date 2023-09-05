@@ -12,7 +12,7 @@ public class Station : Singleton<Station>
 {
     [SerializeField] private string m_stationName;
     private bool m_isActive = false;
-    private bool m_isTaken = false;
+    [SerializeField] private bool m_isTaken = false;
 
     public string stationName { get { return m_stationName; } set { m_stationName = value; } }
 
@@ -31,25 +31,28 @@ public class Station : Singleton<Station>
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit Hit;
 
-        if (Input.GetMouseButtonDown(0))
+        if (!isTaken)
         {
-            if (Physics.Raycast(ray, out Hit) && Hit.collider.gameObject == gameObject)
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Button Clicked ");
-                if (isActive)
+                if (Physics.Raycast(ray, out Hit) && Hit.collider.gameObject == gameObject)
                 {
-                    Debug.Log("Light off");
-                    TurnEmissionOff();
-                    isActive = false;
+                    Debug.Log("Button Clicked ");
+                    if (isActive)
+                    {
+                        Debug.Log("Light off");
+                        //TurnEmissionOff();
+                        isActive = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Light on");
+                        //TurnEmissionOn();
+                        isActive = true;
+                    }
+                    //Highlight.Instance.Enable_Disable();
+                    OnClick.Invoke();
                 }
-                else
-                {
-                    Debug.Log("Light on");
-                    TurnEmissionOn();
-                    isActive = true;
-                }
-                //Highlight.Instance.Enable_Disable();
-                OnClick.Invoke();
             }
         }
     }

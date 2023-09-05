@@ -28,8 +28,10 @@ public class PlayerStat : Singleton<PlayerStat>
 
     [SerializeField] private List<Card> m_hand;
     [SerializeField] private List<Ticket> m_tickets;
+    [SerializeField] private int m_stations;
     public List<Card> hand { get { return m_hand; } set { m_hand = value; } }
     public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
+    public int stations { get { return m_stations; } set { m_stations = value; } }
 
     [SerializeField] private GameObject turnIndicator;
     [SerializeField] private TMP_Text Score;
@@ -37,6 +39,9 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private TMP_Text Stations;
     [SerializeField] private TMP_Text Cards;
     [SerializeField] private TMP_Text Tickets;
+
+
+    [SerializeField] private GameObject StationObject;
 
     private NetworkVariable<FixedString128Bytes> m_ScoreString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TrainsString = new NetworkVariable<FixedString128Bytes>();
@@ -53,7 +58,7 @@ public class PlayerStat : Singleton<PlayerStat>
 
     private void Start()
     {
-
+        stations = 3;
         turnIndicator.SetActive(false);
         if (IsServer)
         {

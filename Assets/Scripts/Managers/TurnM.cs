@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Cards;
+﻿using Assets.Scripts.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +38,8 @@ public class TurnM : Singleton<TurnM>
     public List<PlayerStat> players { get { return m_players; } set { m_players = value; } }
 
     [SerializeField] private Button endTurnBtn;
+    [SerializeField] private Button buildStationbtn;
+    private bool haveStations;
 
     public GameObject SwitchTrun;
     public GameObject GameBoard;
@@ -95,10 +97,20 @@ public class TurnM : Singleton<TurnM>
         clientId = players[currentPlayerIndex].clientId;
         player = players[currentPlayerIndex];
         player.myTurn = true;
+
+        // This checks if the current players has more station or not
+        if(player.stations == 0)
+        {
+            haveStations = false;
+        }
+        else
+        {
+            haveStations = true;
+        }
         turnCounter++;
 
         // Sends the client id to the turnStarted metode
-        TurnStarted(clientId);
+        TurnStarted(clientId, haveStations);
         Debug.Log(" CurrentIndex: " + currentPlayerIndex);
         
     }
@@ -137,7 +149,7 @@ public class TurnM : Singleton<TurnM>
     }
 
     // This metode gets the clientId, sets the target client and then calls a clientrpc with the target
-    public void TurnStarted(ulong clientId)
+    public void TurnStarted(ulong clientId, bool _haveStations)
     {
         currentPlayerId = clientId;
 
@@ -150,18 +162,29 @@ public class TurnM : Singleton<TurnM>
         };
 
         // Sends the clientrpc params with the target client to a client rpc metode
-        ActivateTurnClientRpc(clientRpcParams);
+        ActivateTurnClientRpc(_haveStations, clientRpcParams);
     }
 
 
     // This metode runs on the client and make Action Chooser visible
 
     [ClientRpc]
-    public void ActivateTurnClientRpc(ClientRpcParams clientRpcParams = default)
+    public void ActivateTurnClientRpc(bool _haveStations, ClientRpcParams clientRpcParams = default)
     {
         Debug.Log(" Here");
 
         Debug.Log("Your Turn! ");
+
+        // If the player has no more station this set the build station button uninteractable 
+        if (!_haveStations)
+        {
+            buildStationbtn.interactable = false;
+        }
+        else
+        {
+            buildStationbtn.interactable = true;
+        }
+
         Enable_DisableActionChooser();
         Enable_DisableEndTurnBtn();
 

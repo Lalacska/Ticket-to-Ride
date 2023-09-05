@@ -1,4 +1,4 @@
-using Assets.Scripts.Cards;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Managers;
 using System;
 using System.Collections;
@@ -1058,14 +1058,12 @@ public class GameManager : Singleton<GameManager>
     public void ActiveStation()
     {
         TurnM.Instance.Enable_DisableActionChooser();
-        Debug.Log("A");
         foreach(GameObject go in stations)
         {
-            Debug.Log("B");
+           
             Station station = go.GetComponent<Station>();
             if (!station.isTaken)
             {
-                Debug.Log("C");
                 station.TurnEmissionOn();
             }  
         }

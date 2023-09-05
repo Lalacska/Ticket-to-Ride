@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Cards;
+﻿using Assets.Scripts.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -125,7 +125,7 @@ namespace Assets.Scripts.Managers
                 gameStarted = true;
 
                 // This sends the the first players id to the turn started metode
-                TurnM.Instance.TurnStarted(firstPlayer.clientId);
+                TurnM.Instance.TurnStarted(firstPlayer.clientId, true);
                 Debug.Log("Game started! First player: "+stats[randomplayer].clientId);
             }
 

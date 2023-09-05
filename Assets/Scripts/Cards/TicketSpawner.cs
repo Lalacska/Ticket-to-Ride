@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Cards;
+﻿using Assets.Scripts.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;

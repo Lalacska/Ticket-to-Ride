@@ -438,16 +438,20 @@ MonoBehaviour:
   m_myTurn: 0
   m_ownerID: 0
   m_clientId: 0
-  m_name: 
+  m_playerName: 
   m_isReady: 0
   m_hand: []
   m_tickets: []
+  m_stations: 0000000000000000
   turnIndicator: {fileID: 6612725709917060964}
   Score: {fileID: 6672740200002217852}
   Trains: {fileID: 5303554852649506594}
   Stations: {fileID: 8089504703896689368}
   Cards: {fileID: 1515129261347870604}
   Tickets: {fileID: 5680082157192359032}
+  StationObject: {fileID: 4699102401924287696, guid: 4a68534a2909a1c4a91848098ba61818, type: 3}
+  m_isTurn:
+    m_InternalValue: 0
 --- !u!1 &8708250189912964874
 GameObject:
   m_ObjectHideFlags: 0

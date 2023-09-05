@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Assets.Scripts.Cards
+namespace Assets.Scripts.Managers
 {
     public class CardManager : Singleton<CardManager>
     {
