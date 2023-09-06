@@ -177,7 +177,7 @@ public class GameManager : Singleton<GameManager>
             no.SpawnWithObservers = false;
             no.Spawn(true);
         }
-
+        
         if (Input.GetKeyUp(KeyCode.T))
         {
             GameObject obj = GameObject.FindGameObjectWithTag("Card");
@@ -209,7 +209,6 @@ public class GameManager : Singleton<GameManager>
             //AutomaticDrawPile();
         }
     }
-
 
 
     /// <summary>
@@ -692,7 +691,6 @@ public class GameManager : Singleton<GameManager>
     }
 
     #endregion Tickets
-
 
 
 
