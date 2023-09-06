@@ -41,7 +41,8 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private TMP_Text Tickets;
 
 
-    [SerializeField] private GameObject StationObject;
+    [SerializeField] private GameObject m_StationObject;
+    public GameObject StationObject { get { return m_StationObject; } set { m_StationObject = value; } }
 
     private NetworkVariable<FixedString128Bytes> m_ScoreString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TrainsString = new NetworkVariable<FixedString128Bytes>();

@@ -862,14 +862,14 @@ MonoBehaviour:
   m_isReady: 0
   m_hand: []
   m_tickets: []
-  m_stations: 0000000000000000
+  m_stations: 0
   turnIndicator: {fileID: 5923989297429657267}
   Score: {fileID: 445102335}
   Trains: {fileID: 5423434245688203937}
   Stations: {fileID: 6403125976270655638}
   Cards: {fileID: 2837830779136654417}
   Tickets: {fileID: 6355278763751093037}
-  StationObject: {fileID: 4699102401924287696, guid: 0db2b08557787b74c8dcfa0b67e8162c, type: 3}
+  m_StationObject: {fileID: 4699102401924287696, guid: 0db2b08557787b74c8dcfa0b67e8162c, type: 3}
   m_isTurn:
     m_InternalValue: 0
 --- !u!1 &5847349387233841387

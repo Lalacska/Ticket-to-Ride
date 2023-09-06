@@ -12,13 +12,23 @@ public class Station : Singleton<Station>
 {
     [SerializeField] private string m_stationName;
     private bool m_isActive = false;
-    [SerializeField] private bool m_isTaken = false;
+    //[SerializeField] private bool m_isTaken = false;
+
+    //private NetworkVariable<bool> m_isActive = new NetworkVariable<bool>(false);
+    [SerializeField] private NetworkVariable<bool> m_isTaken = new NetworkVariable<bool>(false);
+
+
+
 
     public string stationName { get { return m_stationName; } set { m_stationName = value; } }
 
     public bool isActive { get { return m_isActive; } set { m_isActive = value; } }
 
-    public bool isTaken { get { return m_isTaken; } set { m_isTaken = value; } }
+    //public bool isTaken { get { return m_isTaken; } set { m_isTaken = value; } }
+
+    public NetworkVariable<bool> isTaken { get { return m_isTaken; } set { m_isTaken = value; } }
+    //public NetworkVariable<bool> isActive { get { return m_isActive; } set { m_isActive = value; } }
+
 
     private Material emissiveMaterial;
     private Renderer objectToChange;
@@ -31,24 +41,18 @@ public class Station : Singleton<Station>
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit Hit;
 
-        if (!isTaken)
+        if (!isTaken.Value)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 if (Physics.Raycast(ray, out Hit) && Hit.collider.gameObject == gameObject)
                 {
                     Debug.Log("Button Clicked ");
-                    if (isActive)
+                    if (isActive/*.Value*/)
                     {
-                        Debug.Log("Light off");
-                        //TurnEmissionOff();
-                        isActive = false;
-                    }
-                    else
-                    {
-                        Debug.Log("Light on");
-                        //TurnEmissionOn();
-                        isActive = true;
+                        Debug.Log(stationName);
+                        SetIsTakenServerRpc();
+                        GameManager.Instance.ChooseCity(stationName);
                     }
                     //Highlight.Instance.Enable_Disable();
                     OnClick.Invoke();
@@ -64,12 +68,14 @@ public class Station : Singleton<Station>
         objectToChange = this.gameObject.GetComponent<Renderer>();
         emissiveMaterial.DisableKeyword("_EMISSION");
 
+
     }
 
     public void TurnEmissionOff()
     {
         emissiveMaterial.DisableKeyword("_EMISSION");
         isActive = false;
+        //ChangeValueServerRpc();
 
 
     }
@@ -77,7 +83,27 @@ public class Station : Singleton<Station>
     {
         emissiveMaterial.EnableKeyword("_EMISSION");
         isActive = true;
-     
+        //ChangeValueServerRpc();
+
+    }
+
+    //[ServerRpc(RequireOwnership = false)]
+    //private void ChangeValueServerRpc(ServerRpcParams serverRpcParams = default)
+    //{
+    //    if (isActive.Value) 
+    //    {
+    //        isActive.Value = false;
+    //    }
+    //    else
+    //    {
+    //        isActive.Value = true;
+    //    }
+    //}
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetIsTakenServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        isTaken.Value = true;
     }
 }
 

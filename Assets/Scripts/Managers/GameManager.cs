@@ -112,8 +112,6 @@ public class GameManager : Singleton<GameManager>
 
     private int _CardID = 1;
 
-    private bool DestroyWithSpawner;
-
     private CardSlotsID slot;
 
     [SerializeField] private int BlackCardCounter = 0;
@@ -126,6 +124,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int YellowCardCounter = 0;
     [SerializeField] private int RainbowCardCounter = 0;
 
+
+    private GameObject city;
+    private PlayerStat player;
 
     #endregion Variables
 
@@ -202,22 +203,52 @@ public class GameManager : Singleton<GameManager>
 
         if (Input.GetKeyUp(KeyCode.T))
         {
-            GameObject obj = GameObject.FindGameObjectWithTag("Card");
-            if(obj != null)
+            //GameObject obj = GameObject.FindGameObjectWithTag("Card");
+            //if(obj != null)
+            //{
+            //    NetworkObject ob = obj.GetComponent<NetworkObject>();
+            //    ob.NetworkShow(1);
+            //}
+
+            foreach (GameObject go in stations)
             {
-                NetworkObject ob = obj.GetComponent<NetworkObject>();
-                ob.NetworkShow(1);
+
+                Station station = go.GetComponent<Station>();
+                if (!station.isTaken.Value)
+                {
+                    CapsuleCollider collider = go.GetComponent<CapsuleCollider>();
+                    //if (collider.enabled == false)
+                    //{
+                    //    collider.enabled = true;
+                    //}
+                    station.TurnEmissionOn();
+                }
             }
         } else if (Input.GetKeyUp(KeyCode.G))
         {
-            GameObject obj = GameObject.FindGameObjectWithTag("Card");
-            if (obj != null)
+            foreach (GameObject go in stations)
             {
-                NetworkObject ob = obj.GetComponent<NetworkObject>();
-                ob.NetworkHide(1);
-                Debug.Log("HEY");
-                //SetVisibilityClientRpc(false);
+
+                Station station = go.GetComponent<Station>();
+                if (!station.isTaken.Value)
+                {
+                    CapsuleCollider collider = go.GetComponent<CapsuleCollider>();
+                    //if (collider.enabled == false)
+                    //{
+                    //    collider.enabled = true;
+                    //}
+                    station.TurnEmissionOff();
+                }
             }
+
+            //GameObject obj = GameObject.FindGameObjectWithTag("Card");
+            //if (obj != null)
+            //{
+            //    NetworkObject ob = obj.GetComponent<NetworkObject>();
+            //    ob.NetworkHide(1);
+            //    Debug.Log("HEY");
+            //    //SetVisibilityClientRpc(false);
+            //}
         }
 
     }
@@ -879,7 +910,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    // This metode converts the impoortant elements from the choosedTicket list into two array, and sends them to a SeververRPC
+    // This metode converts the impoortant elements from the choosedTicket list into two array, and sends them to a ServerRPC
     // Also checks and sends an indication if the player doesn't have the required amount of tickets selected and also updates the objects
     public void SendChoosenTicketsToServer()
     {
@@ -1058,19 +1089,77 @@ public class GameManager : Singleton<GameManager>
     public void ActiveStation()
     {
         TurnM.Instance.Enable_DisableActionChooser();
-        foreach(GameObject go in stations)
+        //ActiveStationServerRpc();
+        Debug.Log("A not server");
+
+        foreach (GameObject go in stations)
         {
-           
+
             Station station = go.GetComponent<Station>();
-            if (!station.isTaken)
+            if (!station.isTaken.Value)
             {
+                CapsuleCollider collider = go.GetComponent<CapsuleCollider>();
+                if (collider.enabled == false)
+                {
+                    collider.enabled = true;
+                }
                 station.TurnEmissionOn();
-            }  
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership =false)]
+    public void SpawnStationServerRpc(string _stationName, ServerRpcParams serverRpcParams = default)
+    {
+        ulong clientID = serverRpcParams.Receive.SenderClientId;
+
+        foreach (GameObject go in stations)
+        {
+            Station station = go.GetComponent<Station>();
+            if(station.stationName == _stationName)
+            {
+                city = go;
+            }
+        }
+        foreach(PlayerStat stat in PlayerManager.Instance.stats)
+        {
+            if(stat.clientId == clientID)
+            {
+                player = stat;
+            }
+        }
+
+        if(city == null || player == null)
+        {
+            Debug.Log("Something is wrong" + city + " " + player.clientId);
+            return;
+        }
+
+        GameObject spawnedObjectTransform = Instantiate(player.StationObject);
+        NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
+        no.Spawn(true);
+        spawnedObjectTransform.transform.SetParent(city.transform, true);
+        spawnedObjectTransform.transform.position = new Vector3(city.transform.position.x, city.transform.position.y +1, city.transform.position.z);
+
+    }
+
+    public void ChooseCity(string _stationName)
+    {
+        foreach (GameObject go in stations)
+        {
+            Station station = go.GetComponent<Station>();
+            CapsuleCollider collider = go.GetComponent<CapsuleCollider>();
+            collider.enabled = false;
+            station.TurnEmissionOff();
+            if(station.stationName == _stationName)
+            {
+                SpawnStationServerRpc(_stationName);
+            }
         }
     }
 
 
-
+   
 
 
     #endregion
