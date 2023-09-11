@@ -25,7 +25,7 @@ public class Route : MonoBehaviour
 
     private void ClaimedRoute()
     {
-
+        /*
         if (playerConnected.P1 == // PlayerID \\ )
         {
 
@@ -83,6 +83,7 @@ public class Route : MonoBehaviour
                 isClaimed = false;
             }
         }
+        */
 
 
         //if (playerChoice == flase)
