@@ -1092,6 +1092,7 @@ public class GameManager : Singleton<GameManager>
         //ActiveStationServerRpc();
         Debug.Log("A not server");
 
+        // This goes trough the stations and turn on theirs emission if they are not taken, and also enabales collider, so the player can interact with it
         foreach (GameObject go in stations)
         {
 

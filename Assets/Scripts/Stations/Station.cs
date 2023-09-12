@@ -41,16 +41,23 @@ public class Station : Singleton<Station>
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit Hit;
 
+        // If the Station is not taken this lets the user click on it
         if (!isTaken.Value)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                // When the player click on the station it act as a button
                 if (Physics.Raycast(ray, out Hit) && Hit.collider.gameObject == gameObject)
                 {
                     Debug.Log("Button Clicked ");
+                    // If the station is active, it sends a serverRpc metode then runs ChooseCity
                     if (isActive/*.Value*/)
                     {
                         Debug.Log(stationName);
+                        CardSelector.Instance.AutoSelectCards("Station", "none");
+                        Debug.Log("A");
+                        if (!CardSelector.Instance.isValid.Value) return;
+                        Debug.Log("Built");
                         SetIsTakenServerRpc();
                         GameManager.Instance.ChooseCity(stationName);
                     }
@@ -71,6 +78,7 @@ public class Station : Singleton<Station>
 
     }
 
+    // This turns off the emission for the object
     public void TurnEmissionOff()
     {
         emissiveMaterial.DisableKeyword("_EMISSION");
@@ -79,6 +87,8 @@ public class Station : Singleton<Station>
 
 
     }
+
+    // This turna on the emission for the object
     public void TurnEmissionOn()
     {
         emissiveMaterial.EnableKeyword("_EMISSION");
@@ -100,6 +110,7 @@ public class Station : Singleton<Station>
     //    }
     //}
 
+    // Sets the Network Variable to true
     [ServerRpc(RequireOwnership = false)]
     private void SetIsTakenServerRpc(ServerRpcParams serverRpcParams = default)
     {

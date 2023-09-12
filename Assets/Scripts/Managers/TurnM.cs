@@ -99,7 +99,7 @@ public class TurnM : Singleton<TurnM>
         player.myTurn = true;
 
         // This checks if the current players has more station or not
-        if(player.stations == 0)
+        if(player.stations.Value == 0)
         {
             haveStations = false;
         }

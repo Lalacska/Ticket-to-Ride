@@ -28,11 +28,10 @@ public class PlayerStat : Singleton<PlayerStat>
 
     [SerializeField] private List<Card> m_hand;
     [SerializeField] private List<Ticket> m_tickets;
-    [SerializeField] private int m_stations;
+    
     public List<Card> hand { get { return m_hand; } set { m_hand = value; } }
     public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
-    public int stations { get { return m_stations; } set { m_stations = value; } }
-
+    
     [SerializeField] private GameObject turnIndicator;
     [SerializeField] private TMP_Text Score;
     [SerializeField] private TMP_Text Trains;
@@ -56,23 +55,25 @@ public class PlayerStat : Singleton<PlayerStat>
 
     public Dictionary<FixedString128Bytes, int> cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
 
+    [SerializeField] private NetworkVariable<int> m_stations = new NetworkVariable<int>();
+    public NetworkVariable<int> stations { get { return m_stations; } set { m_stations = value; } }
 
     private void Start()
     {
-        stations = 3;
         turnIndicator.SetActive(false);
         if (IsServer)
         {
             // Assin the current value based on the current message index value
+            stations.Value = 3;
             m_ScoreString.Value = "0";
             m_TrainsString.Value = "50";
-            m_StationsString.Value = "3";
+            m_StationsString.Value = stations.Value.ToString();
             m_CardsString.Value = "0" /*hand.Count.ToString()*/;
             m_TicketsString.Value = "0";
             m_isTurn.Value = false;
             Score.text = m_ScoreString.Value.ToString();
             Trains.text = m_TrainsString.Value.ToString();
-            Stations.text = m_StationsString.Value.ToString();
+            Stations.text = stations.Value.ToString();
             Cards.text = m_CardsString.Value.ToString();
             Tickets.text = m_TicketsString.Value.ToString();
             m_isTurn.OnValueChanged += ActivateIndicator;
@@ -86,6 +87,7 @@ public class PlayerStat : Singleton<PlayerStat>
             m_CardsString.OnValueChanged += OnTextStringChanged;
             m_TicketsString.OnValueChanged += OnTextStringChanged;
             m_isTurn.OnValueChanged += ActivateIndicator;
+            stations.OnValueChanged += OnIntChanged;
             // Log the current value of the text string when the client connected
         }
         
@@ -103,6 +105,7 @@ public class PlayerStat : Singleton<PlayerStat>
         }
     }
 
+    
     public override void OnNetworkDespawn()
     {
         m_ScoreString.OnValueChanged -= OnTextStringChanged;
@@ -111,6 +114,7 @@ public class PlayerStat : Singleton<PlayerStat>
         m_CardsString.OnValueChanged -= OnTextStringChanged;
         m_TicketsString.OnValueChanged -= OnTextStringChanged;
         m_isTurn.OnValueChanged -= ActivateIndicator;
+        stations.OnValueChanged -= OnIntChanged;
     }
 
     private void LateUpdate()
@@ -131,6 +135,10 @@ public class PlayerStat : Singleton<PlayerStat>
             if(m_TicketsString.Value != tickets.Count.ToString())
             {
                 m_TicketsString.Value = tickets.Count.ToString();
+            }
+            if(m_StationsString.Value != stations.Value.ToString())
+            {
+                m_StationsString.Value = stations.Value.ToString();
             }
 
             if (myTurn)
@@ -159,6 +167,12 @@ public class PlayerStat : Singleton<PlayerStat>
         Cards.text = m_CardsString.Value.ToString();
         Tickets.text = m_TicketsString.Value.ToString();
     }
+
+    private void OnIntChanged(int previousValue, int newValue)
+    {
+        Stations.text = m_StationsString.Value.ToString();
+    }
+
 
 
     // This metode chek the cards in the players hand when their list changes and then send the data to the client
