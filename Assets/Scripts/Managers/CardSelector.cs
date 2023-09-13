@@ -53,7 +53,6 @@ public class CardSelector : Singleton<CardSelector>
         if (type == "Station")
         {
             CheckStationsNumberServerRpc();
-            //neededCards.text = maxCard.Value.ToString();
 
             Debug.Log("Max card: " + maxCard);
 
@@ -98,12 +97,21 @@ public class CardSelector : Singleton<CardSelector>
 
     }
 
+    #region Station
 
     [ServerRpc(RequireOwnership = false)]
     public void CheckStationsNumberServerRpc(ServerRpcParams serverRpcParams = default)
     {
         ulong clientId = serverRpcParams.Receive.SenderClientId;
 
+        // Set the target client
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { clientId }
+            }
+        };
 
         foreach (PlayerStat stat in PlayerManager.Instance.stats)
         {
@@ -117,14 +125,15 @@ public class CardSelector : Singleton<CardSelector>
         {
             Debug.Log("Valid");
             Debug.Log(player.stations.Value);
-            neededCards.text = (4 - player.stations.Value).ToString();
-            SetCardAmountServerRpc(player.stations.Value);
+            string amount = (4 - player.stations.Value).ToString();
+            maxCard.Value = player.stations.Value;
 
+            EnableCardButtonsClientRpc(amount, clientRpcParams);
 
+            //Debug.Log("Max card: " + maxCard);
+            //player.stations.Value--;
+            //Debug.Log(player.stations.Value);
 
-            Debug.Log("Max card: " + maxCard);
-            player.stations.Value--;
-            Debug.Log(player.stations.Value);
 
 
         }
@@ -135,6 +144,31 @@ public class CardSelector : Singleton<CardSelector>
             return;
         }
     }
+
+
+    [ClientRpc]
+    public void EnableCardButtonsClientRpc(string amount, ClientRpcParams clientRpcParams)
+    {
+        neededCards.text = amount;
+        Debug.Log(PlayerStat.Instance.localCards);
+    }
+
+
+
+
+
+    public void EnableCardButtons()
+    {
+
+    }
+
+
+
+
+
+
+
+    #endregion
 
     [ServerRpc(RequireOwnership = false)]
     public void ResetIsValidServerRpc(ServerRpcParams serverRpcParams = default)
@@ -159,5 +193,56 @@ public class CardSelector : Singleton<CardSelector>
             CardSelectorArea.SetActive(true);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+     
+
+    // This methode is for the card play buttons, it gets an int from the button, sets the color
+    // then calls PlayCardHand methode with the color
+    public void PlayCardBTN(int button)
+    {
+        string color = "";
+        switch (button)
+        {
+            case 1:
+                color = "Black";
+                break;
+            case 2:
+                color = "Blue";
+                break;
+            case 3:
+                color = "Brown";
+                break;
+            case 4:
+                color = "Green";
+                break;
+            case 5:
+                color = "Orange";
+                break;
+            case 6:
+                color = "Purple";
+                break;
+            case 7:
+                color = "White";
+                break;
+            case 8:
+                color = "Yellow";
+                break;
+            case 9:
+                color = "Rainbow";
+                break;
+        }
+        //PlayCardHand(color);
+    }
+
 }
 

@@ -55,6 +55,11 @@ public class PlayerStat : Singleton<PlayerStat>
 
     public Dictionary<FixedString128Bytes, int> cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
 
+    public static Dictionary<FixedString128Bytes, int> m_localCards;
+
+    public Dictionary<FixedString128Bytes, int> localCards { get { return m_localCards; } set { m_localCards = value; } }
+
+
     [SerializeField] private NetworkVariable<int> m_stations = new NetworkVariable<int>();
     public NetworkVariable<int> stations { get { return m_stations; } set { m_stations = value; } }
 
@@ -241,6 +246,9 @@ public class PlayerStat : Singleton<PlayerStat>
         // These clears and sets the dictionary localy to the client
         cardsInHand.Clear();
         cardsInHand = dictionary;
+
+        //localCards.Clear();
+        localCards = dictionary;
         //foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
         //{
         //    Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
