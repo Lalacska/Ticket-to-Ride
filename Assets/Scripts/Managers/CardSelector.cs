@@ -201,6 +201,7 @@ public class CardSelector : Singleton<CardSelector>
                 
                 if(gameObject.name == buttonname || gameObject.name == "Rainbow-Btn")
                 {
+
                     Debug.Log(buttonname);
                     buttonComponent.interactable = true;
                 }
@@ -264,7 +265,10 @@ public class CardSelector : Singleton<CardSelector>
 
 
 
+    public void CardCounter()
+    {
 
+    }
 
 
     public void TestSpawn()
