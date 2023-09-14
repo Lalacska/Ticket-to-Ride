@@ -1077,7 +1077,7 @@ GameObject:
   - component: {fileID: 57361749}
   - component: {fileID: 57361748}
   m_Layer: 5
-  m_Name: 'Play-Brown-Btn '
+  m_Name: 'Brown-Btn '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1150,6 +1150,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -2191,7 +2203,7 @@ GameObject:
   - component: {fileID: 143305574}
   - component: {fileID: 143305573}
   m_Layer: 5
-  m_Name: Play-Green-Btn
+  m_Name: Green-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2264,6 +2276,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -3990,7 +4014,7 @@ RectTransform:
   m_Children:
   - {fileID: 1815121982}
   m_Father: {fileID: 483592698}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4495,7 +4519,7 @@ GameObject:
   - component: {fileID: 238609763}
   - component: {fileID: 238609762}
   m_Layer: 5
-  m_Name: Play-Black-Btn
+  m_Name: Black-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4568,6 +4592,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -9242,8 +9278,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 627664734}
-  - {fileID: 735062244}
   - {fileID: 215536160}
   - {fileID: 511769747}
   m_Father: {fileID: 877608102}
@@ -9751,7 +9785,7 @@ RectTransform:
   - {fileID: 1949694209}
   - {fileID: 773943336}
   m_Father: {fileID: 483592698}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12066,139 +12100,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1038983765818980381, guid: cde6474fe5876794ab4bbbe23a10180f, type: 3}
   m_PrefabInstance: {fileID: 626190406}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &627664733
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 627664734}
-  - component: {fileID: 627664737}
-  - component: {fileID: 627664736}
-  - component: {fileID: 627664735}
-  m_Layer: 5
-  m_Name: Draw-Btn-Train
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &627664734
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627664733}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 483592698}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: -300}
-  m_SizeDelta: {x: 220, y: 145}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &627664735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627664733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 627664736}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1285157280}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Drawcard
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &627664736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627664733}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &627664737
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627664733}
-  m_CullTransparentMesh: 1
 --- !u!1 &628005878
 GameObject:
   m_ObjectHideFlags: 0
@@ -14515,6 +14416,18 @@ MonoBehaviour:
   RainbowPrefabCanvas: {fileID: 6988371926399818709, guid: 69f8fd826ac337f4582d0928cdc5bb55, type: 3}
   selectedCards: {fileID: 592173842}
   neededCards: {fileID: 1101496717}
+  Buttons:
+  - {fileID: 238609760}
+  - {fileID: 883706732}
+  - {fileID: 57361746}
+  - {fileID: 143305571}
+  - {fileID: 1674753448}
+  - {fileID: 1767312733}
+  - {fileID: 1814744279}
+  - {fileID: 1949694208}
+  - {fileID: 773943335}
+  CancelButton: {fileID: 1303867052}
+  PlayButton: {fileID: 950297868}
   m_isValid:
     m_InternalValue: 1
 --- !u!114 &707820327
@@ -15086,139 +14999,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730301768}
-  m_CullTransparentMesh: 1
---- !u!1 &735062243
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 735062244}
-  - component: {fileID: 735062247}
-  - component: {fileID: 735062246}
-  - component: {fileID: 735062245}
-  m_Layer: 5
-  m_Name: Draw-Btn-Destination
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &735062244
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735062243}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 483592698}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: -455}
-  m_SizeDelta: {x: 220, y: 145}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &735062245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735062243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 735062246}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1285157280}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: DrawcardDestination
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &735062246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735062243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &735062247
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735062243}
   m_CullTransparentMesh: 1
 --- !u!1001 &749510545
 PrefabInstance:
@@ -15808,7 +15588,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ResetPickCounter
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15816,6 +15596,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
+        m_MethodName: EnableCardButtons
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Black
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &766032771
@@ -15931,7 +15723,7 @@ GameObject:
   - component: {fileID: 773943338}
   - component: {fileID: 773943337}
   m_Layer: 5
-  m_Name: Play-Rainbow-Btn
+  m_Name: Rainbow-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16004,6 +15796,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 9
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -18281,7 +18085,7 @@ GameObject:
   - component: {fileID: 883706735}
   - component: {fileID: 883706734}
   m_Layer: 5
-  m_Name: Play-Blue-Btn
+  m_Name: Blue-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18354,6 +18158,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -19566,7 +19382,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 950297871}
   m_OnClick:
     m_PersistentCalls:
@@ -33511,42 +33327,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!21 &1541263066
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &1543535097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34868,6 +34648,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1038983765818980381, guid: dd4aa6fca68f6f24592af2e39c498ba3, type: 3}
   m_PrefabInstance: {fileID: 1598087323}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1599440373
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &1602219348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36301,7 +36117,7 @@ GameObject:
   - component: {fileID: 1674753451}
   - component: {fileID: 1674753450}
   m_Layer: 5
-  m_Name: Play-Orange-Btn
+  m_Name: Orange-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36374,6 +36190,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -37879,7 +37707,7 @@ GameObject:
   - component: {fileID: 1767312736}
   - component: {fileID: 1767312735}
   m_Layer: 5
-  m_Name: Play-Pink-Btn
+  m_Name: Purple-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37960,6 +37788,18 @@ MonoBehaviour:
           m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 6
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1767312736
@@ -39097,7 +38937,7 @@ GameObject:
   - component: {fileID: 1814744282}
   - component: {fileID: 1814744281}
   m_Layer: 5
-  m_Name: Play-White-Btn
+  m_Name: White-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39170,6 +39010,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -41935,7 +41787,7 @@ GameObject:
   - component: {fileID: 1949694211}
   - component: {fileID: 1949694210}
   m_Layer: 5
-  m_Name: Play-Yellow-Btn
+  m_Name: Yellow-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42008,6 +41860,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PlayCardBTN
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 707820326}
+        m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayCardBTN
         m_Mode: 3
         m_Arguments:
@@ -42153,42 +42017,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1038983765818980381, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
   m_PrefabInstance: {fileID: 1967288006}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1967491664
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1977799091
 GameObject:
   m_ObjectHideFlags: 0
@@ -43521,6 +43349,42 @@ Transform:
   m_Father: {fileID: 1893924363}
   m_RootOrder: 46
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &2089069179
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &2089503609
 GameObject:
   m_ObjectHideFlags: 0

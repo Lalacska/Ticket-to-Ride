@@ -12,9 +12,9 @@ using UnityEngine;
 
 public class RandomDespawn : MonoSingleton<RandomDespawn>
 {
-    public void TestButton()
+    public void DespawnObject()
     {
-        CardSelector.Instance.TestButton2(gameObject);
+        CardSelector.Instance.DispawnCard(gameObject);
         Debug.Log("Hello I'm gonna destroy myself");
         Destroy(gameObject); 
 
