@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -40,7 +41,18 @@ public class CardSelector : Singleton<CardSelector>
 
     private List<GameObject> cards;
     private int cardCounter;
-    
+
+
+    private int BlackCardCounter;
+    private int BlueCardCounter;
+    private int BrownCardCounter;
+    private int GreenCardCounter;
+    private int OrangeCardCounter;
+    private int PurpleCardCounter;
+    private int WhiteCardCounter;
+    private int YellowCardCounter;
+    private int RainbowCardCounter;
+
     
 
 
@@ -56,10 +68,13 @@ public class CardSelector : Singleton<CardSelector>
 
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0)
     {
+        
         cards = new List<GameObject>();
         Debug.Log("Amount: " + amount);
         Enable_DisableSelectorArea();
+        ResetCardCountes();
         ResetIsValidServerRpc();
+        SetCounters();
         if (type == "Station")
         {
             CheckStationsNumberServerRpc();
@@ -147,7 +162,7 @@ public class CardSelector : Singleton<CardSelector>
     [ClientRpc]
     public void EnableCardButtonsClientRpc(string color = "none", ClientRpcParams clientRpcParams = default)
     {
-        
+        bool available = false;
         string buttonname = "";
         switch (color)
         {
@@ -186,28 +201,31 @@ public class CardSelector : Singleton<CardSelector>
         
         foreach(GameObject gameObject in Buttons)
         {
+            available = CheckCardAmount(gameObject.name);
             Debug.Log(gameObject.name);
             Debug.Log(color);
 
             Button buttonComponent = gameObject.GetComponent<Button>();
 
-            if(color == "Grey" || color == "none")
+            if (available)
             {
-
-                Debug.Log("all");
-                buttonComponent.interactable = true;
-            }else
-            {
-                
-                if(gameObject.name == buttonname || gameObject.name == "Rainbow-Btn")
+                if (color == "Grey" || color == "none")
                 {
-
-                    Debug.Log(buttonname);
+                    Debug.Log("all");
                     buttonComponent.interactable = true;
                 }
-            }
-        }
+                else
+                {
+                    if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn")
+                    {
 
+                        Debug.Log(buttonname);
+                        buttonComponent.interactable = true;
+                    }
+                }
+            }
+            
+        }
 
     }
 
@@ -228,6 +246,90 @@ public class CardSelector : Singleton<CardSelector>
 
 
 
+    public bool CheckCardAmount(string buttonname)
+    {
+        Debug.Log("Metod");
+        bool availableCard = false;
+
+
+        switch (buttonname)
+        {
+            case "Black-Btn":
+                if(BlackCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Blue-Btn":
+                if (BlueCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Brown-Btn":
+                if (BrownCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Green-Btn":
+                if (GreenCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Orange-Btn":
+                if (OrangeCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Purple-Btn":
+                if (PurpleCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "White-Btn":
+                if (WhiteCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Yellow-Btn":
+                if (YellowCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Rainbow-Btn":
+                if(RainbowCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+        }
+        return availableCard;
+    }
+
+    public void SetCounters()
+    {
+        Dictionary<FixedString128Bytes, int> localcards = PlayerStat.Instance.localCards;
+        foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
+        {
+            Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
+        }
+        BlackCardCounter = localcards.ElementAt(0).Value;
+        BlueCardCounter = localcards.ElementAt(1).Value;
+        BrownCardCounter = localcards.ElementAt(2).Value;
+        GreenCardCounter = localcards.ElementAt(3).Value;
+        OrangeCardCounter = localcards.ElementAt(4).Value;
+        PurpleCardCounter = localcards.ElementAt(5).Value;
+        WhiteCardCounter = localcards.ElementAt(6).Value;
+        YellowCardCounter = localcards.ElementAt(7).Value;
+        RainbowCardCounter = localcards.ElementAt(8).Value;
+    }
+
 
     public void test()
     {
@@ -243,6 +345,19 @@ public class CardSelector : Singleton<CardSelector>
     public void ResetIsValidServerRpc(ServerRpcParams serverRpcParams = default)
     {
         isValid.Value = true;
+    }
+
+    public void ResetCardCountes()
+    {
+        BlackCardCounter = 0;
+        BlueCardCounter = 0;
+        BrownCardCounter = 0;
+        GreenCardCounter = 0;
+        OrangeCardCounter = 0;
+        PurpleCardCounter = 0;
+        WhiteCardCounter = 0;
+        YellowCardCounter = 0;
+        RainbowCardCounter = 0;
     }
 
     [ServerRpc(RequireOwnership = false)]

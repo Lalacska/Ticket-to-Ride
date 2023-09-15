@@ -12,6 +12,8 @@ using UnityEngine;
 
 public class RandomDespawn : MonoSingleton<RandomDespawn>
 {
+    [SerializeField] private string m_Color;
+    public string Color { get { return m_Color; } set { m_Color = value; } }
     public void DespawnObject()
     {
         CardSelector.Instance.DispawnCard(gameObject);
