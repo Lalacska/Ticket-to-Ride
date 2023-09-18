@@ -42,6 +42,9 @@ public class CardSelector : Singleton<CardSelector>
     private List<GameObject> cards;
     private int cardCounter;
 
+    [SerializeField] private List<Card> cardsInSelection;
+
+
 
     private int BlackCardCounter;
     private int BlueCardCounter;
@@ -68,7 +71,7 @@ public class CardSelector : Singleton<CardSelector>
 
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0)
     {
-        
+        cardsInSelection.Clear();
         cards = new List<GameObject>();
         Debug.Log("Amount: " + amount);
         Enable_DisableSelectorArea();
@@ -403,7 +406,7 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-    public void SpawnCard(GameObject prefab)
+    public void SpawnCard(GameObject prefab, string color)
     {
         Debug.Log("Max card: " + maxCard);
         Debug.Log("Cards count: " + cards.Count);
@@ -416,6 +419,7 @@ public class CardSelector : Singleton<CardSelector>
             {
                 DisableCardButtons();
             }
+            HandlePlayerHandServerRpc(color, false);
         }
         else
         {
@@ -424,8 +428,61 @@ public class CardSelector : Singleton<CardSelector>
 
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void HandlePlayerHandServerRpc(string color, bool dispawn, ServerRpcParams serverRpcParams = default)
+    {
+        bool foundCard = false;
+        player = null;
+        ulong clientID = serverRpcParams.Receive.SenderClientId;
+
+        foreach (PlayerStat stat in PlayerManager.Instance.stats)
+        {
+            if (stat.clientId == clientID)
+            {
+                player = stat;
+            }
+        }
+
+        if (dispawn)
+        {
+            foreach(Card card in cardsInSelection.ToList())
+            {
+                if (!foundCard)
+                {
+                    if(card.Color == color)
+                    {
+                        foundCard = true;
+                        cardsInSelection.Remove(card);
+                        player.hand.Add(card);
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            foreach(Card card in player.hand.ToList())
+            {
+                if (!foundCard)
+                {
+                    if (card.Color == color)
+                    {
+                        foundCard = true;
+                        cardsInSelection.Add(card);
+                        player.hand.Remove(card);
+                    }
+                }
+            }
+        }
+
+        
+    }
+
+
     public void DispawnCard(GameObject go)
     {
+        RandomDespawn rd = go.GetComponent<RandomDespawn>();
+        HandlePlayerHandServerRpc(rd.Color, true);
         cards.Remove(go);
         selectedCards.text = cards.Count.ToString();
         Debug.Log("Cards count: " + cards.Count);
@@ -484,7 +541,7 @@ public class CardSelector : Singleton<CardSelector>
                 break;
         }
         if(prefab == null) return;
-        SpawnCard(prefab);
+        SpawnCard(prefab, color);
     }
 
 }
