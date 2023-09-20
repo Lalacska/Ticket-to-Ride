@@ -16,6 +16,7 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private ulong m_clientId;
     [SerializeField] private string m_playerName;
     [SerializeField] private bool m_isReady = false;
+    //private static ulong m_localClientID;
 
     public int StatCardID { get { return m_StatCardID; } set { m_StatCardID = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
@@ -24,6 +25,7 @@ public class PlayerStat : Singleton<PlayerStat>
     public ulong clientId { get { return m_clientId; } set { m_clientId = value; } }
     public string playerName { get { return m_playerName; } set { m_playerName = value; } }
     public bool isReady { get { return m_isReady; } set { m_isReady = value; } }
+    //public ulong localClientID { get { return m_localClientID; } set { m_localClientID = value; } }
 
 
     [SerializeField] private List<Card> m_hand;

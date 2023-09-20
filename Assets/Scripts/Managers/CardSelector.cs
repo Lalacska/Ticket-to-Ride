@@ -129,11 +129,11 @@ public class CardSelector : Singleton<CardSelector>
             maxCard.Value = (4 - player.stations.Value);
 
             SetTextClientRpc(amount);
-            EnableCardButtonsClientRpc();
+            EnableCardButtonsClientRpc(clientRpcParams: clientRpcParams);
 
-            //Debug.Log("Max card: " + maxCard);
-            //player.stations.Value--;
-            //Debug.Log(player.stations.Value);
+            Debug.Log("Max card: " + maxCard);
+            player.stations.Value--;
+            Debug.Log(player.stations.Value);
 
 
 
@@ -224,6 +224,10 @@ public class CardSelector : Singleton<CardSelector>
 
                         Debug.Log(buttonname);
                         buttonComponent.interactable = true;
+                    }
+                    else
+                    {
+                        buttonComponent.interactable = false;
                     }
                 }
             }
@@ -389,21 +393,21 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-    public void TestSpawn()
-    {
-        Debug.Log("Max card: " + maxCard);
-        Debug.Log("Cards count: " + cards.Count);
-        if (cards.Count < maxCard.Value)
-        {
-            GameObject card = Instantiate(BlackPrefabCanvas, SelectorArea.transform);
-            cards.Add(card);
-        }
-        else
-        {
-            Debug.Log("You can't add more cards!");
-        }
+    //public void TestSpawn()
+    //{
+    //    Debug.Log("Max card: " + maxCard);
+    //    Debug.Log("Cards count: " + cards.Count);
+    //    if (cards.Count < maxCard.Value)
+    //    {
+    //        GameObject card = Instantiate(BlackPrefabCanvas, SelectorArea.transform);
+    //        cards.Add(card);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("You can't add more cards!");
+    //    }
 
-    }
+    //}
 
 
     public void SpawnCard(GameObject prefab, string color)
@@ -419,7 +423,10 @@ public class CardSelector : Singleton<CardSelector>
             {
                 DisableCardButtons();
             }
+            CardCounterHandler(color, true);
             HandlePlayerHandServerRpc(color, false);
+            EnableCardButtonsClientRpc(color);
+
         }
         else
         {
@@ -481,19 +488,42 @@ public class CardSelector : Singleton<CardSelector>
 
     public void DispawnCard(GameObject go)
     {
+        string color = "none";
         RandomDespawn rd = go.GetComponent<RandomDespawn>();
+        CardCounterHandler(rd.Color, false);
         HandlePlayerHandServerRpc(rd.Color, true);
         cards.Remove(go);
+
+
         selectedCards.text = cards.Count.ToString();
         Debug.Log("Cards count: " + cards.Count);
         foreach (GameObject card in cards)
         {
+            RandomDespawn randomD = card.GetComponent<RandomDespawn>();
             Debug.Log(card.name);
+            if(randomD.Color != "Rainbow")
+            {
+                color = randomD.Color;
+            }
         }
-        EnableCardButtonsClientRpc();
+        EnableCardButtonsServerRpc(color);
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void EnableCardButtonsServerRpc(string color = "none", ServerRpcParams serverRpcParams = default) 
+    {
+        ulong clientID = serverRpcParams.Receive.SenderClientId;
+        // Set the target client
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { clientID }
+            }
+        };
 
+        EnableCardButtonsClientRpc(color: color, clientRpcParams: clientRpcParams);
+    }
 
     // This methode is for the card play buttons, it gets an int from the button, sets the color
     // then calls PlayCardHand methode with the color
@@ -544,5 +574,100 @@ public class CardSelector : Singleton<CardSelector>
         SpawnCard(prefab, color);
     }
 
+
+    public void CardCounterHandler(string color, bool spawn)
+    {
+        switch (color)
+        {
+            case "Black":
+                if (spawn)
+                {
+                    BlackCardCounter--;
+                }
+                else
+                {
+                    BlackCardCounter++;
+                }
+                break;
+            case "Blue":
+                if (spawn)
+                {
+                    BlueCardCounter--;
+                }
+                else
+                {
+                    BlueCardCounter++;
+                }
+                break;
+            case "Brown":
+                if (spawn)
+                {
+                    BrownCardCounter--;
+                }
+                else
+                {
+                    BrownCardCounter++;
+                }
+                break;
+            case "Green":
+                if (spawn)
+                {
+                    GreenCardCounter--;
+                }
+                else
+                {
+                    GreenCardCounter++;
+                }
+                break;
+            case "Orange":
+                if (spawn)
+                {
+                    OrangeCardCounter--;
+                }
+                else
+                {
+                    OrangeCardCounter++;
+                }
+                break;
+            case "Purple":
+                if (spawn)
+                {
+                    PurpleCardCounter--;
+                }else
+                {
+                    PurpleCardCounter++;
+                }
+                break;
+            case "White":
+                if (spawn)
+                {
+                    WhiteCardCounter--;
+                }else
+                {
+                    WhiteCardCounter++;
+                }
+                break;
+            case "Yellow":
+                if (spawn)
+                {
+                    YellowCardCounter--;
+                }else
+                {
+                    YellowCardCounter++;
+                }
+                break;
+            case "Rainbow":
+                if (spawn)
+                {
+                    RainbowCardCounter--;
+                }else
+                {
+                    RainbowCardCounter++;
+                }
+                break;
+            case "Grey":
+                break;
+        }
+    }
 }
 
