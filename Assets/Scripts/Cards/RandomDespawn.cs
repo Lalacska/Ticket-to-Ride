@@ -16,7 +16,7 @@ public class RandomDespawn : MonoSingleton<RandomDespawn>
     public string Color { get { return m_Color; } set { m_Color = value; } }
     public void DespawnObject()
     {
-        CardSelector.Instance.DispawnCard(gameObject);
+        CardSelector.Instance.DespawnCard(gameObject);
         Debug.Log("Hello I'm gonna destroy myself");
         Destroy(gameObject); 
 

@@ -54,12 +54,14 @@ public class Station : Singleton<Station>
                     if (isActive/*.Value*/)
                     {
                         Debug.Log(stationName);
-                        CardSelector.Instance.AutoSelectCards("Station", "none");
+                        CardSelector.Instance.AutoSelectCards("Station", "none", m_name: stationName);
                         Debug.Log("A");
-                        if (!CardSelector.Instance.isValid.Value) return;
-                        Debug.Log("Built");
-                        SetIsTakenServerRpc();
-                        GameManager.Instance.ChooseCity(stationName);
+
+
+                        //if (!CardSelector.Instance.isValid.Value) return;
+                        //Debug.Log("Built");
+                        //SetIsTakenServerRpc();
+                        //GameManager.Instance.ChooseCity(stationName);
                     }
                     //Highlight.Instance.Enable_Disable();
                     OnClick.Invoke();
@@ -112,7 +114,7 @@ public class Station : Singleton<Station>
 
     // Sets the Network Variable to true
     [ServerRpc(RequireOwnership = false)]
-    private void SetIsTakenServerRpc(ServerRpcParams serverRpcParams = default)
+    public void SetIsTakenServerRpc(ServerRpcParams serverRpcParams = default)
     {
         isTaken.Value = true;
     }

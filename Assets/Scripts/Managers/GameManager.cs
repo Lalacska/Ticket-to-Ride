@@ -586,8 +586,8 @@ public class GameManager : Singleton<GameManager>
     public void DrawCards()
     {
         // This enables the buttons on the board, so the client can draw cards
-        CardButtonsEnable_Disable();
-        TurnM.Instance.Enable_DisableActionChooser();
+        CardButtonsEnable_Disable(true);
+        TurnM.Instance.Enable_DisableActionChooser(false);
 
         // Sets the pick count and Rainbow count to 0
         PlayerPickCount = 0;
@@ -717,7 +717,7 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.Log("Hereeee ");
             // This will disable the buttons, and draw new cards, then end the player turn
-            CardButtonsEnable_Disable();
+            CardButtonsEnable_Disable(false);
             FillTheBoardServerRpc();
             TurnM.Instance.EndTurn();
         }
@@ -780,7 +780,7 @@ public class GameManager : Singleton<GameManager>
 
 
     // This metode gets the button component from the gameobjects and enable or disable the button interaction depending if its on or off
-    public void CardButtonsEnable_Disable()
+    public void CardButtonsEnable_Disable(bool enable)
     {
         Button btn1 = cardslot1.GetComponent<Button>();
         Button btn2 = cardslot2.GetComponent<Button>();
@@ -788,36 +788,24 @@ public class GameManager : Singleton<GameManager>
         Button btn4 = cardslot4.GetComponent<Button>();
         Button btn5 = cardslot5.GetComponent<Button>();
 
-        if (btn1.interactable)
+        if (enable)
+        {
+            btn1.interactable = true;
+            btn2.interactable = true;
+            btn3.interactable = true;
+            btn4.interactable = true;
+            btn5.interactable = true;
+            cardpile.interactable = true;
+        }
+        else
         {
             btn1.interactable = false;
-        }
-        else{ btn1.interactable = true; }
-        if (btn2.interactable)
-        {
             btn2.interactable = false;
-        }
-        else { btn2.interactable = true; }
-        if (btn3.interactable)
-        {
             btn3.interactable = false;
-        }
-        else { btn3.interactable = true; }
-        if (btn4.interactable)
-        {
             btn4.interactable = false;
-        }
-        else { btn4.interactable = true; }
-        if (btn5.interactable)
-        {
             btn5.interactable = false;
-        }
-        else { btn5.interactable = true; }
-        if (cardpile.interactable)
-        {
             cardpile.interactable = false;
         }
-        else { cardpile.interactable = true; }
     }
     
     #endregion 
@@ -837,7 +825,7 @@ public class GameManager : Singleton<GameManager>
     public void DrawDestinatonTickets()
     {
         // This disables the choosing area
-        TurnM.Instance.Enable_DisableActionChooser();
+        TurnM.Instance.Enable_DisableActionChooser(false);
         // This starts a ServerRpc metode, so the things will run on the server, not on the client
         DrawDestinatonTicketsServerRpc();
 
@@ -1087,7 +1075,7 @@ public class GameManager : Singleton<GameManager>
 
     public void ActiveStation()
     {
-        TurnM.Instance.Enable_DisableActionChooser();
+        TurnM.Instance.Enable_DisableActionChooser(false);
         //ActiveStationServerRpc();
         Debug.Log("A not server");
 

@@ -60,12 +60,9 @@ public class TurnM : Singleton<TurnM>
     // This metode is called when the player finished their action and their needs to end
     public void EndTurn()
     {
-
-        //Enable_DisableActionChooser();
-
         Debug.Log("End turn");
         // This disables the end buttom
-        Enable_DisableEndTurnBtn();
+        Enable_DisableEndTurnBtn(false);
         SwitchTurnServerRpc();
         
     }
@@ -175,7 +172,7 @@ public class TurnM : Singleton<TurnM>
 
         Debug.Log("Your Turn! ");
 
-        // If the player has no more station this set the build station button uninteractable 
+        // If the player has no more station, this sets the build station button uninteractable 
         if (!_haveStations)
         {
             buildStationbtn.interactable = false;
@@ -185,8 +182,8 @@ public class TurnM : Singleton<TurnM>
             buildStationbtn.interactable = true;
         }
 
-        Enable_DisableActionChooser();
-        Enable_DisableEndTurnBtn();
+        Enable_DisableActionChooser(true);
+        Enable_DisableEndTurnBtn(true);
 
 
     }
@@ -194,21 +191,22 @@ public class TurnM : Singleton<TurnM>
 
     // ToggleBtn. \\
     // Enable or Disable the end turn button depending if its on or off
-    public void Enable_DisableEndTurnBtn()
+    public void Enable_DisableEndTurnBtn(bool enable)
     {
-        if (endTurnBtn.interactable)
-        {
-            endTurnBtn.interactable = false;
-        }else
+        if (enable)
         {
             endTurnBtn.interactable = true;
+        }
+        else
+        {
+            endTurnBtn.interactable = false;
         }
     }
     
     // It hides or make Action Chooser visible depending if its on or off
-    public void Enable_DisableActionChooser()
+    public void Enable_DisableActionChooser(bool enable)
     {
-        if(!Turn.activeInHierarchy)
+        if(enable)
         {
             Turn.SetActive(true);
         }

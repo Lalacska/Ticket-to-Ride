@@ -11,8 +11,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+public enum Type { None, Route, Tunnel, Station}
 public class CardSelector : Singleton<CardSelector>
 {
+    private Type _type;
 
     [SerializeField] private GameObject CardSelectorArea;
     [SerializeField] private GameObject SelectorArea;
@@ -34,13 +37,12 @@ public class CardSelector : Singleton<CardSelector>
 
     [SerializeField] private List<GameObject> Buttons;
 
-    [SerializeField] private GameObject CancelButton;
-    [SerializeField] private GameObject PlayButton;
+    [SerializeField] private Button CancelButton;
+    [SerializeField] private Button PlayButton;
 
 
 
-    private List<GameObject> cards;
-    private int cardCounter;
+    private List<GameObject> cardObjects;
 
     [SerializeField] private List<Card> cardsInSelection;
 
@@ -56,7 +58,7 @@ public class CardSelector : Singleton<CardSelector>
     private int YellowCardCounter;
     private int RainbowCardCounter;
 
-    
+    private string placeName;
 
 
     private PlayerStat player;
@@ -69,35 +71,93 @@ public class CardSelector : Singleton<CardSelector>
 
 
 
-    public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0)
+    public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
         cardsInSelection.Clear();
-        cards = new List<GameObject>();
+        cardObjects = new List<GameObject>();
         Debug.Log("Amount: " + amount);
-        Enable_DisableSelectorArea();
-        ResetCardCountes();
+        Enable_DisableSelectorArea(true);
+        ResetCardCounters();
         ResetIsValidServerRpc();
         SetCounters();
         if (type == "Station")
         {
+            _type = Type.Station;
+            placeName = m_name;
+            Debug.Log("MaxAmount: "+ maxCard.Value + " CardCount: " + cardObjects.Count);
             CheckStationsNumberServerRpc();
 
             Debug.Log("Max card: " + maxCard);
 
         }
-        else if(type == "Route")
+        else if (type == "Route")
         {
+            _type = Type.Route;
             SetCardAmountServerRpc(amount);
             //neededCards.text = maxCard.Value.ToString();
         }
-        else if(type == "Tunnel")
+        else if (type == "Tunnel")
         {
+            _type = Type.Tunnel;
             SetCardAmountServerRpc(amount);
             //neededCards.text = maxCard.Value.ToString();
         }
     }
 
-    #region Station
+
+
+    public void SpawnCard(GameObject prefab, string color)
+    {
+        Debug.Log("Max card: " + maxCard);
+        Debug.Log("Cards count: " + cardObjects.Count);
+        if (cardObjects.Count < maxCard.Value)
+        {
+            GameObject card = Instantiate(prefab, SelectorArea.transform);
+            cardObjects.Add(card);
+            selectedCards.text = cardObjects.Count.ToString();
+            if (cardObjects.Count == maxCard.Value)
+            {
+                DisableCardButtons();
+            }
+            CardCounterHandler(color, true);
+            HandlePlayerHandServerRpc(color, false);
+            EnableCardButtons(color);
+
+        }
+        else
+        {
+            Debug.Log("You can't add more cards!");
+        }
+    }
+
+
+
+    public void DespawnCard(GameObject go)
+    {
+        string color = "none";
+        RandomDespawn rd = go.GetComponent<RandomDespawn>();
+        CardCounterHandler(rd.Color, false);
+        HandlePlayerHandServerRpc(rd.Color, true);
+        cardObjects.Remove(go);
+
+
+        selectedCards.text = cardObjects.Count.ToString();
+        Debug.Log("Cards count: " + cardObjects.Count);
+        foreach (GameObject card in cardObjects)
+        {
+            RandomDespawn randomD = card.GetComponent<RandomDespawn>();
+            Debug.Log(card.name);
+            if (randomD.Color != "Rainbow")
+            {
+                color = randomD.Color;
+            }
+        }
+        EnableCardButtons(color);
+    }
+
+
+
+
 
     [ServerRpc(RequireOwnership = false)]
     public void CheckStationsNumberServerRpc(ServerRpcParams serverRpcParams = default)
@@ -121,21 +181,17 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
 
-        if(player != null && player.stations.Value > 0)
+        if (player != null && player.stations.Value > 0)
         {
             Debug.Log("Valid");
             Debug.Log(player.stations.Value);
             string amount = (4 - player.stations.Value).ToString();
             maxCard.Value = (4 - player.stations.Value);
+            Debug.Log("MaxAmount: " + maxCard.Value /*+ " CardCount: " + cardObjects.Count*/);
+
 
             SetTextClientRpc(amount);
             EnableCardButtonsClientRpc(clientRpcParams: clientRpcParams);
-
-            Debug.Log("Max card: " + maxCard);
-            player.stations.Value--;
-            Debug.Log(player.stations.Value);
-
-
 
         }
         else
@@ -147,23 +203,89 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-    //[ClientRpc]
-    //public void EnableCardButtonsClientRpc(string amount, ClientRpcParams clientRpcParams)
-    //{
-    //    neededCards.text = amount;
-    //    Debug.Log(PlayerStat.Instance.localCards);
-    //}
-    
-    [ClientRpc]
-    public void SetTextClientRpc(string amount, ClientRpcParams clientRpcParams = default)
+    public void PlayAction()
     {
-        neededCards.text = amount;
+        Enable_DisableSelectorArea(false);
+
+        switch (_type)
+        {
+            case Type.Station:
+                GameManager.Instance.ChooseCity(placeName);
+                foreach (GameObject gameObject in GameManager.Instance.stations)
+                {
+                    Station station = gameObject.GetComponent<Station>();
+                    if(station.stationName == placeName)
+                    {
+                        station.SetIsTakenServerRpc();
+                        Debug.Log("Built");
+                    }
+                }
+                StationHandlerServerRpc();
+                break;
+            case Type.Route:
+                break;
+            case Type.Tunnel:
+                break;
+        }
+        foreach(GameObject go in cardObjects)
+        {
+            Destroy(go);
+        }
+        selectedCards.text = cardObjects.Count.ToString();
+        CardsToDiscardPileServerRpc();
+        TurnM.Instance.EndTurn();
     }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CardsToDiscardPileServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        foreach (Card card in cardsInSelection.ToList())
+        {
+            cardsInSelection.Remove(card);
+            GameManager.Instance.discardPile.Add(card);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void StationHandlerServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        ulong clientId = serverRpcParams.Receive.SenderClientId;
+        foreach (PlayerStat stat in PlayerManager.Instance.stats)
+        {
+            if (stat.clientId == clientId)
+            {
+                player = stat;
+            }
+        }
+        player.stations.Value--;
+        Debug.Log(player.stations.Value);
+    }
+
+
+
+    public void CancelAction()
+    {
+        Enable_DisableSelectorArea(false);
+        foreach (GameObject gameObject in cardObjects)
+        {
+            RandomDespawn rd = gameObject.GetComponent<RandomDespawn>();
+            HandlePlayerHandServerRpc(rd.Color, true);
+        }
+        TurnM.Instance.Enable_DisableActionChooser(true);
+    }
+
 
 
 
     [ClientRpc]
     public void EnableCardButtonsClientRpc(string color = "none", ClientRpcParams clientRpcParams = default)
+    {
+        EnableCardButtons(color);
+    }
+
+
+    public void EnableCardButtons(string color = "none")
     {
         bool available = false;
         string buttonname = "";
@@ -201,239 +323,75 @@ public class CardSelector : Singleton<CardSelector>
         }
 
         Debug.Log(buttonname);
-        
-        foreach(GameObject gameObject in Buttons)
+
+        foreach (GameObject gameObject in Buttons)
         {
-            available = CheckCardAmount(gameObject.name);
-            Debug.Log(gameObject.name);
-            Debug.Log(color);
-
             Button buttonComponent = gameObject.GetComponent<Button>();
-
-            if (available)
+            if(cardObjects.Count != maxCard.Value)
             {
-                if (color == "Grey" || color == "none")
-                {
-                    Debug.Log("all");
-                    buttonComponent.interactable = true;
-                }
-                else
-                {
-                    if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn")
-                    {
+                available = CheckCardAmount(gameObject.name);
+                Debug.Log(gameObject.name);
+                Debug.Log(color);
 
-                        Debug.Log(buttonname);
+
+                if (available)
+                {
+                    if (color == "Grey" || color == "none")
+                    {
+                        Debug.Log("all");
                         buttonComponent.interactable = true;
                     }
                     else
                     {
-                        buttonComponent.interactable = false;
+                        if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn")
+                        {
+
+                            Debug.Log(buttonname);
+                            buttonComponent.interactable = true;
+                        }
+                        else
+                        {
+                            buttonComponent.interactable = false;
+                        }
                     }
                 }
+                else
+                {
+                    buttonComponent.interactable = false;
+                }
             }
-            
-        }
-
-    }
-
-    public void DisableCardButtons()
-    {
-        foreach (GameObject gameObject in Buttons)
-        {
-            Debug.Log(gameObject.name);
-
-            Button buttonComponent = gameObject.GetComponent<Button>();
-
-            if(buttonComponent.interactable)
+            else
             {
                 buttonComponent.interactable = false;
             }
         }
+        Enable_DisablePlayButton();
+
     }
 
 
-
-    public bool CheckCardAmount(string buttonname)
+    public void Enable_DisablePlayButton()
     {
-        Debug.Log("Metod");
-        bool availableCard = false;
 
-
-        switch (buttonname)
+        if (cardObjects.Count == maxCard.Value)
         {
-            case "Black-Btn":
-                if(BlackCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Blue-Btn":
-                if (BlueCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Brown-Btn":
-                if (BrownCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Green-Btn":
-                if (GreenCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Orange-Btn":
-                if (OrangeCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Purple-Btn":
-                if (PurpleCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "White-Btn":
-                if (WhiteCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Yellow-Btn":
-                if (YellowCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
-            case "Rainbow-Btn":
-                if(RainbowCardCounter > 0)
-                {
-                    availableCard = true;
-                }
-                break;
+            PlayButton.interactable = true;
         }
-        return availableCard;
-    }
-
-    public void SetCounters()
-    {
-        Dictionary<FixedString128Bytes, int> localcards = PlayerStat.Instance.localCards;
-        foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
-        {
-            Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
-        }
-        BlackCardCounter = localcards.ElementAt(0).Value;
-        BlueCardCounter = localcards.ElementAt(1).Value;
-        BrownCardCounter = localcards.ElementAt(2).Value;
-        GreenCardCounter = localcards.ElementAt(3).Value;
-        OrangeCardCounter = localcards.ElementAt(4).Value;
-        PurpleCardCounter = localcards.ElementAt(5).Value;
-        WhiteCardCounter = localcards.ElementAt(6).Value;
-        YellowCardCounter = localcards.ElementAt(7).Value;
-        RainbowCardCounter = localcards.ElementAt(8).Value;
-    }
-
-
-    public void test()
-    {
-       Debug.Log( EventSystem.current.currentSelectedGameObject.name);
+        else { PlayButton.interactable = false; }
     }
 
 
 
+   
+    
 
-    #endregion
+   
+   
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ResetIsValidServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        isValid.Value = true;
-    }
-
-    public void ResetCardCountes()
-    {
-        BlackCardCounter = 0;
-        BlueCardCounter = 0;
-        BrownCardCounter = 0;
-        GreenCardCounter = 0;
-        OrangeCardCounter = 0;
-        PurpleCardCounter = 0;
-        WhiteCardCounter = 0;
-        YellowCardCounter = 0;
-        RainbowCardCounter = 0;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void SetCardAmountServerRpc(int amount, ServerRpcParams serverRpcParams = default)
-    {
-        maxCard.Value = amount;
-    }
-
-    public void Enable_DisableSelectorArea()
-    {
-        if (CardSelectorArea.activeInHierarchy)
-        {
-            CardSelectorArea.SetActive(false);
-        }
-        else
-        {
-            CardSelectorArea.SetActive(true);
-        }
-    }
+   
 
 
-
-    public void CardCounter()
-    {
-
-    }
-
-
-    //public void TestSpawn()
-    //{
-    //    Debug.Log("Max card: " + maxCard);
-    //    Debug.Log("Cards count: " + cards.Count);
-    //    if (cards.Count < maxCard.Value)
-    //    {
-    //        GameObject card = Instantiate(BlackPrefabCanvas, SelectorArea.transform);
-    //        cards.Add(card);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("You can't add more cards!");
-    //    }
-
-    //}
-
-
-    public void SpawnCard(GameObject prefab, string color)
-    {
-        Debug.Log("Max card: " + maxCard);
-        Debug.Log("Cards count: " + cards.Count);
-        if (cards.Count < maxCard.Value)
-        {
-            GameObject card = Instantiate(prefab, SelectorArea.transform);
-            cards.Add(card);
-            selectedCards.text = cards.Count.ToString();
-            if(cards.Count == maxCard.Value)
-            {
-                DisableCardButtons();
-            }
-            CardCounterHandler(color, true);
-            HandlePlayerHandServerRpc(color, false);
-            EnableCardButtonsClientRpc(color);
-
-        }
-        else
-        {
-            Debug.Log("You can't add more cards!");
-        }
-
-    }
+    
 
     [ServerRpc(RequireOwnership = false)]
     public void HandlePlayerHandServerRpc(string color, bool dispawn, ServerRpcParams serverRpcParams = default)
@@ -481,49 +439,9 @@ public class CardSelector : Singleton<CardSelector>
                 }
             }
         }
-
-        
     }
 
 
-    public void DispawnCard(GameObject go)
-    {
-        string color = "none";
-        RandomDespawn rd = go.GetComponent<RandomDespawn>();
-        CardCounterHandler(rd.Color, false);
-        HandlePlayerHandServerRpc(rd.Color, true);
-        cards.Remove(go);
-
-
-        selectedCards.text = cards.Count.ToString();
-        Debug.Log("Cards count: " + cards.Count);
-        foreach (GameObject card in cards)
-        {
-            RandomDespawn randomD = card.GetComponent<RandomDespawn>();
-            Debug.Log(card.name);
-            if(randomD.Color != "Rainbow")
-            {
-                color = randomD.Color;
-            }
-        }
-        EnableCardButtonsServerRpc(color);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void EnableCardButtonsServerRpc(string color = "none", ServerRpcParams serverRpcParams = default) 
-    {
-        ulong clientID = serverRpcParams.Receive.SenderClientId;
-        // Set the target client
-        ClientRpcParams clientRpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { clientID }
-            }
-        };
-
-        EnableCardButtonsClientRpc(color: color, clientRpcParams: clientRpcParams);
-    }
 
     // This methode is for the card play buttons, it gets an int from the button, sets the color
     // then calls PlayCardHand methode with the color
@@ -575,6 +493,109 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
+   
+
+    // Simple and small metodes which don't call new metodes
+    #region Handlers 
+
+
+    // Enables and disables selecetor area
+    public void Enable_DisableSelectorArea(bool enable)
+    {
+        if (enable)
+        {
+            CardSelectorArea.SetActive(true);
+        }
+        else
+        {
+            CardSelectorArea.SetActive(false);
+        }
+    }
+
+    // This goes troug all the Buttons and makes them not interactable if they were interactable before
+    public void DisableCardButtons()
+    {
+        foreach (GameObject gameObject in Buttons)
+        {
+            Debug.Log(gameObject.name);
+
+            Button buttonComponent = gameObject.GetComponent<Button>();
+
+            if (buttonComponent.interactable)
+            {
+                buttonComponent.interactable = false;
+            }
+        }
+    }
+
+    // Gets a buttonName, and before sends a bool back, checks if the counter for that button is more then 0
+    // if it is, it's sets the bool true and sends the bool back
+    public bool CheckCardAmount(string buttonname)
+    {
+        bool availableCard = false;
+
+        switch (buttonname)
+        {
+            case "Black-Btn":
+                if (BlackCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Blue-Btn":
+                if (BlueCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Brown-Btn":
+                if (BrownCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Green-Btn":
+                if (GreenCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Orange-Btn":
+                if (OrangeCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Purple-Btn":
+                if (PurpleCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "White-Btn":
+                if (WhiteCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Yellow-Btn":
+                if (YellowCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+            case "Rainbow-Btn":
+                if (RainbowCardCounter > 0)
+                {
+                    availableCard = true;
+                }
+                break;
+        }
+        return availableCard;
+    }
+
+    // Gets a color and a bool, it checks the color then the bool,
+    // and if the bool is true it takes one away from the coresponding counter, else it adds one to it
     public void CardCounterHandler(string color, bool spawn)
     {
         switch (color)
@@ -633,7 +654,8 @@ public class CardSelector : Singleton<CardSelector>
                 if (spawn)
                 {
                     PurpleCardCounter--;
-                }else
+                }
+                else
                 {
                     PurpleCardCounter++;
                 }
@@ -642,7 +664,8 @@ public class CardSelector : Singleton<CardSelector>
                 if (spawn)
                 {
                     WhiteCardCounter--;
-                }else
+                }
+                else
                 {
                     WhiteCardCounter++;
                 }
@@ -651,7 +674,8 @@ public class CardSelector : Singleton<CardSelector>
                 if (spawn)
                 {
                     YellowCardCounter--;
-                }else
+                }
+                else
                 {
                     YellowCardCounter++;
                 }
@@ -660,14 +684,123 @@ public class CardSelector : Singleton<CardSelector>
                 if (spawn)
                 {
                     RainbowCardCounter--;
-                }else
+                }
+                else
                 {
                     RainbowCardCounter++;
                 }
                 break;
-            case "Grey":
-                break;
         }
     }
+
+    // Set isVaild to true on the server
+    [ServerRpc(RequireOwnership = false)]
+    public void ResetIsValidServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        isValid.Value = true;
+    }
+
+    // Resets card counters
+    public void ResetCardCounters()
+    {
+        BlackCardCounter = 0;
+        BlueCardCounter = 0;
+        BrownCardCounter = 0;
+        GreenCardCounter = 0;
+        OrangeCardCounter = 0;
+        PurpleCardCounter = 0;
+        WhiteCardCounter = 0;
+        YellowCardCounter = 0;
+        RainbowCardCounter = 0;
+    }
+
+    // Gets the localcards dictionary from playerStat, and sets the right value for the right counter
+    public void SetCounters()
+    {
+        Dictionary<FixedString128Bytes, int> localcards = PlayerStat.Instance.localCards;
+        foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
+        {
+            Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
+        }
+        BlackCardCounter = localcards.ElementAt(0).Value;
+        BlueCardCounter = localcards.ElementAt(1).Value;
+        BrownCardCounter = localcards.ElementAt(2).Value;
+        GreenCardCounter = localcards.ElementAt(3).Value;
+        OrangeCardCounter = localcards.ElementAt(4).Value;
+        PurpleCardCounter = localcards.ElementAt(5).Value;
+        WhiteCardCounter = localcards.ElementAt(6).Value;
+        YellowCardCounter = localcards.ElementAt(7).Value;
+        RainbowCardCounter = localcards.ElementAt(8).Value;
+    }
+
+    // Sets the text on the client
+    [ClientRpc]
+    public void SetTextClientRpc(string amount, ClientRpcParams clientRpcParams = default)
+    {
+        neededCards.text = amount;
+    }
+
+    // Set maxCard amount on the server
+    [ServerRpc(RequireOwnership = false)]
+    public void SetCardAmountServerRpc(int amount, ServerRpcParams serverRpcParams = default)
+    {
+        maxCard.Value = amount;
+    }
+
+
+    #endregion
+
+    // Test for stuff DELETE THESE LATER!!!!
+    #region Tests
+
+    public void test()
+    {
+        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+    }
+
+    public void TestSpawn()
+    {
+        Debug.Log("Max card: " + maxCard);
+        Debug.Log("Cards count: " + cardObjects.Count);
+        if (cardObjects.Count < maxCard.Value)
+        {
+            GameObject card = Instantiate(BlackPrefabCanvas, SelectorArea.transform);
+            cardObjects.Add(card);
+        }
+        else
+        {
+            Debug.Log("You can't add more cardObjects!");
+        }
+
+    }
+
+
+
+    //[ClientRpc]
+    //public void EnableCardButtonsClientRpc(string amount, ClientRpcParams clientRpcParams)
+    //{
+    //    neededCards.text = amount;
+    //    Debug.Log(PlayerStat.Instance.localCards);
+    //}
+
+    //[ServerRpc(RequireOwnership = false)]
+    //public void EnableCardButtonsServerRpc(string color = "none", ServerRpcParams serverRpcParams = default) 
+    //{
+    //    ulong clientID = serverRpcParams.Receive.SenderClientId;
+    //    // Set the target client
+    //    ClientRpcParams clientRpcParams = new ClientRpcParams
+    //    {
+    //        Send = new ClientRpcSendParams
+    //        {
+    //            TargetClientIds = new ulong[] { clientID }
+    //        }
+    //    };
+
+    //    EnableCardButtonsClientRpc(color: color, clientRpcParams: clientRpcParams);
+    //}
+
+
+    #endregion
+
 }
 
