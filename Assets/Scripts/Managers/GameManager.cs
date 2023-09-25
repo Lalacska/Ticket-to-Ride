@@ -934,8 +934,8 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
 
     // This methode is for the buttons on the board, these moves the cards to the players hand.
-    // When the player clicks one of the buttons, it sends it's slot id and set the right slot
-    // then calls CardColorPick metode, with the card that is in the slot and with the slotnu,ber
+    // When the player clicks one of the buttons, it sends the id of the slot, and then set the right slot
+    // then calls CardColorPick metode, with the card that is in the slot and with the slotnumber
     public void BoardButtons(int slotnumber)
     {
         switch (slotnumber)
@@ -965,39 +965,39 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    // This methode is for the card play buttons, it gets an int from the button, sets the color
-    // then calls PlayCardHand methode with the color
+    // This methode is for the card play buttons, it gets an int from the button,
+    // sets the color, then calls PlayCardHand methode with the color. \\
     public void PlayCardBTN(int button)
     {
         string color = "";
         switch (button)
         {
             case 1: 
-                color = "Black";
+                color = "Sort";
                 break;
             case 2:
-                color = "Blue";
+                color = "Blåt";
                 break;
             case 3:
-                color = "Brown";
+                color = "Brunt";
                 break;
             case 4:
-                color = "Green";
+                color = "Grønt";
                 break;
             case 5:
                 color = "Orange";
                 break;
             case 6:
-                color = "Purple";
+                color = "Lilla";
                 break;
             case 7:
-                color = "White";
+                color = "Hvidt";
                 break;
             case 8:
-                color = "Yellow";
+                color = "Gult";
                 break;
             case 9:
-                color = "Rainbow";
+                color = "Regnbue";
                 break;
         }
         PlayCardHand(color);
