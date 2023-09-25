@@ -85,9 +85,10 @@ public class CardSelector : Singleton<CardSelector>
             _type = Type.Station;
             placeName = m_name;
             Debug.Log("MaxAmount: "+ maxCard.Value + " CardCount: " + cardObjects.Count);
+            GameManager.Instance.TurnOffHighlight();
             CheckStationsNumberServerRpc();
 
-            Debug.Log("Max card: " + maxCard);
+            Debug.Log("Max card: " + maxCard.Value);
 
         }
         else if (type == "Route")
@@ -231,6 +232,7 @@ public class CardSelector : Singleton<CardSelector>
         {
             Destroy(go);
         }
+        cardObjects.Clear();
         selectedCards.text = cardObjects.Count.ToString();
         CardsToDiscardPileServerRpc();
         TurnM.Instance.EndTurn();
@@ -281,13 +283,16 @@ public class CardSelector : Singleton<CardSelector>
     [ClientRpc]
     public void EnableCardButtonsClientRpc(string color = "none", ClientRpcParams clientRpcParams = default)
     {
+        Debug.Log("Enable ClientRpc");
         EnableCardButtons(color);
     }
 
 
     public void EnableCardButtons(string color = "none")
     {
+        Debug.Log("Enable Client");
         bool available = false;
+        bool onlyRainbow = true;
         string buttonname = "";
         switch (color)
         {
@@ -320,23 +325,43 @@ public class CardSelector : Singleton<CardSelector>
                 break;
             case "Grey":
                 break;
+            case "none":
+                break;
         }
 
         Debug.Log(buttonname);
 
+        foreach(GameObject go in cardObjects)
+        {
+            Debug.Log("cards");
+            RandomDespawn card = go.GetComponent<RandomDespawn>();
+            if(card.Color != "Rainbow")
+            {
+                onlyRainbow = false;
+            }
+
+        }
+
+        Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
+
         foreach (GameObject gameObject in Buttons)
         {
+            Debug.Log("something");
             Button buttonComponent = gameObject.GetComponent<Button>();
-            if(cardObjects.Count != maxCard.Value)
+
+            Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
+
+            if (cardObjects.Count != maxCard.Value || cardObjects.Count == 0)
             {
                 available = CheckCardAmount(gameObject.name);
                 Debug.Log(gameObject.name);
                 Debug.Log(color);
 
+                Debug.Log("Available: " +available);
 
                 if (available)
                 {
-                    if (color == "Grey" || color == "none")
+                    if (color == "Grey" || color == "none" || onlyRainbow)
                     {
                         Debug.Log("all");
                         buttonComponent.interactable = true;

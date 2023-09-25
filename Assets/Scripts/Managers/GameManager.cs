@@ -1131,14 +1131,14 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+   
+
+
     public void ChooseCity(string _stationName)
     {
         foreach (GameObject go in stations)
         {
             Station station = go.GetComponent<Station>();
-            CapsuleCollider collider = go.GetComponent<CapsuleCollider>();
-            collider.enabled = false;
-            station.TurnEmissionOff();
             if(station.stationName == _stationName)
             {
                 SpawnStationServerRpc(_stationName);
@@ -1146,8 +1146,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-
-   
+    public void TurnOffHighlight()
+    {
+        foreach (GameObject go in stations)
+        {
+            Station station = go.GetComponent<Station>();
+            CapsuleCollider collider = go.GetComponent<CapsuleCollider>();
+            collider.enabled = false;
+            station.TurnEmissionOff();
+        }
+    }
 
 
     #endregion
