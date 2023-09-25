@@ -124,16 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6d0c15355d2a5498a036ec3956e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  go: {fileID: -7094479799407709131}
   m_hasBeenPlayed: 0
   m_handIndex: 0
   m_Color: Rainbow
   m_ownerID: 0
   m_CardID: 0
-  hasBeenPlayed: 0
-  handIndex: 0
-  Color: Rainbow
-  ownerID: 0
-  CardID: 0
 --- !u!1001 &5961595429521645374
 PrefabInstance:
   m_ObjectHideFlags: 0

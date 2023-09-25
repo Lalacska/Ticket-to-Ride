@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Managers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -7,6 +8,8 @@ using UnityEngine;
 
 public class Card : Singleton<Card>
 {
+    [SerializeField] private NetworkObject go;
+
     [SerializeField] private bool m_hasBeenPlayed;
     [SerializeField] private int m_handIndex;
     [SerializeField] private string m_Color;
@@ -18,5 +21,17 @@ public class Card : Singleton<Card>
     public string Color { get { return m_Color; } set { m_Color = value; } }
     public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
     public int CardID { get { return m_CardID; } set { m_CardID = value; } }
+
+    public NetworkObject ReleaseCard()
+    {
+        GameObject prefab = GameManager.Instance.GetPrefabByColor(Color,false);
+        NetworkObjectPool.Instance.ReturnNetworkObject(go, prefab);
+        Debug.Log("Returned");
+        return go;
+    }
+
+
+
+
 }
 

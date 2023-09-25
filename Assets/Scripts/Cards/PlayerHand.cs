@@ -44,6 +44,8 @@ public class PlayerHand : Singleton<PlayerHand>
     public void setCardsLocaly(Dictionary<FixedString128Bytes, int> dictionary)
     {
         ResetCounters();
+
+        // This goes trough the dictionary and sets the Value for the correct counter, and text
         foreach (KeyValuePair<FixedString128Bytes, int> kvp in dictionary.ToList())
         {
             if (kvp.Key == "Black")
@@ -96,6 +98,7 @@ public class PlayerHand : Singleton<PlayerHand>
 
     }
 
+    // This resets the counters so we get the right numbers
     public void ResetCounters()
     {
         m_blackCardCount = 0;

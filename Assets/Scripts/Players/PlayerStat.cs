@@ -14,57 +14,76 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private bool m_myTurn = false;
     [SerializeField] private int m_ownerID;
     [SerializeField] private ulong m_clientId;
-    [SerializeField] private string m_name;
+    [SerializeField] private string m_playerName;
     [SerializeField] private bool m_isReady = false;
+    //private static ulong m_localClientID;
 
     public int StatCardID { get { return m_StatCardID; } set { m_StatCardID = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
     public bool myTurn { get { return m_myTurn; } set { m_myTurn = value; } }
     public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
     public ulong clientId { get { return m_clientId; } set { m_clientId = value; } }
-    public string name { get { return m_name; } set { m_name = value; } }
+    public string playerName { get { return m_playerName; } set { m_playerName = value; } }
     public bool isReady { get { return m_isReady; } set { m_isReady = value; } }
+    //public ulong localClientID { get { return m_localClientID; } set { m_localClientID = value; } }
 
 
     [SerializeField] private List<Card> m_hand;
     [SerializeField] private List<Ticket> m_tickets;
+    
     public List<Card> hand { get { return m_hand; } set { m_hand = value; } }
     public List<Ticket> tickets { get { return m_tickets; } set { m_tickets = value; } }
-
+    
+    [SerializeField] private GameObject turnIndicator;
     [SerializeField] private TMP_Text Score;
     [SerializeField] private TMP_Text Trains;
     [SerializeField] private TMP_Text Stations;
     [SerializeField] private TMP_Text Cards;
     [SerializeField] private TMP_Text Tickets;
 
+
+    [SerializeField] private GameObject m_StationObject;
+    public GameObject StationObject { get { return m_StationObject; } set { m_StationObject = value; } }
+
     private NetworkVariable<FixedString128Bytes> m_ScoreString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TrainsString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_StationsString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_CardsString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TicketsString = new NetworkVariable<FixedString128Bytes>();
+    [SerializeField] private NetworkVariable<bool> m_isTurn = new NetworkVariable<bool>();
 
     private Dictionary<FixedString128Bytes, int> m_cardsInHand = new Dictionary<FixedString128Bytes, int>()
-        { { "Black", 0 }, { "Blue", 0 }, { "Brown", 0 }, { "Green", 0 }, {"Orange", 0 }, {"Purple", 0 }, {"Yellow", 0 }, {"White", 0 }, {"Rainbow", 0 } };
+        { { "Black", 0 }, { "Blue", 0 }, { "Brown", 0 }, { "Green", 0 }, {"Orange", 0 }, {"Purple", 0 }, {"White", 0 },  {"Yellow", 0 }, {"Rainbow", 0 } };
 
     public Dictionary<FixedString128Bytes, int> cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
 
+    public static Dictionary<FixedString128Bytes, int> m_localCards;
+
+    public Dictionary<FixedString128Bytes, int> localCards { get { return m_localCards; } set { m_localCards = value; } }
+
+
+    [SerializeField] private NetworkVariable<int> m_stations = new NetworkVariable<int>();
+    public NetworkVariable<int> stations { get { return m_stations; } set { m_stations = value; } }
 
     private void Start()
     {
+        turnIndicator.SetActive(false);
         if (IsServer)
         {
             // Assin the current value based on the current message index value
+            stations.Value = 3;
             m_ScoreString.Value = "0";
             m_TrainsString.Value = "50";
-            m_StationsString.Value = "3";
+            m_StationsString.Value = stations.Value.ToString();
             m_CardsString.Value = "0" /*hand.Count.ToString()*/;
             m_TicketsString.Value = "0";
+            m_isTurn.Value = false;
             Score.text = m_ScoreString.Value.ToString();
             Trains.text = m_TrainsString.Value.ToString();
-            Stations.text = m_StationsString.Value.ToString();
+            Stations.text = stations.Value.ToString();
             Cards.text = m_CardsString.Value.ToString();
             Tickets.text = m_TicketsString.Value.ToString();
-
+            m_isTurn.OnValueChanged += ActivateIndicator;
         }
         else
         {
@@ -74,11 +93,26 @@ public class PlayerStat : Singleton<PlayerStat>
             m_StationsString.OnValueChanged += OnTextStringChanged;
             m_CardsString.OnValueChanged += OnTextStringChanged;
             m_TicketsString.OnValueChanged += OnTextStringChanged;
+            m_isTurn.OnValueChanged += ActivateIndicator;
+            stations.OnValueChanged += OnIntChanged;
             // Log the current value of the text string when the client connected
         }
         
     }
 
+    private void ActivateIndicator(bool previousValue, bool newValue)
+    {
+        if (newValue)
+        {
+            turnIndicator.SetActive(true);
+        }
+        else
+        {
+            turnIndicator.SetActive(false);
+        }
+    }
+
+    
     public override void OnNetworkDespawn()
     {
         m_ScoreString.OnValueChanged -= OnTextStringChanged;
@@ -86,37 +120,44 @@ public class PlayerStat : Singleton<PlayerStat>
         m_StationsString.OnValueChanged -= OnTextStringChanged;
         m_CardsString.OnValueChanged -= OnTextStringChanged;
         m_TicketsString.OnValueChanged -= OnTextStringChanged;
+        m_isTurn.OnValueChanged -= ActivateIndicator;
+        stations.OnValueChanged -= OnIntChanged;
     }
 
     private void LateUpdate()
     {
         if (IsServer)
         {
+            // It runs when the value and the players card count is not the same
             if (m_CardsString.Value != hand.Count.ToString())
             {
+                // First set the value, then runs the CardCheck with the clientId
                 m_CardsString.Value = hand.Count.ToString();
-                foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-                {
-                    Debug.Log("Cards in hand before: " + kvp.Key +" number: " + kvp.Value);
-                }
                 CardCheck(clientId);
                 foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
                 {
-                    Debug.Log("Cards in hand after: " + kvp.Key + " number: " + kvp.Value);
+                    //Debug.Log("Cards in hand after: " + kvp.Key + " number: " + kvp.Value);
                 }
             }
             if(m_TicketsString.Value != tickets.Count.ToString())
             {
                 m_TicketsString.Value = tickets.Count.ToString();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-        }
-        else if(Input.GetKeyDown(KeyCode.I))
-        {
+            if(m_StationsString.Value != stations.Value.ToString())
+            {
+                m_StationsString.Value = stations.Value.ToString();
+            }
 
+            if (myTurn)
+            {
+                m_isTurn.Value = true;
+            }
+            else
+            {
+                m_isTurn.Value = false;
+            }
         }
+
 
         Score.text = m_ScoreString.Value.ToString();
         Trains.text = m_TrainsString.Value.ToString();
@@ -133,6 +174,12 @@ public class PlayerStat : Singleton<PlayerStat>
         Cards.text = m_CardsString.Value.ToString();
         Tickets.text = m_TicketsString.Value.ToString();
     }
+
+    private void OnIntChanged(int previousValue, int newValue)
+    {
+        Stations.text = m_StationsString.Value.ToString();
+    }
+
 
 
     // This metode chek the cards in the players hand when their list changes and then send the data to the client
@@ -178,7 +225,6 @@ public class PlayerStat : Singleton<PlayerStat>
                 TargetClientIds = new ulong[] { clientId }
             }
         };
-        Debug.Log("Ello");
 
         // This sends the two array and the client params to a metode which will run on the clients side
         CardUpdateClientRpc(cardscolor, cardsnumber, clientRpcParams);
@@ -189,10 +235,8 @@ public class PlayerStat : Singleton<PlayerStat>
     [ClientRpc]
     public void CardUpdateClientRpc(FixedString128Bytes[] color, int[] number, ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log("Ello 2");
         if (!IsOwner) return;
 
-        Debug.Log("Ello 3");
         var dictionary = new Dictionary<FixedString128Bytes, int>();
 
         // This puts the two array together to a dictionary again
@@ -201,15 +245,18 @@ public class PlayerStat : Singleton<PlayerStat>
             dictionary.Add(color[index], number[index]);
         }
 
-        Debug.Log("Ello 4");
         // These clears and sets the dictionary localy to the client
         cardsInHand.Clear();
         cardsInHand = dictionary;
-        foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-        {
-            Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
-        }
 
+        //localCards.Clear();
+        localCards = dictionary;
+        //foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
+        //{
+        //    Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
+        //}
+
+        // This calles a metode which sets the card counter localy for the player
         PlayerHand.Instance.setCardsLocaly(cardsInHand);
     }
 }
