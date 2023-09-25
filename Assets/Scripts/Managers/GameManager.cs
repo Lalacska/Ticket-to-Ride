@@ -199,7 +199,7 @@ public class GameManager : Singleton<GameManager>
             no.SpawnWithObservers = false;
             no.Spawn(true);
         }
-
+        
         if (Input.GetKeyUp(KeyCode.T))
         {
             //GameObject obj = GameObject.FindGameObjectWithTag("Card");
@@ -607,8 +607,8 @@ public class GameManager : Singleton<GameManager>
         }
         else if (PlayerPickCount > 1)
         {
-            Debug.Log("Du kan ikke trække flere kort!" +
-                " Du må maks trække 2 kort pr tur!");
+            Debug.Log("Du kan ikke trï¿½kke flere kort!" +
+                " Du mï¿½ maks trï¿½kke 2 kort pr tur!");
         }
     }
 
@@ -1204,42 +1204,39 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Hey0");
     }
 
-
-    
-
-    // This methode is for the card play buttons, it gets an int from the button, sets the color
-    // then calls PlayCardHand methode with the color
+    // This methode is for the card play buttons, it gets an int from the button,
+    // sets the color, then calls PlayCardHand methode with the color. \\
     public void PlayCardBTN(int button)
     {
         string color = "";
         switch (button)
         {
             case 1: 
-                color = "Black";
+                color = "Sort";
                 break;
             case 2:
-                color = "Blue";
+                color = "Blï¿½t";
                 break;
             case 3:
-                color = "Brown";
+                color = "Brunt";
                 break;
             case 4:
-                color = "Green";
+                color = "Grï¿½nt";
                 break;
             case 5:
                 color = "Orange";
                 break;
             case 6:
-                color = "Purple";
+                color = "Lilla";
                 break;
             case 7:
-                color = "White";
+                color = "Hvidt";
                 break;
             case 8:
-                color = "Yellow";
+                color = "Gult";
                 break;
             case 9:
-                color = "Rainbow";
+                color = "Regnbue";
                 break;
         }
         //PlayCardHand(color);
