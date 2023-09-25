@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6668201682176578747}
   - component: {fileID: 925334817068528802}
   m_Layer: 0
-  m_Name: Cube 4
+  m_Name: Black Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5f99f3a3871f2b141986f34360fd6ed1, type: 2}
+  - {fileID: 2100000, guid: d7e0512248e27e74a9e54dac01b2ce08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

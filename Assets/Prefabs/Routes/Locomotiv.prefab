@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 604329481690775834, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.33
+      objectReference: {fileID: 0}
     - target: {fileID: 1038983765818980381, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -55,6 +59,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 1167582592266264322, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1372778365968749435, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253416316436813120, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.24
+      objectReference: {fileID: 0}
     - target: {fileID: 4974843772777961299, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_Name
       value: Locomotiv
@@ -62,6 +78,10 @@ PrefabInstance:
     - target: {fileID: 5344021558207334157, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407812691623707855, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6606833984525534406, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_LocalPosition.y

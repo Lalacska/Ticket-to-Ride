@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6668201682176578747}
   - component: {fileID: 925334817068528802}
   m_Layer: 0
-  m_Name: Cube 3
+  m_Name: Yellow Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

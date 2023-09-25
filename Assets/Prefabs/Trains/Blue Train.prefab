@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6668201682176578747}
   - component: {fileID: 925334817068528802}
   m_Layer: 0
-  m_Name: Cube 2
+  m_Name: Blue Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 200c1e8ff103dc64faad3c05d37a0b60, type: 2}
+  - {fileID: 2100000, guid: 3e60ba776327ce54fb53a2bcda1bd112, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
