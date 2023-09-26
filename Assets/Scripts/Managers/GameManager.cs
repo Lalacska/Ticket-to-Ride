@@ -51,12 +51,16 @@ public class GameManager : Singleton<GameManager>
     public List<Card> board { get { return m_board; } set { m_board = value; } }
     public List<Card> discardPile { get { return m_discardPile; } set { m_discardPile = value; } }
 
-
+    [SerializeField] private GameObject stationsObject;
+    [SerializeField] private GameObject routesObject;
+    [SerializeField] private GameObject tunnelsObject;
 
     [SerializeField] private List<GameObject> m_stations;
+    [SerializeField] private List<GameObject> m_routes;
+    [SerializeField] private List<GameObject> m_tunnels;
     public List<GameObject> stations { get { return m_stations; } set { m_stations = value; } }
-
-
+    public List<GameObject> routes { get { return m_routes; } set { m_routes = value; } }
+    public List<GameObject> tunnels { get { return m_tunnels; } set { m_tunnels = value; } }
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
@@ -134,14 +138,42 @@ public class GameManager : Singleton<GameManager>
         deck = new List<Card>();
         board = new List<Card>();
         discardPile = new List<Card>();
+        stations = new List<GameObject>();
 
-        foreach(Ticket ticket in tickets.ToList())
+        foreach (Ticket ticket in tickets.ToList())
         {
             ticket.ownerID = 0;
         }
         foreach (Ticket ticket in specialTickets.ToList())
         {
             ticket.ownerID = 0;
+        }
+        foreach (Transform childRoute in routesObject.transform)
+        {
+            routes.Add(childRoute.gameObject);
+        }
+        foreach (Transform childTunnel in tunnelsObject.transform)
+        {
+            tunnels.Add(childTunnel.gameObject);
+            Route r = childTunnel.GetComponent<Route>();
+            if(r == null)
+            {
+                foreach(Transform child in childTunnel.transform)
+                {
+                    r = child.GetComponent<Route>();
+                    r.SetType(true);
+                    Debug.Log(r.name);
+                }
+            }
+            else
+            {
+                Debug.Log(r.name);
+                r.SetType(true);
+            }
+        }
+        foreach (Transform childStation in stationsObject.transform)
+        {
+            stations.Add(childStation.gameObject);
         }
     }
 
@@ -150,7 +182,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (IsServer)
         {
-            m_cardPileString.Value = deck.Count.ToString(); 
+            m_cardPileString.Value = deck.Count.ToString();
             m_ticketPileString.Value = tickets.Count.ToString();
             cardPiletxt.text = m_cardPileString.Value.ToString();
             ticketPiletxt.text = m_ticketPileString.Value.ToString();
@@ -179,7 +211,7 @@ public class GameManager : Singleton<GameManager>
             {
                 m_ticketPileString.Value = tickets.Count.ToString();
             }
-            if(deck.Count == 0)
+            if (deck.Count == 0)
             {
                 isDeckEmpty = true;
                 deck = new List<Card>(new List<Card>(discardPile));
@@ -193,13 +225,13 @@ public class GameManager : Singleton<GameManager>
 
         if (Input.GetKeyUp(KeyCode.N))
         {
-            Transform spawnedObjectTransform =  Instantiate(Bruh);
+            Transform spawnedObjectTransform = Instantiate(Bruh);
             spawnedObjectTransform.position = new Vector3(0, 5, 0);
             NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
             no.SpawnWithObservers = false;
             no.Spawn(true);
         }
-        
+
         if (Input.GetKeyUp(KeyCode.T))
         {
             //GameObject obj = GameObject.FindGameObjectWithTag("Card");
@@ -255,7 +287,7 @@ public class GameManager : Singleton<GameManager>
     //This goes trough the cards in the discardPile and calls the card's ReleaseCard metode
     public void EmptyDiscardPile()
     {
-        foreach(Card card in discardPile)
+        foreach (Card card in discardPile)
         {
             NetworkObject no = card.ReleaseCard();
             //no.Despawn();
@@ -268,7 +300,7 @@ public class GameManager : Singleton<GameManager>
         m_cardPileString.OnValueChanged -= OnTextStringChanged;
         m_ticketPileString.OnValueChanged -= OnTextStringChanged;
     }
-    
+
     // This sets the text value for the deck counters
     private void OnTextStringChanged(FixedString128Bytes previous, FixedString128Bytes current)
     {
@@ -284,11 +316,11 @@ public class GameManager : Singleton<GameManager>
             Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
             if (cardVariables == null) { return null; }
 
-            GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color,true);
+            GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color, true);
             NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
 
             _card.GetComponent<NetworkObject>().Spawn(true);
-   
+
             Card randCard = _card.GetComponent<Card>();
 
             //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
@@ -306,7 +338,7 @@ public class GameManager : Singleton<GameManager>
             deck.Remove(randCard);
             hand.Add(randCard);
 
-          
+
             Debug.Log(randCard.Color);
             //return;
         }
@@ -315,7 +347,7 @@ public class GameManager : Singleton<GameManager>
 
     // This methode deals 3 tickets to the player, when firstDeal is true at the start of the game, it deals an aditional special ticket too
     // Then it returns the list with tickets
-    public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand = default, bool firstDeal = false) 
+    public List<Ticket> DealTickets(int clientID, List<Ticket> ticketsInHand = default, bool firstDeal = false)
     {
         ticketsInHand = new List<Ticket>();
         if (firstDeal)
@@ -336,14 +368,14 @@ public class GameManager : Singleton<GameManager>
             tickets.Remove(ticket);
             ticketsInHand.Add(ticket);
         }
-        Debug.Log("Tickets: "+ticketsInHand.Count);
+        Debug.Log("Tickets: " + ticketsInHand.Count);
         return ticketsInHand;
     }
 
     // This method is for the automaticly fils out the board. \\
     public void AutomaticDrawPile()
     {
-      
+
         if (deck.Count >= 1)
         {
             for (int i = 0; i < availableCardSlots.Length; i++)
@@ -352,8 +384,8 @@ public class GameManager : Singleton<GameManager>
                 {
                     // This gets a random card from the deck, then calls a metode and gets a prefab from it
                     Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
-                    if(cardVariables == null) return; 
-                    GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color,true);
+                    if (cardVariables == null) return;
+                    GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color, true);
                     Debug.Log(cardVariables.Color);
 
                     // Whit the prefab, we can get a network object from the pool
@@ -381,7 +413,7 @@ public class GameManager : Singleton<GameManager>
                     if (randCard.Color == "Rainbow")
                     {
                         RainbowCount++;
-                        Debug.Log("Rainbow Count: "+RainbowCount);
+                        Debug.Log("Rainbow Count: " + RainbowCount);
                     }
                     // If there is 5 card on the board this runs
                     if (availableCardSlots[4] == false)
@@ -389,8 +421,8 @@ public class GameManager : Singleton<GameManager>
                         // If more than 3 Rainbow cards are on the field at once, the board is cleared. \\
                         if (RainbowCount >= 3)
                         {
-                              CheckCards();
-                              AutomaticDrawPile();
+                            CheckCards();
+                            AutomaticDrawPile();
                         }
                     }
                     Debug.Log(randCard.Color);
@@ -525,7 +557,7 @@ public class GameManager : Singleton<GameManager>
             availableDiscardPileCardSlots[b] = false;
             availableCardSlots[b] = true;
             bool isEmpty = !board.Any();
-            if(board != null && !isEmpty)
+            if (board != null && !isEmpty)
             {
                 Card delete = board[0];
                 delete.transform.position = discardPileDestination.position;
@@ -544,14 +576,14 @@ public class GameManager : Singleton<GameManager>
         {
             cardslotsid = cardslot1.GetComponent<CardSlotsID>();
         }
-        else if(i== 1){
+        else if (i == 1) {
             cardslotsid = cardslot2.GetComponent<CardSlotsID>();
         }
-        else if(i == 2)
+        else if (i == 2)
         {
             cardslotsid = cardslot3.GetComponent<CardSlotsID>();
         }
-        else if(i == 3)
+        else if (i == 3)
         {
             cardslotsid = cardslot4.GetComponent<CardSlotsID>();
         }
@@ -600,7 +632,7 @@ public class GameManager : Singleton<GameManager>
     public void DrawCardButtons(int button)
     {
         // It checks that the pick and the rainbow count is not bigger than it should be
-        if(PlayerPickCount < 2 && PickedRainbowCard < 1)
+        if (PlayerPickCount < 2 && PickedRainbowCard < 1)
         {
             // This sends the button id to a server rpc
             BoardButtonsServerRpc(button);
@@ -633,14 +665,14 @@ public class GameManager : Singleton<GameManager>
         card = GetCard(buttonId);
         // If the player pick card from the board, it goes trough the lists of the cards thats on the board
         // and set the card if the Ids are matching
-       
+
         Debug.Log(card.Color);
         if (card.Color == "Rainbow")
         {
             Debug.Log("Its a rainbow card");
             isRainbow = true;
         }
-        
+
 
         DrawCardHandlerClientRpc(isRainbow, buttonId, clientID, clientRpcParams);
 
@@ -671,10 +703,10 @@ public class GameManager : Singleton<GameManager>
         // If the card was picked from the board, this make sure the slot where it was is available again and removes the card from the board list
         if (buttonId > 0 && buttonId < 6)
         {
-            availableCardSlots[buttonId-1] = true;
+            availableCardSlots[buttonId - 1] = true;
             board.Remove(card);
         }
-        else if(buttonId == 6)
+        else if (buttonId == 6)
         {
             deck.Remove(card);
         }
@@ -689,9 +721,9 @@ public class GameManager : Singleton<GameManager>
     {
         AutomaticDrawPile();
     }
-    
 
-    
+
+
 
 
 
@@ -699,8 +731,8 @@ public class GameManager : Singleton<GameManager>
     public void DrawCardHandlerClientRpc(bool isRainbow, int buttonId, ulong clientID, ClientRpcParams clientRpcParams)
     {
         Debug.Log("Client Rpc");
-        
-        if (isRainbow && PlayerPickCount >=1 && buttonId != 6)
+
+        if (isRainbow && PlayerPickCount >= 1 && buttonId != 6)
         {
             Debug.Log("Wrong Pick! Pick a new card");
             return;
@@ -807,8 +839,8 @@ public class GameManager : Singleton<GameManager>
             cardpile.interactable = false;
         }
     }
-    
-    #endregion 
+
+    #endregion
 
 
 
@@ -879,7 +911,7 @@ public class GameManager : Singleton<GameManager>
         {
             // This gets the right gameobject by the ticketId and spawns it if it's not null
             GameObject ticketToSpawn = TicketSpawner.Instance.TicketChoser(ticketIds[i]);
-            if(ticketToSpawn != null)
+            if (ticketToSpawn != null)
             {
                 // Spawns the ticket and set parent
                 GameObject go_ticket = Instantiate(ticketToSpawn);
@@ -907,7 +939,7 @@ public class GameManager : Singleton<GameManager>
         int neededCardAmount = 1;
 
         // This goes trough the choosedTicket list and add 1 to the checkcounter if a ticket is chosen
-        for(int i = 0; i < choosedTicket.Count; i++)
+        for (int i = 0; i < choosedTicket.Count; i++)
         {
             if (choosedTicket[i].isChosen)
             {
@@ -923,7 +955,7 @@ public class GameManager : Singleton<GameManager>
         // This checks if the chosed ticket amounr it under the required one, sends a warning and returns if it is. 
         if (checkcounter < neededCardAmount)
         {
-            Debug.Log("You need to choose minimum "+ neededCardAmount+ " ticket!" );
+            Debug.Log("You need to choose minimum " + neededCardAmount + " ticket!");
             return;
         }
 
@@ -957,7 +989,7 @@ public class GameManager : Singleton<GameManager>
         choosingtArea.SetActive(false);
         ticketArea.SetActive(false);
 
-        
+
         CheckChoosenTicketsServerRpc(ticketIds, ticketStatus, firstChoice);
 
         // If its not the start of the game, this ends the player turn
@@ -979,7 +1011,7 @@ public class GameManager : Singleton<GameManager>
         // This finds and sets the client's PlayerStat and index of its playerStat from the player stat list 
         for (int i = 0; i < PlayerManager.Instance.stats.Count; i++)
         {
-            if(serverRpcParams.Receive.SenderClientId == PlayerManager.Instance.stats[i].clientId)
+            if (serverRpcParams.Receive.SenderClientId == PlayerManager.Instance.stats[i].clientId)
             {
                 index = i;
                 stat = PlayerManager.Instance.stats[i];
@@ -989,7 +1021,7 @@ public class GameManager : Singleton<GameManager>
         //if the stat is null it returns
         if (stat == null) return;
 
-  
+
         // This goes trough the ticketIds array, and where the id is the same as the stats id from the list, check whats the status is for the ticket
         // where the ticketStatus is true it adds the ticket to the ticketList
         for (int i = 0; i < ticketIds.Length; i++)
@@ -1049,10 +1081,10 @@ public class GameManager : Singleton<GameManager>
         ticket.TurnEmissionOff();
         BoxCollider collider = go_ticket.GetComponent<BoxCollider>();
         collider.enabled = false;
-        
+
     }
 
-   public void OpenCloseTicketArea()
+    public void OpenCloseTicketArea()
     {
         if (ticketArea.activeInHierarchy)
         {
@@ -1096,7 +1128,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    [ServerRpc(RequireOwnership =false)]
+    [ServerRpc(RequireOwnership = false)]
     public void SpawnStationServerRpc(string _stationName, ServerRpcParams serverRpcParams = default)
     {
         ulong clientID = serverRpcParams.Receive.SenderClientId;
@@ -1104,20 +1136,20 @@ public class GameManager : Singleton<GameManager>
         foreach (GameObject go in stations)
         {
             Station station = go.GetComponent<Station>();
-            if(station.stationName == _stationName)
+            if (station.stationName == _stationName)
             {
                 city = go;
             }
         }
-        foreach(PlayerStat stat in PlayerManager.Instance.stats)
+        foreach (PlayerStat stat in PlayerManager.Instance.stats)
         {
-            if(stat.clientId == clientID)
+            if (stat.clientId == clientID)
             {
                 player = stat;
             }
         }
 
-        if(city == null || player == null)
+        if (city == null || player == null)
         {
             Debug.Log("Something is wrong" + city + " " + player.clientId);
             return;
@@ -1127,11 +1159,11 @@ public class GameManager : Singleton<GameManager>
         NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
         no.Spawn(true);
         spawnedObjectTransform.transform.SetParent(city.transform, true);
-        spawnedObjectTransform.transform.position = new Vector3(city.transform.position.x, city.transform.position.y +1, city.transform.position.z);
+        spawnedObjectTransform.transform.position = new Vector3(city.transform.position.x, city.transform.position.y + 1, city.transform.position.z);
 
     }
 
-   
+
 
 
     public void ChooseCity(string _stationName)
@@ -1139,7 +1171,7 @@ public class GameManager : Singleton<GameManager>
         foreach (GameObject go in stations)
         {
             Station station = go.GetComponent<Station>();
-            if(station.stationName == _stationName)
+            if (station.stationName == _stationName)
             {
                 SpawnStationServerRpc(_stationName);
             }
@@ -1159,6 +1191,57 @@ public class GameManager : Singleton<GameManager>
 
 
     #endregion
+
+    #region Train
+
+    public void ActivateRoutes()
+    {
+        TurnM.Instance.Enable_DisableActionChooser(false);
+        foreach (Transform childRoute in routesObject.transform)
+        {
+            Route r = childRoute.GetComponent<Route>();
+            if(r != null) 
+            {
+                if (r.isClaimed.Value) return;
+                r.HighlightOn();
+            }
+            else
+            {
+                foreach (Transform child in childRoute.transform)
+                {
+                    r = child.GetComponent<Route>();
+                    if (r.isClaimed.Value) return;
+                    r.HighlightOn();
+                }
+            }
+        }
+        foreach (Transform childTunnel in tunnelsObject.transform)
+        {
+            Route r = childTunnel.GetComponent<Route>();
+            if (r != null)
+            {
+                if (r.isClaimed.Value) return;
+                r.HighlightOn();
+            }
+            else
+            {
+                foreach (Transform child in childTunnel.transform)
+                {
+                    r = child.GetComponent<Route>();
+                    if (r.isClaimed.Value) return;
+                    r.HighlightOn();
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+    #endregion
+
 
 
 
@@ -1190,58 +1273,4 @@ public class GameManager : Singleton<GameManager>
 
     #endregion UnityEngine.Random/Extra
 
-
-
-    #region BTNS
-
-    /// <summary>
-    /// This region "BTNS" are for all the btn funcktions that are in this script. \\
-    /// </summary>
-
-
-    public void Hey()
-    {
-        Debug.Log("Hey0");
-    }
-
-    // This methode is for the card play buttons, it gets an int from the button,
-    // sets the color, then calls PlayCardHand methode with the color. \\
-    public void PlayCardBTN(int button)
-    {
-        string color = "";
-        switch (button)
-        {
-            case 1: 
-                color = "Sort";
-                break;
-            case 2:
-                color = "Bl�t";
-                break;
-            case 3:
-                color = "Brunt";
-                break;
-            case 4:
-                color = "Gr�nt";
-                break;
-            case 5:
-                color = "Orange";
-                break;
-            case 6:
-                color = "Lilla";
-                break;
-            case 7:
-                color = "Hvidt";
-                break;
-            case 8:
-                color = "Gult";
-                break;
-            case 9:
-                color = "Regnbue";
-                break;
-        }
-        //PlayCardHand(color);
-    }
-
-
-    #endregion BTNS
 }

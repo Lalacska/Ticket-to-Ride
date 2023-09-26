@@ -57,9 +57,9 @@ public class Station : Singleton<Station>
 
     void Start()
     {
-        definedButton = this.gameObject;
-        emissiveMaterial = this.gameObject.GetComponent<Renderer>().material;
-        objectToChange = this.gameObject.GetComponent<Renderer>();
+        definedButton = gameObject;
+        emissiveMaterial = gameObject.GetComponent<Renderer>().material;
+        objectToChange = gameObject.GetComponent<Renderer>();
         emissiveMaterial.DisableKeyword("_EMISSION");
 
 

@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Route : MonoBehaviour
 {
+    private string m_routeName;
+    [SerializeField] private bool m_isDouble;
+    [SerializeField] private NetworkVariable<bool> m_isClaimed = new NetworkVariable<bool>(false);
+    [SerializeField] private RouteType routeType;
 
-
-
-
-
-
-
-
-
-
-
+    public string routeName { get { return m_routeName; } set { m_routeName = value; } }
+    public NetworkVariable<bool> isClaimed { get { return m_isClaimed; } set { m_isClaimed = value; } }
 
 
     private Material emissiveMaterial;
@@ -29,20 +26,22 @@ public class Route : MonoBehaviour
 
     public GameObject route;
 
-    public bool isClaimed;
 
     public bool playerChoice;
 
-
+    private enum RouteType { Route, Tunnel}
     public enum playerConnected { P1, P2, P3, P4, P5 }
     #endregion
 
-
+    private void Awake()
+    {
+        routeName = gameObject.name;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        GetChildTransform();
+        //GetChildTransform();
     }
 
     public void GetChildTransform()
@@ -57,6 +56,7 @@ public class Route : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.P))
         {
+            if (isClaimed.Value) return;
             foreach (Transform child in transform)
             {
                 Transform highlight = child.Find("Highlight");
@@ -75,34 +75,87 @@ public class Route : MonoBehaviour
         }
     }
 
-    // This turns off the emission for the object
-    public void TurnEmissionOff()
+
+    public void SetType(bool isTunnel)
     {
-        emissiveMaterial.DisableKeyword("_EMISSION");
+        if (isTunnel)
+        {
+            routeType = RouteType.Tunnel;
+        }
+        else
+        {
+            routeType = RouteType.Route;
+        }
     }
 
-    // This turna on the emission for the object
-    public void TurnEmissionOn()
+    public void HighlightOn()
     {
-        emissiveMaterial.EnableKeyword("_EMISSION");
+        foreach (Transform child in transform)
+        {
+            Transform highlight = child.Find("Highlight");
+            highlight.gameObject.SetActive(true);
+        }
     }
 
-    private void ClaimedRoute()
+    public void HighlightOff()
     {
+        foreach (Transform child in transform)
+        {
+            Transform highlight = child.Find("Highlight");
+            highlight.gameObject.SetActive(false);
+        }
+    }
+
+    public void HeyFromParent()
+    {
+        if (m_isDouble)
+        {
+            Transform transform = gameObject.transform.parent;
+            GameObject go = transform.gameObject;
+            Debug.Log("Hey I'm doouble " + go.name);
+        }
+        else
+        {
+            Debug.Log("Hey " + gameObject.name);
+        }
         
-        if (playerChoice == true)
-        {
-            isClaimed = true;
-        }
-        else if (playerChoice == false)
-        {
-            isClaimed = false;
-        }
-
     }
 
 
+    public void GetColorFromName(string name)
+    {
+        string color;
+        string[] words = name.Split(' ');
+        if (words.Length > 0)
+        {
+            // Return the first word
+            color = words[0];
+        }
+        else
+        {
+            // No words found, return an empty string or handle it as needed
+            color = string.Empty;
+        }
+        Debug.Log("Color: "+color);
+    }
 
 
-    
+    //private void ClaimedRoute()
+    //{
+
+    //    if (playerChoice == true)
+    //    {
+    //        isClaimed = true;
+    //    }
+    //    else if (playerChoice == false)
+    //    {
+    //        isClaimed = false;
+    //    }
+
+    //}
+
+
+
+
+
 }
