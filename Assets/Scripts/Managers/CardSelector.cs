@@ -22,10 +22,10 @@ public class CardSelector : Singleton<CardSelector>
 
     [SerializeField] private GameObject BlackPrefabCanvas;
     [SerializeField] private GameObject BluePrefabCanvas;
-    [SerializeField] private GameObject BrownPrefabCanvas;
-    [SerializeField] private GameObject GreenPrefabCanvas;
     [SerializeField] private GameObject OrangePrefabCanvas;
-    [SerializeField] private GameObject PurplePrefabCanvas;
+    [SerializeField] private GameObject GreenPrefabCanvas;
+    [SerializeField] private GameObject RedPrefabCanvas;
+    [SerializeField] private GameObject PinkPrefabCanvas;
     [SerializeField] private GameObject WhitePrefabCanvas;
     [SerializeField] private GameObject YellowPrefabCanvas;
     [SerializeField] private GameObject RainbowPrefabCanvas;
@@ -50,10 +50,10 @@ public class CardSelector : Singleton<CardSelector>
 
     private int BlackCardCounter;
     private int BlueCardCounter;
-    private int BrownCardCounter;
-    private int GreenCardCounter;
     private int OrangeCardCounter;
-    private int PurpleCardCounter;
+    private int GreenCardCounter;
+    private int RedCardCounter;
+    private int PinkCardCounter;
     private int WhiteCardCounter;
     private int YellowCardCounter;
     private int RainbowCardCounter;
@@ -302,17 +302,17 @@ public class CardSelector : Singleton<CardSelector>
             case "Blue":
                 buttonname = "Blue-Btn";
                 break;
-            case "Brown":
-                buttonname = "Brown-Btn";
+            case "Orange":
+                buttonname = "Orange-Btn";
                 break;
             case "Green":
                 buttonname = "Green-Btn";
                 break;
-            case "Orange":
-                buttonname = "Orange-Btn";
+            case "Red":
+                buttonname = "Red-Btn";
                 break;
-            case "Purple":
-                buttonname = "Purple-Btn";
+            case "Pink":
+                buttonname = "Pink-Btn";
                 break;
             case "White":
                 buttonname = "White-Btn";
@@ -485,20 +485,20 @@ public class CardSelector : Singleton<CardSelector>
                 prefab = BluePrefabCanvas;
                 break;
             case 3:
-                color = "Brown";
-                prefab = BrownPrefabCanvas;
+                color = "Orange";
+                prefab = OrangePrefabCanvas;
                 break;
             case 4:
                 color = "Green";
                 prefab = GreenPrefabCanvas;
                 break;
             case 5:
-                color = "Orange";
-                prefab = OrangePrefabCanvas;
+                color = "Red";
+                prefab = RedPrefabCanvas;
                 break;
             case 6:
-                color = "Purple";
-                prefab = PurplePrefabCanvas;
+                color = "Pink";
+                prefab = PinkPrefabCanvas;
                 break;
             case 7:
                 color = "White";
@@ -573,8 +573,8 @@ public class CardSelector : Singleton<CardSelector>
                     availableCard = true;
                 }
                 break;
-            case "Brown-Btn":
-                if (BrownCardCounter > 0)
+            case "Orange-Btn":
+                if (OrangeCardCounter > 0)
                 {
                     availableCard = true;
                 }
@@ -585,14 +585,14 @@ public class CardSelector : Singleton<CardSelector>
                     availableCard = true;
                 }
                 break;
-            case "Orange-Btn":
-                if (OrangeCardCounter > 0)
+            case "Red-Btn":
+                if (RedCardCounter > 0)
                 {
                     availableCard = true;
                 }
                 break;
-            case "Purple-Btn":
-                if (PurpleCardCounter > 0)
+            case "Pink-Btn":
+                if (PinkCardCounter > 0)
                 {
                     availableCard = true;
                 }
@@ -645,14 +645,14 @@ public class CardSelector : Singleton<CardSelector>
                     BlueCardCounter++;
                 }
                 break;
-            case "Brown":
+            case "Orange":
                 if (spawn)
                 {
-                    BrownCardCounter--;
+                    OrangeCardCounter--;
                 }
                 else
                 {
-                    BrownCardCounter++;
+                    OrangeCardCounter++;
                 }
                 break;
             case "Green":
@@ -665,24 +665,24 @@ public class CardSelector : Singleton<CardSelector>
                     GreenCardCounter++;
                 }
                 break;
-            case "Orange":
+            case "Red":
                 if (spawn)
                 {
-                    OrangeCardCounter--;
+                    RedCardCounter--;
                 }
                 else
                 {
-                    OrangeCardCounter++;
+                    RedCardCounter++;
                 }
                 break;
-            case "Purple":
+            case "Pink":
                 if (spawn)
                 {
-                    PurpleCardCounter--;
+                    PinkCardCounter--;
                 }
                 else
                 {
-                    PurpleCardCounter++;
+                    PinkCardCounter++;
                 }
                 break;
             case "White":
@@ -730,10 +730,10 @@ public class CardSelector : Singleton<CardSelector>
     {
         BlackCardCounter = 0;
         BlueCardCounter = 0;
-        BrownCardCounter = 0;
-        GreenCardCounter = 0;
         OrangeCardCounter = 0;
-        PurpleCardCounter = 0;
+        GreenCardCounter = 0;
+        RedCardCounter = 0;
+        PinkCardCounter = 0;
         WhiteCardCounter = 0;
         YellowCardCounter = 0;
         RainbowCardCounter = 0;
@@ -749,10 +749,10 @@ public class CardSelector : Singleton<CardSelector>
         }
         BlackCardCounter = localcards.ElementAt(0).Value;
         BlueCardCounter = localcards.ElementAt(1).Value;
-        BrownCardCounter = localcards.ElementAt(2).Value;
+        OrangeCardCounter = localcards.ElementAt(2).Value;
         GreenCardCounter = localcards.ElementAt(3).Value;
-        OrangeCardCounter = localcards.ElementAt(4).Value;
-        PurpleCardCounter = localcards.ElementAt(5).Value;
+        RedCardCounter = localcards.ElementAt(4).Value;
+        PinkCardCounter = localcards.ElementAt(5).Value;
         WhiteCardCounter = localcards.ElementAt(6).Value;
         YellowCardCounter = localcards.ElementAt(7).Value;
         RainbowCardCounter = localcards.ElementAt(8).Value;

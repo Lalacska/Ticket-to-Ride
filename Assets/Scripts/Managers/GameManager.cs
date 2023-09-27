@@ -19,10 +19,10 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private GameObject BlackPrefab;
     [SerializeField] private GameObject BluePrefab;
-    [SerializeField] private GameObject BrownPrefab;
-    [SerializeField] private GameObject GreenPrefab;
     [SerializeField] private GameObject OrangePrefab;
-    [SerializeField] private GameObject PurplePrefab;
+    [SerializeField] private GameObject GreenPrefab;
+    [SerializeField] private GameObject RedPrefab;
+    [SerializeField] private GameObject PinkPrefab;
     [SerializeField] private GameObject WhitePrefab;
     [SerializeField] private GameObject YellowPrefab;
     [SerializeField] private GameObject RainbowPrefab;
@@ -119,10 +119,10 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private int BlackCardCounter = 0;
     [SerializeField] private int BlueCardCounter = 0;
-    [SerializeField] private int BrownCardCounter = 0;
-    [SerializeField] private int GreenCardCounter = 0;
     [SerializeField] private int OrangeCardCounter = 0;
-    [SerializeField] private int PurpleCardCounter = 0;
+    [SerializeField] private int GreenCardCounter = 0;
+    [SerializeField] private int RedCardCounter = 0;
+    [SerializeField] private int PinkCardCounter = 0;
     [SerializeField] private int WhiteCardCounter = 0;
     [SerializeField] private int YellowCardCounter = 0;
     [SerializeField] private int RainbowCardCounter = 0;
@@ -150,11 +150,21 @@ public class GameManager : Singleton<GameManager>
         }
         foreach (Transform childRoute in routesObject.transform)
         {
-            routes.Add(childRoute.gameObject);
+            Route r = childRoute.GetComponent<Route>();
+            if (r == null)
+            {
+                foreach (Transform child in childRoute.transform)
+                {
+                    routes.Add(child.gameObject);
+                }
+            }
+            else
+            {
+                routes.Add(childRoute.gameObject);
+            }
         }
         foreach (Transform childTunnel in tunnelsObject.transform)
         {
-            tunnels.Add(childTunnel.gameObject);
             Route r = childTunnel.GetComponent<Route>();
             if(r == null)
             {
@@ -162,13 +172,13 @@ public class GameManager : Singleton<GameManager>
                 {
                     r = child.GetComponent<Route>();
                     r.SetType(true);
-                    Debug.Log(r.name);
+                    routes.Add(child.gameObject);
                 }
             }
             else
             {
-                Debug.Log(r.name);
                 r.SetType(true);
+                routes.Add(childTunnel.gameObject);
             }
         }
         foreach (Transform childStation in stationsObject.transform)
@@ -460,16 +470,16 @@ public class GameManager : Singleton<GameManager>
                 BlueCardCounter--;
             }
         }
-        else if (color == "Brown")
+        else if (color == "Orange")
         {
-            prefab = BrownPrefab;
+            prefab = OrangePrefab;
             if (increase)
             {
-                BrownCardCounter++;
+                OrangeCardCounter++;
             }
             else
             {
-                BrownCardCounter--;
+                OrangeCardCounter--;
             }
         }
         else if (color == "Green")
@@ -484,28 +494,28 @@ public class GameManager : Singleton<GameManager>
                 GreenCardCounter--;
             }
         }
-        else if (color == "Orange")
+        else if (color == "Red")
         {
-            prefab = OrangePrefab;
+            prefab = RedPrefab;
             if (increase)
             {
-                OrangeCardCounter++;
+                RedCardCounter++;
             }
             else
             {
-                OrangeCardCounter--;
+                RedCardCounter--;
             }
         }
-        else if (color == "Purple")
+        else if (color == "Pink")
         {
-            prefab = PurplePrefab;
+            prefab = PinkPrefab;
             if (increase)
             {
-                PurpleCardCounter++;
+                PinkCardCounter++;
             }
             else
             {
-                PurpleCardCounter--;
+                PinkCardCounter--;
             }
         }
         else if (color == "White")
@@ -1237,7 +1247,25 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
+    // This metode check the cards and only highlights the routes that the player has cards for
+     public void CheckPlayerCards()
+    {
+        TurnM.Instance.Enable_DisableActionChooser(false);
+        Dictionary<FixedString128Bytes, int> localcards = PlayerStat.Instance.localCards;
+        int rainbowcards = localcards.ElementAt(8).Value;
+        foreach(GameObject go in routes.ToList())
+        {
+            Route route = go.GetComponent<Route>();
+            foreach(KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
+            {
+                Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
+                if(route.routeColor == kvp.Key && route.lenght <= kvp.Value+rainbowcards)
+                {
+                    route.HighlightOn();
+                }
+            }
+        }
+    }
 
 
     #endregion

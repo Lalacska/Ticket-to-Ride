@@ -16,10 +16,10 @@ namespace Assets.Scripts.Managers
     {
         [SerializeField] private Button blackButton;
         [SerializeField] private Button blueButton;
-        [SerializeField] private Button brownButton;
-        [SerializeField] private Button greenButton;
         [SerializeField] private Button orangeButton;
-        [SerializeField] private Button purpleButton;
+        [SerializeField] private Button greenButton;
+        [SerializeField] private Button redButton;
+        [SerializeField] private Button pinkButton;
         [SerializeField] private Button whiteButton;
         [SerializeField] private Button yellowButton;
         [SerializeField] private Button rainbowButton;
@@ -155,26 +155,26 @@ namespace Assets.Scripts.Managers
                 blueButton.interactable = false;
             }
             else { blueButton.interactable = true; }
-            if (brownButton.interactable)
-            {
-                brownButton.interactable = false;
-            }
-            else { brownButton.interactable = true; }
-            if (greenButton.interactable)
-            {
-                greenButton.interactable = false;
-            }
-            else { greenButton.interactable = true; }
             if (orangeButton.interactable)
             {
                 orangeButton.interactable = false;
             }
             else { orangeButton.interactable = true; }
-            if (purpleButton.interactable)
+            if (greenButton.interactable)
             {
-                purpleButton.interactable = false;
+                greenButton.interactable = false;
             }
-            else { purpleButton.interactable = true; }
+            else { greenButton.interactable = true; }
+            if (redButton.interactable)
+            {
+                redButton.interactable = false;
+            }
+            else { redButton.interactable = true; }
+            if (pinkButton.interactable)
+            {
+                pinkButton.interactable = false;
+            }
+            else { pinkButton.interactable = true; }
             if (whiteButton.interactable)
             {
                 whiteButton.interactable = false;

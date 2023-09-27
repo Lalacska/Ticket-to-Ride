@@ -55,7 +55,7 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private NetworkVariable<bool> m_isTurn = new NetworkVariable<bool>();
 
     private Dictionary<FixedString128Bytes, int> m_cardsInHand = new Dictionary<FixedString128Bytes, int>()
-        { { "Black", 0 }, { "Blue", 0 }, { "Brown", 0 }, { "Green", 0 }, {"Orange", 0 }, {"Purple", 0 }, {"White", 0 },  {"Yellow", 0 }, {"Rainbow", 0 } };
+        { { "Black", 0 }, { "Blue", 0 }, { "Orange", 0 }, { "Green", 0 }, {"Red", 0 }, {"Pink", 0 }, {"White", 0 },  {"Yellow", 0 }, {"Rainbow", 0 } };
 
     public Dictionary<FixedString128Bytes, int> cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
 

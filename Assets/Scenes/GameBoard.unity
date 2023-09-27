@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -174,6 +174,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &16756212
@@ -366,6 +370,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &31982134
@@ -745,6 +753,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &46968820
@@ -1098,7 +1110,7 @@ GameObject:
   - component: {fileID: 57361749}
   - component: {fileID: 57361748}
   m_Layer: 5
-  m_Name: Brown-Btn
+  m_Name: Orange-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1316,6 +1328,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &61501237
@@ -1686,6 +1702,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &111619110
@@ -2064,6 +2084,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &129482159
@@ -3188,6 +3212,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &174216501
@@ -3500,6 +3528,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &184138190
@@ -3684,6 +3716,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &196416973
@@ -4964,6 +5000,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &260921403
@@ -6613,6 +6653,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &350558597
@@ -7151,6 +7195,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &375117671
@@ -7398,6 +7446,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &382182285
@@ -7788,6 +7840,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &390322896
@@ -7977,6 +8033,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &396233793
@@ -8278,6 +8338,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &419840726
@@ -8932,6 +8996,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &459941615
@@ -9052,6 +9120,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &460518559
@@ -9247,6 +9319,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &469151256
@@ -9502,6 +9578,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &476504539
@@ -9785,6 +9865,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &485516183
@@ -9974,6 +10058,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &496591107
@@ -10265,6 +10353,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &515169276
@@ -10319,6 +10411,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &517582018
@@ -10572,6 +10668,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &531570954
@@ -10850,7 +10950,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285157280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ActivateRoutes
+        m_MethodName: CheckPlayerCards
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11874,6 +11974,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &593648417
@@ -11988,6 +12092,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &600900595
@@ -12106,6 +12214,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &607004452
@@ -12416,6 +12528,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &622022595
@@ -12671,6 +12787,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &629237793
@@ -14434,6 +14554,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &698068706
@@ -14965,10 +15089,10 @@ MonoBehaviour:
   SelectorArea: {fileID: 1359115751}
   BlackPrefabCanvas: {fileID: 3144590629076448808, guid: 45bf190fd407328498cae373170b773d, type: 3}
   BluePrefabCanvas: {fileID: 1251631152113199351, guid: 681da110d89a7d64297b6536f95ec78c, type: 3}
-  BrownPrefabCanvas: {fileID: 6257864430330823126, guid: 6dfc60514b55a9747a1d4fa1fb6c8fce, type: 3}
+  OrangePrefabCanvas: {fileID: 6257864430330823126, guid: 6dfc60514b55a9747a1d4fa1fb6c8fce, type: 3}
   GreenPrefabCanvas: {fileID: 691261570583035005, guid: bfcc3ae660375714ca8b16271d9b9a37, type: 3}
-  OrangePrefabCanvas: {fileID: 4029564589421002524, guid: 814b416461199c74783dce9f8a8cb831, type: 3}
-  PurplePrefabCanvas: {fileID: 1967978744548703165, guid: 888abe4c97e7ed845a0ef044e328c33a, type: 3}
+  RedPrefabCanvas: {fileID: 4029564589421002524, guid: 814b416461199c74783dce9f8a8cb831, type: 3}
+  PinkPrefabCanvas: {fileID: 1967978744548703165, guid: 888abe4c97e7ed845a0ef044e328c33a, type: 3}
   WhitePrefabCanvas: {fileID: 921144896071962084, guid: 50b7c540739509948a21dfd0ec199718, type: 3}
   YellowPrefabCanvas: {fileID: 8832300082296249274, guid: c83a032a1499c32439c16beff7df9021, type: 3}
   RainbowPrefabCanvas: {fileID: 6988371926399818709, guid: 69f8fd826ac337f4582d0928cdc5bb55, type: 3}
@@ -15034,10 +15158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackButton: {fileID: 238609762}
   blueButton: {fileID: 883706734}
-  brownButton: {fileID: 57361748}
+  orangeButton: {fileID: 57361748}
   greenButton: {fileID: 143305573}
-  orangeButton: {fileID: 1674753450}
-  purpleButton: {fileID: 1767312735}
+  redButton: {fileID: 1674753450}
+  pinkButton: {fileID: 1767312735}
   whiteButton: {fileID: 1814744281}
   yellowButton: {fileID: 1949694210}
   rainbowButton: {fileID: 773943337}
@@ -15062,10 +15186,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_blackCardText: {fileID: 790907117}
   m_blueCardText: {fileID: 844378567}
-  m_brownCardText: {fileID: 897816829}
+  m_OrangeCardText: {fileID: 897816829}
   m_greenCardText: {fileID: 1133151777}
-  m_orangeCardText: {fileID: 877571397}
-  m_purpleCardText: {fileID: 1248130235}
+  m_RedCardText: {fileID: 877571397}
+  m_pinkCardText: {fileID: 1248130235}
   m_whiteCardText: {fileID: 1427225370}
   m_yellowCardText: {fileID: 382182287}
   m_rainbowCardText: {fileID: 1227512327}
@@ -15243,6 +15367,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &719233498
@@ -16097,6 +16225,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &766032768
@@ -17121,6 +17253,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &801826242
@@ -17613,6 +17749,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &822426548
@@ -17698,6 +17838,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &838747486
@@ -17750,6 +17894,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &844378565
@@ -17937,6 +18085,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &849573522
@@ -17989,6 +18141,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &854663162
@@ -18177,6 +18333,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &863489597
@@ -18512,7 +18672,7 @@ GameObject:
   - component: {fileID: 877571398}
   - component: {fileID: 877571397}
   m_Layer: 5
-  m_Name: OrangeCount
+  m_Name: RedCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19000,6 +19160,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &892973304
@@ -19052,6 +19216,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &896926263
@@ -19128,7 +19296,7 @@ GameObject:
   - component: {fileID: 897816830}
   - component: {fileID: 897816829}
   m_Layer: 5
-  m_Name: BrownCount
+  m_Name: OrangeCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19696,6 +19864,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &913330585
@@ -19748,6 +19920,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &916086345
@@ -20359,6 +20535,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &958029239
@@ -20772,6 +20952,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &976327677
@@ -21109,42 +21293,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1038983765818980381, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
   m_PrefabInstance: {fileID: 985360878}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &987781101
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &988798441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21777,6 +21925,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1025105881
@@ -21830,6 +21982,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1027174020
@@ -22523,6 +22679,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1082915513
@@ -23335,6 +23495,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1116566757
@@ -23991,6 +24155,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1149258631
@@ -24044,6 +24212,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1150014096
@@ -24159,6 +24331,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1162524142
@@ -24949,6 +25125,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1188554382
@@ -25002,6 +25182,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1190525434
@@ -25056,6 +25240,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1192010385
@@ -25367,6 +25555,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1209345244
@@ -25724,6 +25916,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1215060377
@@ -26512,9 +26708,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240752548}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -9.375}
+  m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 49225625}
@@ -26671,7 +26867,7 @@ GameObject:
   - component: {fileID: 1248130236}
   - component: {fileID: 1248130235}
   m_Layer: 5
-  m_Name: PurpleCount
+  m_Name: PinkCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27680,10 +27876,10 @@ MonoBehaviour:
   Bruh: {fileID: 7504130894838866288, guid: f8d8a08e7741d49478479abbdad29b46, type: 3}
   BlackPrefab: {fileID: 7504130894838866289, guid: f08f5b854ef246848a1ff4e340537a06, type: 3}
   BluePrefab: {fileID: 3443809874416738214, guid: 7786f8971661e824eb4e27ccef73c0a0, type: 3}
-  BrownPrefab: {fileID: 8955678365925418387, guid: 01761d4f6c6b56c41b2f9b068564d494, type: 3}
+  OrangePrefab: {fileID: 8955678365925418387, guid: 01761d4f6c6b56c41b2f9b068564d494, type: 3}
   GreenPrefab: {fileID: 7076196390855846927, guid: 41a7205bb8fdb5f4ea2a94d1e7a10a81, type: 3}
-  OrangePrefab: {fileID: 8213150071486787173, guid: ed9dd397692fa3c4990be689506a66b2, type: 3}
-  PurplePrefab: {fileID: 3132999033116348136, guid: a1f9818009ae94a4dbd17281e9f85cbe, type: 3}
+  RedPrefab: {fileID: 8213150071486787173, guid: ed9dd397692fa3c4990be689506a66b2, type: 3}
+  PinkPrefab: {fileID: 3132999033116348136, guid: a1f9818009ae94a4dbd17281e9f85cbe, type: 3}
   WhitePrefab: {fileID: 8002832274782476092, guid: c7a43d0ea6e198f43a673a1af5b6e160, type: 3}
   YellowPrefab: {fileID: 5602364133754088633, guid: 04ed90b1023ee234f8b2c0a93d90fb50, type: 3}
   RainbowPrefab: {fileID: 5961595430149746958, guid: 3306e9672ce4e4244b9bbf879ac3b072, type: 3}
@@ -27817,10 +28013,10 @@ MonoBehaviour:
   ticketPiletxt: {fileID: 637565043}
   BlackCardCounter: 0
   BlueCardCounter: 0
-  BrownCardCounter: 0
-  GreenCardCounter: 0
   OrangeCardCounter: 0
-  PurpleCardCounter: 0
+  GreenCardCounter: 0
+  RedCardCounter: 0
+  PinkCardCounter: 0
   WhiteCardCounter: 0
   YellowCardCounter: 0
   RainbowCardCounter: 0
@@ -28093,44 +28289,12 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
---- !u!21 &1294609986
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1296069577
 GameObject:
   m_ObjectHideFlags: 0
@@ -28524,6 +28688,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9220423868852875397, guid: a4a43879ee35dea44948205416a54e80, type: 3}
   m_PrefabInstance: {fileID: 1313297835}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1314247335
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &1314661676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28834,6 +29034,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1323187436
@@ -29151,6 +29355,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1339405869
@@ -29204,6 +29412,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1346042632
@@ -29257,6 +29469,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1347462395
@@ -30395,6 +30611,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370577354}
   m_CullTransparentMesh: 1
+--- !u!21 &1375352907
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1375592262
 GameObject:
   m_ObjectHideFlags: 0
@@ -30750,6 +31002,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1387187885
@@ -31226,6 +31482,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1411516500
@@ -31594,6 +31854,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1419313416
@@ -31648,6 +31912,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1427225368
@@ -32477,6 +32745,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1461742339
@@ -32670,6 +32942,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1463301249
@@ -33704,6 +33980,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1506282201
@@ -34372,6 +34652,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1520815077
@@ -34487,6 +34771,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1531764086
@@ -34970,6 +35258,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1551124016
@@ -35022,6 +35314,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1553137365
@@ -35497,6 +35793,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1572893706
@@ -35771,6 +36071,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1582324121
@@ -35824,6 +36128,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1587964450
@@ -36322,6 +36630,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1627798039
@@ -36676,6 +36988,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1641261850
@@ -37111,6 +37427,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1663915111
@@ -37696,7 +38016,7 @@ GameObject:
   - component: {fileID: 1674753451}
   - component: {fileID: 1674753450}
   m_Layer: 5
-  m_Name: Orange-Btn
+  m_Name: Red-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38430,6 +38750,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1710974143
@@ -38544,6 +38868,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1716511707
@@ -39094,6 +39422,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1755909193
@@ -39146,6 +39478,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1763714200
@@ -39362,7 +39698,7 @@ GameObject:
   - component: {fileID: 1767312736}
   - component: {fileID: 1767312735}
   m_Layer: 5
-  m_Name: Purple-Btn
+  m_Name: Pink-Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40322,6 +40658,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1803219376
@@ -40639,6 +40979,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1814744279
@@ -40992,6 +41336,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1830074519
@@ -41180,6 +41528,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1843219046
@@ -41881,6 +42233,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1872025594
@@ -43009,6 +43365,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1915359854
@@ -43062,6 +43422,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1917496392
@@ -43250,6 +43614,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &1930789117
@@ -43302,6 +43670,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1931161055
@@ -43416,6 +43788,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1934991769
@@ -43602,6 +43978,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &1945868837
@@ -44301,6 +44681,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1001 &2002017267
@@ -44521,6 +44905,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &2039641317
@@ -45296,6 +45684,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &2089503609
@@ -45452,6 +45844,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &2102227632
@@ -45643,6 +46039,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &2107737207
@@ -46363,6 +46763,10 @@ MonoBehaviour:
   m_isClaimed:
     m_InternalValue: 0
   routeType: 0
+  m_lenght: 0
+  m_points: 0
+  m_routeColor: 
+  m_neededLocomotiv: 0
   route: {fileID: 0}
   playerChoice: 0
 --- !u!1 &2137237415

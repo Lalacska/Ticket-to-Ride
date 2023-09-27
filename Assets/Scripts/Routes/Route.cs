@@ -15,10 +15,17 @@ public class Route : MonoBehaviour
     [SerializeField] private bool m_isDouble;
     [SerializeField] private NetworkVariable<bool> m_isClaimed = new NetworkVariable<bool>(false);
     [SerializeField] private RouteType routeType;
+    [SerializeField] private int m_lenght;
+    [SerializeField] private int m_points;
+    [SerializeField] private string m_routeColor;
+    [SerializeField] private int m_neededLocomotiv;
 
     public string routeName { get { return m_routeName; } set { m_routeName = value; } }
     public NetworkVariable<bool> isClaimed { get { return m_isClaimed; } set { m_isClaimed = value; } }
-
+    public int lenght { get { return m_lenght; } set { m_lenght = value; } }
+    public int points { get { return m_points; } set { m_points = value; } }
+    public string routeColor { get { return m_routeColor; } set { m_routeColor = value; } }
+    public int neededLocomotiv { get { return m_neededLocomotiv; } set { m_neededLocomotiv = value; } }
 
     private Material emissiveMaterial;
 
@@ -29,28 +36,37 @@ public class Route : MonoBehaviour
 
     public bool playerChoice;
 
-    private enum RouteType { Route, Tunnel}
+    private enum RouteType { Route, Tunnel }
     public enum playerConnected { P1, P2, P3, P4, P5 }
     #endregion
 
     private void Awake()
     {
-        routeName = gameObject.name;
+        neededLocomotiv = 0;
+        lenght = CountChilds();
+        routeName = SetRouteName();
+        points = PointCounter(lenght);
+        Debug.Log(routeName + " need " + lenght+ " "+ routeColor + " cards and " + neededLocomotiv+ " locomotiv to get " + points + " points.");
+
+    }
+
+    public string SetRouteName()
+    {
+        string name = gameObject.name;
+        if (!gameObject.name.Contains("-"))
+        {
+            Transform transform = gameObject.transform.parent;
+            GameObject parent = transform.gameObject;
+            name = parent.name;
+        }
+        return name;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //GetChildTransform();
     }
 
-    public void GetChildTransform()
-    {
-        foreach (Transform child in transform)
-        {
-            Debug.Log("Transform: " + child +" "+child.position);
-        }
-    }
 
     private void Update()
     {
@@ -75,6 +91,53 @@ public class Route : MonoBehaviour
         }
     }
 
+
+    public int CountChilds()
+    {
+        string color = "";
+        int counter = 0;
+        foreach (Transform child in transform)
+        {
+            GameObject go = child.gameObject;
+            color = GetColorFromName(go.name);
+            if (color == "Locomotiv")
+            {
+                neededLocomotiv++;
+            } else if (routeColor == string.Empty)
+            {
+                routeColor = color;
+            }
+            counter++;
+        }
+        return counter;
+    }
+
+    public int PointCounter(int lenght)
+    {
+        int points = 0;
+        switch (lenght)
+        {
+            case 1:
+                points = 1;
+                break;
+            case 2:
+                points = 2;
+                break;
+            case 3:
+                points = 4;
+                break;
+            case 4:
+                points = 7;
+                break;
+            case 6:
+                points = 15;
+                break;
+            case 8:
+                points = 21;
+                break;
+        }
+        return points;
+    }
 
     public void SetType(bool isTunnel)
     {
@@ -122,7 +185,7 @@ public class Route : MonoBehaviour
     }
 
 
-    public void GetColorFromName(string name)
+    public string GetColorFromName(string name)
     {
         string color;
         string[] words = name.Split(' ');
@@ -137,25 +200,7 @@ public class Route : MonoBehaviour
             color = string.Empty;
         }
         Debug.Log("Color: "+color);
+        return color;
     }
-
-
-    //private void ClaimedRoute()
-    //{
-
-    //    if (playerChoice == true)
-    //    {
-    //        isClaimed = true;
-    //    }
-    //    else if (playerChoice == false)
-    //    {
-    //        isClaimed = false;
-    //    }
-
-    //}
-
-
-
-
 
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8471231024893287078}
   - component: {fileID: -1950257255625235616}
   m_Layer: 0
-  m_Name: Purple Train
+  m_Name: Pink Train
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   go: {fileID: -4182585961160592371}
   m_hasBeenPlayed: 0
   m_handIndex: 0
-  m_Color: Purple
+  m_Color: Pink
   m_ownerID: 0
   m_CardID: 0
 --- !u!1001 &3132999031385898687
