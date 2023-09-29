@@ -1188,7 +1188,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void TurnOffHighlight()
+    public void TurnOffHighlightStation()
     {
         foreach (GameObject go in stations)
         {
@@ -1249,22 +1249,68 @@ public class GameManager : Singleton<GameManager>
 
     // This metode check the cards and only highlights the routes that the player has cards for
      public void CheckPlayerCards()
-    {
+     {   
+        int highestNumber = 0; 
         TurnM.Instance.Enable_DisableActionChooser(false);
         Dictionary<FixedString128Bytes, int> localcards = PlayerStat.Instance.localCards;
         int rainbowcards = localcards.ElementAt(8).Value;
-        foreach(GameObject go in routes.ToList())
+
+        foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
+        {
+            if (kvp.Value > highestNumber && kvp.Key != "Rainbow")
+            {
+                highestNumber = kvp.Value;
+            }
+        }
+
+        foreach (GameObject go in routes.ToList())
         {
             Route route = go.GetComponent<Route>();
-            foreach(KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
+            if (route.routeColor == "Grey" && route.lenght <= highestNumber + rainbowcards)
             {
-                Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
-                if(route.routeColor == kvp.Key && route.lenght <= kvp.Value+rainbowcards)
+                foreach (Transform child in route.transform)
                 {
-                    route.HighlightOn();
+                    GameObject childObject = child.gameObject;
+                    Collider collider = childObject.GetComponent<Collider>();
+                    collider.enabled = true;
+                }
+                route.HighlightOn();
+            }
+            else
+            {
+                foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
+                {
+                    Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
+                    if (route.routeColor == kvp.Key && route.lenght <= kvp.Value + rainbowcards)
+                    {
+                        foreach (Transform child in route.transform)
+                        {
+                            GameObject childObject = child.gameObject;
+                            Collider collider = childObject.GetComponent<Collider>();
+                            collider.enabled = true;
+                        }
+                        route.HighlightOn();
+                    }
                 }
             }
         }
+    }
+
+
+    public void TurnOffHighlightRoutes()
+    {
+        foreach (GameObject go in routes.ToList())
+        {
+            Route route = go.GetComponent<Route>();
+            foreach (Transform child in route.transform)
+            {
+                GameObject childObject = child.gameObject;
+                Collider collider = childObject.GetComponent<Collider>();
+                collider.enabled = false;
+            }
+            route.HighlightOff();
+        }
+        
     }
 
 

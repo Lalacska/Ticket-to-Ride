@@ -59,7 +59,8 @@ public class CardSelector : Singleton<CardSelector>
     private int RainbowCardCounter;
 
     private string placeName;
-
+    private bool isColorless;
+    private string routeColor;
 
     private PlayerStat player;
 
@@ -73,6 +74,7 @@ public class CardSelector : Singleton<CardSelector>
 
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
+        routeColor = string.Empty;
         cardsInSelection.Clear();
         cardObjects = new List<GameObject>();
         Debug.Log("Amount: " + amount);
@@ -80,29 +82,42 @@ public class CardSelector : Singleton<CardSelector>
         ResetCardCounters();
         ResetIsValidServerRpc();
         SetCounters();
+        placeName = m_name;
         if (type == "Station")
         {
             _type = Type.Station;
-            placeName = m_name;
             Debug.Log("MaxAmount: "+ maxCard.Value + " CardCount: " + cardObjects.Count);
-            GameManager.Instance.TurnOffHighlight();
+            GameManager.Instance.TurnOffHighlightStation();
             CheckStationsNumberServerRpc();
 
             Debug.Log("Max card: " + maxCard.Value);
 
         }
-        else if (type == "Route")
+        else
         {
-            _type = Type.Route;
+            routeColor = color;
+            Debug.Log("CardSelector color: " +color);
             SetCardAmountServerRpc(amount);
-            //neededCards.text = maxCard.Value.ToString();
+            GameManager.Instance.TurnOffHighlightRoutes();
+            Debug.Log("I'm " + m_name + " and I'm a " + type);
+            EnableCardButtons(color);
         }
-        else if (type == "Tunnel")
-        {
-            _type = Type.Tunnel;
-            SetCardAmountServerRpc(amount);
-            //neededCards.text = maxCard.Value.ToString();
-        }
+        //else if (type == "Route")
+        //{
+        //    _type = Type.Route;
+        //    SetCardAmountServerRpc(amount);
+        //    GameManager.Instance.TurnOffHighlightRoutes();
+        //    Debug.Log("I'm "+ m_name+ " and I'm a " + type);
+        //    //neededCards.text = maxCard.Value.ToString();
+        //}
+        //else if (type == "Tunnel")
+        //{
+        //    _type = Type.Tunnel;
+        //    SetCardAmountServerRpc(amount);
+        //    GameManager.Instance.TurnOffHighlightRoutes();
+        //    Debug.Log("I'm " + m_name + " and I'm a " + type);
+        //    //neededCards.text = maxCard.Value.ToString();
+        //}
     }
 
 
@@ -110,6 +125,7 @@ public class CardSelector : Singleton<CardSelector>
     public void SpawnCard(GameObject prefab, string color)
     {
         Debug.Log("Max card: " + maxCard);
+        Debug.Log(color);
         Debug.Log("Cards count: " + cardObjects.Count);
         if (cardObjects.Count < maxCard.Value)
         {
@@ -144,6 +160,7 @@ public class CardSelector : Singleton<CardSelector>
 
         selectedCards.text = cardObjects.Count.ToString();
         Debug.Log("Cards count: " + cardObjects.Count);
+
         foreach (GameObject card in cardObjects)
         {
             RandomDespawn randomD = card.GetComponent<RandomDespawn>();
@@ -224,6 +241,7 @@ public class CardSelector : Singleton<CardSelector>
                 StationHandlerServerRpc();
                 break;
             case Type.Route:
+
                 break;
             case Type.Tunnel:
                 break;
@@ -290,6 +308,11 @@ public class CardSelector : Singleton<CardSelector>
 
     public void EnableCardButtons(string color = "none")
     {
+        Debug.Log(routeColor);
+        if (routeColor != string.Empty && color == "none")
+        {
+            color = routeColor;
+        }
         Debug.Log("Enable Client");
         bool available = false;
         bool onlyRainbow = true;
@@ -331,47 +354,54 @@ public class CardSelector : Singleton<CardSelector>
 
         Debug.Log(buttonname);
 
-        foreach(GameObject go in cardObjects)
+        if(cardObjects.Count > 0)
         {
-            Debug.Log("cards");
-            RandomDespawn card = go.GetComponent<RandomDespawn>();
-            if(card.Color != "Rainbow")
+            foreach (GameObject go in cardObjects)
             {
-                onlyRainbow = false;
+                Debug.Log(" MEEEP cards");
+                RandomDespawn card = go.GetComponent<RandomDespawn>();
+                if (card.Color != "Rainbow")
+                {
+                    onlyRainbow = false;
+                }
             }
-
         }
+        else { onlyRainbow = false;}
+        
 
-        Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
+        //Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
 
         foreach (GameObject gameObject in Buttons)
         {
-            Debug.Log("something");
+            //Debug.Log("something");
             Button buttonComponent = gameObject.GetComponent<Button>();
 
-            Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
+            //Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
 
             if (cardObjects.Count != maxCard.Value || cardObjects.Count == 0)
             {
                 available = CheckCardAmount(gameObject.name);
-                Debug.Log(gameObject.name);
-                Debug.Log(color);
+                //Debug.Log(gameObject.name);
+                //Debug.Log(color);
 
-                Debug.Log("Available: " +available);
+                //Debug.Log("Available: " +available);
+
+                Debug.Log("Color : " + color + " onlyRainbow " + onlyRainbow + " routeColor " + routeColor);
 
                 if (available)
                 {
-                    if (color == "Grey" || color == "none" || onlyRainbow)
+                    if (color == "Grey" || color == "none" || (onlyRainbow && routeColor == "Grey") || (onlyRainbow && routeColor == "none"))
                     {
+                        Debug.Log(color + " " + onlyRainbow);
                         Debug.Log("all");
                         buttonComponent.interactable = true;
                     }
                     else
                     {
-                        if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn")
+                        if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn" 
+                            || routeColor == GetColorFromString(gameObject.name) || GetColorFromString(gameObject.name) == CheckSelectedCardColor())
                         {
-
-                            Debug.Log(buttonname);
+                            Debug.Log("This button is active: "+ buttonname);
                             buttonComponent.interactable = true;
                         }
                         else
@@ -394,6 +424,32 @@ public class CardSelector : Singleton<CardSelector>
 
     }
 
+
+    public string GetColorFromString(string buttonname)
+    {
+        string color = string.Empty;
+        int index = buttonname.IndexOf("-");
+        if (index >= 0)
+        {
+            color = buttonname.Substring(0, index);
+        }
+        return color;
+    }
+
+    public string CheckSelectedCardColor()
+    {
+        string color = string.Empty;
+        foreach (GameObject card in cardObjects)
+        {
+            RandomDespawn randomD = card.GetComponent<RandomDespawn>();
+            Debug.Log(card.name);
+            if (randomD.Color != "Rainbow")
+            {
+                color = randomD.Color;
+            }
+        }
+        return color;
+    }
 
     public void Enable_DisablePlayButton()
     {
@@ -770,6 +826,7 @@ public class CardSelector : Singleton<CardSelector>
     public void SetCardAmountServerRpc(int amount, ServerRpcParams serverRpcParams = default)
     {
         maxCard.Value = amount;
+        SetTextClientRpc(amount.ToString());
     }
 
 

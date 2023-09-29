@@ -26,8 +26,8 @@ public class CollisionDetector : MonoSingleton<CollisionDetector>
                 Transform transform = gameObject.transform.parent;
                 GameObject go = transform.gameObject;
                 Route route = go.GetComponent<Route>();
-                route.GetColorFromName(gameObject.name);
                 route.HeyFromParent();
+                route.ClaimRoute();
             }
         }
     }

@@ -91,7 +91,10 @@ public class Route : MonoBehaviour
         }
     }
 
-
+    public void ClaimRoute()
+    {
+        CardSelector.Instance.AutoSelectCards(routeType.ToString(), routeColor, lenght, neededLocomotiv, routeName);
+    }
     public int CountChilds()
     {
         string color = "";
@@ -179,7 +182,7 @@ public class Route : MonoBehaviour
         }
         else
         {
-            Debug.Log("Hey " + gameObject.name);
+            Debug.Log("Hey " + gameObject.name + " my color is " + routeColor);
         }
         
     }
