@@ -59,8 +59,9 @@ public class CardSelector : Singleton<CardSelector>
     private int RainbowCardCounter;
 
     private string placeName;
-    private bool isColorless;
     private string routeColor;
+    private int neededRainbowCards;
+    private int selectedRainbowCards;
 
     private PlayerStat player;
 
@@ -74,6 +75,7 @@ public class CardSelector : Singleton<CardSelector>
 
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
+        selectedRainbowCards = 0;
         routeColor = string.Empty;
         cardsInSelection.Clear();
         cardObjects = new List<GameObject>();
@@ -95,6 +97,7 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
+            neededRainbowCards = neededRainbow;
             routeColor = color;
             Debug.Log("CardSelector color: " +color);
             SetCardAmountServerRpc(amount);
@@ -124,26 +127,52 @@ public class CardSelector : Singleton<CardSelector>
 
     public void SpawnCard(GameObject prefab, string color)
     {
+        bool canSpawn = true;
         Debug.Log("Max card: " + maxCard);
         Debug.Log(color);
         Debug.Log("Cards count: " + cardObjects.Count);
+
         if (cardObjects.Count < maxCard.Value)
         {
-            GameObject card = Instantiate(prefab, SelectorArea.transform);
-            cardObjects.Add(card);
-            selectedCards.text = cardObjects.Count.ToString();
-            if (cardObjects.Count == maxCard.Value)
+            if(neededRainbowCards != 0)
             {
-                DisableCardButtons();
+                if ((color != "Rainbow" && cardObjects.Count < maxCard.Value - (neededRainbowCards - selectedRainbowCards))
+                || color == "Rainbow")
+                {
+                    canSpawn = true;
+                }
+                else
+                {
+                    canSpawn = false;
+                }
             }
-            CardCounterHandler(color, true);
-            HandlePlayerHandServerRpc(color, false);
-            EnableCardButtons(color);
+
+            if (canSpawn)
+            {
+                GameObject card = Instantiate(prefab, SelectorArea.transform);
+                cardObjects.Add(card);
+                if (color == "Rainbow")
+                {
+                    selectedRainbowCards++;
+                }
+                selectedCards.text = cardObjects.Count.ToString();
+                if (cardObjects.Count == maxCard.Value)
+                {
+                    DisableCardButtons();
+                }
+                CardCounterHandler(color, true);
+                HandlePlayerHandServerRpc(color, false);
+                EnableCardButtons(color);
+            }
+            else
+            {
+                Debug.Log("You can't select this card!");
+            }
 
         }
         else
         {
-            Debug.Log("You can't add more cards!");
+            Debug.Log("You can't select more cards!");
         }
     }
 
@@ -156,7 +185,10 @@ public class CardSelector : Singleton<CardSelector>
         CardCounterHandler(rd.Color, false);
         HandlePlayerHandServerRpc(rd.Color, true);
         cardObjects.Remove(go);
-
+        if (rd.Color == "Rainbow")
+        {
+            selectedRainbowCards--;
+        }
 
         selectedCards.text = cardObjects.Count.ToString();
         Debug.Log("Cards count: " + cardObjects.Count);
@@ -287,11 +319,15 @@ public class CardSelector : Singleton<CardSelector>
     public void CancelAction()
     {
         Enable_DisableSelectorArea(false);
-        foreach (GameObject gameObject in cardObjects)
+        foreach (GameObject gameObject in cardObjects.ToList())
         {
             RandomDespawn rd = gameObject.GetComponent<RandomDespawn>();
             HandlePlayerHandServerRpc(rd.Color, true);
+            CardCounterHandler(rd.Color, false);
+            Destroy(gameObject);
         }
+        cardObjects.Clear();
+        selectedCards.text = cardObjects.Count.ToString();
         TurnM.Instance.Enable_DisableActionChooser(true);
     }
 
