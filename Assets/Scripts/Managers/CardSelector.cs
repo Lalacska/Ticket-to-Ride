@@ -97,30 +97,20 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
+            if(type == "Route")
+            {
+                _type= Type.Route;
+            }
+            else
+            {
+                _type= Type.Tunnel;
+            }
             neededRainbowCards = neededRainbow;
             routeColor = color;
-            Debug.Log("CardSelector color: " +color);
-            SetCardAmountServerRpc(amount);
             GameManager.Instance.TurnOffHighlightRoutes();
-            Debug.Log("I'm " + m_name + " and I'm a " + type);
+            SetCardAmountServerRpc(amount);
             EnableCardButtons(color);
         }
-        //else if (type == "Route")
-        //{
-        //    _type = Type.Route;
-        //    SetCardAmountServerRpc(amount);
-        //    GameManager.Instance.TurnOffHighlightRoutes();
-        //    Debug.Log("I'm "+ m_name+ " and I'm a " + type);
-        //    //neededCards.text = maxCard.Value.ToString();
-        //}
-        //else if (type == "Tunnel")
-        //{
-        //    _type = Type.Tunnel;
-        //    SetCardAmountServerRpc(amount);
-        //    GameManager.Instance.TurnOffHighlightRoutes();
-        //    Debug.Log("I'm " + m_name + " and I'm a " + type);
-        //    //neededCards.text = maxCard.Value.ToString();
-        //}
     }
 
 
@@ -257,6 +247,8 @@ public class CardSelector : Singleton<CardSelector>
     {
         Enable_DisableSelectorArea(false);
 
+        Debug.Log("Play Action");
+        Debug.Log("Type " + _type);
         switch (_type)
         {
             case Type.Station:
@@ -273,7 +265,17 @@ public class CardSelector : Singleton<CardSelector>
                 StationHandlerServerRpc();
                 break;
             case Type.Route:
-
+                Debug.Log("Route");
+                GameManager.Instance.ChooseRoute(placeName, routeColor);
+                foreach (GameObject gameObject in GameManager.Instance.routes)
+                {
+                    Route route = gameObject.GetComponent<Route>();
+                    if (route.routeName == placeName)
+                    {
+                        route.SetIsClaimedServerRpc();
+                        Debug.Log("Built");
+                    }
+                }
                 break;
             case Type.Tunnel:
                 break;
@@ -325,6 +327,12 @@ public class CardSelector : Singleton<CardSelector>
             HandlePlayerHandServerRpc(rd.Color, true);
             CardCounterHandler(rd.Color, false);
             Destroy(gameObject);
+        }
+
+        foreach(GameObject go in GameManager.Instance.routes.ToList())
+        {
+            Route route = go.GetComponent<Route>();
+            route.HighlightOff();
         }
         cardObjects.Clear();
         selectedCards.text = cardObjects.Count.ToString();
@@ -394,7 +402,6 @@ public class CardSelector : Singleton<CardSelector>
         {
             foreach (GameObject go in cardObjects)
             {
-                Debug.Log(" MEEEP cards");
                 RandomDespawn card = go.GetComponent<RandomDespawn>();
                 if (card.Color != "Rainbow")
                 {

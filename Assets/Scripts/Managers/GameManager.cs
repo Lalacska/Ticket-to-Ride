@@ -57,10 +57,10 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private List<GameObject> m_stations;
     [SerializeField] private List<GameObject> m_routes;
-    [SerializeField] private List<GameObject> m_tunnels;
+    //[SerializeField] private List<GameObject> m_tunnels;
     public List<GameObject> stations { get { return m_stations; } set { m_stations = value; } }
     public List<GameObject> routes { get { return m_routes; } set { m_routes = value; } }
-    public List<GameObject> tunnels { get { return m_tunnels; } set { m_tunnels = value; } }
+    //public List<GameObject> tunnels { get { return m_tunnels; } set { m_tunnels = value; } }
 
 
     // This part is for the slots/areas where the cards will be shown/displayed. \\
@@ -130,6 +130,7 @@ public class GameManager : Singleton<GameManager>
 
     private GameObject city;
     private PlayerStat player;
+    private Route route;
 
     #endregion Variables
 
@@ -1266,7 +1267,8 @@ public class GameManager : Singleton<GameManager>
         foreach (GameObject go in routes.ToList())
         {
             Route route = go.GetComponent<Route>();
-            if (route.routeColor == "Grey" && route.lenght <= highestNumber + rainbowcards)
+
+            if (route.routeColor == "Grey" && route.lenght <= highestNumber + rainbowcards && (route.neededLocomotiv == 0 || route.neededLocomotiv <= rainbowcards))
             {
                 foreach (Transform child in route.transform)
                 {
@@ -1280,7 +1282,7 @@ public class GameManager : Singleton<GameManager>
             {
                 foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
                 {
-                    Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
+                    //Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
                     if (route.routeColor == kvp.Key && route.lenght <= kvp.Value + rainbowcards)
                     {
                         foreach (Transform child in route.transform)
@@ -1302,15 +1304,69 @@ public class GameManager : Singleton<GameManager>
         foreach (GameObject go in routes.ToList())
         {
             Route route = go.GetComponent<Route>();
+            route.HighlightOff();
             foreach (Transform child in route.transform)
             {
                 GameObject childObject = child.gameObject;
                 Collider collider = childObject.GetComponent<Collider>();
                 collider.enabled = false;
             }
-            route.HighlightOff();
         }
         
+    }
+
+    public void ChooseRoute(string _routeName, string routeColor)
+    {
+        Debug.Log("Choose Route");
+        foreach (GameObject go in routes)
+        {
+            Route route = go.GetComponent<Route>();
+            if (route.routeName == _routeName && route.routeColor == routeColor)
+            {
+                SpawnRoutesServerRpc(_routeName,routeColor);
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnRoutesServerRpc(string _routeName, string routeColor, ServerRpcParams serverRpcParams = default)
+    {
+        Debug.Log("SpawnRoutesServerRpc");
+        ulong clientID = serverRpcParams.Receive.SenderClientId;
+
+        foreach (GameObject go in routes)
+        {
+            Route _route = go.GetComponent<Route>();
+            if (_route.routeName == _routeName && _route.routeColor == routeColor)
+            {
+                route = _route;
+            }
+        }
+        foreach (PlayerStat stat in PlayerManager.Instance.stats)
+        {
+            if (stat.clientId == clientID)
+            {
+                player = stat;
+            }
+        }
+
+        if (route == null || player == null)
+        {
+            Debug.Log("Something is wrong" + city + " " + player.clientId);
+            return;
+        }
+
+        foreach(GameObject tile in route.Tiles.ToList())
+        {
+            GameObject spawnedObjectTransform = Instantiate(player.TrainObject);
+            NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
+            no.Spawn(true);
+            spawnedObjectTransform.transform.SetParent(route.transform, true);
+            spawnedObjectTransform.transform.rotation = new Quaternion(tile.transform.rotation.x, tile.transform.rotation.y, tile.transform.rotation.z, tile.transform.rotation.w);
+            spawnedObjectTransform.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.6F, tile.transform.position.z);
+        }
+
+
     }
 
 

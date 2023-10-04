@@ -9,7 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Route : MonoBehaviour
+public class Route : Singleton<Route>
 {
     private string m_routeName;
     [SerializeField] private bool m_isDouble;
@@ -27,17 +27,15 @@ public class Route : MonoBehaviour
     public string routeColor { get { return m_routeColor; } set { m_routeColor = value; } }
     public int neededLocomotiv { get { return m_neededLocomotiv; } set { m_neededLocomotiv = value; } }
 
+    [SerializeField] private List<GameObject> m_tiles;
+    public List<GameObject> Tiles { get { return m_tiles; } set { m_tiles = value; } }
+
     private Material emissiveMaterial;
 
     #region Variables
 
-    public GameObject route;
-
-
-    public bool playerChoice;
 
     private enum RouteType { Route, Tunnel }
-    public enum playerConnected { P1, P2, P3, P4, P5 }
     #endregion
 
     private void Awake()
@@ -91,6 +89,12 @@ public class Route : MonoBehaviour
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void SetIsClaimedServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        isClaimed.Value = true;
+    }
+
     public void ClaimRoute()
     {
         CardSelector.Instance.AutoSelectCards(routeType.ToString(), routeColor, lenght, neededLocomotiv, routeName);
@@ -102,6 +106,8 @@ public class Route : MonoBehaviour
         foreach (Transform child in transform)
         {
             GameObject go = child.gameObject;
+            Tiles.Add(go);
+
             color = GetColorFromName(go.name);
             if (color == "Locomotiv")
             {
@@ -156,10 +162,14 @@ public class Route : MonoBehaviour
 
     public void HighlightOn()
     {
+
         foreach (Transform child in transform)
         {
             Transform highlight = child.Find("Highlight");
-            highlight.gameObject.SetActive(true);
+            if (highlight != null)
+            {
+                highlight.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -168,7 +178,10 @@ public class Route : MonoBehaviour
         foreach (Transform child in transform)
         {
             Transform highlight = child.Find("Highlight");
-            highlight.gameObject.SetActive(false);
+            if(highlight != null)
+            {
+                highlight.gameObject.SetActive(false);
+            }
         }
     }
 
