@@ -9,9 +9,6 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-public enum TurnState { Start, PlayerTurn, OpponentTurn, Won, Lost, End }
-
 public class TurnM : Singleton<TurnM>
 {
 
@@ -49,12 +46,11 @@ public class TurnM : Singleton<TurnM>
     #endregion
 
 
-    public TurnState state;
+
     // Start is called before the first frame update
     void Start()
     {
-        state = TurnState.Start;
-
+        
     }
 
     // This metode is called when the player finished their action and their needs to end
@@ -110,39 +106,6 @@ public class TurnM : Singleton<TurnM>
         TurnStarted(clientId, haveStations);
         Debug.Log(" CurrentIndex: " + currentPlayerIndex);
         
-    }
-
-    public void Switch()
-    {
-        if (TurnCount < 10)
-        {
-            if (state == TurnState.Start)
-            {
-                state = TurnState.PlayerTurn;
-                TurnCount++;
-            }
-            else if (state == TurnState.PlayerTurn)
-            {
-                state = TurnState.OpponentTurn;
-                TurnCount++;
-            }
-            else if (state == TurnState.OpponentTurn)
-            {
-                state = TurnState.PlayerTurn;
-                TurnCount++;
-            }
-            else
-            {
-                state = TurnState.Lost;
-            }
-        }
-        else
-        {
-            Debug.Log("Spillet er slut");
-            state = TurnState.End;
-            
-            SwitchTrun.SetActive(false);
-        }
     }
 
     // This metode gets the clientId, sets the target client and then calls a clientrpc with the target

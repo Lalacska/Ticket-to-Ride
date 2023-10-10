@@ -167,9 +167,9 @@ public class GameManager : Singleton<GameManager>
         foreach (Transform childTunnel in tunnelsObject.transform)
         {
             Route r = childTunnel.GetComponent<Route>();
-            if(r == null)
+            if (r == null)
             {
-                foreach(Transform child in childTunnel.transform)
+                foreach (Transform child in childTunnel.transform)
                 {
                     r = child.GetComponent<Route>();
                     r.SetType(true);
@@ -912,6 +912,7 @@ public class GameManager : Singleton<GameManager>
     [ClientRpc]
     public void SpawnTicketsLocalyClientRpc(int[] ticketIds, ulong clientId, ClientRpcParams clientRpcParams = default)
     {
+        UserData.clientId = clientId;
         // Sets the ticket choosing area true
         choosingtArea.SetActive(true);
         // Cleares the object list, so we don't use objects from an earlier drawing
@@ -1172,6 +1173,7 @@ public class GameManager : Singleton<GameManager>
         spawnedObjectTransform.transform.SetParent(city.transform, true);
         spawnedObjectTransform.transform.position = new Vector3(city.transform.position.x, city.transform.position.y + 1, city.transform.position.z);
 
+        player.stations.Value--;
     }
 
 
@@ -1211,7 +1213,7 @@ public class GameManager : Singleton<GameManager>
         foreach (Transform childRoute in routesObject.transform)
         {
             Route r = childRoute.GetComponent<Route>();
-            if(r != null) 
+            if (r != null)
             {
                 if (r.isClaimed.Value) return;
                 r.HighlightOn();
@@ -1246,10 +1248,56 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void ClaimRouteAction()
+    {
+        bool host = false;
+        if (IsHost) { host = true; }
+        CheckTrainsNumberServerRpc(host);
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void CheckTrainsNumberServerRpc(bool host, ServerRpcParams serverRpcParams = default)
+    {
+        ulong clientId = serverRpcParams.Receive.SenderClientId;
+        int m_trainNumber = 0;
+
+        // Set the target client
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { clientId }
+            }
+        };
+
+        foreach (PlayerStat stat in PlayerManager.Instance.stats)
+        {
+            if (stat.clientId == clientId)
+            {
+                player = stat;
+            }
+        }
+
+        if (player != null && player.trains.Value > 0)
+        {
+            m_trainNumber = player.trains.Value;
+        }
+        else { return; }
+
+        CheckPlayerCardsClientRpc(m_trainNumber, host, clientRpcParams);
+
+    }
+
+    [ClientRpc]
+    public void CheckPlayerCardsClientRpc(int trains, bool host, ClientRpcParams clientRpcParams = default)
+    {
+        if (IsOwner && !host) return;
+        Debug.Log("Enable ClientRpc");
+        CheckPlayerCards(trains);
+    }
 
     // This metode check the cards and only highlights the routes that the player has cards for
-     public void CheckPlayerCards()
+    public void CheckPlayerCards(int trains)
      {   
         int highestNumber = 0; 
         TurnM.Instance.Enable_DisableActionChooser(false);
@@ -1268,7 +1316,8 @@ public class GameManager : Singleton<GameManager>
         {
             Route route = go.GetComponent<Route>();
 
-            if (route.routeColor == "Grey" && route.lenght <= highestNumber + rainbowcards && (route.neededLocomotiv == 0 || route.neededLocomotiv <= rainbowcards))
+            if (route.routeColor == "Grey" && route.lenght <= highestNumber + rainbowcards && (route.neededLocomotiv == 0 || route.neededLocomotiv <= rainbowcards) 
+                && route.lenght <= trains)
             {
                 foreach (Transform child in route.transform)
                 {
@@ -1366,7 +1415,7 @@ public class GameManager : Singleton<GameManager>
             spawnedObjectTransform.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.6F, tile.transform.position.z);
         }
 
-
+        player.trains.Value = player.trains.Value - route.lenght;
     }
 
 

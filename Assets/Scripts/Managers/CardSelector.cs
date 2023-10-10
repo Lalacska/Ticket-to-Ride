@@ -88,7 +88,7 @@ public class CardSelector : Singleton<CardSelector>
         if (type == "Station")
         {
             _type = Type.Station;
-            Debug.Log("MaxAmount: "+ maxCard.Value + " CardCount: " + cardObjects.Count);
+            Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
             GameManager.Instance.TurnOffHighlightStation();
             CheckStationsNumberServerRpc();
 
@@ -97,13 +97,13 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
-            if(type == "Route")
+            if (type == "Route")
             {
-                _type= Type.Route;
+                _type = Type.Route;
             }
             else
             {
-                _type= Type.Tunnel;
+                _type = Type.Tunnel;
             }
             neededRainbowCards = neededRainbow;
             routeColor = color;
@@ -124,7 +124,7 @@ public class CardSelector : Singleton<CardSelector>
 
         if (cardObjects.Count < maxCard.Value)
         {
-            if(neededRainbowCards != 0)
+            if (neededRainbowCards != 0)
             {
                 if ((color != "Rainbow" && cardObjects.Count < maxCard.Value - (neededRainbowCards - selectedRainbowCards))
                 || color == "Rainbow")
@@ -256,13 +256,13 @@ public class CardSelector : Singleton<CardSelector>
                 foreach (GameObject gameObject in GameManager.Instance.stations)
                 {
                     Station station = gameObject.GetComponent<Station>();
-                    if(station.stationName == placeName)
+                    if (station.stationName == placeName)
                     {
                         station.SetIsTakenServerRpc();
                         Debug.Log("Built");
                     }
                 }
-                StationHandlerServerRpc();
+                //StationHandlerServerRpc();
                 break;
             case Type.Route:
                 Debug.Log("Route");
@@ -280,7 +280,7 @@ public class CardSelector : Singleton<CardSelector>
             case Type.Tunnel:
                 break;
         }
-        foreach(GameObject go in cardObjects)
+        foreach (GameObject go in cardObjects)
         {
             Destroy(go);
         }
@@ -301,20 +301,20 @@ public class CardSelector : Singleton<CardSelector>
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void StationHandlerServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        ulong clientId = serverRpcParams.Receive.SenderClientId;
-        foreach (PlayerStat stat in PlayerManager.Instance.stats)
-        {
-            if (stat.clientId == clientId)
-            {
-                player = stat;
-            }
-        }
-        player.stations.Value--;
-        Debug.Log(player.stations.Value);
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void StationHandlerServerRpc(ServerRpcParams serverRpcParams = default)
+    //{
+    //    ulong clientId = serverRpcParams.Receive.SenderClientId;
+    //    foreach (PlayerStat stat in PlayerManager.Instance.stats)
+    //    {
+    //        if (stat.clientId == clientId)
+    //        {
+    //            player = stat;
+    //        }
+    //    }
+    //    player.stations.Value--;
+    //    Debug.Log(player.stations.Value);
+    //}
 
 
 

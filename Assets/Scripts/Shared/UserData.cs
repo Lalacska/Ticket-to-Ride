@@ -11,4 +11,7 @@ public static class UserData
     public static string userId;
     public static string lobbyID;
     public static Lobby lobby;
+    public static ulong clientId;
+
+
 }

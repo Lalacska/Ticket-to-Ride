@@ -106,7 +106,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1087522845578462767}
-  - component: {fileID: -7980586913639981202}
   - component: {fileID: 584343071766315983}
   m_Layer: 0
   m_Name: PlayerPrefab
@@ -131,27 +130,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7980586913639981202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8524904791633794036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97cd84d20cf4c4f43bef44d11b497f06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ID: 0
-  playername: 
-  color: 
-  station: 3
-  trains: 50
-  cards: 0
-  destinationTickets: 0
-  myTurn: 0
-  playercam: {fileID: 0}
 --- !u!114 &584343071766315983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,5 +144,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 951099334
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
