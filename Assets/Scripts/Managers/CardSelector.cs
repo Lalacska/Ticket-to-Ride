@@ -71,7 +71,9 @@ public class CardSelector : Singleton<CardSelector>
     public NetworkVariable<bool> isValid { get { return m_isValid; } set { m_isValid = value; } }
     public NetworkVariable<int> maxCard { get { return m_maxCard; } set { m_maxCard = value; } }
 
+    private bool m_beforeTunnelPulling = true;
 
+    public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
 
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
@@ -103,6 +105,7 @@ public class CardSelector : Singleton<CardSelector>
             }
             else
             {
+                beforeTunnelPulling = true;
                 _type = Type.Tunnel;
             }
             neededRainbowCards = neededRainbow;
@@ -158,15 +161,12 @@ public class CardSelector : Singleton<CardSelector>
             {
                 Debug.Log("You can't select this card!");
             }
-
         }
         else
         {
             Debug.Log("You can't select more cards!");
         }
     }
-
-
 
     public void DespawnCard(GameObject go)
     {
@@ -196,7 +196,50 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
+    public void SpawnTunnelCard(GameObject prefab, string color)
+    {
+        bool canSpawn = true;
+        Debug.Log(color);
 
+        if (cardObjects.Count < maxCard.Value)
+        {
+            if (neededRainbowCards != 0)
+            {
+                if ((color != "Rainbow" && cardObjects.Count < maxCard.Value - (neededRainbowCards - selectedRainbowCards))
+                || color == "Rainbow")
+                {
+                    canSpawn = true;
+                }
+                else
+                {
+                    canSpawn = false;
+                }
+            }
+
+            if (canSpawn)
+            {
+                GameObject card = Instantiate(prefab, SelectorArea.transform);
+                cardObjects.Add(card);
+                if (color == "Rainbow")
+                {
+                    selectedRainbowCards++;
+                }
+                selectedCards.text = cardObjects.Count.ToString();
+                if (cardObjects.Count == maxCard.Value)
+                {
+                    DisableCardButtons();
+                }
+            }
+            else
+            {
+                Debug.Log("You can't select this card!");
+            }
+        }
+        else
+        {
+            Debug.Log("You can't select more cards!");
+        }
+    }
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -262,7 +305,6 @@ public class CardSelector : Singleton<CardSelector>
                         Debug.Log("Built");
                     }
                 }
-                //StationHandlerServerRpc();
                 break;
             case Type.Route:
                 Debug.Log("Route");
@@ -278,16 +320,27 @@ public class CardSelector : Singleton<CardSelector>
                 }
                 break;
             case Type.Tunnel:
+                if (beforeTunnelPulling)
+                {
+
+                }
+                else
+                {
+
+                }
                 break;
         }
-        foreach (GameObject go in cardObjects)
+        if (_type != Type.Tunnel)
         {
-            Destroy(go);
+            foreach (GameObject go in cardObjects)
+            {
+                Destroy(go);
+            }
+            cardObjects.Clear();
+            selectedCards.text = cardObjects.Count.ToString();
+            CardsToDiscardPileServerRpc();
+            TurnM.Instance.EndTurn();
         }
-        cardObjects.Clear();
-        selectedCards.text = cardObjects.Count.ToString();
-        CardsToDiscardPileServerRpc();
-        TurnM.Instance.EndTurn();
     }
 
 
@@ -300,23 +353,6 @@ public class CardSelector : Singleton<CardSelector>
             GameManager.Instance.discardPile.Add(card);
         }
     }
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void StationHandlerServerRpc(ServerRpcParams serverRpcParams = default)
-    //{
-    //    ulong clientId = serverRpcParams.Receive.SenderClientId;
-    //    foreach (PlayerStat stat in PlayerManager.Instance.stats)
-    //    {
-    //        if (stat.clientId == clientId)
-    //        {
-    //            player = stat;
-    //        }
-    //    }
-    //    player.stations.Value--;
-    //    Debug.Log(player.stations.Value);
-    //}
-
-
 
     public void CancelAction()
     {
@@ -569,7 +605,7 @@ public class CardSelector : Singleton<CardSelector>
 
     // This methode is for the card play buttons, it gets an int from the button, sets the color
     // then calls PlayCardHand methode with the color
-    public void PlayCardBTN(int button)
+    public void PlayCardBTN(int button, bool tunnel = false)
     {
         GameObject prefab = null;
         string color = "";
@@ -613,7 +649,15 @@ public class CardSelector : Singleton<CardSelector>
                 break;
         }
         if(prefab == null) return;
-        SpawnCard(prefab, color);
+
+        if (!tunnel)
+        {
+            SpawnCard(prefab, color);
+        }
+        else
+        {
+
+        }
     }
 
 

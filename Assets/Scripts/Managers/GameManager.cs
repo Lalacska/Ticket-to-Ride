@@ -606,7 +606,41 @@ public class GameManager : Singleton<GameManager>
     }
 
 
+    public void TunnelDraw()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
+            //if (cardVariables == null) { return null; }
 
+            GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color, true);
+            NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
+
+            _card.GetComponent<NetworkObject>().Spawn(true);
+
+            Card randCard = _card.GetComponent<Card>();
+
+            //Card randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
+            if (randCard.CardID == 0)
+            {
+                randCard.CardID = _CardID;
+                _CardID++;
+            }
+
+            //randCard.handIndex = clientID;
+
+            //_card.transform.position = cardSlots[i].position;
+            randCard.hasBeenPlayed = false;
+
+            deck.Remove(randCard);
+            //hand.Add(randCard);
+
+
+            Debug.Log(randCard.Color);
+            //return;
+        }
+
+    }
 
 
 
