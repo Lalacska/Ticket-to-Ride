@@ -19,6 +19,7 @@ public class CardSelector : Singleton<CardSelector>
 
     [SerializeField] private GameObject CardSelectorArea;
     [SerializeField] private GameObject SelectorArea;
+    [SerializeField] private GameObject TunnelArea;
 
     [SerializeField] private GameObject BlackPrefabCanvas;
     [SerializeField] private GameObject BluePrefabCanvas;
@@ -201,43 +202,13 @@ public class CardSelector : Singleton<CardSelector>
         bool canSpawn = true;
         Debug.Log(color);
 
-        if (cardObjects.Count < maxCard.Value)
+        if (canSpawn)
         {
-            if (neededRainbowCards != 0)
-            {
-                if ((color != "Rainbow" && cardObjects.Count < maxCard.Value - (neededRainbowCards - selectedRainbowCards))
-                || color == "Rainbow")
-                {
-                    canSpawn = true;
-                }
-                else
-                {
-                    canSpawn = false;
-                }
-            }
-
-            if (canSpawn)
-            {
-                GameObject card = Instantiate(prefab, SelectorArea.transform);
-                cardObjects.Add(card);
-                if (color == "Rainbow")
-                {
-                    selectedRainbowCards++;
-                }
-                selectedCards.text = cardObjects.Count.ToString();
-                if (cardObjects.Count == maxCard.Value)
-                {
-                    DisableCardButtons();
-                }
-            }
-            else
-            {
-                Debug.Log("You can't select this card!");
-            }
+            GameObject card = Instantiate(prefab, TunnelArea.transform);
         }
         else
         {
-            Debug.Log("You can't select more cards!");
+            Debug.Log("You can't select this card!");
         }
     }
 
@@ -288,7 +259,7 @@ public class CardSelector : Singleton<CardSelector>
 
     public void PlayAction()
     {
-        Enable_DisableSelectorArea(false);
+        //Enable_DisableSelectorArea(false);
 
         Debug.Log("Play Action");
         Debug.Log("Type " + _type);
@@ -322,7 +293,18 @@ public class CardSelector : Singleton<CardSelector>
             case Type.Tunnel:
                 if (beforeTunnelPulling)
                 {
+                    TunnelArea.SetActive(true);
+                    string[] colors = new string[3];
+                    for (int i = 0; i < 3; i++)
+                    {
+                        colors[i] = GameManager.Instance.TunnelDraw();
+                        SetColorAndPrefab(colors[i], true);
 
+                        // Need something to disable some stuff and bring up the needed card.
+
+                        beforeTunnelPulling = false;
+                     
+                    }
                 }
                 else
                 {
@@ -342,6 +324,7 @@ public class CardSelector : Singleton<CardSelector>
             TurnM.Instance.EndTurn();
         }
     }
+
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -601,54 +584,47 @@ public class CardSelector : Singleton<CardSelector>
         }
     }
 
+    public void PlayCardBTN(string button)
+    {
+        SetColorAndPrefab(button);
+    }
 
-
-    // This methode is for the card play buttons, it gets an int from the button, sets the color
-    // then calls PlayCardHand methode with the color
-    public void PlayCardBTN(int button, bool tunnel = false)
+        // This methode is for the card play buttons, it gets an int from the button, sets the color
+        // then calls PlayCardHand methode with the color
+    public void SetColorAndPrefab(string color, bool tunnel = false)
     {
         GameObject prefab = null;
-        string color = "";
-        switch (button)
+        switch (color)
         {
-            case 1:
-                color = "Black";
+            case "Black":
                 prefab = BlackPrefabCanvas;
                 break;
-            case 2:
-                color = "Blue";
+            case "Blue":
                 prefab = BluePrefabCanvas;
                 break;
-            case 3:
-                color = "Orange";
+            case "Orange":
                 prefab = OrangePrefabCanvas;
                 break;
-            case 4:
-                color = "Green";
+            case "Green":
                 prefab = GreenPrefabCanvas;
                 break;
-            case 5:
-                color = "Red";
+            case "Red":
                 prefab = RedPrefabCanvas;
                 break;
-            case 6:
-                color = "Pink";
+            case "Pink":
                 prefab = PinkPrefabCanvas;
                 break;
-            case 7:
-                color = "White";
+            case "White":
                 prefab = WhitePrefabCanvas;
                 break;
-            case 8:
-                color = "Yellow";
+            case "Yellow":
                 prefab = YellowPrefabCanvas;
                 break;
-            case 9:
-                color = "Rainbow";
+            case "Rainbow":
                 prefab = RainbowPrefabCanvas;
                 break;
         }
-        if(prefab == null) return;
+        if (prefab == null) return;
 
         if (!tunnel)
         {
@@ -656,7 +632,7 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
-
+            SpawnTunnelCard(prefab, color);
         }
     }
 
