@@ -44,8 +44,10 @@ public class CardSelector : Singleton<CardSelector>
 
 
     private List<GameObject> cardObjects;
+    private List<GameObject> tunnelObjects;
 
     [SerializeField] private List<Card> cardsInSelection;
+    [SerializeField] private List<Card> tunnelCardsInSelection;
 
 
 
@@ -80,6 +82,7 @@ public class CardSelector : Singleton<CardSelector>
     {
         selectedRainbowCards = 0;
         routeColor = string.Empty;
+        beforeTunnelPulling = true;
         cardsInSelection.Clear();
         cardObjects = new List<GameObject>();
         Debug.Log("Amount: " + amount);
@@ -106,7 +109,6 @@ public class CardSelector : Singleton<CardSelector>
             }
             else
             {
-                beforeTunnelPulling = true;
                 _type = Type.Tunnel;
             }
             neededRainbowCards = neededRainbow;
@@ -122,9 +124,10 @@ public class CardSelector : Singleton<CardSelector>
     public void SpawnCard(GameObject prefab, string color)
     {
         bool canSpawn = true;
-        Debug.Log("Max card: " + maxCard);
-        Debug.Log(color);
-        Debug.Log("Cards count: " + cardObjects.Count);
+
+        //Debug.Log("Max card: " + maxCard);
+        //Debug.Log(color);
+        //Debug.Log("Cards count: " + cardObjects.Count);
 
         if (cardObjects.Count < maxCard.Value)
         {
@@ -199,17 +202,12 @@ public class CardSelector : Singleton<CardSelector>
 
     public void SpawnTunnelCard(GameObject prefab, string color)
     {
-        bool canSpawn = true;
         Debug.Log(color);
 
-        if (canSpawn)
-        {
-            GameObject card = Instantiate(prefab, TunnelArea.transform);
-        }
-        else
-        {
-            Debug.Log("You can't select this card!");
-        }
+        GameObject card = Instantiate(prefab, TunnelArea.transform);
+        Button button = card.GetComponent<Button>();
+        button.interactable = false;
+        tunnelObjects.Add(card);
     }
 
 
@@ -299,12 +297,18 @@ public class CardSelector : Singleton<CardSelector>
                     {
                         colors[i] = GameManager.Instance.TunnelDraw();
                         SetColorAndPrefab(colors[i], true);
-
-                        // Need something to disable some stuff and bring up the needed card.
-
-                        beforeTunnelPulling = false;
-                     
                     }
+
+                    foreach(GameObject gameObject in cardObjects.ToList())
+                    {
+                        Button button = gameObject.GetComponent<Button>();
+                        button.interactable = false;
+                    }
+
+                    // Need something to disable some stuff and bring up the needed card.
+
+                    beforeTunnelPulling = false;
+
                 }
                 else
                 {
@@ -355,7 +359,17 @@ public class CardSelector : Singleton<CardSelector>
         }
         cardObjects.Clear();
         selectedCards.text = cardObjects.Count.ToString();
-        TurnM.Instance.Enable_DisableActionChooser(true);
+
+        if (beforeTunnelPulling)
+        {
+            TurnM.Instance.Enable_DisableActionChooser(true);
+        }
+        else
+        {
+            TunnelArea.SetActive(false);
+            TurnM.Instance.EndTurn();
+        }
+
     }
 
 
@@ -409,10 +423,6 @@ public class CardSelector : Singleton<CardSelector>
             case "Rainbow":
                 buttonname = "Rainbow-Btn";
                 break;
-            case "Grey":
-                break;
-            case "none":
-                break;
         }
 
         Debug.Log(buttonname);
@@ -431,22 +441,13 @@ public class CardSelector : Singleton<CardSelector>
         else { onlyRainbow = false;}
         
 
-        //Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
-
         foreach (GameObject gameObject in Buttons)
         {
-            //Debug.Log("something");
             Button buttonComponent = gameObject.GetComponent<Button>();
-
-            //Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
 
             if (cardObjects.Count != maxCard.Value || cardObjects.Count == 0)
             {
                 available = CheckCardAmount(gameObject.name);
-                //Debug.Log(gameObject.name);
-                //Debug.Log(color);
-
-                //Debug.Log("Available: " +available);
 
                 Debug.Log("Color : " + color + " onlyRainbow " + onlyRainbow + " routeColor " + routeColor);
 
