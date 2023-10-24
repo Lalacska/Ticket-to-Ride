@@ -45,6 +45,7 @@ public class CardSelector : Singleton<CardSelector>
 
     private List<GameObject> cardObjects;
     private List<GameObject> tunnelObjects;
+    private List<string> tunnelCardColors;
 
     [SerializeField] private List<Card> cardsInSelection;
     [SerializeField] private List<Card> tunnelCardsInSelection;
@@ -85,6 +86,8 @@ public class CardSelector : Singleton<CardSelector>
         beforeTunnelPulling = true;
         cardsInSelection.Clear();
         cardObjects = new List<GameObject>();
+        tunnelObjects = new List<GameObject>();
+        tunnelCardColors = new List<string>();
         Debug.Log("Amount: " + amount);
         Enable_DisableSelectorArea(true);
         ResetCardCounters();
@@ -207,7 +210,19 @@ public class CardSelector : Singleton<CardSelector>
         GameObject card = Instantiate(prefab, TunnelArea.transform);
         Button button = card.GetComponent<Button>();
         button.interactable = false;
+        Debug.Log(card);
+        Debug.Log(tunnelObjects);
         tunnelObjects.Add(card);
+
+        foreach (string t in tunnelCardColors.ToList())
+        {
+            Debug.Log("Tunnel " + t);
+        }
+
+        if (tunnelCardColors.Count == 3)
+        {
+
+        }
     }
 
 
@@ -257,10 +272,24 @@ public class CardSelector : Singleton<CardSelector>
 
     public void PlayAction()
     {
-        //Enable_DisableSelectorArea(false);
+        
 
         Debug.Log("Play Action");
         Debug.Log("Type " + _type);
+
+        string playedCardColor = "";
+        foreach (Card card in cardsInSelection.ToList())
+        {
+            if (card.Color != "Rainbow")
+            {
+                playedCardColor = card.Color;
+            }
+        }
+        if(playedCardColor == "")
+        {
+            playedCardColor = "Rainbow";
+        }
+
         switch (_type)
         {
             case Type.Station:
@@ -291,23 +320,19 @@ public class CardSelector : Singleton<CardSelector>
             case Type.Tunnel:
                 if (beforeTunnelPulling)
                 {
+                    beforeTunnelPulling = false;
                     TunnelArea.SetActive(true);
-                    string[] colors = new string[3];
                     for (int i = 0; i < 3; i++)
                     {
-                        colors[i] = GameManager.Instance.TunnelDraw();
-                        SetColorAndPrefab(colors[i], true);
+                        GameManager.Instance.TunnelDrawServerRpc();
                     }
+
 
                     foreach(GameObject gameObject in cardObjects.ToList())
                     {
                         Button button = gameObject.GetComponent<Button>();
                         button.interactable = false;
                     }
-
-                    // Need something to disable some stuff and bring up the needed card.
-
-                    beforeTunnelPulling = false;
 
                 }
                 else
@@ -326,9 +351,17 @@ public class CardSelector : Singleton<CardSelector>
             selectedCards.text = cardObjects.Count.ToString();
             CardsToDiscardPileServerRpc();
             TurnM.Instance.EndTurn();
+            Enable_DisableSelectorArea(false);
         }
     }
 
+    [ClientRpc]
+    public void DrawTunnelCardClientRpc(string color, bool host, ClientRpcParams clientRpcParams = default)
+    {
+        if (IsOwner && !host) return;
+        tunnelCardColors.Add(color);
+        SetColorAndPrefab(color, true);
+    }
 
 
     [ServerRpc(RequireOwnership = false)]

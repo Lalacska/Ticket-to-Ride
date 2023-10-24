@@ -605,8 +605,8 @@ public class GameManager : Singleton<GameManager>
         cardslotsid.cardslotCardID = card.CardID;
     }
 
-
-    public string TunnelDraw()
+    [ServerRpc(RequireOwnership = false)]
+    public void TunnelDrawServerRpc(ServerRpcParams serverRpcParams = default)
     {
         Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
 
@@ -629,8 +629,20 @@ public class GameManager : Singleton<GameManager>
         deck.Remove(randCard);
         discardPile.Add(randCard);
 
-        return randCard.Color.ToString();
+        
+        // Set the target client
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { serverRpcParams.Receive.SenderClientId }
+            }
+        };
 
+        bool host = false;
+        if (IsHost) { host = true; }
+
+        CardSelector.Instance.DrawTunnelCardClientRpc(randCard.Color.ToString(), host, clientRpcParams);
     }
 
 
@@ -643,15 +655,14 @@ public class GameManager : Singleton<GameManager>
 
 
 
+        /// <summary>
+        /// This part is for all the different functions for Draw cards that are being used in the game. \\
+        /// </summary>
 
-    /// <summary>
-    /// This part is for all the different functions for Draw cards that are being used in the game. \\
-    /// </summary>
+        #region DrawCards
 
-    #region DrawCards
-
-    // This metode is called when the player choose the Draw Card action
-    public void DrawCards()
+        // This metode is called when the player choose the Draw Card action
+        public void DrawCards()
     {
         // This enables the buttons on the board, so the client can draw cards
         CardButtonsEnable_Disable(true);
