@@ -31,9 +31,14 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private GameObject YellowPrefabCanvas;
     [SerializeField] private GameObject RainbowPrefabCanvas;
 
+    [SerializeField] private GameObject TunnelSeparator;
+
+
 
     [SerializeField] private TMP_Text selectedCards;
     [SerializeField] private TMP_Text neededCards;
+    [SerializeField] private TMP_Text selectedTunnelCards;
+    [SerializeField] private TMP_Text neededTunnelCards;
 
 
     [SerializeField] private List<GameObject> Buttons;
@@ -66,6 +71,7 @@ public class CardSelector : Singleton<CardSelector>
     private string routeColor;
     private int neededRainbowCards;
     private int selectedRainbowCards;
+    private string playedCardColor;
 
     private PlayerStat player;
 
@@ -79,6 +85,32 @@ public class CardSelector : Singleton<CardSelector>
 
     public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
 
+    private GameObject separator;
+
+    //Probably will delete
+
+    private void Start()
+    {
+        separator = new GameObject();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            //separator = Instantiate(TunnelSeparator, SelectorArea.transform);
+
+        }else if (Input.GetKeyUp(KeyCode.R))
+        {
+            Destroy(separator);
+        }
+    }
+
+
+
+
+
+    //until here may be deleted
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
         selectedRainbowCards = 0;
@@ -214,14 +246,20 @@ public class CardSelector : Singleton<CardSelector>
         Debug.Log(tunnelObjects);
         tunnelObjects.Add(card);
 
-        foreach (string t in tunnelCardColors.ToList())
-        {
-            Debug.Log("Tunnel " + t);
-        }
-
         if (tunnelCardColors.Count == 3)
         {
-
+            Debug.Log("Played Card Color from spawn" + playedCardColor);
+            int counter = 0;
+            foreach (string tunnelcardcolor in tunnelCardColors.ToList())
+            {
+                if(tunnelcardcolor == playedCardColor || tunnelcardcolor == "Rainbow")
+                {
+                    counter++;
+                }
+            }
+            Debug.Log(counter);
+            neededTunnelCards.text = counter.ToString();
+            Debug.Log(neededTunnelCards.text);
         }
     }
 
@@ -277,7 +315,7 @@ public class CardSelector : Singleton<CardSelector>
         Debug.Log("Play Action");
         Debug.Log("Type " + _type);
 
-        string playedCardColor = "";
+        playedCardColor = "";
         foreach (Card card in cardsInSelection.ToList())
         {
             if (card.Color != "Rainbow")
@@ -289,6 +327,7 @@ public class CardSelector : Singleton<CardSelector>
         {
             playedCardColor = "Rainbow";
         }
+        Debug.Log("Played Card Color " + playedCardColor);
 
         switch (_type)
         {
@@ -334,10 +373,12 @@ public class CardSelector : Singleton<CardSelector>
                         button.interactable = false;
                     }
 
+                    separator = Instantiate(TunnelSeparator, SelectorArea.transform);
+
                 }
                 else
                 {
-
+                    Destroy(separator);
                 }
                 break;
         }
@@ -401,6 +442,7 @@ public class CardSelector : Singleton<CardSelector>
         {
             TunnelArea.SetActive(false);
             TurnM.Instance.EndTurn();
+            Destroy(separator);
         }
 
     }
