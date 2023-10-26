@@ -98,11 +98,21 @@ public class CardSelector : Singleton<CardSelector>
     {
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            //separator = Instantiate(TunnelSeparator, SelectorArea.transform);
+            foreach (GameObject buttonObject in Buttons)
+            {
+                Button button = buttonObject.GetComponent<Button>();
+                var colors = button.colors;
+                var disabledColor = colors.disabledColor;
+                disabledColor.a = 255f;
+                disabledColor.r = 255f;
+                disabledColor.g = 0f;
+                disabledColor.b = 0f;
+                colors.disabledColor = disabledColor;
+                button.colors = colors;
+            }
 
         }else if (Input.GetKeyUp(KeyCode.R))
         {
-            Destroy(separator);
         }
     }
 
@@ -241,10 +251,24 @@ public class CardSelector : Singleton<CardSelector>
 
         GameObject card = Instantiate(prefab, TunnelArea.transform);
         Button button = card.GetComponent<Button>();
-        button.interactable = false;
-        Debug.Log(card);
-        Debug.Log(tunnelObjects);
         tunnelObjects.Add(card);
+
+        //Debug.Log(playedCardColor);
+        //Debug.Log("Card color: " + card.Color + "Played Cards color :" + playedCardColor);
+
+        if(color == playedCardColor || color == "Rainbow")
+        {
+            var colors = button.colors;
+            var disabledColor = colors.disabledColor;
+            disabledColor.a = 255f;
+            disabledColor.r = 255f;
+            disabledColor.g = 0f;
+            disabledColor.b = 0f;
+            colors.disabledColor = disabledColor;
+            button.colors = colors;
+        }
+
+        button.interactable = false;
 
         if (tunnelCardColors.Count == 3)
         {
@@ -563,6 +587,7 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
+    // Gets a button name, cuts and sends the color back from it
     public string GetColorFromString(string buttonname)
     {
         string color = string.Empty;
@@ -996,29 +1021,6 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-
-    //[ClientRpc]
-    //public void EnableCardButtonsClientRpc(string amount, ClientRpcParams clientRpcParams)
-    //{
-    //    neededCards.text = amount;
-    //    Debug.Log(PlayerStat.Instance.localCards);
-    //}
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void EnableCardButtonsServerRpc(string color = "none", ServerRpcParams serverRpcParams = default) 
-    //{
-    //    ulong clientID = serverRpcParams.Receive.SenderClientId;
-    //    // Set the target client
-    //    ClientRpcParams clientRpcParams = new ClientRpcParams
-    //    {
-    //        Send = new ClientRpcSendParams
-    //        {
-    //            TargetClientIds = new ulong[] { clientID }
-    //        }
-    //    };
-
-    //    EnableCardButtonsClientRpc(color: color, clientRpcParams: clientRpcParams);
-    //}
 
 
     #endregion

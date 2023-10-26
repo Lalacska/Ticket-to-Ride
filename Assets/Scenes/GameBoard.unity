@@ -1337,7 +1337,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 707820326}
         m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: CancelAction
         m_Mode: 1
@@ -4968,42 +4968,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536924569}
   m_CullTransparentMesh: 1
---- !u!21 &542340856
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &565748402
 GameObject:
   m_ObjectHideFlags: 0
@@ -5523,7 +5487,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 707820326}
         m_TargetAssemblyTypeName: CardSelector, Assembly-CSharp
         m_MethodName: PlayAction
         m_Mode: 1
@@ -6152,6 +6116,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630239169}
   m_CullTransparentMesh: 1
+--- !u!21 &631658888
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &637565041
 GameObject:
   m_ObjectHideFlags: 0
@@ -7392,9 +7392,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb0178eef3375343a65493709ef21d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardSelectorArea: {fileID: 1573013297}
-  SelectorArea: {fileID: 1359115751}
-  TunnelArea: {fileID: 282704714}
+  CardSelectorArea: {fileID: 1589463497}
+  SelectorArea: {fileID: 1124948718}
+  TunnelArea: {fileID: 387468265}
   BlackPrefabCanvas: {fileID: 3144590629076448808, guid: 45bf190fd407328498cae373170b773d, type: 3}
   BluePrefabCanvas: {fileID: 1251631152113199351, guid: 681da110d89a7d64297b6536f95ec78c, type: 3}
   OrangePrefabCanvas: {fileID: 6257864430330823126, guid: 6dfc60514b55a9747a1d4fa1fb6c8fce, type: 3}
@@ -7405,10 +7405,10 @@ MonoBehaviour:
   YellowPrefabCanvas: {fileID: 8832300082296249274, guid: c83a032a1499c32439c16beff7df9021, type: 3}
   RainbowPrefabCanvas: {fileID: 6988371926399818709, guid: 69f8fd826ac337f4582d0928cdc5bb55, type: 3}
   TunnelSeparator: {fileID: 9168497636153309725, guid: d6a868f2f5f96544b857745a559e15b6, type: 3}
-  selectedCards: {fileID: 592173842}
-  neededCards: {fileID: 1101496717}
-  selectedTunnelCards: {fileID: 1065781098}
-  neededTunnelCards: {fileID: 1038431895}
+  selectedCards: {fileID: 1181984685}
+  neededCards: {fileID: 820307373}
+  selectedTunnelCards: {fileID: 577164447}
+  neededTunnelCards: {fileID: 645534583}
   Buttons:
   - {fileID: 238609760}
   - {fileID: 883706732}
@@ -7419,8 +7419,8 @@ MonoBehaviour:
   - {fileID: 1814744279}
   - {fileID: 1949694208}
   - {fileID: 773943335}
-  CancelButton: {fileID: 1303867054}
-  PlayButton: {fileID: 950297870}
+  CancelButton: {fileID: 178442928}
+  PlayButton: {fileID: 578117783}
   cardsInSelection: []
   tunnelCardsInSelection: []
   m_isValid:
@@ -10977,42 +10977,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8043714994597119730, guid: 4a46da5d039834548954356050599ccb, type: 3}
   m_PrefabInstance: {fileID: 976327677}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &979243886
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &1013817043
 GameObject:
   m_ObjectHideFlags: 0
@@ -19869,7 +19833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1589463498
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25168,6 +25132,42 @@ Transform:
   m_Father: {fileID: 653080894}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &2035025162
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _WidthHeightRadius: {r: 40, g: 40, b: 38, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &2036391661
 GameObject:
   m_ObjectHideFlags: 0
