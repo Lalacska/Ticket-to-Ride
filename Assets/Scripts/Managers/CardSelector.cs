@@ -195,6 +195,9 @@ public class CardSelector : Singleton<CardSelector>
             {
                 GameObject card = Instantiate(prefab, SelectorArea.transform);
                 cardObjects.Add(card);
+                RandomDespawn rand = card.GetComponent<RandomDespawn>();
+                rand.cardType = RandomDespawn.Type.Card;
+
                 if (color == "Rainbow")
                 {
                     selectedRainbowCards++;
@@ -219,6 +222,7 @@ public class CardSelector : Singleton<CardSelector>
         }
     }
 
+    // Need to use RandomDespawn type to despawn extracards
     public void DespawnCard(GameObject go)
     {
         string color = "none";
@@ -254,8 +258,10 @@ public class CardSelector : Singleton<CardSelector>
         GameObject card = Instantiate(prefab, TunnelArea.transform);
         Button button = card.GetComponent<Button>();
         tunnelObjects.Add(card);
+        RandomDespawn rand = card.GetComponent<RandomDespawn>();
+        rand.cardType = RandomDespawn.Type.Tunnel;
 
-        if(color == playedCardColor || color == "Rainbow")
+        if (color == playedCardColor || color == "Rainbow")
         {
             var colors = button.colors;
             var disabledColor = colors.disabledColor;
@@ -287,8 +293,8 @@ public class CardSelector : Singleton<CardSelector>
             neededTunnelCards.text = counter.ToString();
             neededExtraCards = counter;
             Debug.Log(neededTunnelCards.text);
-            EnableCardButtons(playedCardColor);
             beforeTunnelPulling = false;
+            EnableCardButtons(playedCardColor);
         }
     }
 
@@ -299,6 +305,8 @@ public class CardSelector : Singleton<CardSelector>
         {
             GameObject card = Instantiate(prefab, ExtraCardArea.transform);
             extraCardsObjects.Add(card);
+            RandomDespawn rand = card.GetComponent<RandomDespawn>();
+            rand.cardType = RandomDespawn.Type.ExtraCard;
 
             selectedTunnelCards.text = extraCardsObjects.Count.ToString();
             if (extraCardsObjects.Count == neededExtraCards)
@@ -556,8 +564,10 @@ public class CardSelector : Singleton<CardSelector>
         }
 
         Debug.Log(buttonname);
+        Debug.Log(beforeTunnelPulling);
+        Debug.Log(extraCardsObjects.Count);
 
-        if(cardObjects.Count > 0)
+        if(cardObjects.Count > 0 || (!beforeTunnelPulling && extraCardsObjects.Count > 0))
         {
             foreach (GameObject go in cardObjects)
             {
@@ -575,7 +585,7 @@ public class CardSelector : Singleton<CardSelector>
         {
             Button buttonComponent = gameObject.GetComponent<Button>();
 
-            if (cardObjects.Count != maxCard.Value || cardObjects.Count == 0)
+            if ((cardObjects.Count != maxCard.Value || cardObjects.Count == 0) || (!beforeTunnelPulling && (extraCardsObjects.Count != neededExtraCards || extraCardsObjects.Count == 0)))
             {
                 available = CheckCardAmount(gameObject.name);
 
@@ -652,7 +662,7 @@ public class CardSelector : Singleton<CardSelector>
         {
             PlayButton.interactable = true;
         }
-        else if (extraCardsObjects.Count == neededExtraCards || !beforeTunnelPulling)
+        else if (extraCardsObjects.Count == neededExtraCards && !beforeTunnelPulling)
         {
             PlayButton.interactable = true;
         }
@@ -762,7 +772,7 @@ public class CardSelector : Singleton<CardSelector>
         }
         if (prefab == null) return;
 
-        if (!tunnel)
+        if (!tunnel && beforeTunnelPulling)
         {
             SpawnCard(prefab, color);
         }
