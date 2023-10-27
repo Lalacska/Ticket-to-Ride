@@ -20,6 +20,7 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private GameObject CardSelectorArea;
     [SerializeField] private GameObject SelectorArea;
     [SerializeField] private GameObject TunnelArea;
+    [SerializeField] private GameObject ExtraCardArea;
 
     [SerializeField] private GameObject BlackPrefabCanvas;
     [SerializeField] private GameObject BluePrefabCanvas;
@@ -30,9 +31,6 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private GameObject WhitePrefabCanvas;
     [SerializeField] private GameObject YellowPrefabCanvas;
     [SerializeField] private GameObject RainbowPrefabCanvas;
-
-    [SerializeField] private GameObject TunnelSeparator;
-
 
 
     [SerializeField] private TMP_Text selectedCards;
@@ -50,11 +48,13 @@ public class CardSelector : Singleton<CardSelector>
 
     private List<GameObject> cardObjects;
     private List<GameObject> tunnelObjects;
+    private List<GameObject> extraCardsObjects;
     private List<string> tunnelCardColors;
 
     [SerializeField] private List<Card> cardsInSelection;
     [SerializeField] private List<Card> tunnelCardsInSelection;
 
+    private int neededExtraCards;
 
 
     private int BlackCardCounter;
@@ -76,6 +76,8 @@ public class CardSelector : Singleton<CardSelector>
     private PlayerStat player;
 
 
+
+
     private NetworkVariable<int> m_maxCard = new NetworkVariable<int>();
     [SerializeField] private NetworkVariable<bool> m_isValid = new NetworkVariable<bool>(true);
     public NetworkVariable<bool> isValid { get { return m_isValid; } set { m_isValid = value; } }
@@ -85,13 +87,11 @@ public class CardSelector : Singleton<CardSelector>
 
     public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
 
-    private GameObject separator;
-
     //Probably will delete
 
     private void Start()
     {
-        separator = new GameObject();
+        
     }
 
     private void Update()
@@ -123,10 +123,12 @@ public class CardSelector : Singleton<CardSelector>
     //until here may be deleted
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
+        neededExtraCards = 0;
         selectedRainbowCards = 0;
         routeColor = string.Empty;
         beforeTunnelPulling = true;
         cardsInSelection.Clear();
+        extraCardsObjects = new List<GameObject>();
         cardObjects = new List<GameObject>();
         tunnelObjects = new List<GameObject>();
         tunnelCardColors = new List<string>();
@@ -253,18 +255,18 @@ public class CardSelector : Singleton<CardSelector>
         Button button = card.GetComponent<Button>();
         tunnelObjects.Add(card);
 
-        //Debug.Log(playedCardColor);
-        //Debug.Log("Card color: " + card.Color + "Played Cards color :" + playedCardColor);
-
         if(color == playedCardColor || color == "Rainbow")
         {
             var colors = button.colors;
             var disabledColor = colors.disabledColor;
+            var normalColor = colors.normalColor;
             disabledColor.a = 255f;
             disabledColor.r = 255f;
             disabledColor.g = 0f;
             disabledColor.b = 0f;
             colors.disabledColor = disabledColor;
+            normalColor.a = 0f;
+            colors.normalColor = normalColor;
             button.colors = colors;
         }
 
@@ -283,9 +285,36 @@ public class CardSelector : Singleton<CardSelector>
             }
             Debug.Log(counter);
             neededTunnelCards.text = counter.ToString();
+            neededExtraCards = counter;
             Debug.Log(neededTunnelCards.text);
+            EnableCardButtons(playedCardColor);
+            beforeTunnelPulling = false;
         }
     }
+
+    public void SpawnExtraCard(GameObject prefab, string color)
+    {
+
+        if (extraCardsObjects.Count < neededExtraCards)
+        {
+            GameObject card = Instantiate(prefab, ExtraCardArea.transform);
+            extraCardsObjects.Add(card);
+
+            selectedTunnelCards.text = extraCardsObjects.Count.ToString();
+            if (extraCardsObjects.Count == neededExtraCards)
+            {
+                DisableCardButtons();
+            }
+            CardCounterHandler(color, true);
+            HandlePlayerHandServerRpc(color, false);
+            EnableCardButtons(color);
+        }
+        else
+        {
+            Debug.Log("You can't select more cards!");
+        }
+    }
+
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -383,7 +412,6 @@ public class CardSelector : Singleton<CardSelector>
             case Type.Tunnel:
                 if (beforeTunnelPulling)
                 {
-                    beforeTunnelPulling = false;
                     TunnelArea.SetActive(true);
                     for (int i = 0; i < 3; i++)
                     {
@@ -397,12 +425,10 @@ public class CardSelector : Singleton<CardSelector>
                         button.interactable = false;
                     }
 
-                    separator = Instantiate(TunnelSeparator, SelectorArea.transform);
-
                 }
                 else
                 {
-                    Destroy(separator);
+
                 }
                 break;
         }
@@ -464,9 +490,13 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
+            foreach(GameObject tunnel in tunnelObjects.ToList())
+            {
+                Destroy(tunnel);
+            }
+            tunnelObjects.Clear();
             TunnelArea.SetActive(false);
             TurnM.Instance.EndTurn();
-            Destroy(separator);
         }
 
     }
@@ -489,6 +519,7 @@ public class CardSelector : Singleton<CardSelector>
         {
             color = routeColor;
         }
+        Debug.Log(color);
         Debug.Log("Enable Client");
         bool available = false;
         bool onlyRainbow = true;
@@ -617,7 +648,11 @@ public class CardSelector : Singleton<CardSelector>
     public void Enable_DisablePlayButton()
     {
 
-        if (cardObjects.Count == maxCard.Value)
+        if (cardObjects.Count == maxCard.Value && beforeTunnelPulling)
+        {
+            PlayButton.interactable = true;
+        }
+        else if (extraCardsObjects.Count == neededExtraCards || !beforeTunnelPulling)
         {
             PlayButton.interactable = true;
         }
@@ -730,6 +765,10 @@ public class CardSelector : Singleton<CardSelector>
         if (!tunnel)
         {
             SpawnCard(prefab, color);
+        }
+        else if (!beforeTunnelPulling)
+        {
+            SpawnExtraCard(prefab,color);
         }
         else
         {
