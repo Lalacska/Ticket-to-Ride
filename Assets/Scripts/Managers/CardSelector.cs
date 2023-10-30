@@ -227,26 +227,42 @@ public class CardSelector : Singleton<CardSelector>
     {
         string color = "none";
         RandomDespawn rd = go.GetComponent<RandomDespawn>();
+
         CardCounterHandler(rd.Color, false);
         HandlePlayerHandServerRpc(rd.Color, true);
-        cardObjects.Remove(go);
-        if (rd.Color == "Rainbow")
-        {
-            selectedRainbowCards--;
-        }
 
-        selectedCards.text = cardObjects.Count.ToString();
-        Debug.Log("Cards count: " + cardObjects.Count);
-
-        foreach (GameObject card in cardObjects)
+        if (rd.cardType == RandomDespawn.Type.Card)
         {
-            RandomDespawn randomD = card.GetComponent<RandomDespawn>();
-            Debug.Log(card.name);
-            if (randomD.Color != "Rainbow")
+            cardObjects.Remove(go);
+            if (rd.Color == "Rainbow")
             {
-                color = randomD.Color;
+                selectedRainbowCards--;
+            }
+
+            selectedCards.text = cardObjects.Count.ToString();
+            Debug.Log("Cards count: " + cardObjects.Count);
+
+            foreach (GameObject card in cardObjects)
+            {
+                RandomDespawn randomD = card.GetComponent<RandomDespawn>();
+                Debug.Log(card.name);
+                if (randomD.Color != "Rainbow")
+                {
+                    color = randomD.Color;
+                }
             }
         }
+        else if (rd.cardType == RandomDespawn.Type.ExtraCard)
+        {
+            extraCardsObjects.Remove(go);
+            selectedTunnelCards.text = extraCardsObjects.Count.ToString();
+
+            color = playedCardColor;
+
+        }
+
+        Debug.Log(color);
+
         EnableCardButtons(color);
     }
 
