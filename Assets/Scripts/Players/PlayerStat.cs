@@ -43,7 +43,9 @@ public class PlayerStat : Singleton<PlayerStat>
 
 
     [SerializeField] private GameObject m_StationObject;
+    [SerializeField] private GameObject m_TrainObject;
     public GameObject StationObject { get { return m_StationObject; } set { m_StationObject = value; } }
+    public GameObject TrainObject { get { return m_TrainObject; } set { m_TrainObject = value; } }
 
     private NetworkVariable<FixedString128Bytes> m_ScoreString = new NetworkVariable<FixedString128Bytes>();
     private NetworkVariable<FixedString128Bytes> m_TrainsString = new NetworkVariable<FixedString128Bytes>();
@@ -53,7 +55,7 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private NetworkVariable<bool> m_isTurn = new NetworkVariable<bool>();
 
     private Dictionary<FixedString128Bytes, int> m_cardsInHand = new Dictionary<FixedString128Bytes, int>()
-        { { "Black", 0 }, { "Blue", 0 }, { "Brown", 0 }, { "Green", 0 }, {"Orange", 0 }, {"Purple", 0 }, {"White", 0 },  {"Yellow", 0 }, {"Rainbow", 0 } };
+        { { "Black", 0 }, { "Blue", 0 }, { "Orange", 0 }, { "Green", 0 }, {"Red", 0 }, {"Pink", 0 }, {"White", 0 },  {"Yellow", 0 }, {"Rainbow", 0 } };
 
     public Dictionary<FixedString128Bytes, int> cardsInHand { get { return m_cardsInHand; } set { m_cardsInHand = value; } }
 
@@ -65,6 +67,9 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private NetworkVariable<int> m_stations = new NetworkVariable<int>();
     public NetworkVariable<int> stations { get { return m_stations; } set { m_stations = value; } }
 
+    [SerializeField] private NetworkVariable<int> m_trains = new NetworkVariable<int>();
+    public NetworkVariable<int> trains { get { return m_trains; } set { m_trains = value; } }
+
     private void Start()
     {
         turnIndicator.SetActive(false);
@@ -72,10 +77,11 @@ public class PlayerStat : Singleton<PlayerStat>
         {
             // Assin the current value based on the current message index value
             stations.Value = 3;
+            trains.Value = 50;
             m_ScoreString.Value = "0";
-            m_TrainsString.Value = "50";
+            m_TrainsString.Value = trains.Value.ToString();
             m_StationsString.Value = stations.Value.ToString();
-            m_CardsString.Value = "0" /*hand.Count.ToString()*/;
+            m_CardsString.Value = "0";
             m_TicketsString.Value = "0";
             m_isTurn.Value = false;
             Score.text = m_ScoreString.Value.ToString();
@@ -95,6 +101,7 @@ public class PlayerStat : Singleton<PlayerStat>
             m_TicketsString.OnValueChanged += OnTextStringChanged;
             m_isTurn.OnValueChanged += ActivateIndicator;
             stations.OnValueChanged += OnIntChanged;
+            trains.OnValueChanged += OnIntChanged;
             // Log the current value of the text string when the client connected
         }
         
@@ -122,6 +129,7 @@ public class PlayerStat : Singleton<PlayerStat>
         m_TicketsString.OnValueChanged -= OnTextStringChanged;
         m_isTurn.OnValueChanged -= ActivateIndicator;
         stations.OnValueChanged -= OnIntChanged;
+        trains.OnValueChanged -= OnIntChanged;
     }
 
     private void LateUpdate()
@@ -146,6 +154,10 @@ public class PlayerStat : Singleton<PlayerStat>
             if(m_StationsString.Value != stations.Value.ToString())
             {
                 m_StationsString.Value = stations.Value.ToString();
+            }
+            if(m_TrainsString.Value != trains.Value.ToString())
+            {
+                m_TrainsString.Value = trains.Value.ToString();
             }
 
             if (myTurn)
@@ -178,6 +190,7 @@ public class PlayerStat : Singleton<PlayerStat>
     private void OnIntChanged(int previousValue, int newValue)
     {
         Stations.text = m_StationsString.Value.ToString();
+        Trains.text = m_TrainsString.Value.ToString();
     }
 
 

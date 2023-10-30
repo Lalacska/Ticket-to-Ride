@@ -442,7 +442,6 @@ MonoBehaviour:
   m_isReady: 0
   m_hand: []
   m_tickets: []
-  m_stations: 0
   turnIndicator: {fileID: 6612725709917060964}
   Score: {fileID: 6672740200002217852}
   Trains: {fileID: 5303554852649506594}
@@ -450,7 +449,10 @@ MonoBehaviour:
   Cards: {fileID: 1515129261347870604}
   Tickets: {fileID: 5680082157192359032}
   m_StationObject: {fileID: 4699102401924287696, guid: 4a68534a2909a1c4a91848098ba61818, type: 3}
+  m_TrainObject: {fileID: 1293580391728686953, guid: 56345429561faa8418a2b2eef5e9d55d, type: 3}
   m_isTurn:
+    m_InternalValue: 0
+  m_stations:
     m_InternalValue: 0
 --- !u!1 &8708250189912964874
 GameObject:

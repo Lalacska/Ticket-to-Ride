@@ -12,7 +12,12 @@ using UnityEngine;
 
 public class RandomDespawn : MonoSingleton<RandomDespawn>
 {
+    public enum Type { Card, Tunnel, ExtraCard }
+    
     [SerializeField] private string m_Color;
+    private Type m_cardType;
+
+    public Type cardType { get { return m_cardType; } set { m_cardType = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
     public void DespawnObject()
     {
