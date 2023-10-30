@@ -16,17 +16,17 @@ public class PlayerHand : Singleton<PlayerHand>
     private int m_blueCardCount;
     [SerializeField] private TMP_Text m_blueCardText;
 
-    private int m_brownCardCount;
-    [SerializeField] private TMP_Text m_brownCardText;
+    private int m_orangeCardCount;
+    [SerializeField] private TMP_Text m_OrangeCardText;
 
     private int m_greenCardCount;
     [SerializeField] private TMP_Text m_greenCardText;
 
-    private int m_orangeCardCount;
-    [SerializeField] private TMP_Text m_orangeCardText;
+    private int m_redCardCount;
+    [SerializeField] private TMP_Text m_RedCardText;
 
-    private int m_purpleCardCount;
-    [SerializeField] private TMP_Text m_purpleCardText;
+    private int m_pinkCardCount;
+    [SerializeField] private TMP_Text m_pinkCardText;
 
     private int m_whiteCardCount;
     [SerializeField] private TMP_Text m_whiteCardText;
@@ -58,25 +58,25 @@ public class PlayerHand : Singleton<PlayerHand>
                 m_blueCardCount = kvp.Value;
                 m_blueCardText.text = m_blueCardCount.ToString();
             }
-            else if (kvp.Key == "Brown")
+            else if (kvp.Key == "Orange")
             {
-                m_brownCardCount = kvp.Value;
-                m_brownCardText.text = m_brownCardCount.ToString();
+                m_orangeCardCount = kvp.Value;
+                m_OrangeCardText.text = m_orangeCardCount.ToString();
             }
             else if (kvp.Key == "Green")
             {
                 m_greenCardCount = kvp.Value;
                 m_greenCardText.text = m_greenCardCount.ToString();
             }
-            else if (kvp.Key == "Orange")
+            else if (kvp.Key == "Red")
             {
-                m_orangeCardCount = kvp.Value;
-                m_orangeCardText.text = m_orangeCardCount.ToString();
+                m_redCardCount = kvp.Value;
+                m_RedCardText.text = m_redCardCount.ToString();
             }
-            else if (kvp.Key == "Purple")
+            else if (kvp.Key == "Pink")
             {
-                m_purpleCardCount = kvp.Value;
-                m_purpleCardText.text = m_purpleCardCount.ToString();
+                m_pinkCardCount = kvp.Value;
+                m_pinkCardText.text = m_pinkCardCount.ToString();
             }
             else if (kvp.Key == "White")
             {
@@ -103,10 +103,10 @@ public class PlayerHand : Singleton<PlayerHand>
     {
         m_blackCardCount = 0;
         m_blueCardCount = 0;
-        m_brownCardCount = 0;
-        m_greenCardCount = 0;
         m_orangeCardCount = 0;
-        m_purpleCardCount = 0;
+        m_greenCardCount = 0;
+        m_redCardCount = 0;
+        m_pinkCardCount = 0;
         m_yellowCardCount = 0;
         m_whiteCardCount = 0;
         m_rainbowCardCount = 0;

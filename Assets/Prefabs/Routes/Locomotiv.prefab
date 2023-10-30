@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 604329481690775834, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.33
+      objectReference: {fileID: 0}
     - target: {fileID: 1038983765818980381, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -55,6 +59,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 1167582592266264322, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1372778365968749435, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253416316436813120, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.24
+      objectReference: {fileID: 0}
     - target: {fileID: 4974843772777961299, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_Name
       value: Locomotiv
@@ -62,6 +78,10 @@ PrefabInstance:
     - target: {fileID: 5344021558207334157, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407812691623707855, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6606833984525534406, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -77,3 +97,20 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 1060437f7496dd24583385379021395b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+--- !u!1 &3761277648915319065 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4974843772777961299, guid: 444c20bf3ad69f54792f90c68f7dab7f, type: 3}
+  m_PrefabInstance: {fileID: 8158424769424285258}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1605885306594947401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3761277648915319065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c69997c41b8b447987379bc44ba2c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
