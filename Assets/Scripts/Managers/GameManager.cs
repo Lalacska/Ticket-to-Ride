@@ -1400,7 +1400,7 @@ public class GameManager : Singleton<GameManager>
         
     }
 
-    public void ChooseRoute(string _routeName, string routeColor)
+    public void ChooseRoute(string _routeName, string routeColor, bool isTunnel)
     {
         Debug.Log("Choose Route");
         foreach (GameObject go in routes)
@@ -1408,13 +1408,13 @@ public class GameManager : Singleton<GameManager>
             Route route = go.GetComponent<Route>();
             if (route.routeName == _routeName && route.routeColor == routeColor)
             {
-                SpawnRoutesServerRpc(_routeName,routeColor);
+                SpawnRoutesServerRpc(_routeName,routeColor,isTunnel);
             }
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnRoutesServerRpc(string _routeName, string routeColor, ServerRpcParams serverRpcParams = default)
+    public void SpawnRoutesServerRpc(string _routeName, string routeColor, bool isTunnel, ServerRpcParams serverRpcParams = default)
     {
         Debug.Log("SpawnRoutesServerRpc");
         ulong clientID = serverRpcParams.Receive.SenderClientId;
@@ -1441,12 +1441,16 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        foreach(GameObject tile in route.Tiles.ToList())
+        foreach (GameObject tile in route.Tiles.ToList())
         {
             GameObject spawnedObjectTransform = Instantiate(player.TrainObject);
             NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
             no.Spawn(true);
             spawnedObjectTransform.transform.SetParent(route.transform, true);
+            if (isTunnel)
+            {
+                //Rotation Z
+            }
             spawnedObjectTransform.transform.rotation = new Quaternion(tile.transform.rotation.x, tile.transform.rotation.y, tile.transform.rotation.z, tile.transform.rotation.w);
             spawnedObjectTransform.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.6F, tile.transform.position.z);
         }
