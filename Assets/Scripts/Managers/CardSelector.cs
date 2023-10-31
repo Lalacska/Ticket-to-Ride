@@ -21,6 +21,7 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private GameObject SelectorArea;
     [SerializeField] private GameObject TunnelArea;
     [SerializeField] private GameObject ExtraCardArea;
+    [SerializeField] private GameObject TunnelComponents;
 
     [SerializeField] private GameObject BlackPrefabCanvas;
     [SerializeField] private GameObject BluePrefabCanvas;
@@ -123,6 +124,7 @@ public class CardSelector : Singleton<CardSelector>
     //until here may be deleted
     public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
     {
+        TunnelComponents.SetActive(false);
         neededExtraCards = 0;
         selectedRainbowCards = 0;
         routeColor = string.Empty;
@@ -309,7 +311,6 @@ public class CardSelector : Singleton<CardSelector>
             neededTunnelCards.text = counter.ToString();
             neededExtraCards = counter;
             Debug.Log(neededTunnelCards.text);
-            beforeTunnelPulling = false;
             EnableCardButtons(playedCardColor);
         }
     }
@@ -387,7 +388,7 @@ public class CardSelector : Singleton<CardSelector>
 
     public void PlayAction()
     {
-        
+        bool isTunnel = false;
 
         Debug.Log("Play Action");
         Debug.Log("Type " + _type);
@@ -420,23 +421,25 @@ public class CardSelector : Singleton<CardSelector>
                     }
                 }
                 break;
-            case Type.Route:
-                Debug.Log("Route");
-                GameManager.Instance.ChooseRoute(placeName, routeColor);
-                foreach (GameObject gameObject in GameManager.Instance.routes)
-                {
-                    Route route = gameObject.GetComponent<Route>();
-                    if (route.routeName == placeName)
-                    {
-                        route.SetIsClaimedServerRpc();
-                        Debug.Log("Built");
-                    }
-                }
-                break;
+            //case Type.Route:
+            //    Debug.Log("Route");
+            //    GameManager.Instance.ChooseRoute(placeName, routeColor);
+            //    foreach (GameObject gameObject in GameManager.Instance.routes)
+            //    {
+            //        Route route = gameObject.GetComponent<Route>();
+            //        if (route.routeName == placeName)
+            //        {
+            //            route.SetIsClaimedServerRpc();
+            //            Debug.Log("Built");
+            //        }
+            //    }
+            //    break;
             case Type.Tunnel:
+                isTunnel = true;
                 if (beforeTunnelPulling)
                 {
-                    TunnelArea.SetActive(true);
+                    TunnelComponents.SetActive(true);
+
                     for (int i = 0; i < 3; i++)
                     {
                         GameManager.Instance.TunnelDrawServerRpc();
@@ -452,12 +455,33 @@ public class CardSelector : Singleton<CardSelector>
                 }
                 else
                 {
-
+                    foreach (GameObject go in tunnelObjects.ToList())
+                    {
+                        Destroy(go);
+                    }
+                    foreach (GameObject go in extraCardsObjects.ToList())
+                    {
+                        Destroy(go);
+                    }
+                    tunnelObjects.Clear();
+                    extraCardsObjects.Clear();
+                    selectedTunnelCards.text = "0";
+                    TunnelComponents.SetActive(false);
                 }
                 break;
         }
-        if (_type != Type.Tunnel)
+        if (_type != Type.Tunnel || !beforeTunnelPulling)
         {
+            GameManager.Instance.ChooseRoute(placeName, routeColor, isTunnel);
+            foreach (GameObject gameObject in GameManager.Instance.routes)
+            {
+                Route route = gameObject.GetComponent<Route>();
+                if (route.routeName == placeName)
+                {
+                    route.SetIsClaimedServerRpc();
+                    Debug.Log("Built");
+                }
+            }
             foreach (GameObject go in cardObjects)
             {
                 Destroy(go);
@@ -467,6 +491,10 @@ public class CardSelector : Singleton<CardSelector>
             CardsToDiscardPileServerRpc();
             TurnM.Instance.EndTurn();
             Enable_DisableSelectorArea(false);
+        }
+        else
+        {
+            beforeTunnelPulling = false;
         }
     }
 
@@ -519,10 +547,10 @@ public class CardSelector : Singleton<CardSelector>
                 Destroy(tunnel);
             }
             tunnelObjects.Clear();
-            TunnelArea.SetActive(false);
             TurnM.Instance.EndTurn();
         }
 
+        TunnelComponents.SetActive(false);
     }
 
 
