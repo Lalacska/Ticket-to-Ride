@@ -1446,13 +1446,23 @@ public class GameManager : Singleton<GameManager>
             GameObject spawnedObjectTransform = Instantiate(player.TrainObject);
             NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
             no.Spawn(true);
+            Debug.Log("Float: " + tile.transform.rotation.x + " " + tile.transform.rotation.y + " " + tile.transform.rotation.z + " " + tile.transform.rotation.w);
+            Debug.Log("Float: " + tile.transform.rotation);
             spawnedObjectTransform.transform.SetParent(route.transform, true);
+            spawnedObjectTransform.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.6F, tile.transform.position.z);
             if (isTunnel)
             {
                 //Rotation Z
+                Debug.Log("Float 1: " + _routeName + " " +tile.transform.rotation.y +" "+ Convert.ToInt32(tile.transform.rotation.y));
+                Debug.Log("Float 2: " + tile.transform.rotation.y+90f);
+                Debug.Log("Float 3: " + tile.transform.rotation.y + 90);
+                spawnedObjectTransform.transform.rotation = tile.transform.rotation;
+                spawnedObjectTransform.transform.rotation *= Quaternion.Euler(0, 0, 90);
             }
-            spawnedObjectTransform.transform.rotation = new Quaternion(tile.transform.rotation.x, tile.transform.rotation.y, tile.transform.rotation.z, tile.transform.rotation.w);
-            spawnedObjectTransform.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.6F, tile.transform.position.z);
+            else
+            {
+                spawnedObjectTransform.transform.rotation = tile.transform.rotation;
+            }
         }
 
         player.trains.Value = player.trains.Value - route.lenght;
