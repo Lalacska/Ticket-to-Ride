@@ -311,6 +311,8 @@ public class CardSelector : Singleton<CardSelector>
             neededTunnelCards.text = counter.ToString();
             neededExtraCards = counter;
             Debug.Log(neededTunnelCards.text);
+
+            beforeTunnelPulling = false;
             EnableCardButtons(playedCardColor);
         }
     }
@@ -390,6 +392,11 @@ public class CardSelector : Singleton<CardSelector>
     {
         bool isTunnel = false;
 
+        if (_type == Type.Tunnel)
+        {
+            isTunnel = true;
+        }
+
         Debug.Log("Play Action");
         Debug.Log("Type " + _type);
 
@@ -406,6 +413,30 @@ public class CardSelector : Singleton<CardSelector>
             playedCardColor = "Rainbow";
         }
         Debug.Log("Played Card Color " + playedCardColor);
+
+
+        if (_type != Type.Tunnel || !beforeTunnelPulling)
+        {
+            GameManager.Instance.ChooseRoute(placeName, routeColor, isTunnel);
+            foreach (GameObject gameObject in GameManager.Instance.routes)
+            {
+                Route route = gameObject.GetComponent<Route>();
+                if (route.routeName == placeName)
+                {
+                    route.SetIsClaimedServerRpc();
+                    Debug.Log("Built");
+                }
+            }
+            foreach (GameObject go in cardObjects)
+            {
+                Destroy(go);
+            }
+            cardObjects.Clear();
+            selectedCards.text = cardObjects.Count.ToString();
+            CardsToDiscardPileServerRpc();
+            TurnM.Instance.EndTurn();
+            Enable_DisableSelectorArea(false);
+        }
 
         switch (_type)
         {
@@ -435,7 +466,6 @@ public class CardSelector : Singleton<CardSelector>
             //    }
             //    break;
             case Type.Tunnel:
-                isTunnel = true;
                 if (beforeTunnelPulling)
                 {
                     TunnelComponents.SetActive(true);
@@ -470,32 +500,9 @@ public class CardSelector : Singleton<CardSelector>
                 }
                 break;
         }
-        if (_type != Type.Tunnel || !beforeTunnelPulling)
-        {
-            GameManager.Instance.ChooseRoute(placeName, routeColor, isTunnel);
-            foreach (GameObject gameObject in GameManager.Instance.routes)
-            {
-                Route route = gameObject.GetComponent<Route>();
-                if (route.routeName == placeName)
-                {
-                    route.SetIsClaimedServerRpc();
-                    Debug.Log("Built");
-                }
-            }
-            foreach (GameObject go in cardObjects)
-            {
-                Destroy(go);
-            }
-            cardObjects.Clear();
-            selectedCards.text = cardObjects.Count.ToString();
-            CardsToDiscardPileServerRpc();
-            TurnM.Instance.EndTurn();
-            Enable_DisableSelectorArea(false);
-        }
-        else
-        {
-            beforeTunnelPulling = false;
-        }
+
+
+        
     }
 
     [ClientRpc]
@@ -629,7 +636,8 @@ public class CardSelector : Singleton<CardSelector>
         {
             Button buttonComponent = gameObject.GetComponent<Button>();
 
-            if ((cardObjects.Count != maxCard.Value || cardObjects.Count == 0) || (!beforeTunnelPulling && (extraCardsObjects.Count != neededExtraCards || extraCardsObjects.Count == 0)))
+            if ((cardObjects.Count != maxCard.Value || cardObjects.Count == 0) || 
+                (!beforeTunnelPulling && (extraCardsObjects.Count != neededExtraCards || (extraCardsObjects.Count == 0 && neededExtraCards != 0))))
             {
                 available = CheckCardAmount(gameObject.name);
 
@@ -637,7 +645,7 @@ public class CardSelector : Singleton<CardSelector>
 
                 if (available)
                 {
-                    if (color == "Grey" || color == "none" || (onlyRainbow && routeColor == "Grey") || (onlyRainbow && routeColor == "none"))
+                    if ((color == "Grey" || color == "none" || (onlyRainbow && routeColor == "Grey") || (onlyRainbow && routeColor == "none")) && beforeTunnelPulling)
                     {
                         Debug.Log(color + " " + onlyRainbow);
                         Debug.Log("all");
@@ -667,6 +675,7 @@ public class CardSelector : Singleton<CardSelector>
                 buttonComponent.interactable = false;
             }
         }
+
         Enable_DisablePlayButton();
 
     }

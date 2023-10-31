@@ -100,6 +100,7 @@ public class Route : Singleton<Route>
     {
         CardSelector.Instance.AutoSelectCards(routeType.ToString(), routeColor, lenght, neededLocomotiv, routeName);
     }
+
     public int CountChilds()
     {
         string color = "";
