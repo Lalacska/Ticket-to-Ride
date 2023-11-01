@@ -55,6 +55,8 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private List<Card> cardsInSelection;
     [SerializeField] private List<Card> tunnelCardsInSelection;
 
+    private List<FixedString32Bytes> selectedCardColors;
+
     private int neededExtraCards;
 
 
@@ -134,6 +136,7 @@ public class CardSelector : Singleton<CardSelector>
         cardObjects = new List<GameObject>();
         tunnelObjects = new List<GameObject>();
         tunnelCardColors = new List<string>();
+        selectedCardColors = new List<FixedString32Bytes>();
         Debug.Log("Amount: " + amount);
         Enable_DisableSelectorArea(true);
         ResetCardCounters();
@@ -279,6 +282,7 @@ public class CardSelector : Singleton<CardSelector>
         RandomDespawn rand = card.GetComponent<RandomDespawn>();
         rand.cardType = RandomDespawn.Type.Tunnel;
 
+
         if (color == playedCardColor || color == "Rainbow")
         {
             var colors = button.colors;
@@ -298,7 +302,7 @@ public class CardSelector : Singleton<CardSelector>
 
         if (tunnelCardColors.Count == 3)
         {
-            Debug.Log("Played Card Color from spawn" + playedCardColor);
+            Debug.Log("Played Card Color from spawn " + playedCardColor);
             int counter = 0;
             foreach (string tunnelcardcolor in tunnelCardColors.ToList())
             {
@@ -401,18 +405,20 @@ public class CardSelector : Singleton<CardSelector>
         Debug.Log("Type " + _type);
 
         playedCardColor = "";
-        foreach (Card card in cardsInSelection.ToList())
+        foreach (FixedString32Bytes cardColor in selectedCardColors.ToList())
         {
-            if (card.Color != "Rainbow")
+            Debug.Log("Played Card Color 1" + cardColor);
+            if (cardColor.ToString() != "Rainbow")
             {
-                playedCardColor = card.Color;
+                playedCardColor = cardColor.ToString();
             }
         }
-        if(playedCardColor == "")
+        Debug.Log("Played Card Color 2" + playedCardColor);
+        if (playedCardColor == "")
         {
             playedCardColor = "Rainbow";
         }
-        Debug.Log("Played Card Color " + playedCardColor);
+        Debug.Log("Played Card Color 3" + playedCardColor);
 
 
         if (_type != Type.Tunnel || !beforeTunnelPulling)
@@ -724,16 +730,16 @@ public class CardSelector : Singleton<CardSelector>
 
 
 
-   
-    
-
-   
-   
-
-   
 
 
-    
+
+
+
+
+
+
+
+
 
     [ServerRpc(RequireOwnership = false)]
     public void HandlePlayerHandServerRpc(string color, bool dispawn, ServerRpcParams serverRpcParams = default)
@@ -752,11 +758,11 @@ public class CardSelector : Singleton<CardSelector>
 
         if (dispawn)
         {
-            foreach(Card card in cardsInSelection.ToList())
+            foreach (Card card in cardsInSelection.ToList())
             {
                 if (!foundCard)
                 {
-                    if(card.Color == color)
+                    if (card.Color == color)
                     {
                         foundCard = true;
                         cardsInSelection.Remove(card);
@@ -768,7 +774,7 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
-            foreach(Card card in player.hand.ToList())
+            foreach (Card card in player.hand.ToList())
             {
                 if (!foundCard)
                 {
@@ -781,6 +787,20 @@ public class CardSelector : Singleton<CardSelector>
                 }
             }
         }
+
+        FixedString32Bytes[] cardColors = new FixedString32Bytes[cardsInSelection.Count];
+        for(int i = 0; i < cardColors.Length; i++)
+        {
+            cardColors[i] = new FixedString32Bytes(cardsInSelection[i].Color);
+        }
+        GetCardColorsFromServerClientRpc(cardColors);
+
+    }
+
+    [ClientRpc]
+    public void GetCardColorsFromServerClientRpc(FixedString32Bytes[] cardColors, ClientRpcParams clientRpcParams = default)
+    {
+        selectedCardColors = new List<FixedString32Bytes>(cardColors);
     }
 
     public void PlayCardBTN(string button)
