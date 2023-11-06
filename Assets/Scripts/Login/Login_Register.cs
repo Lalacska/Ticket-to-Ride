@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Lobbies.Http;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
@@ -35,11 +38,14 @@ public class Login_Register : MonoBehaviour
     bool isLoggedIn = false;
 
     // These variables are for the login portion. \\
+   
     string userName = "";
     string userEmail = "";
+    
 
     /*string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located */
-    string rootURL = "https://double-suicide.rehab/Tuhu-Test/"; // Path where php files are located
+    // string rootURL = "https://double-suicide.rehab/Tuhu-Test/"; // Path where php files are located
+    string rootURL = "http://localhost/tickettoride/"; 
 
     #region Login
 
@@ -53,51 +59,124 @@ public class Login_Register : MonoBehaviour
             loginEmail = _loginEmail.text;
             loginPassword = _loginPassword.text;
 
-            // This method starts the "Coroutine". \\
-            StartCoroutine(LoginEnumerator());
-        }
+        // This method starts the "Coroutine". \\
+        StartCoroutine(LoginEnumerator());
+        //StartCoroutine(LoginUser(loginEmail, loginPassword));
+
+    }
 
     // This method handles the users input and matches them to the database for login. \\
+
+    
     IEnumerator LoginEnumerator()
+    {
+        Debug.Log("b");
+        isWorking = true;
+        registrationCompleted = false;
+        errorMessage = "";
+
+        WWWForm form = new WWWForm();
+        form.AddField("email", loginEmail);
+        form.AddField("password", loginPassword);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "Login.php", form))
         {
-            isWorking = true;
-            registrationCompleted = false;
-            errorMessage = "";
-
-            WWWForm form = new WWWForm();
-            form.AddField("email", loginEmail);
-            form.AddField("password", loginPassword);
-
-            using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "login.php", form))
+        Debug.Log("c");
+            yield return www.SendWebRequest();
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                yield return www.SendWebRequest();
-                if (www.result != UnityWebRequest.Result.Success)
+                errorMessage = www.error;
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                Debug.Log("d" + responseText);
+
+            if (responseText.StartsWith("Success"))
                 {
-                    errorMessage = www.error;
+                    
+                string[] dataChunks = responseText.Split('|');
+                if (dataChunks.Length >= 3)
+                {
+                    userName = dataChunks[1];
+                    userEmail = dataChunks[2];
+                    isLoggedIn = true;
                 }
                 else
                 {
-                    string responseText = www.downloadHandler.text;
+                    errorMessage = "Invalid response format";
+                }
 
-                    if (responseText.StartsWith("Success"))
+                    UserData.username = userName;
+
+                    Debug.Log(userName);
+
+                    ResetValues();
+                    SceneManager.LoadScene("Join-Create Game");
+                }
+                else
+                {
+                    errorMessage = responseText;
+                }
+            }
+        }
+        isWorking = false;
+    }
+    
+
+    
+    IEnumerator LoginUser(string email, string password)
+    {
+        string url = "http://localhost/tickettoride/login.php"; // Replace with your server's URL
+
+        WWWForm form = new WWWForm();
+        form.AddField("email", email);
+        form.AddField("password", password);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(url, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.LogError("Login Error: " + www.error);
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+
+                if (responseText.Contains("Success"))
+                {
+                    // Check if the response contains "Success" indicating a successful login
+                    if (responseText.Contains("Success\n"))
                     {
-                        string[] dataChunks = responseText.Split('|');
-                        userName = dataChunks[1];
-                        userEmail = dataChunks[2];
-                        isLoggedIn = true;
-                    
-                        UserData.username = userName;
-                        ResetValues();
-                        SceneManager.LoadScene("Join-Create Game");
+                        int start = responseText.IndexOf("Success\n") + "Success\n".Length;
+                        string username = responseText.Substring(start).Trim();
+
+                        Debug.Log("Login Successful. Username: " + username);
+
+                        // Handle the successful login in Unity as needed
+                        // For example, you can save the username in a variable, load a new scene, open a URL, etc.
                     }
                     else
                     {
-                        errorMessage = responseText;
+                        Debug.Log("Login Successful");
+
+                        // Handle other cases of success (if any)
                     }
                 }
+                else
+                {
+                    Debug.Log("Login Failed");
+                    Debug.Log("Server Response: " + responseText);
+
+                    // Handle error messages sent by the PHP script in responseText
+                }
             }
-            isWorking = false;
         }
+    }
+    
+
 
     #endregion Login
 
@@ -117,6 +196,7 @@ public class Login_Register : MonoBehaviour
 
         StartCoroutine(RegisterEnumerator());
     }
+
 
     // This method handles the User's inputs and inserts them into the database. \\
     IEnumerator RegisterEnumerator()
