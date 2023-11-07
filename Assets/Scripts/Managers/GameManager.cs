@@ -1351,7 +1351,7 @@ public class GameManager : Singleton<GameManager>
         {
             Route route = go.GetComponent<Route>();
 
-            // This runs if the route color is grey, and the length of the route
+            // This runs if the route color is grey, and the length of the route is less or equal to the max catd amount 
             if (route.routeColor == "Grey" && route.lenght <= highestNumber + rainbowcards && (route.neededLocomotiv == 0 || route.neededLocomotiv <= rainbowcards) 
                 && route.lenght <= trains)
             {
@@ -1363,11 +1363,12 @@ public class GameManager : Singleton<GameManager>
                 }
                 route.HighlightOn();
             }
+            // This runs when the route is not Grey, it goes trough a dictionary that holds the player cards localy
             else
             {
                 foreach (KeyValuePair<FixedString128Bytes, int> kvp in localcards.ToList())
                 {
-                    //Debug.Log("Key: " + kvp.Key + "  Value: " + kvp.Value);
+                    // If the route color and the key color matches it checks if the player has enough card for the route
                     if (route.routeColor == kvp.Key && route.lenght <= kvp.Value + rainbowcards)
                     {
                         foreach (Transform child in route.transform)
@@ -1383,7 +1384,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-
+    // This goes trough all the routes and turns off the highlight and the collider
     public void TurnOffHighlightRoutes()
     {
         foreach (GameObject go in routes.ToList())
@@ -1400,6 +1401,7 @@ public class GameManager : Singleton<GameManager>
         
     }
 
+    // This metode checks the route and calls a server RPC to claim it
     public void ChooseRoute(string _routeName, string routeColor, bool isTunnel)
     {
         Debug.Log("Choose Route");
@@ -1419,6 +1421,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("SpawnRoutesServerRpc");
         ulong clientID = serverRpcParams.Receive.SenderClientId;
 
+        // Search for the matching route based on its name and color.
         foreach (GameObject go in routes)
         {
             Route _route = go.GetComponent<Route>();
@@ -1427,6 +1430,8 @@ public class GameManager : Singleton<GameManager>
                 route = _route;
             }
         }
+
+        // Find the player using the client ID.
         foreach (PlayerStat stat in PlayerManager.Instance.stats)
         {
             if (stat.clientId == clientID)
@@ -1435,19 +1440,26 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+        // Check for potential issues and return if any.
         if (route == null || player == null)
         {
             Debug.Log("Something is wrong" + city + " " + player.clientId);
             return;
         }
 
+        // Spawn train objects on the route's tiles and adjust their positions and rotations.
         foreach (GameObject tile in route.Tiles.ToList())
         {
+            // Instantiate and spawn a train object for the player.
             GameObject spawnedObjectTransform = Instantiate(player.TrainObject);
             NetworkObject no = spawnedObjectTransform.GetComponent<NetworkObject>();
             no.Spawn(true);
+
+            // Set the parent of the spawned object to the route and adjust its position.
             spawnedObjectTransform.transform.SetParent(route.transform, true);
             spawnedObjectTransform.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.6F, tile.transform.position.z);
+
+            // Adjust the rotation of the spawned object based on whether it's a tunnel.
             if (isTunnel)
             {
                 spawnedObjectTransform.transform.rotation = tile.transform.rotation;
@@ -1459,41 +1471,11 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+        // Reduce the player's available train count by the length of the claimed route.
         player.trains.Value = player.trains.Value - route.lenght;
     }
 
 
     #endregion
-
-
-
-
-
-
-
-
-    #region UnityEngine.Random/Extra 
-
-    // This method shuffles the used/discared cards back into the deck. \\ NOT WORKING!
-    public void Shuffle()
-    {
-        if (discardPile.Count >= 1)
-        {
-            foreach (Card card in discardPile)
-            {
-                deck.Add(card);
-            }
-            discardPile.Clear();
-        }
-    }
-
-    // This method changes the turn to the next player. \\
-    public void SwitchTurn()
-    {
-        Debug.Log("Du har skiftet tur!");
-        PlayerPickCount = 0;
-    }
-
-    #endregion UnityEngine.Random/Extra
 
 }

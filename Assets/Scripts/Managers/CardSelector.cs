@@ -17,12 +17,14 @@ public class CardSelector : Singleton<CardSelector>
 {
     private Type _type;
 
+    // Areas
     [SerializeField] private GameObject CardSelectorArea;
     [SerializeField] private GameObject SelectorArea;
     [SerializeField] private GameObject TunnelArea;
     [SerializeField] private GameObject ExtraCardArea;
     [SerializeField] private GameObject TunnelComponents;
 
+    // Prefabs
     [SerializeField] private GameObject BlackPrefabCanvas;
     [SerializeField] private GameObject BluePrefabCanvas;
     [SerializeField] private GameObject OrangePrefabCanvas;
@@ -33,20 +35,17 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private GameObject YellowPrefabCanvas;
     [SerializeField] private GameObject RainbowPrefabCanvas;
 
-
+    // Texts
     [SerializeField] private TMP_Text selectedCards;
     [SerializeField] private TMP_Text neededCards;
     [SerializeField] private TMP_Text selectedTunnelCards;
     [SerializeField] private TMP_Text neededTunnelCards;
 
-
+    // Card buttons
     [SerializeField] private List<GameObject> Buttons;
-
-    [SerializeField] private Button CancelButton;
     [SerializeField] private Button PlayButton;
 
-
-
+    // List for card objects
     private List<GameObject> cardObjects;
     private List<GameObject> tunnelObjects;
     private List<GameObject> extraCardsObjects;
@@ -57,8 +56,9 @@ public class CardSelector : Singleton<CardSelector>
 
     private List<FixedString32Bytes> selectedCardColors;
 
-    private int neededExtraCards;
 
+    // Counters
+    private int neededExtraCards;
 
     private int BlackCardCounter;
     private int BlueCardCounter;
@@ -70,61 +70,28 @@ public class CardSelector : Singleton<CardSelector>
     private int YellowCardCounter;
     private int RainbowCardCounter;
 
-    private string placeName;
-    private string routeColor;
     private int neededRainbowCards;
     private int selectedRainbowCards;
+
+    // Needed variables
+    private string placeName;
+    private string routeColor;
     private string playedCardColor;
 
     private PlayerStat player;
 
+    private bool m_beforeTunnelPulling = true;
+    public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
 
 
-
+    // Network Variables
     private NetworkVariable<int> m_maxCard = new NetworkVariable<int>();
     [SerializeField] private NetworkVariable<bool> m_isValid = new NetworkVariable<bool>(true);
     public NetworkVariable<bool> isValid { get { return m_isValid; } set { m_isValid = value; } }
     public NetworkVariable<int> maxCard { get { return m_maxCard; } set { m_maxCard = value; } }
 
-    private bool m_beforeTunnelPulling = true;
-
-    public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
-
-    //Probably will delete
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            foreach (GameObject buttonObject in Buttons)
-            {
-                Button button = buttonObject.GetComponent<Button>();
-                var colors = button.colors;
-                var disabledColor = colors.disabledColor;
-                disabledColor.a = 255f;
-                disabledColor.r = 255f;
-                disabledColor.g = 0f;
-                disabledColor.b = 0f;
-                colors.disabledColor = disabledColor;
-                button.colors = colors;
-            }
-
-        }else if (Input.GetKeyUp(KeyCode.R))
-        {
-        }
-    }
-
-
-
-
-
-    //until here may be deleted
-    public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
+    // Sets the variables
+    public void SetUp()
     {
         TunnelComponents.SetActive(false);
         neededExtraCards = 0;
@@ -137,24 +104,33 @@ public class CardSelector : Singleton<CardSelector>
         tunnelObjects = new List<GameObject>();
         tunnelCardColors = new List<string>();
         selectedCardColors = new List<FixedString32Bytes>();
-        Debug.Log("Amount: " + amount);
+    }
+    
+    // This metode is hit by every time someone chooses an action where it needs to select card after
+    public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
+    {
+        // Set up and enable the card selector area, and reset counters.
+        SetUp();
         Enable_DisableSelectorArea(true);
         ResetCardCounters();
         ResetIsValidServerRpc();
         SetCounters();
         placeName = m_name;
+
+        // This sets the type general type according what we get from the previous metode, and also runs type specific logic
         if (type == "Station")
         {
             _type = Type.Station;
-            Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
             GameManager.Instance.TurnOffHighlightStation();
             CheckStationsNumberServerRpc();
 
-            Debug.Log("Max card: " + maxCard.Value);
+            //Debug.Log("Max card: " + maxCard.Value);
+            //Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
 
         }
         else
         {
+            // Sets the route or tunnel type, and some other variables
             if (type == "Route")
             {
                 _type = Type.Route;
@@ -163,6 +139,7 @@ public class CardSelector : Singleton<CardSelector>
             {
                 _type = Type.Tunnel;
             }
+
             neededRainbowCards = neededRainbow;
             routeColor = color;
             GameManager.Instance.TurnOffHighlightRoutes();
@@ -172,7 +149,7 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-
+    //
     public void SpawnCard(GameObject prefab, string color)
     {
         bool canSpawn = true;
