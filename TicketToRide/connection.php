@@ -1,5 +1,4 @@
 <?php
-
 	// Here we give the different global variabels our username, hostname, password and db_name. 
 	$host = "localhost"; // Host name 
 	$db_username = "root"; // Mysql username 

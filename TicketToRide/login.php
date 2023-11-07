@@ -1,49 +1,53 @@
 <?php
-//sesion_start to save the users current session//
+// Start a session to save the user's current session
 session_start();
+
+// Include the "connection.php" file for database connection
 include "connection.php";
 
-//Check if email and password is empty//
+// Check if email and password were submitted via POST
 if (isset($_POST["email"]) && isset($_POST["password"])) {
   $errors = array();
 
+  // Get email and password from the POST data
   $email = $_POST["email"];
   $password = $_POST["password"];
 
-  //Connect to database
+  // Include the "connection.php" file again (duplicate include, not needed)
   require dirname(__FILE__) . '/connection.php';
 
+  // Prepare a database query to retrieve user data based on email
   if ($stmt = $mysqli_connection->prepare("SELECT user_id, username, email, password FROM sc_users WHERE email = ? LIMIT 1")) {
 
-    /* binder parameters for markers */
+    // Bind the email parameter to the query
     $stmt->bind_param('s', $email);
 
-    /* execute query */
+    // Execute the query
     if ($stmt->execute()) {
 
-      /* save result */
+      // Store the query result
       $stmt->store_result();
 
       if ($stmt->num_rows > 0) {
-        /* bind result */
-        $stmt->bind_result($user_id,$username_tmp, $email_tmp, $password_hash);
+        // Bind the result columns to variables
+        $stmt->bind_result($user_id, $username_tmp, $email_tmp, $password_hash);
 
-        /* fetch to get values */
+        // Fetch the result
         $stmt->fetch();
 
-        //Check if password matches, if not then error.
+        // Check if the provided password matches the hashed password
         if (password_verify($password, $password_hash)) {
-          $_SESSION['user_id'] = $user_id; // You need to retrieve the user's ID from the database
+          // Set session variables for the user
+          $_SESSION['user_id'] = $user_id;
           $_SESSION['username'] = $username_tmp;
           $_SESSION['email'] = $email_tmp;
 
-          
-
-          $userData = "Username: $username_tmp, Email: $email_tmp"; // Replace with actual user data
+          // Prepare user data for response
+          $userData = "Username: $username_tmp, Email: $email_tmp";
           $response = "Success|" . $userData;
           echo $response;
 
-          // Redirect the user to the home page
+          // Redirect the user to the home page using JavaScript
           $script = "<script>window.location = 'home.php';</script>";
           echo $script;
           return;
@@ -54,7 +58,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $errors[] = "Wrong email or password.";
       }
 
-      /* close statement */
+      // Close the prepared statement
       $stmt->close();
 
     } else {
@@ -64,6 +68,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $errors[] = "Something went wrong, please try again.";
   }
 
+  // If there are errors, display them using JavaScript
   if (count($errors) > 0) {
     echo "<script>alert('$errors[0]')</script>";
   }
@@ -73,6 +78,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 <!DOCTYPE html>
 <!-- Css starts here. We can also make this into it's own file-->
 <style>
+    /* Reset default margin, padding, and box model for all elements */
   * {
     margin: 0;
     padding: 0;
@@ -80,6 +86,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     font-family: "Poppins", sans-serif;
   }
 
+   /* Styling for the overall body */
   body {
     height: 100vh;
     display: flex;
@@ -89,7 +96,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background: linear-gradient(135deg, #191919, #ff785a);
     width: 100%;
   }
-
+  
+  /* Styling for the main container */
   .container {
     max-width: 700px;
     max-height: 400px;
@@ -101,7 +109,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
     background-color: #191919;
   }
-
+  
+  /* Styling for the title inside the container */
   .container .title {
     font-size: 25px;
     font-weight: 500;
@@ -109,6 +118,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     color: #ff785a;
   }
 
+  /* Adding an underline effect to the title */
   .container .title::before {
     content: "";
     position: absolute;
@@ -120,6 +130,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background: linear-gradient(135deg, #191919, #ff785a);
   }
 
+  /* Styling for user details section within a form */
   .content form .user-details {
     display: flex;
     flex-wrap: wrap;
@@ -128,11 +139,13 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     color: #ff785a;
   }
 
+  /* Styling for input boxes within user details */
   form .user-details .input-box {
     margin-bottom: 15px;
     width: calc(100% / 2 - 20px);
   }
 
+  /* Styling for the user input fields */
   .user-details .input-box input {
     height: 45px;
     width: 100%;
@@ -145,10 +158,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     transition: all 0.3s ease;
   }
 
+  /* Styling for the input fields when focused */
   .user-details .input-box input:focus {
     border-color: #ff785a;
   }
 
+  /* Styling for buttons section within the form */
   form .button {
     display: flexbox;
     margin-top: 40px;
@@ -158,6 +173,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     width: 90%;
   }
 
+  /* Styling for the button elements */
   form .button input {
     height: 100%;
     width: 90%;
@@ -172,6 +188,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background-color: #ff785a;
   }
 
+  /* Styling for the button elements on hover */
   form .button input:hover {
     background-color: #f74017;
   }
@@ -183,6 +200,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     margin-left: 50px;
   }
 
+  /* Styling for the registration section within the form */
   form .register input {
     height: 100%;
     width: 90%;
@@ -197,30 +215,37 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background-color: #ff785a;
   }
 
+  /* Styling for the 'fp' (forgot password) text */
   .input-box .fp {
     font-size: small;
     color: #ff785a;
   }
 
+  /* Media query for smaller screens (max-width: 584px) */
   @media (max-width: 584px) {
+    /* Adjusting the maximum width of the container */
     .container {
       max-width: 100%;
     }
-
+    
+    /* Adjusting input box width for user details on smaller screens */
     form .user-details .input-box {
       margin-bottom: 15px;
       width: 100%;
     }
 
+    /* Adjusting the margin of the registration button on smaller screens */
     form .register {
       margin-right: 60px;
     }
 
+    /* Adding scroll behavior for user details section on smaller screens */
     .content form .user-details {
       max-height: 300px;
       overflow-y: scroll;
     }
 
+    /* Styling for the scrollbar on WebKit-based browsers */
     .user-details::-webkit-scrollbar {
       width: 5px;
     }
@@ -252,15 +277,16 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             <span class="details">Password</span>
             <input id="text" type="password" name="password" placeholder="Enter your password" required
               autocomplete="off">
-            <?php
-
-            //when the users changed password this message will be displayed.
-            if (isset($_GET["newpwd"])) {
-              if ($_GET["newpwd"] == "passwordupdated") {
-                echo '<p class="signupsuccess">Your password has been reset!</p>';
-              }
-            }
-            ?>
+              <?php
+                // Check if the "newpwd" parameter is set in the URL
+                if (isset($_GET["newpwd"])) {
+                    // Check if the "newpwd" parameter has the value "passwordupdated"
+                    if ($_GET["newpwd"] == "passwordupdated") {
+                    // Display a success message when the password has been successfully reset
+            echo '<p class="signupsuccess">Your password has been reset!</p>';
+                                                              }
+                                            }
+                  ?>
             <a href="reset-password.php" class="fp">Forgot Password?</a>
           </div>
           <div class="button">
@@ -275,11 +301,5 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
           </div>
       </form>
     </div>
-    <script src="login.php">
-        // Output the contents of the $_SESSION array to the console
-        console.log(<?php echo json_encode($_SESSION); ?>);
-    </script>
-  
 </body>
-
 </html>
