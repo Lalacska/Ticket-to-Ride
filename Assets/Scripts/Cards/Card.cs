@@ -29,9 +29,5 @@ public class Card : Singleton<Card>
         Debug.Log("Returned");
         return go;
     }
-
-
-
-
 }
 
