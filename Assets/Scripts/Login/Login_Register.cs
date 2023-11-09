@@ -40,14 +40,14 @@ public class Login_Register : MonoBehaviour
     bool isLoggedIn = false;
 
     // These variables are for the login portion. \\
-   
+
     string userName = "";
     string userEmail = "";
-    
+
 
     /*string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located */
     // string rootURL = "https://double-suicide.rehab/Tuhu-Test/"; // Path where php files are located
-    string rootURL = "http://localhost/tickettoride/"; 
+    string rootURL = "http://localhost/tickettoride/";
 
     #region Login
 
@@ -57,9 +57,9 @@ public class Login_Register : MonoBehaviour
 
     // This method is for when the player clicks the Login button. \\
     public void LoginButtonClick()
-        {
-            loginEmail = _loginEmail.text;
-            loginPassword = _loginPassword.text;
+    {
+        loginEmail = _loginEmail.text;
+        loginPassword = _loginPassword.text;
 
         // This method starts the "Coroutine". \\
         StartCoroutine(LoginEnumerator());
@@ -67,11 +67,10 @@ public class Login_Register : MonoBehaviour
 
     // This method handles the users input and matches them to the database for login. \\
 
-    
+
     // Working. \\
     IEnumerator LoginEnumerator()
     {
-        Debug.Log("b");
         isWorking = true;
         registrationCompleted = false;
         errorMessage = "";
@@ -82,7 +81,7 @@ public class Login_Register : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "Login.php", form))
         {
-        Debug.Log("c");
+            Debug.Log("c");
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
             {
@@ -91,22 +90,20 @@ public class Login_Register : MonoBehaviour
             else
             {
                 string responseText = www.downloadHandler.text;
-                Debug.Log("d" + responseText);
+                if (responseText.StartsWith("Success"))
+                {
 
-            if (responseText.StartsWith("Success"))
-                {
-                    
-                string[] dataChunks = responseText.Split('|');
-                if (dataChunks.Length >= 3)
-                {
-                    userName = dataChunks[1];
-                    userEmail = dataChunks[2];
-                    isLoggedIn = true;
-                }
-                else
-                {
-                    errorMessage = "Invalid response format";
-                }
+                    string[] dataChunks = responseText.Split('|');
+                    if (dataChunks.Length >= 3)
+                    {
+                        userName = dataChunks[1];
+                        userEmail = dataChunks[2];
+                        isLoggedIn = true;
+                    }
+                    else
+                    {
+                        errorMessage = "Invalid response format";
+                    }
 
                     UserData.username = userName;
 
@@ -123,7 +120,7 @@ public class Login_Register : MonoBehaviour
         }
         isWorking = false;
     }
-    
+
 
 
     #endregion Login
