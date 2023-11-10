@@ -82,6 +82,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private bool[] availableCardSlots;
     [SerializeField] private bool[] availableDiscardPileCardSlots;
 
+    [SerializeField] private GameObject ticketActionArea;
     [SerializeField] private GameObject choosingtArea;
     [SerializeField] private GameObject ticketArea;
 
@@ -244,8 +245,22 @@ public class GameManager : Singleton<GameManager>
             }
 
             // If the deck is empty reshuffles discard pile.
-            if (deck.Count == 0)
+            if (deck.Count == 0 && discardPile.Count != 0)
             {
+
+                int rCounter = 0;
+                // This checks how many rainbow card is in the discard pile
+                foreach (Card card in discardPile.ToList())
+                {
+                    if(card.Color == "Rainbow")
+                    {
+                        rCounter++;
+                    }
+                }
+
+                // This interrupts the metode if there ar more then 2 rainbowcard and the discardPile has only 5 or less cards
+                if (rCounter > 2 && discardPile.Count <= 5) { return; }
+                
                 isDeckEmpty = true;
 
                 // Reset the deck with cards from the discard pile and empty the discard pile.
@@ -923,7 +938,7 @@ public class GameManager : Singleton<GameManager>
     {
         UserData.clientId = clientId;
         // Sets the ticket choosing area true
-        choosingtArea.SetActive(true);
+        ticketActionArea.SetActive(true);
         // Cleares the object list, so we don't use objects from an earlier drawing
         ticketObjects.Clear();
 
@@ -1007,7 +1022,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
         // These deacticates the areas, so it won't be visible for the player
-        choosingtArea.SetActive(false);
+        ticketActionArea.SetActive(false);
         ticketArea.SetActive(false);
 
 

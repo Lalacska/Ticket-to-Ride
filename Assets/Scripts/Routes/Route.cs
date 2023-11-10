@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class Route : Singleton<Route>
 {
-    private string m_routeName;
+    [SerializeField] private string m_routeName;
     [SerializeField] private bool m_isDouble;
     [SerializeField] private NetworkVariable<bool> m_isClaimed = new NetworkVariable<bool>(false);
     [SerializeField] private RouteType routeType;
@@ -39,6 +39,7 @@ public class Route : Singleton<Route>
     private enum RouteType { Route, Tunnel }
     #endregion
 
+    // This metode runs first, and set some basic variables up
     private void Awake()
     {
         neededLocomotiv = 0;
@@ -49,6 +50,8 @@ public class Route : Singleton<Route>
 
     }
 
+    // This metode is only important if the route has 2 part
+    // If gameobject name doesn't contais a "-", it gets and sets its parent objects name 
     public string SetRouteName()
     {
         string name = gameObject.name;
@@ -61,46 +64,20 @@ public class Route : Singleton<Route>
         return name;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.P))
-        {
-            if (isClaimed.Value) return;
-            foreach (Transform child in transform)
-            {
-                Transform highlight = child.Find("Highlight");
-                highlight.gameObject.SetActive(true);
-            }
-            //TurnEmissionOn();
-        }
-        else if (Input.GetKeyUp(KeyCode.L))
-        {
-            foreach (Transform child in transform)
-            {
-                Transform highlight = child.Find("Highlight");
-                highlight.gameObject.SetActive(false);
-            }
-            //TurnEmissionOff();
-        }
-    }
-
+    // This set isClaimed to true on the server
     [ServerRpc(RequireOwnership = false)]
     public void SetIsClaimedServerRpc(ServerRpcParams serverRpcParams = default)
     {
         isClaimed.Value = true;
     }
 
+    // This calls the AutoSelectCards metode
     public void ClaimRoute()
     {
         CardSelector.Instance.AutoSelectCards(routeType.ToString(), routeColor, lenght, neededLocomotiv, routeName);
     }
 
+    // This counts the child objects and add them to the Tiles list
     public int CountChilds()
     {
         string color = "";
@@ -110,6 +87,7 @@ public class Route : Singleton<Route>
             GameObject go = child.gameObject;
             Tiles.Add(go);
 
+            // This checks the color if a tile is a Locomotive it adds plus one to the neededLocomotive
             color = GetColorFromName(go.name);
             if (color == "Locomotiv")
             {
@@ -123,6 +101,7 @@ public class Route : Singleton<Route>
         return counter;
     }
 
+    // This sets a point for the route according how long the route is
     public int PointCounter(int lenght)
     {
         int points = 0;
@@ -150,6 +129,7 @@ public class Route : Singleton<Route>
         return points;
     }
 
+    // This sets the type of the route
     public void SetType(bool isTunnel)
     {
         if (isTunnel)
@@ -162,9 +142,9 @@ public class Route : Singleton<Route>
         }
     }
 
+    // This finds and activates the Highlight element in all the children
     public void HighlightOn()
     {
-
         foreach (Transform child in transform)
         {
             Transform highlight = child.Find("Highlight");
@@ -175,6 +155,7 @@ public class Route : Singleton<Route>
         }
     }
 
+    // This finds and deactivates the Highlight element in all the children
     public void HighlightOff()
     {
         foreach (Transform child in transform)
@@ -187,22 +168,7 @@ public class Route : Singleton<Route>
         }
     }
 
-    public void HeyFromParent()
-    {
-        if (m_isDouble)
-        {
-            Transform transform = gameObject.transform.parent;
-            GameObject go = transform.gameObject;
-            Debug.Log("Hey I'm doouble " + go.name);
-        }
-        else
-        {
-            Debug.Log("Hey " + gameObject.name + " my color is " + routeColor);
-        }
-        
-    }
-
-
+    // Gets a color name splits it up and sends the first word back
     public string GetColorFromName(string name)
     {
         string color;

@@ -659,12 +659,12 @@ public class CardSelector : Singleton<CardSelector>
         Debug.Log(beforeTunnelPulling);
         Debug.Log(extraCardsObjects.Count);
 
-        // NEEEED MORE COMMENT ON THIS
-        // Check if there are cards in the cardObjects list.
+        // Check if there are cards in the cardObjects list, and if there are colored or only Rainbow
         if (cardObjects.Count > 0 || (!beforeTunnelPulling && extraCardsObjects.Count > 0))
         {
             foreach (GameObject go in cardObjects)
             {
+                // If any card from the card list has a color, sets onlyRainbow false
                 RandomDespawn card = go.GetComponent<RandomDespawn>();
                 if (card.Color != "Rainbow")
                 {
@@ -679,15 +679,20 @@ public class CardSelector : Singleton<CardSelector>
         {
             Button buttonComponent = gameObject.GetComponent<Button>();
 
+            // Checks a bunch of things fo the current button
+            // Checks if the player can play more cards, checks it also the buttons mean to spawn extra cards, just a different list
             if ((cardObjects.Count != maxCard.Value || cardObjects.Count == 0) || 
                 (!beforeTunnelPulling && (extraCardsObjects.Count != neededExtraCards || (extraCardsObjects.Count == 0 && neededExtraCards != 0))))
             {
+                // Check if the player has cards left from the current color
                 available = CheckCardAmount(gameObject.name);
 
                 Debug.Log("Color : " + color + " onlyRainbow " + onlyRainbow + " routeColor " + routeColor);
 
+                // If the button is available there is to type of interaction
                 if (available)
                 {
+                    // This checks the color, if the color is grey or none, enables every available button
                     if ((color == "Grey" || color == "none" || (onlyRainbow && routeColor == "Grey") || (onlyRainbow && routeColor == "none")) && beforeTunnelPulling)
                     {
                         Debug.Log(color + " " + onlyRainbow);
@@ -696,6 +701,8 @@ public class CardSelector : Singleton<CardSelector>
                     }
                     else
                     {
+                        // If we have a specific color, it checks the button's color and only enable it,
+                        // if it has the same color as the route or the already selected card or if its rainbow
                         if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn" 
                             || routeColor == GetColorFromString(gameObject.name) || GetColorFromString(gameObject.name) == CheckSelectedCardColor())
                         {
@@ -719,6 +726,7 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
 
+        // Enable or disable the play button based on how much card the player has selected
         Enable_DisablePlayButton();
 
     }
@@ -736,10 +744,11 @@ public class CardSelector : Singleton<CardSelector>
         return color;
     }
 
+    // Iterate through the selected cards and checks the colors, if there is one which is not rainbow it sends it back
     public string CheckSelectedCardColor()
     {
         string color = string.Empty;
-        foreach (GameObject card in cardObjects)
+        foreach (GameObject card in cardObjects.ToList())
         {
             RandomDespawn randomD = card.GetComponent<RandomDespawn>();
             Debug.Log(card.name);
@@ -751,6 +760,7 @@ public class CardSelector : Singleton<CardSelector>
         return color;
     }
 
+    // Checks if the player choosed enough card, and enables play button
     public void Enable_DisablePlayButton()
     {
 
@@ -765,18 +775,7 @@ public class CardSelector : Singleton<CardSelector>
         else { PlayButton.interactable = false; }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    // This metode handles cards on the server
 
     [ServerRpc(RequireOwnership = false)]
     public void HandlePlayerHandServerRpc(string color, bool dispawn, ServerRpcParams serverRpcParams = default)
@@ -785,6 +784,7 @@ public class CardSelector : Singleton<CardSelector>
         player = null;
         ulong clientID = serverRpcParams.Receive.SenderClientId;
 
+        // Iterate through the PlayerManager's stats to find the player with the given client ID.
         foreach (PlayerStat stat in PlayerManager.Instance.stats)
         {
             if (stat.clientId == clientID)
@@ -793,8 +793,11 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
 
+        // Check if cards should be despawned or spawned.
         if (dispawn)
         {
+            // Iterate through the cards in the selection list until it finds a card with the same color
+            // then sets the bool true, and removes the card from selection and adds back to the players hand
             foreach (Card card in cardsInSelection.ToList())
             {
                 if (!foundCard)
@@ -811,6 +814,8 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
+            // Iterate through the cards in the players hand list until it finds a card with the same color
+            // then sets the bool true, and removes the card from the players hand and adds it to the selection
             foreach (Card card in player.hand.ToList())
             {
                 if (!foundCard)
@@ -825,28 +830,36 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
 
+        // Create an array to store card colors for synchronization.
         FixedString32Bytes[] cardColors = new FixedString32Bytes[cardsInSelection.Count];
-        for(int i = 0; i < cardColors.Length; i++)
+
+        // Populate the array with the colors of cards in the selection list.
+        for (int i = 0; i < cardColors.Length; i++)
         {
             cardColors[i] = new FixedString32Bytes(cardsInSelection[i].Color);
         }
+
+        // Synchronize the card colors with the clients.
         GetCardColorsFromServerClientRpc(cardColors);
 
     }
 
+    // Synchronize the selected card colors with the server.
+    // This method is called on the client to update the selectedCardColors list.
     [ClientRpc]
     public void GetCardColorsFromServerClientRpc(FixedString32Bytes[] cardColors, ClientRpcParams clientRpcParams = default)
     {
+        // Create a new list and populate it with the received card colors.
         selectedCardColors = new List<FixedString32Bytes>(cardColors);
     }
 
+    // Card buttons hit this metode with a string, which calls another metode for setting prefabs
     public void PlayCardBTN(string button)
     {
         SetColorAndPrefab(button);
     }
 
-        // This methode is for the card play buttons, it gets an int from the button, sets the color
-        // then calls PlayCardHand methode with the color
+    // This metode selects the right prefab and color, then calls the right spawning metode based on the conditions
     public void SetColorAndPrefab(string color, bool tunnel = false)
     {
         GameObject prefab = null;
@@ -882,6 +895,7 @@ public class CardSelector : Singleton<CardSelector>
         }
         if (prefab == null) return;
 
+        // Calls the right spawning metode
         if (!tunnel && beforeTunnelPulling)
         {
             SpawnCard(prefab, color);
@@ -897,11 +911,8 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-   
-
     // Simple and small metodes which don't call new metodes
     #region Handlers 
-
 
     // Enables and disables selecetor area
     public void Enable_DisableSelectorArea(bool enable)
@@ -1151,35 +1162,6 @@ public class CardSelector : Singleton<CardSelector>
         maxCard.Value = amount;
         SetTextClientRpc(amount.ToString());
     }
-
-
-    #endregion
-
-    // Test for stuff DELETE THESE LATER!!!!
-    #region Tests
-
-    public void test()
-    {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-    }
-
-    public void TestSpawn()
-    {
-        Debug.Log("Max card: " + maxCard);
-        Debug.Log("Cards count: " + cardObjects.Count);
-        if (cardObjects.Count < maxCard.Value)
-        {
-            GameObject card = Instantiate(BlackPrefabCanvas, SelectorArea.transform);
-            cardObjects.Add(card);
-        }
-        else
-        {
-            Debug.Log("You can't add more cardObjects!");
-        }
-
-    }
-
-
 
 
     #endregion
