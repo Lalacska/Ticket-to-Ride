@@ -27,6 +27,7 @@ public class Auth : Singleton<Auth>
         await UnityServices.InitializeAsync();
     }
 
+    
     // This method makes the user sign in anonymously \\
     private static async Task SignInAnonymouslyAsync()
     {
@@ -40,8 +41,9 @@ public class Auth : Singleton<Auth>
             // Shows playerID \\
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
             UserData.userId = AuthenticationService.Instance.PlayerId;
-            //SceneManager.LoadScene("Login");
-            SceneManager.LoadScene("Join-Create Game");
+
+            SceneManager.LoadScene("Login");
+            //SceneManager.LoadScene("Join-Create Game");
         }
         catch (AuthenticationException ex)
         {
@@ -50,12 +52,15 @@ public class Auth : Singleton<Auth>
             Debug.LogException(ex);
         }
     }
+    
 
 
     // This method gets the users info & starts the login method \\
     public async void LoginButtonclick()
     {
+        Debug.Log("a");
         await SignInAnonymouslyAsync();
+
     }
 
     // This method switch to the Register scene \\
