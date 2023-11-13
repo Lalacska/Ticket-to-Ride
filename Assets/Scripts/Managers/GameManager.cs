@@ -249,18 +249,23 @@ public class GameManager : Singleton<GameManager>
             {
 
                 int rCounter = 0;
+                int colorCounter = 0;
                 // This checks how many rainbow card is in the discard pile
                 foreach (Card card in discardPile.ToList())
                 {
-                    if(card.Color == "Rainbow")
+                    if (card.Color == "Rainbow")
                     {
                         rCounter++;
+                    }
+                    else
+                    {
+                        colorCounter++;
                     }
                 }
 
                 // This interrupts the metode if there ar more then 2 rainbowcard and the discardPile has only 5 or less cards
-                if (rCounter > 2 && discardPile.Count <= 5) { return; }
-                
+                if (rCounter > 2 && discardPile.Count <= 5 || colorCounter < 3) { return; }
+
                 isDeckEmpty = true;
 
                 // Reset the deck with cards from the discard pile and empty the discard pile.
@@ -599,6 +604,7 @@ public class GameManager : Singleton<GameManager>
         cardslotsid.cardslotCardID = card.CardID;
     }
 
+    // Draws tunnel cards from the deck then puts them to the discard pile, and send the right color to the client so it can visually spawn it
     [ServerRpc(RequireOwnership = false)]
     public void TunnelDrawServerRpc(ServerRpcParams serverRpcParams = default)
     {
@@ -647,8 +653,18 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
-
+    public int CardSlotCheck()
+    {
+        int counter = 0;
+        foreach (bool avalaible in availableCardSlots)
+        {
+            if (avalaible)
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
 
 
 
@@ -771,8 +787,7 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
-
+    // Handles clients hand on client
     [ClientRpc]
     public void DrawCardHandlerClientRpc(bool isRainbow, int buttonId, ulong clientID, ClientRpcParams clientRpcParams)
     {
@@ -803,7 +818,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Player pick count = " + PlayerPickCount);
     }
 
-
+    // This gets the right card from the right slot and sends back
     public Card GetCard(int buttonId)
     {
         Card card = null;

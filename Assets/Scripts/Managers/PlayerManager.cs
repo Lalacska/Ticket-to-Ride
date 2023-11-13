@@ -125,7 +125,7 @@ namespace Assets.Scripts.Managers
                 gameStarted = true;
 
                 // This sends the the first players id to the turn started metode
-                TurnM.Instance.TurnStarted(firstPlayer.clientId, true);
+                TurnM.Instance.TurnStarted(firstPlayer.clientId, true, true);
                 Debug.Log("Game started! First player: "+stats[randomplayer].clientId);
             }
 

@@ -34,11 +34,10 @@ public class TurnM : Singleton<TurnM>
     [SerializeField] private List<PlayerStat> m_players;
     public List<PlayerStat> players { get { return m_players; } set { m_players = value; } }
 
-    [SerializeField] private Button endTurnBtn;
     [SerializeField] private Button buildStationbtn;
+    [SerializeField] private Button drawCardbtn;
     private bool haveStations;
 
-    public GameObject SwitchTrun;
     public GameObject GameBoard;
     public GameObject Turn;
 
@@ -57,8 +56,6 @@ public class TurnM : Singleton<TurnM>
     public void EndTurn()
     {
         Debug.Log("End turn");
-        // This disables the end buttom
-        //Enable_DisableEndTurnBtn(false);
         SwitchTurnServerRpc();
         
     }
@@ -71,6 +68,7 @@ public class TurnM : Singleton<TurnM>
         ulong clientId;
         PlayerStat player = players[currentPlayerIndex];
         player.myTurn = false;
+        bool cardsAvailable = true;
 
         // Adds one to the currentPlayerIndex 
         currentPlayerIndex++;
@@ -102,14 +100,22 @@ public class TurnM : Singleton<TurnM>
         }
         turnCounter++;
 
+        // Check how many cards are left
+        int emptySlots = GameManager.Instance.CardSlotCheck();
+        if(GameManager.Instance.deck.Count == 0 && emptySlots >= 4)
+        {
+            cardsAvailable = false;
+        }
+
+
         // Sends the client id to the turnStarted metode
-        TurnStarted(clientId, haveStations);
+        TurnStarted(clientId, haveStations, cardsAvailable);
         Debug.Log(" CurrentIndex: " + currentPlayerIndex);
         
     }
 
     // This metode gets the clientId, sets the target client and then calls a clientrpc with the target
-    public void TurnStarted(ulong clientId, bool _haveStations)
+    public void TurnStarted(ulong clientId, bool _haveStations, bool cardsAvailable)
     {
         currentPlayerId = clientId;
 
@@ -122,14 +128,14 @@ public class TurnM : Singleton<TurnM>
         };
 
         // Sends the clientrpc params with the target client to a client rpc metode
-        ActivateTurnClientRpc(_haveStations, clientRpcParams);
+        ActivateTurnClientRpc(_haveStations, cardsAvailable, clientRpcParams);
     }
 
 
     // This metode runs on the client and make Action Chooser visible
 
     [ClientRpc]
-    public void ActivateTurnClientRpc(bool _haveStations, ClientRpcParams clientRpcParams = default)
+    public void ActivateTurnClientRpc(bool _haveStations, bool cardsAvailable, ClientRpcParams clientRpcParams = default)
     {
         Debug.Log(" Here");
 
@@ -145,27 +151,21 @@ public class TurnM : Singleton<TurnM>
             buildStationbtn.interactable = true;
         }
 
+        if (cardsAvailable)
+        {
+            drawCardbtn.interactable = true;
+        }
+        else
+        {
+            drawCardbtn.interactable = false;
+        }
+
         Enable_DisableActionChooser(true);
         //Enable_DisableEndTurnBtn(true);
 
 
     }
 
-
-    // ToggleBtn. \\
-    // Enable or Disable the end turn button depending if its on or off
-    public void Enable_DisableEndTurnBtn(bool enable)
-    {
-        if (enable)
-        {
-            endTurnBtn.interactable = true;
-        }
-        else
-        {
-            endTurnBtn.interactable = false;
-        }
-    }
-    
     // It hides or make Action Chooser visible depending if its on or off
     public void Enable_DisableActionChooser(bool enable)
     {
