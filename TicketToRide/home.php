@@ -1,3 +1,16 @@
+<?php 
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+  echo "<script>alert('You are not logged in');</script>";
+  // Redirect the user to the home page using JavaScript
+  echo "<script>window.location.href = 'index.html';</script>";
+  // Make sure to exit or die after the redirect to prevent further execution of the script
+  exit();
+}
+?>
+
 <style>
   *{
  margin: 0%;
@@ -14,7 +27,6 @@
 
 .navbar-nav{
   display: flex;
-  margin-left: 88%;
 }
 .navbar-nav a{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -346,14 +358,16 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
           <a class="nav-link" href="Forum/forum.php" >Forum</a>
-          <a class="nav-link" href="profile_login.php" >Profile</a>
+          <a class="nav-link" href="profile_page.php" >Profile</a>
           <a class="nav-link" href="contact.html" >Contact</a>
+          <a href="logout.php">Logout</a>
         </div>
       </div>
     </div>
   </nav>
      
 <div class="banner">
+
 </div>
 
 <div class="info">
@@ -425,7 +439,7 @@
       </div>
       <div class="col-lg-6">
         <p>Policies</p>
-        <a href="https://www.boardgamecapital.com/ticket-to-ride-rules.htm">Rules</a>
+        <a href="https://www.boardgamecapital.com/ticket-to-ride-rules.html">Rules</a>
         <a href="profile_page.php">Profile</a>
         <a href="contact.html">Contact</a>
       </div>

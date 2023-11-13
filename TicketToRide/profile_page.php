@@ -4,58 +4,59 @@ require('connection.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    echo "You are not logged in";
+  echo "<script>alert('You are not logged in');</script>";
+  echo "<script>window.location.href = 'index.html';</script>";
 } else {
-    $user_id = $_SESSION['user_id'];
+  $user_id = $_SESSION['user_id'];
 
-    if (isset($_POST['submit'])) {
-        $newUsername = $_POST['new_username'];
-        $newEmail = $_POST['new_email'];
-        $newPassword1 = $_POST['new_password1'];
-        $newPassword2 = $_POST['new_password2'];
+  if (isset($_POST['submit'])) {
+    $newUsername = $_POST['new_username'];
+    $newEmail = $_POST['new_email'];
+    $newPassword1 = $_POST['new_password1'];
+    $newPassword2 = $_POST['new_password2'];
 
-        // Initialize an array to store update queries
-        $updateQueries = [];
+    // Initialize an array to store update queries
+    $updateQueries = [];
 
-        // Build and add update queries to the array
-        if (!empty($newUsername)) {
-            $updateQueries[] = "UPDATE sc_users SET username = '$newUsername' WHERE user_id = $user_id";
-        }
-
-        if (!empty($newEmail)) {
-            $updateQueries[] = "UPDATE sc_users SET email = '$newEmail' WHERE user_id = $user_id";
-        }
-
-        if (!empty($newPassword1) && $newPassword1 === $newPassword2) {
-            $hashedPassword = password_hash($newPassword1, PASSWORD_BCRYPT);
-            $updateQueries[] = "UPDATE sc_users SET password = '$hashedPassword' WHERE user_id = $user_id";
-        }
-
-        // Execute all update queries
-        foreach ($updateQueries as $query) {
-            mysqli_query($mysqli_connection, $query);
-        }
-
-        // Redirect or display a success message
-        echo "Success";
+    // Build and add update queries to the array
+    if (!empty($newUsername)) {
+      $updateQueries[] = "UPDATE sc_users SET username = '$newUsername' WHERE user_id = $user_id";
     }
 
-    // Rest of your code for displaying the form
-    // ...
-
-    // Get updated user information from the database
-    $strSQL = "SELECT * FROM sc_users WHERE user_id = $user_id";
-    $rs = mysqli_query($mysqli_connection, $strSQL);
-
-    // Check if a user with the given user_id exists
-    if ($row = mysqli_fetch_array($rs)) {
-        $username = $row["username"];
-        $email = $row['email'];
-        $pass = $row['password'];
-        $regdate = $row['registration_date'];
-    } else {
-        echo "User not found.";
+    if (!empty($newEmail)) {
+      $updateQueries[] = "UPDATE sc_users SET email = '$newEmail' WHERE user_id = $user_id";
     }
+
+    if (!empty($newPassword1) && $newPassword1 === $newPassword2) {
+      $hashedPassword = password_hash($newPassword1, PASSWORD_BCRYPT);
+      $updateQueries[] = "UPDATE sc_users SET password = '$hashedPassword' WHERE user_id = $user_id";
+    }
+
+    // Execute all update queries
+    foreach ($updateQueries as $query) {
+      mysqli_query($mysqli_connection, $query);
+    }
+
+    // Redirect or display a success message
+    echo "Success";
+  }
+
+  // Rest of your code for displaying the form
+  // ...
+
+  // Get updated user information from the database
+  $strSQL = "SELECT * FROM sc_users WHERE user_id = $user_id";
+  $rs = mysqli_query($mysqli_connection, $strSQL);
+
+  // Check if a user with the given user_id exists
+  if ($row = mysqli_fetch_array($rs)) {
+    $username = $row["username"];
+    $email = $row['email'];
+    $pass = $row['password'];
+    $regdate = $row['registration_date'];
+  } else {
+    echo "User not found.";
+  }
 }
 ?>
 
@@ -203,8 +204,8 @@ if (!isset($_SESSION['user_id'])) {
 
 <head>
   <title>Profile Page</title>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -216,43 +217,43 @@ if (!isset($_SESSION['user_id'])) {
 
         <!-- post method to reach db (db = database) -->
         <form action="profile_page.php" method="post">
+          <!--div for formatting code -->
+          <div class="user-details">
+            <!-- core classes so css can style it. -->
+            <div class="input-box">
+              <span class="details">Current Username</span>
+              <input type="text" class="form-control" id="username" name="username" readonly placeholder="<?php print "{$username}" ?>">
+            </div>
 
-          <!-- core classes so css can style it. -->
-          <div class="input-box">
-  <span class="details">Current Username</span>
-  <input type="text" class="form-control" id="username" name="username" readonly
-    placeholder="<?php print "{$username}" ?>">
-</div>
+            <div class="input-box">
+              <span class="details">New Username</span>
+              <input type="text" class="form-control" id="nu" name="new_username" placeholder="New Username">
+            </div>
 
-<div class="input-box">
-  <span class="details">New Username</span>
-  <input type="text" class="form-control" id="nu" name="new_username" placeholder="New Username">
-</div>
+            <div class="input-box">
+              <span class="details">Current Email</span>
+              <input type="text" class="form-control" id="ce" name="email" readonly placeholder="<?php print "{$email}" ?>">
+            </div>
 
-<div class="input-box">
-  <span class="details">Current Email</span>
-  <input type="text" class="form-control" id="ce" name="email" readonly
-    placeholder="<?php print "{$email}" ?>">
-</div>
+            <div class="input-box">
+              <span class="details">New Email</span>
+              <input type="text" class="form-control" id="nu" name="new_email" placeholder="New Email">
+            </div>
 
-<div class="input-box">
-  <span class="details">New Email</span>
-  <input type="text" class="form-control" id="nu" name="new_email" placeholder="New Email">
-</div>
+            <div class="input-box">
+              <span class "details">New Password</span>
+              <input type="password" class="form-control" id="nu" name="new_password1" placeholder="New Password">
+            </div>
 
-<div class="input-box">
-  <span class "details">New Password</span>
-  <input type="password" class="form-control" id="nu" name="new_password1" placeholder="New Password">
-</div>
+            <div class="input-box">
+              <span class="details">Confirm Password</span>
+              <input type="password" class="form-control" id="nu" name="new_password2" placeholder="Confirm Password">
+            </div>
 
-<div class="input-box">
-  <span class="details">Confirm Password</span>
-  <input type="password" class="form-control" id="nu" name="new_password2" placeholder="Confirm Password">
-</div>
-
-<div class="button">
-  <input type="submit" name="submit" value="Update Profile"><br><br>
-</div>
+            <div class="button">
+              <input type="submit" name="submit" value="Update Profile"><br><br>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -260,4 +261,3 @@ if (!isset($_SESSION['user_id'])) {
   </body>
 
 </html>
-
