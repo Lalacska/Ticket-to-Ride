@@ -86,6 +86,9 @@ if (isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["passwor
 				/* close statement */
 				$stmt->close();
 
+				$response = "Success";
+                echo $response;
+
 			} else {
 				$errors[] = "Something went wrong, please try again.";
 			}

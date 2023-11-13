@@ -1,5 +1,6 @@
 <?php 
 session_start();
+require('connection.php');
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -434,7 +435,7 @@ if (!isset($_SESSION['user_id'])) {
       <div class="col-lg-5">
         <p>Ticket To Ride</p>
         <a routerLink="leaderboard">LeaderBoard</a>
-        <a href="Forum/forum.php">Forum</a>
+        <a href="forum.php">Forum</a>
         <a href="contact.html">Contact</a>
       </div>
       <div class="col-lg-6">
@@ -451,10 +452,6 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
   
-  <script>
-    // Output the contents of the $_SESSION array to the console
-    console.log(<?php echo json_encode($_SESSION); ?>);
-  </script>
-
+ 
 </body>
 </html>
