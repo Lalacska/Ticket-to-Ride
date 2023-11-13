@@ -711,7 +711,7 @@ public class GameManager : Singleton<GameManager>
 
         // Get the card based on the button ID. This can either be from a slot on the board or a random card from the deck.
         card = GetCard(buttonId);
-
+        
         // If the player picked a Rainbow card, set the 'isRainbow' flag to true.
         Debug.Log(card.Color);
         if (card.Color == "Rainbow")
@@ -785,6 +785,7 @@ public class GameManager : Singleton<GameManager>
         else if (isRainbow && buttonId != 6)
         {
             PickedRainbowCard++;
+            RainbowCount--;
         }
 
         // Call the 'AddCardToHandServerRpc' method to handle adding the card to the player's hand.
@@ -1488,6 +1489,8 @@ public class GameManager : Singleton<GameManager>
 
         // Reduce the player's available train count by the length of the claimed route.
         player.trains.Value = player.trains.Value - route.lenght;
+        player.score.Value = player.score.Value + route.points;
+
     }
 
 
