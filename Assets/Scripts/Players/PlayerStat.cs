@@ -16,7 +16,6 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private ulong m_clientId;
     [SerializeField] private string m_playerName;
     [SerializeField] private bool m_isReady = false;
-    //private static ulong m_localClientID;
 
     public int StatCardID { get { return m_StatCardID; } set { m_StatCardID = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
@@ -25,7 +24,6 @@ public class PlayerStat : Singleton<PlayerStat>
     public ulong clientId { get { return m_clientId; } set { m_clientId = value; } }
     public string playerName { get { return m_playerName; } set { m_playerName = value; } }
     public bool isReady { get { return m_isReady; } set { m_isReady = value; } }
-    //public ulong localClientID { get { return m_localClientID; } set { m_localClientID = value; } }
 
 
     [SerializeField] private List<Card> m_hand;
@@ -70,6 +68,9 @@ public class PlayerStat : Singleton<PlayerStat>
     [SerializeField] private NetworkVariable<int> m_trains = new NetworkVariable<int>();
     public NetworkVariable<int> trains { get { return m_trains; } set { m_trains = value; } }
 
+    [SerializeField] private NetworkVariable<int> m_score = new NetworkVariable<int>();
+    public NetworkVariable<int> score { get { return m_score; } set { m_score = value; } }
+
     private void Start()
     {
         turnIndicator.SetActive(false);
@@ -78,6 +79,7 @@ public class PlayerStat : Singleton<PlayerStat>
             // Assin the current value based on the current message index value
             stations.Value = 3;
             trains.Value = 50;
+            score.Value = 0;
             m_ScoreString.Value = "0";
             m_TrainsString.Value = trains.Value.ToString();
             m_StationsString.Value = stations.Value.ToString();
@@ -158,6 +160,10 @@ public class PlayerStat : Singleton<PlayerStat>
             if(m_TrainsString.Value != trains.Value.ToString())
             {
                 m_TrainsString.Value = trains.Value.ToString();
+            }
+            if(m_ScoreString.Value != score.Value.ToString())
+            {
+                m_ScoreString.Value = score.Value.ToString();
             }
 
             if (myTurn)
@@ -264,10 +270,6 @@ public class PlayerStat : Singleton<PlayerStat>
 
         //localCards.Clear();
         localCards = dictionary;
-        //foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-        //{
-        //    Debug.Log("Cards in hand on client: " + kvp.Key + " number: " + kvp.Value);
-        //}
 
         // This calles a metode which sets the card counter localy for the player
         PlayerHand.Instance.setCardsLocaly(cardsInHand);

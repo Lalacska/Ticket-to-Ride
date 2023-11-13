@@ -58,7 +58,7 @@ public class TurnM : Singleton<TurnM>
     {
         Debug.Log("End turn");
         // This disables the end buttom
-        Enable_DisableEndTurnBtn(false);
+        //Enable_DisableEndTurnBtn(false);
         SwitchTurnServerRpc();
         
     }
@@ -146,7 +146,7 @@ public class TurnM : Singleton<TurnM>
         }
 
         Enable_DisableActionChooser(true);
-        Enable_DisableEndTurnBtn(true);
+        //Enable_DisableEndTurnBtn(true);
 
 
     }

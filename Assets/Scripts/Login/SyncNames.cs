@@ -21,6 +21,7 @@ public class SyncNames : Singleton<SyncNames>
         {
             // Assin the current value based on the current message index value
             PlayerName.Value = playername.text;
+            Debug.Log(PlayerName.Value);
         }
         else
         {
