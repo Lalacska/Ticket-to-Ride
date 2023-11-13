@@ -43,7 +43,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
           $_SESSION['email'] = $email_tmp;
 
           // Prepare user data for response
-          $userData = "Username: $username_tmp, Email: $email_tmp";
+          $userData = "$username_tmp | $email_tmp |";
           $response = "Success|" . $userData;
           echo $response;
 
