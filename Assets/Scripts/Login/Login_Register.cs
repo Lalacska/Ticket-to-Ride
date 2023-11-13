@@ -94,11 +94,14 @@ public class Login_Register : MonoBehaviour
                 {
 
                     string[] dataChunks = responseText.Split('|');
+                    Debug.Log(responseText);
+                    Debug.Log(dataChunks.Length);
                     if (dataChunks.Length >= 3)
                     {
                         userName = dataChunks[1];
                         userEmail = dataChunks[2];
                         isLoggedIn = true;
+                        Debug.Log(userName);
                     }
                     else
                     {
