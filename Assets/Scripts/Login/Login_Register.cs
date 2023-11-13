@@ -81,7 +81,6 @@ public class Login_Register : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "Login.php", form))
         {
-            Debug.Log("c");
             yield return www.SendWebRequest();
             if (www.result != UnityWebRequest.Result.Success)
             {
@@ -107,7 +106,6 @@ public class Login_Register : MonoBehaviour
                     {
                         errorMessage = "Invalid response format";
                     }
-
                     UserData.username = userName;
 
                     Debug.Log(userName);
@@ -123,8 +121,6 @@ public class Login_Register : MonoBehaviour
         }
         isWorking = false;
     }
-
-
 
     #endregion Login
 
@@ -208,7 +204,6 @@ public class Login_Register : MonoBehaviour
     public void Start()
     {
         system = EventSystem.current; // EventSystemManager.currentSystem;
-
     }
     // Update is called once per frame. \\
     public void Update()
@@ -219,7 +214,6 @@ public class Login_Register : MonoBehaviour
 
             if (next != null)
             {
-
                 InputField inputfield = next.GetComponent<InputField>();
                 if (inputfield != null)
                     inputfield.OnPointerClick(new PointerEventData(system));  //if it's an input field, also set the text caret
