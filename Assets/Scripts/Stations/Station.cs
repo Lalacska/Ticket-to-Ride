@@ -29,20 +29,25 @@ public class Station : Singleton<Station>
 
     void Update()
     {
+        // Cast a ray from the camera to the mouse position.
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit Hit;
 
         // If the Station is not taken this lets the user click on it
         if (!isTaken.Value)
         {
+
+            // Check if the left mouse button is pressed.
             if (Input.GetMouseButtonDown(0))
             {
                 // When the player click on the station it act as a button
+                // Check if the ray hits a collider and the collider's game object is the same as this game object.
                 if (Physics.Raycast(ray, out Hit) && Hit.collider.gameObject == gameObject)
                 {
                     Debug.Log("Button Clicked ");
-                    // If the station is active, it sends a serverRpc metode then runs ChooseCity
-                    if (isActive/*.Value*/)
+
+                    // If the station is active, it calls a server rpc from CardSelector
+                    if (isActive)
                     {
                         Debug.Log(stationName);
                         CardSelector.Instance.AutoSelectCards("Station", "none", m_name: stationName);
@@ -55,11 +60,17 @@ public class Station : Singleton<Station>
         }
     }
 
+
     void Start()
     {
+        // Store the reference to the current game object as the definedButton.
         definedButton = gameObject;
+
+        // Get the material and renderer components of the current game object.
         emissiveMaterial = gameObject.GetComponent<Renderer>().material;
         objectToChange = gameObject.GetComponent<Renderer>();
+
+        // Disable the "_EMISSION" keyword in the emissive material.
         emissiveMaterial.DisableKeyword("_EMISSION");
 
 

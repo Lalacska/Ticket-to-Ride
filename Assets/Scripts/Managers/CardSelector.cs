@@ -17,12 +17,14 @@ public class CardSelector : Singleton<CardSelector>
 {
     private Type _type;
 
+    // Areas
     [SerializeField] private GameObject CardSelectorArea;
     [SerializeField] private GameObject SelectorArea;
     [SerializeField] private GameObject TunnelArea;
     [SerializeField] private GameObject ExtraCardArea;
     [SerializeField] private GameObject TunnelComponents;
 
+    // Prefabs
     [SerializeField] private GameObject BlackPrefabCanvas;
     [SerializeField] private GameObject BluePrefabCanvas;
     [SerializeField] private GameObject OrangePrefabCanvas;
@@ -33,20 +35,17 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private GameObject YellowPrefabCanvas;
     [SerializeField] private GameObject RainbowPrefabCanvas;
 
-
+    // Texts
     [SerializeField] private TMP_Text selectedCards;
     [SerializeField] private TMP_Text neededCards;
     [SerializeField] private TMP_Text selectedTunnelCards;
     [SerializeField] private TMP_Text neededTunnelCards;
 
-
+    // Card buttons
     [SerializeField] private List<GameObject> Buttons;
-
-    [SerializeField] private Button CancelButton;
     [SerializeField] private Button PlayButton;
 
-
-
+    // List for card objects
     private List<GameObject> cardObjects;
     private List<GameObject> tunnelObjects;
     private List<GameObject> extraCardsObjects;
@@ -55,8 +54,11 @@ public class CardSelector : Singleton<CardSelector>
     [SerializeField] private List<Card> cardsInSelection;
     [SerializeField] private List<Card> tunnelCardsInSelection;
 
-    private int neededExtraCards;
+    private List<FixedString32Bytes> selectedCardColors;
 
+
+    // Counters
+    private int neededExtraCards;
 
     private int BlackCardCounter;
     private int BlueCardCounter;
@@ -68,61 +70,28 @@ public class CardSelector : Singleton<CardSelector>
     private int YellowCardCounter;
     private int RainbowCardCounter;
 
-    private string placeName;
-    private string routeColor;
     private int neededRainbowCards;
     private int selectedRainbowCards;
+
+    // Needed variables
+    private string placeName;
+    private string routeColor;
     private string playedCardColor;
 
     private PlayerStat player;
 
+    private bool m_beforeTunnelPulling = true;
+    public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
 
 
-
+    // Network Variables
     private NetworkVariable<int> m_maxCard = new NetworkVariable<int>();
     [SerializeField] private NetworkVariable<bool> m_isValid = new NetworkVariable<bool>(true);
     public NetworkVariable<bool> isValid { get { return m_isValid; } set { m_isValid = value; } }
     public NetworkVariable<int> maxCard { get { return m_maxCard; } set { m_maxCard = value; } }
 
-    private bool m_beforeTunnelPulling = true;
-
-    public bool beforeTunnelPulling { get { return m_beforeTunnelPulling; } set { m_beforeTunnelPulling = value; } }
-
-    //Probably will delete
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            foreach (GameObject buttonObject in Buttons)
-            {
-                Button button = buttonObject.GetComponent<Button>();
-                var colors = button.colors;
-                var disabledColor = colors.disabledColor;
-                disabledColor.a = 255f;
-                disabledColor.r = 255f;
-                disabledColor.g = 0f;
-                disabledColor.b = 0f;
-                colors.disabledColor = disabledColor;
-                button.colors = colors;
-            }
-
-        }else if (Input.GetKeyUp(KeyCode.R))
-        {
-        }
-    }
-
-
-
-
-
-    //until here may be deleted
-    public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
+    // Sets the variables
+    public void SetUp()
     {
         TunnelComponents.SetActive(false);
         neededExtraCards = 0;
@@ -134,24 +103,34 @@ public class CardSelector : Singleton<CardSelector>
         cardObjects = new List<GameObject>();
         tunnelObjects = new List<GameObject>();
         tunnelCardColors = new List<string>();
-        Debug.Log("Amount: " + amount);
+        selectedCardColors = new List<FixedString32Bytes>();
+    }
+    
+    // This metode is hit by every time someone chooses an action where it needs to select card after
+    public void AutoSelectCards(string type, string color, int amount = 6, int neededRainbow = 0, string m_name = "")
+    {
+        // Set up and enable the card selector area, and reset counters.
+        SetUp();
         Enable_DisableSelectorArea(true);
         ResetCardCounters();
         ResetIsValidServerRpc();
         SetCounters();
         placeName = m_name;
+
+        // This sets the type general type according what we get from the previous metode, and also runs type specific logic
         if (type == "Station")
         {
             _type = Type.Station;
-            Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
             GameManager.Instance.TurnOffHighlightStation();
             CheckStationsNumberServerRpc();
 
-            Debug.Log("Max card: " + maxCard.Value);
+            //Debug.Log("Max card: " + maxCard.Value);
+            //Debug.Log("MaxAmount: " + maxCard.Value + " CardCount: " + cardObjects.Count);
 
         }
         else
         {
+            // Sets the route or tunnel type, and some other variables
             if (type == "Route")
             {
                 _type = Type.Route;
@@ -160,6 +139,7 @@ public class CardSelector : Singleton<CardSelector>
             {
                 _type = Type.Tunnel;
             }
+
             neededRainbowCards = neededRainbow;
             routeColor = color;
             GameManager.Instance.TurnOffHighlightRoutes();
@@ -169,7 +149,7 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-
+    // This metode spawns a card in to the selected card area
     public void SpawnCard(GameObject prefab, string color)
     {
         bool canSpawn = true;
@@ -178,10 +158,12 @@ public class CardSelector : Singleton<CardSelector>
         //Debug.Log(color);
         //Debug.Log("Cards count: " + cardObjects.Count);
 
+        // Check if the total card count is less than the maximum allowed.
         if (cardObjects.Count < maxCard.Value)
         {
             if (neededRainbowCards != 0)
             {
+                // If Rainbow cards are needed, check if the color is not "Rainbow" and if there's still room for more cards.
                 if ((color != "Rainbow" && cardObjects.Count < maxCard.Value - (neededRainbowCards - selectedRainbowCards))
                 || color == "Rainbow")
                 {
@@ -193,22 +175,33 @@ public class CardSelector : Singleton<CardSelector>
                 }
             }
 
+
             if (canSpawn)
             {
+                // Instantiate the card object and add it to the list.
                 GameObject card = Instantiate(prefab, SelectorArea.transform);
                 cardObjects.Add(card);
+
+                // Set the card type for random despawning.
                 RandomDespawn rand = card.GetComponent<RandomDespawn>();
                 rand.cardType = RandomDespawn.Type.Card;
 
+                // Handle Rainbow card selection.
                 if (color == "Rainbow")
                 {
                     selectedRainbowCards++;
                 }
+
+                // Update the selected card count.
                 selectedCards.text = cardObjects.Count.ToString();
+
+                // If the maximum allowed cards have been reached, disable card buttons.
                 if (cardObjects.Count == maxCard.Value)
                 {
                     DisableCardButtons();
                 }
+
+                // Update card counters and player's hand on the server.
                 CardCounterHandler(color, true);
                 HandlePlayerHandServerRpc(color, false);
                 EnableCardButtons(color);
@@ -224,18 +217,23 @@ public class CardSelector : Singleton<CardSelector>
         }
     }
 
-    // Need to use RandomDespawn type to despawn extracards
+    // Handle everything that comes with despawning the card except the objects destruction
     public void DespawnCard(GameObject go)
     {
         string color = "none";
         RandomDespawn rd = go.GetComponent<RandomDespawn>();
 
+        // Update card counters and player's hand on the server.
         CardCounterHandler(rd.Color, false);
         HandlePlayerHandServerRpc(rd.Color, true);
 
+        // Checks if the card is a normal or an extra card, so it can remove it from the right list and refresh the right counter
         if (rd.cardType == RandomDespawn.Type.Card)
         {
+            // Remove the object from the list
             cardObjects.Remove(go);
+
+            // Handle Rainbow card deselection.
             if (rd.Color == "Rainbow")
             {
                 selectedRainbowCards--;
@@ -244,6 +242,7 @@ public class CardSelector : Singleton<CardSelector>
             selectedCards.text = cardObjects.Count.ToString();
             Debug.Log("Cards count: " + cardObjects.Count);
 
+            // Find the color of the remaining non-Rainbow cards, if any.
             foreach (GameObject card in cardObjects)
             {
                 RandomDespawn randomD = card.GetComponent<RandomDespawn>();
@@ -256,29 +255,36 @@ public class CardSelector : Singleton<CardSelector>
         }
         else if (rd.cardType == RandomDespawn.Type.ExtraCard)
         {
+            // Remove the object from the list and refreshes the counter
             extraCardsObjects.Remove(go);
             selectedTunnelCards.text = extraCardsObjects.Count.ToString();
 
+            // Set the color to the played card's color.
             color = playedCardColor;
 
         }
 
-        Debug.Log(color);
 
         EnableCardButtons(color);
     }
 
-
+    // This one spawns the tunnel card ands highlight them if they match with the played color
     public void SpawnTunnelCard(GameObject prefab, string color)
     {
         Debug.Log(color);
 
+        // Create a new tunnel card game object and adds it to the list.
         GameObject card = Instantiate(prefab, TunnelArea.transform);
-        Button button = card.GetComponent<Button>();
         tunnelObjects.Add(card);
+
+        // Gets the button component
+        Button button = card.GetComponent<Button>();
+
+        // Get the random despawn object and set the type
         RandomDespawn rand = card.GetComponent<RandomDespawn>();
         rand.cardType = RandomDespawn.Type.Tunnel;
 
+        // Modify the colors to visually indicate that the card has matching color or is Rainbow
         if (color == playedCardColor || color == "Rainbow")
         {
             var colors = button.colors;
@@ -294,12 +300,16 @@ public class CardSelector : Singleton<CardSelector>
             button.colors = colors;
         }
 
+        // Disables the button
         button.interactable = false;
 
+        // Check if the required number of tunnel cards has been played.
         if (tunnelCardColors.Count == 3)
         {
-            Debug.Log("Played Card Color from spawn" + playedCardColor);
+            Debug.Log("Played Card Color from spawn " + playedCardColor);
             int counter = 0;
+
+            // Count the played cards matching the played card color or Rainbow.
             foreach (string tunnelcardcolor in tunnelCardColors.ToList())
             {
                 if(tunnelcardcolor == playedCardColor || tunnelcardcolor == "Rainbow")
@@ -307,29 +317,40 @@ public class CardSelector : Singleton<CardSelector>
                     counter++;
                 }
             }
-            Debug.Log(counter);
+
+            // Changes the texts
             neededTunnelCards.text = counter.ToString();
             neededExtraCards = counter;
             Debug.Log(neededTunnelCards.text);
+
+            beforeTunnelPulling = false;
             EnableCardButtons(playedCardColor);
         }
     }
 
+    // This metode spawns the extra card if the player need to use more card after claiming a tunnel
     public void SpawnExtraCard(GameObject prefab, string color)
     {
 
+        // Check if the maximum number of extra cards has been reached.
         if (extraCardsObjects.Count < neededExtraCards)
         {
+            // Create a new extra card game object.
             GameObject card = Instantiate(prefab, ExtraCardArea.transform);
             extraCardsObjects.Add(card);
             RandomDespawn rand = card.GetComponent<RandomDespawn>();
             rand.cardType = RandomDespawn.Type.ExtraCard;
 
+            // Update the text displaying the selected tunnel cards count.
             selectedTunnelCards.text = extraCardsObjects.Count.ToString();
+
             if (extraCardsObjects.Count == neededExtraCards)
             {
+                // Disable card buttons when the maximum number of extra cards has been reached.
                 DisableCardButtons();
             }
+
+            // Handle the cards counters and the cards on the server
             CardCounterHandler(color, true);
             HandlePlayerHandServerRpc(color, false);
             EnableCardButtons(color);
@@ -341,10 +362,11 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-
+    // Cheks how many station the sender has left, and sets the amount while enabling the card buttons
     [ServerRpc(RequireOwnership = false)]
     public void CheckStationsNumberServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        // Get the sender client ID
         ulong clientId = serverRpcParams.Receive.SenderClientId;
 
         // Set the target client
@@ -356,6 +378,7 @@ public class CardSelector : Singleton<CardSelector>
             }
         };
 
+        // Find the player corresponding to the client ID.
         foreach (PlayerStat stat in PlayerManager.Instance.stats)
         {
             if (stat.clientId == clientId)
@@ -364,52 +387,92 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
 
+        // Check if the player has remaining stations.
         if (player != null && player.stations.Value > 0)
         {
-            Debug.Log("Valid");
-            Debug.Log(player.stations.Value);
+            // Calculate the maximum number of cards the player can select.
             string amount = (4 - player.stations.Value).ToString();
             maxCard.Value = (4 - player.stations.Value);
-            Debug.Log("MaxAmount: " + maxCard.Value /*+ " CardCount: " + cardObjects.Count*/);
 
-
+            // Send the maximum card count and enable card buttons.
             SetTextClientRpc(amount);
             EnableCardButtonsClientRpc(clientRpcParams: clientRpcParams);
 
         }
         else
         {
+            // The player can't have more stations, so set isValid to false.
             isValid.Value = false;
             Debug.Log("The player can't have more station");
-            return;
         }
     }
 
-
+    // This metode is triggered when the player clicks on the play button after choosing cards to play
     public void PlayAction()
     {
         bool isTunnel = false;
 
-        Debug.Log("Play Action");
-        Debug.Log("Type " + _type);
+        // Check if the action is for a tunnel.
+        if (_type == Type.Tunnel)
+        {
+            isTunnel = true;
+        }
+
+        //Debug.Log("Play Action");
+        //Debug.Log("Type " + _type);
 
         playedCardColor = "";
-        foreach (Card card in cardsInSelection.ToList())
+
+        // Determine the color of the played cards (excluding Rainbow).
+        foreach (FixedString32Bytes cardColor in selectedCardColors.ToList())
         {
-            if (card.Color != "Rainbow")
+            if (cardColor.ToString() != "Rainbow")
             {
-                playedCardColor = card.Color;
+                playedCardColor = cardColor.ToString();
             }
         }
-        if(playedCardColor == "")
+
+        // If no specific color was selected, use Rainbow as the color.
+        if (playedCardColor == "")
         {
             playedCardColor = "Rainbow";
         }
-        Debug.Log("Played Card Color " + playedCardColor);
 
+        // Check if the action type is not a tunnel or it's not before tunnel pulling.
+        if (_type != Type.Tunnel || !beforeTunnelPulling)
+        {
+            if (_type != Type.Station)
+            {
+                // Choose and claim the route if its not a station
+                GameManager.Instance.ChooseRoute(placeName, routeColor, isTunnel);
+                foreach (GameObject gameObject in GameManager.Instance.routes)
+                {
+                    Route route = gameObject.GetComponent<Route>();
+                    if (route.routeName == placeName)
+                    {
+                        route.SetIsClaimedServerRpc();
+                        Debug.Log("Built");
+                    }
+                }
+            }
+
+            // Destroy card objects, clear the list, update selected card count, and send cards to the discard pile.
+            foreach (GameObject go in cardObjects)
+            {
+                Destroy(go);
+            }
+            cardObjects.Clear();
+            selectedCards.text = cardObjects.Count.ToString();
+            CardsToDiscardPileServerRpc();
+            TurnM.Instance.EndTurn();
+            Enable_DisableSelectorArea(false);
+        }
+
+        // Handle different action by types.
         switch (_type)
         {
             case Type.Station:
+                // Choose a city and set it as taken.
                 GameManager.Instance.ChooseCity(placeName);
                 foreach (GameObject gameObject in GameManager.Instance.stations)
                 {
@@ -421,23 +484,11 @@ public class CardSelector : Singleton<CardSelector>
                     }
                 }
                 break;
-            //case Type.Route:
-            //    Debug.Log("Route");
-            //    GameManager.Instance.ChooseRoute(placeName, routeColor);
-            //    foreach (GameObject gameObject in GameManager.Instance.routes)
-            //    {
-            //        Route route = gameObject.GetComponent<Route>();
-            //        if (route.routeName == placeName)
-            //        {
-            //            route.SetIsClaimedServerRpc();
-            //            Debug.Log("Built");
-            //        }
-            //    }
-            //    break;
             case Type.Tunnel:
-                isTunnel = true;
+                // Before we pulled the cards
                 if (beforeTunnelPulling)
                 {
+                    // Enable tunnel components and draw tunnel cards.
                     TunnelComponents.SetActive(true);
 
                     for (int i = 0; i < 3; i++)
@@ -445,16 +496,18 @@ public class CardSelector : Singleton<CardSelector>
                         GameManager.Instance.TunnelDrawServerRpc();
                     }
 
-
-                    foreach(GameObject gameObject in cardObjects.ToList())
+                    // Disable the buttons for tunnel cards.
+                    foreach (GameObject gameObject in cardObjects.ToList())
                     {
                         Button button = gameObject.GetComponent<Button>();
                         button.interactable = false;
                     }
 
                 }
+                // After we choosed extra cards
                 else
                 {
+                    // Clear tunnel-related objects and disable tunnel components.
                     foreach (GameObject go in tunnelObjects.ToList())
                     {
                         Destroy(go);
@@ -470,43 +523,25 @@ public class CardSelector : Singleton<CardSelector>
                 }
                 break;
         }
-        if (_type != Type.Tunnel || !beforeTunnelPulling)
-        {
-            GameManager.Instance.ChooseRoute(placeName, routeColor, isTunnel);
-            foreach (GameObject gameObject in GameManager.Instance.routes)
-            {
-                Route route = gameObject.GetComponent<Route>();
-                if (route.routeName == placeName)
-                {
-                    route.SetIsClaimedServerRpc();
-                    Debug.Log("Built");
-                }
-            }
-            foreach (GameObject go in cardObjects)
-            {
-                Destroy(go);
-            }
-            cardObjects.Clear();
-            selectedCards.text = cardObjects.Count.ToString();
-            CardsToDiscardPileServerRpc();
-            TurnM.Instance.EndTurn();
-            Enable_DisableSelectorArea(false);
-        }
-        else
-        {
-            beforeTunnelPulling = false;
-        }
+
+
+        
     }
 
+    // Checks ownership and sends data for the next metode
+    
     [ClientRpc]
     public void DrawTunnelCardClientRpc(string color, bool host, ClientRpcParams clientRpcParams = default)
     {
+        // If this client is the owner and not the host, return without taking any action.
         if (IsOwner && !host) return;
+
+        // Add the drawn tunnel card color to the tunnelCardColors list, then set color and prefab for the tunnel
         tunnelCardColors.Add(color);
         SetColorAndPrefab(color, true);
     }
 
-
+    // Moves the cards from the selection into the discardpile
     [ServerRpc(RequireOwnership = false)]
     public void CardsToDiscardPileServerRpc(ServerRpcParams serverRpcParams = default)
     {
@@ -517,9 +552,14 @@ public class CardSelector : Singleton<CardSelector>
         }
     }
 
+    // This metode is triggered when the player clicks on the Cancel button in the card selector
     public void CancelAction()
     {
+        // Disable selector area and buttons
         Enable_DisableSelectorArea(false);
+        DisableCardButtons();
+
+        // This goes trough every card object, gives cards back to the player, handle the counter and destroys the objects from the selector are
         foreach (GameObject gameObject in cardObjects.ToList())
         {
             RandomDespawn rd = gameObject.GetComponent<RandomDespawn>();
@@ -528,21 +568,26 @@ public class CardSelector : Singleton<CardSelector>
             Destroy(gameObject);
         }
 
-        foreach(GameObject go in GameManager.Instance.routes.ToList())
+        // Turn off route highlights.
+        foreach (GameObject go in GameManager.Instance.routes.ToList())
         {
             Route route = go.GetComponent<Route>();
             route.HighlightOff();
         }
+
+        // Clear the cardObjects list and update the selected card count.
         cardObjects.Clear();
         selectedCards.text = cardObjects.Count.ToString();
 
+        // Handle post-action based on whether it's before or after tunnel pulling.
         if (beforeTunnelPulling)
         {
             TurnM.Instance.Enable_DisableActionChooser(true);
         }
         else
         {
-            foreach(GameObject tunnel in tunnelObjects.ToList())
+            // Destroy tunnel card objects, clear the tunnelObjects list, and end the turn if it's after tunnel pulling.
+            foreach (GameObject tunnel in tunnelObjects.ToList())
             {
                 Destroy(tunnel);
             }
@@ -550,12 +595,12 @@ public class CardSelector : Singleton<CardSelector>
             TurnM.Instance.EndTurn();
         }
 
+        // Deactivate tunnel components.
         TunnelComponents.SetActive(false);
     }
 
 
-
-
+    // This is just a client rpc metode calling the real metode, so we can call it from the server too
     [ClientRpc]
     public void EnableCardButtonsClientRpc(string color = "none", ClientRpcParams clientRpcParams = default)
     {
@@ -563,19 +608,21 @@ public class CardSelector : Singleton<CardSelector>
         EnableCardButtons(color);
     }
 
-
+    // This metode enables the right card buttons for the player
     public void EnableCardButtons(string color = "none")
     {
-        Debug.Log(routeColor);
+        // If the color is not specified, use the routeColor.
         if (routeColor != string.Empty && color == "none")
         {
             color = routeColor;
         }
-        Debug.Log(color);
-        Debug.Log("Enable Client");
+
+        // Initialize variables for button availability.
         bool available = false;
         bool onlyRainbow = true;
         string buttonname = "";
+
+        // Map the color to the corresponding button name.
         switch (color)
         {
             case "Black":
@@ -607,14 +654,17 @@ public class CardSelector : Singleton<CardSelector>
                 break;
         }
 
+        // Debugging output.
         Debug.Log(buttonname);
         Debug.Log(beforeTunnelPulling);
         Debug.Log(extraCardsObjects.Count);
 
-        if(cardObjects.Count > 0 || (!beforeTunnelPulling && extraCardsObjects.Count > 0))
+        // Check if there are cards in the cardObjects list, and if there are colored or only Rainbow
+        if (cardObjects.Count > 0 || (!beforeTunnelPulling && extraCardsObjects.Count > 0))
         {
             foreach (GameObject go in cardObjects)
             {
+                // If any card from the card list has a color, sets onlyRainbow false
                 RandomDespawn card = go.GetComponent<RandomDespawn>();
                 if (card.Color != "Rainbow")
                 {
@@ -623,21 +673,27 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
         else { onlyRainbow = false;}
-        
 
+        // Iterate through available buttons.
         foreach (GameObject gameObject in Buttons)
         {
             Button buttonComponent = gameObject.GetComponent<Button>();
 
-            if ((cardObjects.Count != maxCard.Value || cardObjects.Count == 0) || (!beforeTunnelPulling && (extraCardsObjects.Count != neededExtraCards || extraCardsObjects.Count == 0)))
+            // Checks a bunch of things fo the current button
+            // Checks if the player can play more cards, checks it also the buttons mean to spawn extra cards, just a different list
+            if ((cardObjects.Count != maxCard.Value || cardObjects.Count == 0) || 
+                (!beforeTunnelPulling && (extraCardsObjects.Count != neededExtraCards || (extraCardsObjects.Count == 0 && neededExtraCards != 0))))
             {
+                // Check if the player has cards left from the current color
                 available = CheckCardAmount(gameObject.name);
 
                 Debug.Log("Color : " + color + " onlyRainbow " + onlyRainbow + " routeColor " + routeColor);
 
+                // If the button is available there is to type of interaction
                 if (available)
                 {
-                    if (color == "Grey" || color == "none" || (onlyRainbow && routeColor == "Grey") || (onlyRainbow && routeColor == "none"))
+                    // This checks the color, if the color is grey or none, enables every available button
+                    if ((color == "Grey" || color == "none" || (onlyRainbow && routeColor == "Grey") || (onlyRainbow && routeColor == "none")) && beforeTunnelPulling)
                     {
                         Debug.Log(color + " " + onlyRainbow);
                         Debug.Log("all");
@@ -645,6 +701,8 @@ public class CardSelector : Singleton<CardSelector>
                     }
                     else
                     {
+                        // If we have a specific color, it checks the button's color and only enable it,
+                        // if it has the same color as the route or the already selected card or if its rainbow
                         if (gameObject.name == buttonname || gameObject.name == "Rainbow-Btn" 
                             || routeColor == GetColorFromString(gameObject.name) || GetColorFromString(gameObject.name) == CheckSelectedCardColor())
                         {
@@ -667,6 +725,8 @@ public class CardSelector : Singleton<CardSelector>
                 buttonComponent.interactable = false;
             }
         }
+
+        // Enable or disable the play button based on how much card the player has selected
         Enable_DisablePlayButton();
 
     }
@@ -684,10 +744,11 @@ public class CardSelector : Singleton<CardSelector>
         return color;
     }
 
+    // Iterate through the selected cards and checks the colors, if there is one which is not rainbow it sends it back
     public string CheckSelectedCardColor()
     {
         string color = string.Empty;
-        foreach (GameObject card in cardObjects)
+        foreach (GameObject card in cardObjects.ToList())
         {
             RandomDespawn randomD = card.GetComponent<RandomDespawn>();
             Debug.Log(card.name);
@@ -699,6 +760,7 @@ public class CardSelector : Singleton<CardSelector>
         return color;
     }
 
+    // Checks if the player choosed enough card, and enables play button
     public void Enable_DisablePlayButton()
     {
 
@@ -713,18 +775,7 @@ public class CardSelector : Singleton<CardSelector>
         else { PlayButton.interactable = false; }
     }
 
-
-
-   
-    
-
-   
-   
-
-   
-
-
-    
+    // This metode handles cards on the server
 
     [ServerRpc(RequireOwnership = false)]
     public void HandlePlayerHandServerRpc(string color, bool dispawn, ServerRpcParams serverRpcParams = default)
@@ -733,6 +784,7 @@ public class CardSelector : Singleton<CardSelector>
         player = null;
         ulong clientID = serverRpcParams.Receive.SenderClientId;
 
+        // Iterate through the PlayerManager's stats to find the player with the given client ID.
         foreach (PlayerStat stat in PlayerManager.Instance.stats)
         {
             if (stat.clientId == clientID)
@@ -741,13 +793,16 @@ public class CardSelector : Singleton<CardSelector>
             }
         }
 
+        // Check if cards should be despawned or spawned.
         if (dispawn)
         {
-            foreach(Card card in cardsInSelection.ToList())
+            // Iterate through the cards in the selection list until it finds a card with the same color
+            // then sets the bool true, and removes the card from selection and adds back to the players hand
+            foreach (Card card in cardsInSelection.ToList())
             {
                 if (!foundCard)
                 {
-                    if(card.Color == color)
+                    if (card.Color == color)
                     {
                         foundCard = true;
                         cardsInSelection.Remove(card);
@@ -759,7 +814,9 @@ public class CardSelector : Singleton<CardSelector>
         }
         else
         {
-            foreach(Card card in player.hand.ToList())
+            // Iterate through the cards in the players hand list until it finds a card with the same color
+            // then sets the bool true, and removes the card from the players hand and adds it to the selection
+            foreach (Card card in player.hand.ToList())
             {
                 if (!foundCard)
                 {
@@ -772,15 +829,37 @@ public class CardSelector : Singleton<CardSelector>
                 }
             }
         }
+
+        // Create an array to store card colors for synchronization.
+        FixedString32Bytes[] cardColors = new FixedString32Bytes[cardsInSelection.Count];
+
+        // Populate the array with the colors of cards in the selection list.
+        for (int i = 0; i < cardColors.Length; i++)
+        {
+            cardColors[i] = new FixedString32Bytes(cardsInSelection[i].Color);
+        }
+
+        // Synchronize the card colors with the clients.
+        GetCardColorsFromServerClientRpc(cardColors);
+
     }
 
+    // Synchronize the selected card colors with the server.
+    // This method is called on the client to update the selectedCardColors list.
+    [ClientRpc]
+    public void GetCardColorsFromServerClientRpc(FixedString32Bytes[] cardColors, ClientRpcParams clientRpcParams = default)
+    {
+        // Create a new list and populate it with the received card colors.
+        selectedCardColors = new List<FixedString32Bytes>(cardColors);
+    }
+
+    // Card buttons hit this metode with a string, which calls another metode for setting prefabs
     public void PlayCardBTN(string button)
     {
         SetColorAndPrefab(button);
     }
 
-        // This methode is for the card play buttons, it gets an int from the button, sets the color
-        // then calls PlayCardHand methode with the color
+    // This metode selects the right prefab and color, then calls the right spawning metode based on the conditions
     public void SetColorAndPrefab(string color, bool tunnel = false)
     {
         GameObject prefab = null;
@@ -816,6 +895,7 @@ public class CardSelector : Singleton<CardSelector>
         }
         if (prefab == null) return;
 
+        // Calls the right spawning metode
         if (!tunnel && beforeTunnelPulling)
         {
             SpawnCard(prefab, color);
@@ -831,11 +911,8 @@ public class CardSelector : Singleton<CardSelector>
     }
 
 
-   
-
     // Simple and small metodes which don't call new metodes
     #region Handlers 
-
 
     // Enables and disables selecetor area
     public void Enable_DisableSelectorArea(bool enable)
@@ -1085,35 +1162,6 @@ public class CardSelector : Singleton<CardSelector>
         maxCard.Value = amount;
         SetTextClientRpc(amount.ToString());
     }
-
-
-    #endregion
-
-    // Test for stuff DELETE THESE LATER!!!!
-    #region Tests
-
-    public void test()
-    {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-    }
-
-    public void TestSpawn()
-    {
-        Debug.Log("Max card: " + maxCard);
-        Debug.Log("Cards count: " + cardObjects.Count);
-        if (cardObjects.Count < maxCard.Value)
-        {
-            GameObject card = Instantiate(BlackPrefabCanvas, SelectorArea.transform);
-            cardObjects.Add(card);
-        }
-        else
-        {
-            Debug.Log("You can't add more cardObjects!");
-        }
-
-    }
-
-
 
 
     #endregion
