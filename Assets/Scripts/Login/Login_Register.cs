@@ -154,7 +154,7 @@ public class Login_Register : MonoBehaviour
         form.AddField("username", registerUsername);
         form.AddField("password1", registerPassword1);
         form.AddField("password2", registerPassword2);
-        Debug.Log("a-register");
+        Debug.Log("Bruger Registret");
 
         using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "register.php", form))
         {
