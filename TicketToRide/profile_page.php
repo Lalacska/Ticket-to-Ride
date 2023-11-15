@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_id'])) {
     }
 
     // Redirect or display a success message
-    echo "Success";
+    echo "<script>alert('Success');</script>";
   }
 
   // Rest of your code for displaying the form

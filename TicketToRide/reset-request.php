@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_POST["reset-request-submit"])) {
 
     //Creates token and selector variables
@@ -69,3 +68,4 @@ if (isset($_POST["reset-request-submit"])) {
 } else {
     header("location: /login.php");
 }
+?>

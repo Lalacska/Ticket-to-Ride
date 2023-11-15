@@ -54,8 +54,6 @@ if (!isset($_SESSION['user_id'])) {
   .AG {
     background-color: #191919;
     color: white;
-    width: 100%;
-    height: 100%;
   }
   .AT {
     color: white;
@@ -69,7 +67,6 @@ if (!isset($_SESSION['user_id'])) {
     color: white;
     font-size: 18px;
     font-weight: bold;
-    margin: 70px 30px;
   }
   
   .button{
@@ -144,8 +141,6 @@ if (!isset($_SESSION['user_id'])) {
     .AG {
       background-color: #191919;
       color: white;
-      width: 100%;
-      height: 100%;
     }
   
     .AT {
@@ -227,8 +222,6 @@ if (!isset($_SESSION['user_id'])) {
     .AG {
       background-color: #191919;
       color: white;
-      width: 100%;
-      height: 100%;
     }
   
     .AT {
@@ -317,6 +310,20 @@ if (!isset($_SESSION['user_id'])) {
     background-color: #000;
     padding: 20px 10px;
   }
+
+  .footer .row {
+    display: flex;
+  }
+
+  .footer .col-lg-6 {
+    /* Adjust this if needed to add spacing between columns */
+    margin-right: 5%;
+  }
+
+  .footer .col-lg-5 {
+    /* Adjust this if needed to add spacing between columns */
+    margin-right: 5%;
+  }
   
   h1 {
     color: #fff;
@@ -336,8 +343,8 @@ if (!isset($_SESSION['user_id'])) {
     margin-right: 25px;
   }
   
-  a:hover {
-    color: var(--secondary-color);
+  .footer a:hover {
+    color: rebeccapurple;
   }
     
 </style>
@@ -358,7 +365,7 @@ if (!isset($_SESSION['user_id'])) {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="Forum/forum.php" >Forum</a>
+          <a class="nav-link" href="forum.php" >Forum</a>
           <a class="nav-link" href="profile_page.php" >Profile</a>
           <a class="nav-link" href="contact.html" >Contact</a>
           <a href="logout.php">Logout</a>
@@ -434,7 +441,7 @@ if (!isset($_SESSION['user_id'])) {
       <!--We use "col-lg-6" because we are using a display over 1200px. The 6 stands for how many colums bootstrap need to generate-->
       <div class="col-lg-5">
         <p>Ticket To Ride</p>
-        <a routerLink="leaderboard">LeaderBoard</a>
+        <a href="leaderboard.php">LeaderBoard</a>
         <a href="forum.php">Forum</a>
         <a href="contact.html">Contact</a>
       </div>
@@ -444,14 +451,7 @@ if (!isset($_SESSION['user_id'])) {
         <a href="profile_page.php">Profile</a>
         <a href="contact.html">Contact</a>
       </div>
-      <div class="col-lg-1">
-        <p>Join</p>
-        <a href="login.php">Login</a>
-        <a href="contact.html">Contact</a>
-      </div>
     </div>
   </div>
-  
- 
 </body>
 </html>
