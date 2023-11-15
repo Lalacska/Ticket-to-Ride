@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6192,6 +6192,7 @@ GameObject:
   - component: {fileID: 707820328}
   - component: {fileID: 707820329}
   - component: {fileID: 707820330}
+  - component: {fileID: 707820331}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -6417,6 +6418,26 @@ MonoBehaviour:
   Ticket_44: {fileID: 3540377508537720390, guid: ecf987e6a5e74144db0fcd2e58db9db8, type: 3}
   Ticket_45: {fileID: 4894547829523634437, guid: de5c776a6e3faa44ba8c4977dc356734, type: 3}
   Ticket_46: {fileID: 5337082884492658301, guid: 93bffcca5dbe9af4aaeb593ac8d9025f, type: 3}
+--- !u!114 &707820331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707820321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa3bb25283051d944827350b5344acc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPickCount: 0
+  TurnCount: 0
+  m_players: []
+  buildStationbtn: {fileID: 55301870}
+  drawCardbtn: {fileID: 1506282203}
+  drawTicketbtn: {fileID: 818908971}
+  GameBoard: {fileID: 1803552392}
+  Turn: {fileID: 1852324040}
 --- !u!1 &730301768
 GameObject:
   m_ObjectHideFlags: 0
@@ -8302,7 +8323,6 @@ Transform:
   m_Children:
   - {fileID: 1803552393}
   - {fileID: 483592698}
-  - {fileID: 1572893707}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -15442,80 +15462,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_slotID: 2
   m_cardslotCardID: 0
---- !u!1 &1572893706
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1572893707}
-  - component: {fileID: 1572893709}
-  - component: {fileID: 1572893710}
-  m_Layer: 0
-  m_Name: TurnSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1572893707
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572893706}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0066666664, y: 10, z: 0.0125}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 877608102}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1572893709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572893706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa3bb25283051d944827350b5344acc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerPickCount: 0
-  TurnCount: 0
-  m_players: []
-  endTurnBtn: {fileID: 0}
-  buildStationbtn: {fileID: 55301870}
-  drawCardbtn: {fileID: 1506282203}
-  SwitchTrun: {fileID: 0}
-  GameBoard: {fileID: 1803552392}
-  Turn: {fileID: 1852324040}
---- !u!114 &1572893710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572893706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3111888967
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1 &1589463497
 GameObject:
   m_ObjectHideFlags: 0

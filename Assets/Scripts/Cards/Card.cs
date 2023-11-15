@@ -22,11 +22,12 @@ public class Card : Singleton<Card>
     public int ownerID { get { return m_ownerID; } set { m_ownerID = value; } }
     public int CardID { get { return m_CardID; } set { m_CardID = value; } }
 
+    // Releases the card's network object by obtaining its color through GameManager
+    // and returning the object to the object pool.
     public NetworkObject ReleaseCard()
     {
         GameObject prefab = GameManager.Instance.GetPrefabByColor(Color,false);
         NetworkObjectPool.Instance.ReturnNetworkObject(go, prefab);
-        Debug.Log("Returned");
         return go;
     }
 }

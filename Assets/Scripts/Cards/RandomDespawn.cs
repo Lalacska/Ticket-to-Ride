@@ -19,6 +19,8 @@ public class RandomDespawn : MonoSingleton<RandomDespawn>
 
     public Type cardType { get { return m_cardType; } set { m_cardType = value; } }
     public string Color { get { return m_Color; } set { m_Color = value; } }
+
+    // Invokes CardSelector's despawn method and destroys the attached game object.
     public void DespawnObject()
     {
         CardSelector.Instance.DespawnCard(gameObject);

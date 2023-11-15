@@ -36,6 +36,8 @@ public class TurnM : Singleton<TurnM>
 
     [SerializeField] private Button buildStationbtn;
     [SerializeField] private Button drawCardbtn;
+    [SerializeField] private Button drawTicketbtn;
+
     private bool haveStations;
 
     public GameObject GameBoard;
@@ -43,14 +45,6 @@ public class TurnM : Singleton<TurnM>
 
 
     #endregion
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // This metode is called when the player finished their action and their needs to end
     public void EndTurn()
@@ -69,6 +63,7 @@ public class TurnM : Singleton<TurnM>
         PlayerStat player = players[currentPlayerIndex];
         player.myTurn = false;
         bool cardsAvailable = true;
+        bool ticketsAvailable = true;
 
         // Adds one to the currentPlayerIndex 
         currentPlayerIndex++;
@@ -107,15 +102,19 @@ public class TurnM : Singleton<TurnM>
             cardsAvailable = false;
         }
 
+        if(GameManager.Instance.tickets.Count == 0)
+        {
+            ticketsAvailable = false;
+        }
 
         // Sends the client id to the turnStarted metode
-        TurnStarted(clientId, haveStations, cardsAvailable);
+        TurnStarted(clientId, haveStations, cardsAvailable, ticketsAvailable);
         Debug.Log(" CurrentIndex: " + currentPlayerIndex);
         
     }
 
     // This metode gets the clientId, sets the target client and then calls a clientrpc with the target
-    public void TurnStarted(ulong clientId, bool _haveStations, bool cardsAvailable)
+    public void TurnStarted(ulong clientId, bool _haveStations, bool cardsAvailable, bool ticketsAvailable)
     {
         currentPlayerId = clientId;
 
@@ -128,14 +127,14 @@ public class TurnM : Singleton<TurnM>
         };
 
         // Sends the clientrpc params with the target client to a client rpc metode
-        ActivateTurnClientRpc(_haveStations, cardsAvailable, clientRpcParams);
+        ActivateTurnClientRpc(_haveStations, cardsAvailable, ticketsAvailable, clientRpcParams);
     }
 
 
     // This metode runs on the client and make Action Chooser visible
 
     [ClientRpc]
-    public void ActivateTurnClientRpc(bool _haveStations, bool cardsAvailable, ClientRpcParams clientRpcParams = default)
+    public void ActivateTurnClientRpc(bool _haveStations, bool cardsAvailable, bool ticketsAvailable, ClientRpcParams clientRpcParams = default)
     {
         Debug.Log(" Here");
 
@@ -151,6 +150,7 @@ public class TurnM : Singleton<TurnM>
             buildStationbtn.interactable = true;
         }
 
+        // If there is no more available cards, this sets the draw card button uninteractable 
         if (cardsAvailable)
         {
             drawCardbtn.interactable = true;
@@ -159,6 +159,17 @@ public class TurnM : Singleton<TurnM>
         {
             drawCardbtn.interactable = false;
         }
+
+        // If there is no more available ticktes, this sets the draw tickets button uninteractable 
+        if (ticketsAvailable)
+        {
+            drawTicketbtn.interactable = true;
+        }
+        else
+        {
+            drawTicketbtn.interactable = false;
+        }
+
 
         Enable_DisableActionChooser(true);
         //Enable_DisableEndTurnBtn(true);
@@ -169,38 +180,7 @@ public class TurnM : Singleton<TurnM>
     // It hides or make Action Chooser visible depending if its on or off
     public void Enable_DisableActionChooser(bool enable)
     {
-        if(enable)
-        {
-            Turn.SetActive(true);
-        }
-        else
-        {
-            Turn.SetActive(false);
-        }
-    }
-
-    public void Togglebtn()
-    {
-        if (GameBoard.activeInHierarchy == false)
-        {
-            GameBoard.SetActive(true);
-
-            //slot = cardslot4.GetComponent<CardSlotsID>();
-            //foreach (CardVariables card in board.ToList())
-            //{
-            //    if (card.CardID == slot.cardslotCardID)
-            //    {
-            //        CardColorPick(card, 3);
-            //    }
-            //}
-        }
-        //else
-        //{
-        //    gameboard.setactive(false);
-        //}
-
-        Turn.SetActive(false);
-
+        Turn.SetActive(enable);
     }
 
 }

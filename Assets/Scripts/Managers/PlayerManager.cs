@@ -14,16 +14,6 @@ namespace Assets.Scripts.Managers
 {
     public class PlayerManager : Singleton<PlayerManager>
     {
-        [SerializeField] private Button blackButton;
-        [SerializeField] private Button blueButton;
-        [SerializeField] private Button orangeButton;
-        [SerializeField] private Button greenButton;
-        [SerializeField] private Button redButton;
-        [SerializeField] private Button pinkButton;
-        [SerializeField] private Button whiteButton;
-        [SerializeField] private Button yellowButton;
-        [SerializeField] private Button rainbowButton;
-
         [SerializeField] private GameObject Player1;
         [SerializeField] private GameObject Player2;
         [SerializeField] private GameObject Player3;
@@ -125,7 +115,7 @@ namespace Assets.Scripts.Managers
                 gameStarted = true;
 
                 // This sends the the first players id to the turn started metode
-                TurnM.Instance.TurnStarted(firstPlayer.clientId, true, true);
+                TurnM.Instance.TurnStarted(firstPlayer.clientId, true, true, true);
                 Debug.Log("Game started! First player: "+stats[randomplayer].clientId);
             }
 
@@ -143,56 +133,5 @@ namespace Assets.Scripts.Managers
             else if(id == 5) { prefab = Player5; }
             return prefab;
         }
-
-
-        public void Enable_Disable()
-        {
-            if(blackButton.interactable)
-            {
-                blackButton.interactable = false;
-            }else { blackButton.interactable = true; }
-            if (blueButton.interactable)
-            {
-                blueButton.interactable = false;
-            }
-            else { blueButton.interactable = true; }
-            if (orangeButton.interactable)
-            {
-                orangeButton.interactable = false;
-            }
-            else { orangeButton.interactable = true; }
-            if (greenButton.interactable)
-            {
-                greenButton.interactable = false;
-            }
-            else { greenButton.interactable = true; }
-            if (redButton.interactable)
-            {
-                redButton.interactable = false;
-            }
-            else { redButton.interactable = true; }
-            if (pinkButton.interactable)
-            {
-                pinkButton.interactable = false;
-            }
-            else { pinkButton.interactable = true; }
-            if (whiteButton.interactable)
-            {
-                whiteButton.interactable = false;
-            }
-            else { whiteButton.interactable = true; }
-            if (yellowButton.interactable)
-            {
-                yellowButton.interactable = false;
-            }
-            else { yellowButton.interactable = true; }
-            if (rainbowButton.interactable)
-            {
-                rainbowButton.interactable = false;
-            }
-            else { rainbowButton.interactable = true; }
-
-        }
-
     }
 }

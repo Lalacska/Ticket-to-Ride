@@ -109,6 +109,7 @@ public class PlayerStat : Singleton<PlayerStat>
         
     }
 
+    // Activates or deactivates the Turn Indicators
     private void ActivateIndicator(bool previousValue, bool newValue)
     {
         if (newValue)
@@ -121,7 +122,7 @@ public class PlayerStat : Singleton<PlayerStat>
         }
     }
 
-    
+    // Unsubscribe from value changed events to prevent memory leaks when the network despawns.
     public override void OnNetworkDespawn()
     {
         m_ScoreString.OnValueChanged -= OnTextStringChanged;
@@ -134,6 +135,7 @@ public class PlayerStat : Singleton<PlayerStat>
         trains.OnValueChanged -= OnIntChanged;
     }
 
+
     private void LateUpdate()
     {
         if (IsServer)
@@ -144,12 +146,10 @@ public class PlayerStat : Singleton<PlayerStat>
                 // First set the value, then runs the CardCheck with the clientId
                 m_CardsString.Value = hand.Count.ToString();
                 CardCheck(clientId);
-                foreach (KeyValuePair<FixedString128Bytes, int> kvp in cardsInHand.ToList())
-                {
-                    //Debug.Log("Cards in hand after: " + kvp.Key + " number: " + kvp.Value);
-                }
             }
-            if(m_TicketsString.Value != tickets.Count.ToString())
+
+            // Check if other player statistics have changed and update their values accordingly.
+            if (m_TicketsString.Value != tickets.Count.ToString())
             {
                 m_TicketsString.Value = tickets.Count.ToString();
             }
@@ -166,17 +166,11 @@ public class PlayerStat : Singleton<PlayerStat>
                 m_ScoreString.Value = score.Value.ToString();
             }
 
-            if (myTurn)
-            {
-                m_isTurn.Value = true;
-            }
-            else
-            {
-                m_isTurn.Value = false;
-            }
+            // Update the turn indicator based on whether it's the player's turn.
+            m_isTurn.Value = myTurn;
         }
 
-
+        // Update UI text elements with the current values.
         Score.text = m_ScoreString.Value.ToString();
         Trains.text = m_TrainsString.Value.ToString();
         Stations.text = m_StationsString.Value.ToString();
@@ -184,6 +178,7 @@ public class PlayerStat : Singleton<PlayerStat>
         Tickets.text = m_TicketsString.Value.ToString();
     }
 
+    // Update UI text elements with the current values.
     private void OnTextStringChanged(FixedString128Bytes previous, FixedString128Bytes current)
     {
         Score.text = m_ScoreString.Value.ToString();
@@ -193,6 +188,7 @@ public class PlayerStat : Singleton<PlayerStat>
         Tickets.text = m_TicketsString.Value.ToString();
     }
 
+    // Update UI text elements with the current values.
     private void OnIntChanged(int previousValue, int newValue)
     {
         Stations.text = m_StationsString.Value.ToString();

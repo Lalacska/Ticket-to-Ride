@@ -364,10 +364,14 @@ public class GameManager : Singleton<GameManager>
         {
             // Select a random normal ticket from the list, assign the owner ID,
             // remove it from the normal ticket list, and add it to the list that the method will return.
-            Ticket ticket = tickets[UnityEngine.Random.Range(0, tickets.Count)];
-            ticket.ownerID = clientID;
-            tickets.Remove(ticket);
-            ticketsInHand.Add(ticket);
+
+            if(tickets.Count != 0)
+            {
+                Ticket ticket = tickets[UnityEngine.Random.Range(0, tickets.Count)];
+                ticket.ownerID = clientID;
+                tickets.Remove(ticket);
+                ticketsInHand.Add(ticket);
+            }
         }
         // Log the number of tickets in the player's hand.
         Debug.Log("Tickets: " + ticketsInHand.Count);
@@ -395,10 +399,15 @@ public class GameManager : Singleton<GameManager>
                     NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
                     Card randCard = _card.GetComponent<Card>();
 
-                    // If the card has no CardID, assign a unique CardID and spawn the network object.
-                    if (randCard.CardID == 0)
+                    // Check if the network object is already spawned and spawns if its not
+                    if (!_card.IsSpawned)
                     {
                         _card.GetComponent<NetworkObject>().Spawn(true);
+                    }
+
+                    // If the card has no CardID, assign a unique CardID
+                    if (randCard.CardID == 0)
+                    {
                         randCard.CardID = _CardID;
                         _CardID++;
                     }
@@ -608,13 +617,25 @@ public class GameManager : Singleton<GameManager>
     [ServerRpc(RequireOwnership = false)]
     public void TunnelDrawServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        Debug.Log(" Tunnel Draw Server Rpc deck: " + deck.Count);
+
         // Select a random card from the deck and retrieve its associated prefab based on color.
         Card cardVariables = deck[UnityEngine.Random.Range(0, deck.Count)];
         GameObject randomCardPrefab = GetPrefabByColor(cardVariables.Color, true);
 
-        // Create a network object from the prefab and spawn it.
+        Debug.Log("A");
+
+        // Get a network object from the pool with the help of the prefab
         NetworkObject _card = NetworkObjectPool.Instance.GetNetworkObject(randomCardPrefab, Vector3.zero, Quaternion.identity);
-        _card.GetComponent<NetworkObject>().Spawn(true);
+         
+        // Check if the network object is already spawned and spawns if its not
+        if (!_card.IsSpawned)
+        {
+            _card.GetComponent<NetworkObject>().Spawn(true);
+        }
+        
+
+        Debug.Log("B");
 
         Card randCard = _card.GetComponent<Card>();
 
