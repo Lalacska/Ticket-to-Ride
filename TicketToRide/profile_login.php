@@ -1,60 +1,77 @@
 <?php
+// Start a session to manage user sessions
 session_start();
+
+// Include the database connection file
 include "connection.php";
+
+// Check if email and password are set in the POST request
 if (isset($_POST["email"]) && isset($_POST["password"])) {
-	$errors = array();
+    // Array to store error messages
+    $errors = array();
 
-	$email = $_POST["email"];
-	$password = $_POST["password"];
+    // Retrieve email and password from the POST request
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-	//Connect to database
-	require dirname(__FILE__) . '/connection.php';
-	$_SESSION['username'] = $email;
-	if ($stmt = $mysqli_connection->prepare("SELECT username, email, password FROM sc_users WHERE email = ? LIMIT 1")) {
-		/* bind parameters for markers */
-		$stmt->bind_param('s', $email);
+    // Connect to the database
+    require dirname(__FILE__) . '/connection.php';
 
-		/* execute query */
-		if ($stmt->execute()) {
+    // Set the username in the session
+    $_SESSION['username'] = $email;
 
-			/* store result */
-			$stmt->store_result();
+    // Prepare a SQL statement to select user data based on the provided email
+    if ($stmt = $mysqli_connection->prepare("SELECT username, email, password FROM sc_users WHERE email = ? LIMIT 1")) {
+        // Bind the email parameter to the prepared statement
+        $stmt->bind_param('s', $email);
 
-			if ($stmt->num_rows > 0) {
-				/* bind result variables */
-				$stmt->bind_result($username_tmp, $email_tmp, $password_hash);
+        // Execute the query
+        if ($stmt->execute()) {
+            // Store the result
+            $stmt->store_result();
 
-				/* fetch value */
-				$stmt->fetch();
+            // Check if a user with the given email exists
+            if ($stmt->num_rows > 0) {
+                // Bind result variables
+                $stmt->bind_result($username_tmp, $email_tmp, $password_hash);
 
-				if (password_verify($password, $password_hash)) {
-					echo "Success<br>";
-					$script = "<script>
-                        window.location = 'profile_page.php';</script>";
-					echo $script;
-					return;
-				} else {
-					$errors[] = "Wrong email or password.";
-				}
-			} else {
-				$errors[] = "Wrong email or password.";
-			}
+                // Fetch the values
+                $stmt->fetch();
 
-			/* close statement */
-			$stmt->close();
+                // Verify the provided password with the stored password hash
+                if (password_verify($password, $password_hash)) {
+                    // If the passwords match, display success message and redirect to the profile page
+                    echo "Success<br>";
+                    $script = "<script>window.location = 'profile_page.php';</script>";
+                    echo $script;
+                    return;
+                } else {
+                    // If passwords don't match, set an error message
+                    $errors[] = "Wrong email or password.";
+                }
+            } else {
+                // If no user found with the given email, set an error message
+                $errors[] = "Wrong email or password.";
+            }
 
-		} else {
-			$errors[] = "Something went wrong, please try again.";
-		}
-	} else {
-		$errors[] = "Something went wrong, please try again.";
-	}
+            // Close the prepared statement
+            $stmt->close();
+        } else {
+            // If execution of the query fails, set an error message
+            $errors[] = "Something went wrong, please try again.";
+        }
+    } else {
+        // If preparing the statement fails, set an error message
+        $errors[] = "Something went wrong, please try again.";
+    }
 
-	if (count($errors) > 0) {
-		echo "<script>alert('$errors[0]')</script>";
-	}
+    // If there are errors, display an alert with the first error message
+    if (count($errors) > 0) {
+        echo "<script>alert('$errors[0]')</script>";
+    }
 }
 ?>
+
 
 <style>
 	* {

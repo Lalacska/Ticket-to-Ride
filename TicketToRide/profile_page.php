@@ -1,15 +1,23 @@
 <?php
+// Start a new session to manage user sessions
 session_start();
+
+// Require the connection file which presumably contains the database connection code
 require('connection.php');
 
-// Check if the user is logged in
+// Check if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
+  // Display an alert message and redirect to the login page
   echo "<script>alert('You are not logged in');</script>";
+  // takes you to the index page if you are not logged in
   echo "<script>window.location.href = 'index.php';</script>";
 } else {
+  // Retrieve the user ID from the session
   $user_id = $_SESSION['user_id'];
 
+  // Check if the form is submitted
   if (isset($_POST['submit'])) {
+    // Retrieve new user information from the form
     $newUsername = $_POST['new_username'];
     $newEmail = $_POST['new_email'];
     $newPassword1 = $_POST['new_password1'];
@@ -18,7 +26,7 @@ if (!isset($_SESSION['user_id'])) {
     // Initialize an array to store update queries
     $updateQueries = [];
 
-    // Build and add update queries to the array
+    // Build and add update queries to the array for non-empty fields
     if (!empty($newUsername)) {
       $updateQueries[] = "UPDATE sc_users SET username = '$newUsername' WHERE user_id = $user_id";
     }
@@ -27,8 +35,11 @@ if (!isset($_SESSION['user_id'])) {
       $updateQueries[] = "UPDATE sc_users SET email = '$newEmail' WHERE user_id = $user_id";
     }
 
+    // Check and update the password if provided and matches confirmation
     if (!empty($newPassword1) && $newPassword1 === $newPassword2) {
+      // Hash the new password
       $hashedPassword = password_hash($newPassword1, PASSWORD_BCRYPT);
+      // Add the password update query to the array
       $updateQueries[] = "UPDATE sc_users SET password = '$hashedPassword' WHERE user_id = $user_id";
     }
 
@@ -37,14 +48,11 @@ if (!isset($_SESSION['user_id'])) {
       mysqli_query($mysqli_connection, $query);
     }
 
-    // Redirect or display a success message
+    // Display a success message after updating
     echo "<script>alert('Success');</script>";
   }
 
-  // Rest of your code for displaying the form
-  // ...
-
-  // Get updated user information from the database
+  // Retrieve user information from the database for display in the form
   $strSQL = "SELECT * FROM sc_users WHERE user_id = $user_id";
   $rs = mysqli_query($mysqli_connection, $strSQL);
 
@@ -55,15 +63,13 @@ if (!isset($_SESSION['user_id'])) {
     $pass = $row['password'];
     $regdate = $row['registration_date'];
   } else {
+    // Display an error message if the user is not found
     echo "User not found.";
   }
 }
 ?>
 
-
-
 <!-- Css starts -->
-
 <style>
   * {
     margin: 0;
@@ -199,7 +205,6 @@ if (!isset($_SESSION['user_id'])) {
 </style>
 
 <!-- Html starts -->
-
 <html>
 
 <head>
@@ -259,5 +264,4 @@ if (!isset($_SESSION['user_id'])) {
     </div>
     </div>
   </body>
-
 </html>

@@ -215,6 +215,10 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background-color: #ff785a;
   }
 
+  #register{
+    text-align: center;
+  }
+
   /* Styling for the 'fp' (forgot password) text */
   .input-box .fp {
     font-size: small;
@@ -294,7 +298,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             <a href="home.php"></a><br><br>
 
             <div class="register">
-              <input id="register" type="submit" value="Register"
+              <input id="register" value="Register"
                 onclick="location.href='signup.php'"><br><br>
               <a href="signup.php"></a><br><br>
             </div>
