@@ -5,7 +5,7 @@ require('connection.php');
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
   echo "<script>alert('You are not logged in');</script>";
-  echo "<script>window.location.href = 'index.html';</script>";
+  echo "<script>window.location.href = 'index.php';</script>";
 } else {
   $user_id = $_SESSION['user_id'];
 

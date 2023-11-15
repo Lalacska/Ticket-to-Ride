@@ -14,7 +14,6 @@
     width: 100%;
   }
 
-
   .contact {
     display: flex;
     flex-direction: column;
@@ -190,7 +189,7 @@
             if (response === 'loggedin') {
               window.location.href = 'home.php';
             } else {
-              window.location.href = 'index.html';
+              window.location.href = 'index.php';
             }
           }
         });
