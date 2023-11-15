@@ -261,9 +261,7 @@ public class CardSelector : Singleton<CardSelector>
 
             // Set the color to the played card's color.
             color = playedCardColor;
-
         }
-
 
         EnableCardButtons(color);
     }
