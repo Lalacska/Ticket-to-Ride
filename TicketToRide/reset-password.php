@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <style>
     * {
         margin: 0;
@@ -80,6 +76,18 @@
         background-color: #ff785a;
         color: #fff;
     }
+
+    a {
+        font-size: 19px;
+        font-weight: bold;
+        color: #ff785a;
+        text-decoration: none;
+        margin-left: 5%;
+    }
+
+    .back-link a:hover {
+        color: #ffff;
+    }
 </style>
 
 <!DOCTYPE html>
@@ -102,10 +110,17 @@
                     <label for="email">Email</label>
                     <input type="email" name="email" placeholder="Enter you e-mail address">
                     <button type="submit" name="reset-request-submit">Send Recovery Mail</button>
+                    <div class="back-link">
+                        <!--Attachhing id for the javarascript to the link-->
+                        <a href="#" id="executeLink">Go Home</a>
+                    </div>
                 </form>
                 <?php
+                // Check if the "reset" parameter is set in the URL
                 if (isset($_GET["reset"])) {
+                    // Check if the value of the "reset" parameter is "success"
                     if ($_GET["reset"] == "success") {
+                        // If true, display a success message in a paragraph with the class "signupsuccess"
                         echo '<p class="signupsuccess"> Check your e-mail!</p>';
                     }
                 }
@@ -113,6 +128,10 @@
             </section>
         </div>
     </main>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- link to our javascript file for the go home button -->
+    <script src="javascripts/script.js"></script>
 </body>
 
 </html>

@@ -202,6 +202,17 @@ if (!isset($_SESSION['user_id'])) {
       width: 5px;
     }
   }
+
+  a {
+    font-size: 19px;
+    font-weight: bold;
+    color: #ff785a;
+    text-decoration: none;
+  }
+
+  .back-link a:hover {
+    color: #ffff;
+  }
 </style>
 
 <!-- Html starts -->
@@ -210,13 +221,17 @@ if (!isset($_SESSION['user_id'])) {
 <head>
   <title>Profile Page</title>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
   <body>
     <div class="container">
+      <div class="back-link">
+        <!--Attachhing id for the javarascript to the link-->
+        <a href="#" id="executeLink">Go Home</a>
+      </div>
       <div class="title">Profile</div>
       <div class="content">
 
@@ -263,5 +278,10 @@ if (!isset($_SESSION['user_id'])) {
       </div>
     </div>
     </div>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- link to our javascript file for the go home button -->
+    <script src="javascripts/script.js"></script>
   </body>
+
 </html>

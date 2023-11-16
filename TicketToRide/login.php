@@ -254,6 +254,17 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
       width: 5px;
     }
   }
+
+  a {
+    font-size: 19px;
+    font-weight: bold;
+    color: #ff785a;
+    text-decoration: none;
+  }
+
+  .back-link a:hover {
+    color: #ffff;
+  }
 </style>
 <html lang="en">
 
@@ -267,6 +278,10 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
   <body>
     <div class="container">
+      <div class="back-link">
+        <!--Attachhing id for the javarascript to the link-->
+        <a href="#" id="executeLink">Go Home</a>
+      </div>
       <div class="title">Login</div>
       <div class="content">
 
@@ -305,6 +320,10 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             </div>
         </form>
       </div>
+      <!-- Include jQuery library -->
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      <!-- link to our javascript file for the go home button -->
+      <script src="javascripts/script.js"></script>
   </body>
 
 </html>

@@ -1,11 +1,14 @@
 <?php
+// Check if the form was submitted
 if (isset($_POST["reset-password-submit"])) {
 
+    // Retrieve data from the form
     $selector = $_POST["selector"];
     $validator = $_POST["validator"];
     $password = $_POST["pwd"];
     $passwordRepeat = $_POST["pwd-repeat"];
 
+    // Check if password fields are empty
     if (empty($password) || empty($passwordRepeat)) {
         header("Location: create-new-password.php?newpwd=empty");
         exit();
@@ -14,10 +17,13 @@ if (isset($_POST["reset-password-submit"])) {
         exit();
     }
 
+    // Get the current date and time
     $currentDate = date("U");
 
+    // Include the connection file
     require 'connection.php';
 
+    // Check if the reset token is valid
     $sql = "SELECT * FROM pwdReset WHERE pwdResetSelector=? AND pwdResetExpires >= ?;";
     $stmt = mysqli_stmt_init($mysqli_connection);
 
@@ -41,8 +47,10 @@ if (isset($_POST["reset-password-submit"])) {
                 exit();
             } elseif ($tokenCheck === true) {
 
+                // Token is valid, get user email
                 $tokenEmail = $row['pwdResetEmail'];
 
+                // Check if the user exists
                 $sql = "SELECT * FROM sc_users WHERE email=?";
                 $stmt = mysqli_stmt_init($mysqli_connection);
 
@@ -59,6 +67,7 @@ if (isset($_POST["reset-password-submit"])) {
                         echo "No user found with the provided email.";
                         exit();
                     } else {
+                        // Update user password
                         $sql = "UPDATE sc_users SET password=? WHERE email=?";
                         if (!mysqli_stmt_prepare($stmt, $sql)) {
                             echo "There was an error";
@@ -68,6 +77,7 @@ if (isset($_POST["reset-password-submit"])) {
                             mysqli_stmt_bind_param($stmt, "ss", $newPwdHash, $tokenEmail);
                             mysqli_stmt_execute($stmt);
 
+                            // Delete the reset token from the database
                             $sql = "DELETE FROM pwdReset WHERE pwdResetEmail=?;";
                             if (!mysqli_stmt_prepare($stmt, $sql)) {
                                 echo "There was an error";
@@ -75,7 +85,7 @@ if (isset($_POST["reset-password-submit"])) {
                             } else {
                                 mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
                                 mysqli_stmt_execute($stmt);
-                                header("Location: signup.php?newpwd=passwordupdated");
+                                header("Location: login.php?newpwd=passwordupdated");
                             }
                         }
                     }
@@ -84,5 +94,6 @@ if (isset($_POST["reset-password-submit"])) {
         }
     }
 } else {
+    // If the form was not submitted, redirect to the index page
     header("Location: index.php");
 }
