@@ -60,7 +60,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
       // Close the prepared statement
       $stmt->close();
-
     } else {
       $errors[] = "Something went wrong, please try again.";
     }
@@ -78,7 +77,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 <!DOCTYPE html>
 <!-- Css starts here. We can also make this into it's own file-->
 <style>
-    /* Reset default margin, padding, and box model for all elements */
+  /* Reset default margin, padding, and box model for all elements */
   * {
     margin: 0;
     padding: 0;
@@ -86,7 +85,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     font-family: "Poppins", sans-serif;
   }
 
-   /* Styling for the overall body */
+  /* Styling for the overall body */
   body {
     height: 100vh;
     display: flex;
@@ -96,7 +95,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background: linear-gradient(135deg, #191919, #ff785a);
     width: 100%;
   }
-  
+
   /* Styling for the main container */
   .container {
     max-width: 700px;
@@ -109,7 +108,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
     background-color: #191919;
   }
-  
+
   /* Styling for the title inside the container */
   .container .title {
     font-size: 25px;
@@ -215,7 +214,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     background-color: #ff785a;
   }
 
-  #register{
+  #register {
     text-align: center;
   }
 
@@ -227,11 +226,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
   /* Media query for smaller screens (max-width: 584px) */
   @media (max-width: 584px) {
+
     /* Adjusting the maximum width of the container */
     .container {
       max-width: 100%;
     }
-    
+
     /* Adjusting input box width for user details on smaller screens */
     form .user-details .input-box {
       margin-bottom: 15px;
@@ -256,54 +256,55 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   }
 </style>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-<body>
 
 <body>
-  <div class="container">
-    <div class="title">Login</div>
-    <div class="content">
 
-      <!-- post method to reach db (db = database) -->
-      <form method="post">
+  <body>
+    <div class="container">
+      <div class="title">Login</div>
+      <div class="content">
 
-        <!-- core classes so css can style it. -->
-        <div class="user-details">
-          <div class="input-box">
-            <span class="details">Email</span>
-            <input id="text" type="email" name="email" placeholder="Enter your username">
-          </div>
-          <div class="input-box">
-            <span class="details">Password</span>
-            <input id="text" type="password" name="password" placeholder="Enter your password" required
-              autocomplete="off">
-              <?php
-                // Check if the "newpwd" parameter is set in the URL
-                if (isset($_GET["newpwd"])) {
-                    // Check if the "newpwd" parameter has the value "passwordupdated"
-                    if ($_GET["newpwd"] == "passwordupdated") {
-                    // Display a success message when the password has been successfully reset
-            echo '<p class="signupsuccess">Your password has been reset!</p>';
-                                                              }
-                                            }
-                  ?>
-            <a href="reset-password.php" class="fp">Forgot Password?</a>
-          </div>
-          <div class="button">
-            <input id="button" type="submit" value="Login"><br><br>
-            <a href="home.php"></a><br><br>
+        <!-- post method to reach db (db = database) -->
+        <form method="post">
 
-            <div class="register">
-              <input id="register" value="Register"
-                onclick="location.href='signup.php'"><br><br>
-              <a href="signup.php"></a><br><br>
+          <!-- core classes so css can style it. -->
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Email</span>
+              <input id="text" type="email" name="email" placeholder="Enter your username">
             </div>
-          </div>
-      </form>
-    </div>
-</body>
+            <div class="input-box">
+              <span class="details">Password</span>
+              <input id="text" type="password" name="password" placeholder="Enter your password" required autocomplete="off">
+              <?php
+              // Check if the "newpwd" parameter is set in the URL
+              if (isset($_GET["newpwd"])) {
+                // Check if the "newpwd" parameter has the value "passwordupdated"
+                if ($_GET["newpwd"] == "passwordupdated") {
+                  // Display a success message when the password has been successfully reset
+                  echo '<p class="signupsuccess">Your password has been reset!</p>';
+                }
+              }
+              ?>
+              <a href="reset-password.php" class="fp">Forgot Password?</a>
+            </div>
+            <div class="button">
+              <input id="button" type="submit" value="Login"><br><br>
+              <a href="home.php"></a><br><br>
+
+              <div class="register">
+                <input id="register" value="Register" onclick="location.href='signup.php'"><br><br>
+                <a href="signup.php"></a><br><br>
+              </div>
+            </div>
+        </form>
+      </div>
+  </body>
+
 </html>
