@@ -4517,7 +4517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 0ed5e5b2db9b3694cafd1520d89e53a7, type: 2}
+  m_Material: {fileID: 2100000, guid: 024da4cf4d9ef9647aadd08c1561f2d2, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -6323,15 +6323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a7b9d345d28c041838ae80cfb35fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackButton: {fileID: 238609762}
-  blueButton: {fileID: 883706734}
-  orangeButton: {fileID: 57361748}
-  greenButton: {fileID: 143305573}
-  redButton: {fileID: 1674753450}
-  pinkButton: {fileID: 1767312735}
-  whiteButton: {fileID: 1814744281}
-  yellowButton: {fileID: 1949694210}
-  rainbowButton: {fileID: 773943337}
   Player1: {fileID: 5847349387025549964, guid: d45c01288e5888d4e949bb342eca5745, type: 3}
   Player2: {fileID: 2346531317497889772, guid: 21aeb90b28b698b4ca561db5d2afa714, type: 3}
   Player3: {fileID: 8838377023466267674, guid: 8baae18e2e1be8f4c8004df835c5d367, type: 3}
