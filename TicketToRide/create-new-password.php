@@ -1,96 +1,12 @@
 <!DOCTYPE html>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
-
-    body {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        background: linear-gradient(135deg, #191919, #ff785a);
-        width: 100%;
-    }
-
-    .section-default {
-        max-width: 1000px;
-        max-height: 400px;
-        height: 100%;
-        width: 100%;
-        background-color: #fff;
-        padding: 25px 30px;
-        border-radius: 5px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        background-color: #191919;
-    }
-
-    .title {
-        font-size: 25px;
-        font-weight: 500;
-        position: relative;
-        color: #ff785a;
-    }
-
-    p {
-        font-size: 12px;
-        color: #ff785a;
-        padding-top: 6px;
-        margin-left: 170px;
-    }
-
-    label {
-        font-size: 12px;
-        color: #ff785a;
-    }
-
-    .ps2 {
-        margin-left: 220px;
-    }
-
-    form {
-        padding: 25px;
-    }
-
-    .IT {
-        margin-left: 0px;
-    }
-
-    input {
-        display: block;
-        width: 100%;
-        height: 50px;
-        border-radius: 5px;
-        margin-bottom: 25px;
-    }
-
-    button {
-        width: 50%;
-        border-radius: 5px;
-        background-color: #ff785a;
-        color: #fff;
-    }
-
-    a {
-        font-size: 19px;
-        font-weight: bold;
-        color: #ff785a;
-        text-decoration: none;
-    }
-
-    .back-link a:hover {
-        color: #ffff;
-    }
 </style>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/create-new-password-style.css">
     <title>New Password</title>
 </head>
 

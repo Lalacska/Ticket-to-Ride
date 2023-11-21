@@ -68,220 +68,84 @@ if (!isset($_SESSION['user_id'])) {
   }
 }
 ?>
-
-<!-- Css starts -->
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
-
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background: linear-gradient(135deg, #191919, #ff785a);
-    width: 100%;
-  }
-
-  .container {
-    max-width: 700px;
-    max-height: 500px;
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    padding: 25px 30px;
-    border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-    background-color: #191919;
-  }
-
-  .container .title {
-    font-size: 25px;
-    font-weight: 500;
-    position: relative;
-    color: #ff785a;
-  }
-
-  .container .title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 30px;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #191919, #ff785a);
-  }
-
-  .content form .user-details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 20px 0 12px 0;
-    color: #ff785a;
-  }
-
-  form .user-details .input-box {
-    margin-bottom: 15px;
-    width: calc(100% / 2 - 20px);
-  }
-
-  .user-details .input-box input {
-    height: 45px;
-    width: 100%;
-    outline: none;
-    font-size: 16px;
-    border-radius: 5px;
-    padding-left: 15px;
-    border: 1px solid #ccc;
-    border-bottom-width: 2px;
-    transition: all 0.3s ease;
-    font-size: 20px;
-  }
-
-  .user-details .input-box input:focus {
-    border-color: #ff785a;
-  }
-
-  form .button {
-    display: flexbox;
-    margin-top: 40px;
-    margin-left: auto;
-    height: 50px;
-    max-width: 700px;
-    width: 90%;
-  }
-
-  form .button input {
-    height: 100%;
-    width: 90%;
-    border-radius: 5px;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #ff785a;
-  }
-
-  form .button input:hover {
-    background-color: #f74017;
-  }
-
-  @media (max-width: 584px) {
-    .container {
-      max-width: 100%;
-    }
-
-    form .user-details .input-box {
-      margin-bottom: 15px;
-      width: 100%;
-    }
-
-    form .category {
-      width: 100%;
-    }
-
-    form .register {
-      margin-right: 60px;
-    }
-
-    .content form .user-details {
-      max-height: 500px;
-      overflow-y: scroll;
-    }
-
-    .user-details::-webkit-scrollbar {
-      width: 5px;
-    }
-  }
-
-  a {
-    font-size: 19px;
-    font-weight: bold;
-    color: #ff785a;
-    text-decoration: none;
-  }
-
-  .back-link a:hover {
-    color: #ffff;
-  }
-</style>
-
 <!-- Html starts -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Profile Page</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 
 <body>
 
+  <head>
+    <title>Profile Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/profile-page-style.css">
+  </head>
+
   <body>
-    <div class="container">
-      <div class="back-link">
-        <!--Attachhing id for the javarascript to the link-->
-        <a href="#" id="executeLink">Go Home</a>
+
+    <body>
+      <div class="container">
+        <div class="back-link">
+          <!--Attachhing id for the javarascript to the link-->
+          <a href="#" id="executeLink">Go Home</a>
+        </div>
+        <div class="title">Profile</div>
+        <div class="content">
+
+          <!-- post method to reach db (db = database) -->
+          <form action="profile_page.php" method="post">
+            <!--div for formatting code -->
+            <div class="user-details">
+              <!-- core classes so css can style it. -->
+              <div class="input-box">
+                <span class="details">Current Username</span>
+                <input type="text" class="form-control" id="username" name="username" readonly placeholder="<?php print "{$username}" ?>">
+              </div>
+
+              <div class="input-box">
+                <span class="details">New Username</span>
+                <input type="text" class="form-control" id="nu" name="new_username" placeholder="New Username">
+              </div>
+
+              <div class="input-box">
+                <span class="details">Current Email</span>
+                <input type="text" class="form-control" id="ce" name="email" readonly placeholder="<?php print "{$email}" ?>">
+              </div>
+
+              <div class="input-box">
+                <span class="details">New Email</span>
+                <input type="text" class="form-control" id="nu" name="new_email" placeholder="New Email">
+              </div>
+
+              <div class="input-box">
+                <span class "details">New Password</span>
+                <input type="password" class="form-control" id="nu" name="new_password1" placeholder="New Password">
+              </div>
+
+              <div class="input-box">
+                <span class="details">Confirm Password</span>
+                <input type="password" class="form-control" id="nu" name="new_password2" placeholder="Confirm Password">
+              </div>
+
+              <div class="button">
+                <input type="submit" name="submit" value="Update Profile"><br><br>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="title">Profile</div>
-      <div class="content">
-
-        <!-- post method to reach db (db = database) -->
-        <form action="profile_page.php" method="post">
-          <!--div for formatting code -->
-          <div class="user-details">
-            <!-- core classes so css can style it. -->
-            <div class="input-box">
-              <span class="details">Current Username</span>
-              <input type="text" class="form-control" id="username" name="username" readonly placeholder="<?php print "{$username}" ?>">
-            </div>
-
-            <div class="input-box">
-              <span class="details">New Username</span>
-              <input type="text" class="form-control" id="nu" name="new_username" placeholder="New Username">
-            </div>
-
-            <div class="input-box">
-              <span class="details">Current Email</span>
-              <input type="text" class="form-control" id="ce" name="email" readonly placeholder="<?php print "{$email}" ?>">
-            </div>
-
-            <div class="input-box">
-              <span class="details">New Email</span>
-              <input type="text" class="form-control" id="nu" name="new_email" placeholder="New Email">
-            </div>
-
-            <div class="input-box">
-              <span class "details">New Password</span>
-              <input type="password" class="form-control" id="nu" name="new_password1" placeholder="New Password">
-            </div>
-
-            <div class="input-box">
-              <span class="details">Confirm Password</span>
-              <input type="password" class="form-control" id="nu" name="new_password2" placeholder="Confirm Password">
-            </div>
-
-            <div class="button">
-              <input type="submit" name="submit" value="Update Profile"><br><br>
-            </div>
-          </div>
-        </form>
       </div>
-    </div>
-    </div>
-    <!-- Include jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- link to our javascript file for the go home button -->
-    <script src="javascripts/script.js"></script>
+      <!-- Include jQuery library -->
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      <!-- link to our javascript file for the go home button -->
+      <script src="javascripts/script.js"></script>
+    </body>
   </body>
 
 </html>
