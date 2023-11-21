@@ -28,7 +28,7 @@ if (isset($_POST["reset-request-submit"])) {
     $token = random_bytes(32);
 
     // Create the URL for password reset
-    $url = "http://localhost/tickettoride/create-new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
+    $url = "http://localhost/tickettoride-web/tickettoride/create-new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
 
     // Set the expiration time for the reset link (1800 seconds = 30 minutes)
     $expires = date("U") + 1800;
