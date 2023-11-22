@@ -1,3 +1,9 @@
+<?php
+//starting session
+session_start();
+// require the connection file
+require('connection.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 

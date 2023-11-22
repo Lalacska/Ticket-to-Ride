@@ -48,7 +48,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
           echo $response;
 
           // Redirect the user to the home page using JavaScript
-          $script = "<script>window.location = 'home.php';</script>";
+          $script = "<script>window.location = 'index.php';</script>";
           echo $script;
           return;
         } else {
@@ -122,7 +122,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             </div>
             <div class="button">
               <input id="button" type="submit" value="Login"><br><br>
-              <a href="home.php"></a><br><br>
+              <a href="index.php"></a><br><br>
 
               <div class="register">
                 <input id="register" value="Register" onclick="location.href='signup.php'"><br><br>
