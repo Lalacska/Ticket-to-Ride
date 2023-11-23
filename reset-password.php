@@ -24,7 +24,7 @@
                     <button type="submit" name="reset-request-submit">Send Recovery Mail</button>
                     <div class="back-link">
                         <!--Attachhing id for the javarascript to the link-->
-                        <a href="#" id="executeLink">Go Home</a>
+                        <a href="index.php">Go Home</a>
                     </div>
                 </form>
                 <?php

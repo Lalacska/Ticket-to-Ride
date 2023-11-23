@@ -17,7 +17,7 @@
             <section class="section-default">
                 <div class="back-link">
                     <!--Attachhing id for the javarascript to the link-->
-                    <a href="#" id="executeLink">Go Home</a>
+                    <a href="index.php">Go Home</a>
                 </div>
                 <h1 class="title">Create new password</h1>
                 <?php

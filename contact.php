@@ -41,16 +41,11 @@
           <button id="btn" type="submit">Send</button>
         </div>
         <div class="back-link">
-          <!--Attachhing id for the javarascript to the link-->
-          <a href="#" id="executeLink">Go Home</a>
+          <a href="index.php">Go Home</a>
         </div>
       </section>
     </div>
   </form>
-  <!-- Include jQuery library -->
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <!-- link to our javascript file for the go home button -->
-  <script src="javascripts/script.js"></script>
 </body>
 
 </html>

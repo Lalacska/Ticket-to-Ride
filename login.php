@@ -91,7 +91,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     <div class="container">
       <div class="back-link">
         <!--Attachhing id for the javarascript to the link-->
-        <a href="#" id="executeLink">Go Home</a>
+        <a href="index.php">Go Home</a>
       </div>
       <div class="title">Login</div>
       <div class="content">
@@ -131,10 +131,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             </div>
         </form>
       </div>
-      <!-- Include jQuery library -->
-      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-      <!-- link to our javascript file for the go home button -->
-      <script src="javascripts/script.js"></script>
   </body>
 
 </html>
