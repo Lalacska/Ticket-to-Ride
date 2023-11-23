@@ -14,7 +14,6 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
 
     public void Start()
     {
-
         // Sends the local player data to a ServerRPC to make a player and add it to the list on the server \\ 
         AddPlayerServerRPC(NetworkManager.LocalClientId, UserData.userId, UserData.username);
 
@@ -29,7 +28,6 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         }
         // Spawns player names in serverside with the client id \\
         AddPlayerNameServerRPC(NetworkManager.LocalClientId);
-
     }
 
     private void SetPlayerParent(ulong clientId)
@@ -42,7 +40,6 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
                 SpawnServerRpc(clientId);
             }
         }
-
     }
 
     // This is a ServerRPC, which means the client send a code to the Server to handle it \\
@@ -92,8 +89,8 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
         NetworkObject playerobject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
         // Finds the player in the list and set the right name to the object \\
         foreach (var a in players)
-        {
             if (clientId == a.ClientId)
+        {
             {
                 playername.text = a.PlayerName.ToString();
             }

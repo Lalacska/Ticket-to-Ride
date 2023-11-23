@@ -61,6 +61,14 @@ public class Login_Register : MonoBehaviour
         loginEmail = _loginEmail.text;
         loginPassword = _loginPassword.text;
 
+        // WORK IN PROGRESS. \\
+        /*
+        if (_loginEmail.text && _loginPassword.text != null)
+        {
+
+        }
+        */
+
         // This method starts the "Coroutine". \\
         StartCoroutine(LoginEnumerator());
     }
@@ -68,7 +76,7 @@ public class Login_Register : MonoBehaviour
     // This method handles the users input and matches them to the database for login. \\
 
 
-    // Working. \\
+    // Courotine method for . \\
     IEnumerator LoginEnumerator()
     {
         isWorking = true;
@@ -91,7 +99,6 @@ public class Login_Register : MonoBehaviour
                 string responseText = www.downloadHandler.text;
                 if (responseText.StartsWith("Success"))
                 {
-
                     string[] dataChunks = responseText.Split('|');
                     Debug.Log(responseText);
                     Debug.Log(dataChunks.Length);
