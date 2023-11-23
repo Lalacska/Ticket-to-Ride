@@ -90,7 +90,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   <body>
     <div class="container">
       <div class="back-link">
-        <!--Attachhing id for the javarascript to the link-->
         <a href="index.php">Go Home</a>
       </div>
       <div class="title">Login</div>
