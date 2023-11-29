@@ -1,151 +1,169 @@
+/* Reset default margin, padding, and box-sizing for all elements */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(135deg, #191919, #ff785a);
-    width: 100%;
-    flex-wrap: nowrap;
-    flex-direction: column;
-  }
+/* Style for the overall body of the page */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #191919, #ff785a);
+  width: 100%;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
 
-  header{
-    padding-top: 10px;
-  }
+/* Style for the header element */
+header {
+  padding-top: 10px;
+}
 
-  footer {
-    width: 100%;
-  }
+/* Style for the footer element */
+footer {
+  width: 100%;
+}
 
+/* Style for a container with a max width and height, background, padding, and shadow */
+.container {
+  max-width: 700px;
+  max-height: 500px;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  background-color: #191919;
+}
+
+/* Style for the title inside the container */
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+  color: #ff785a;
+}
+
+/* Style for a decorative line before the title */
+.container .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #191919, #ff785a);
+}
+
+/* Style for user details in a form */
+.content form .user-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+  color: #ff785a;
+}
+
+/* Style for input boxes in the user details form */
+form .user-details .input-box {
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+
+/* Style for input elements in the user details form */
+.user-details .input-box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+  font-size: 20px;
+}
+
+/* Style for input focus state */
+.user-details .input-box input:focus {
+  border-color: #ff785a;
+}
+
+/* Style for the form button input */
+form .button {
+  display: flexbox;
+  margin-top: 40px;
+  margin-left: auto;
+  height: 50px;
+  max-width: 700px;
+  width: 90%;
+}
+
+/* Style for the form button input on hover */
+form .button input {
+  height: 100%;
+  width: 90%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #ff785a;
+}
+
+/* Style for the form button input on hover */
+form .button input:hover {
+  background-color: #f74017;
+}
+
+/* Media query for responsive design */
+@media (max-width: 584px) {
+  /* Adjust container max-width for smaller screens */
   .container {
-    max-width: 700px;
-    max-height: 500px;
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    padding: 25px 30px;
-    border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-    background-color: #191919;
+    max-width: 100%;
   }
 
-  .container .title {
-    font-size: 25px;
-    font-weight: 500;
-    position: relative;
-    color: #ff785a;
-  }
-
-  .container .title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 30px;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #191919, #ff785a);
-  }
-
-  .content form .user-details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 20px 0 12px 0;
-    color: #ff785a;
-  }
-
+  /* Adjust input-box width for smaller screens */
   form .user-details .input-box {
     margin-bottom: 15px;
-    width: calc(100% / 2 - 20px);
-  }
-
-  .user-details .input-box input {
-    height: 45px;
     width: 100%;
-    outline: none;
-    font-size: 16px;
-    border-radius: 5px;
-    padding-left: 15px;
-    border: 1px solid #ccc;
-    border-bottom-width: 2px;
-    transition: all 0.3s ease;
-    font-size: 20px;
   }
 
-  .user-details .input-box input:focus {
-    border-color: #ff785a;
+  /* Adjust category width for smaller screens */
+  form .category {
+    width: 100%;
   }
 
-  form .button {
-    display: flexbox;
-    margin-top: 40px;
-    margin-left: auto;
-    height: 50px;
-    max-width: 700px;
-    width: 90%;
+  /* Margin adjustment for register element on smaller screens */
+  form .register {
+    margin-right: 60px;
   }
 
-  form .button input {
-    height: 100%;
-    width: 90%;
-    border-radius: 5px;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #ff785a;
+  /* Styling for user details overflow on smaller screens */
+  .content form .user-details {
+    max-height: 500px;
+    overflow-y: scroll;
   }
 
-  form .button input:hover {
-    background-color: #f74017;
+  /* Styling for scrollbar in user details on WebKit browsers */
+  .user-details::-webkit-scrollbar {
+    width: 5px;
   }
+}
 
-  @media (max-width: 584px) {
-    .container {
-      max-width: 100%;
-    }
-
-    form .user-details .input-box {
-      margin-bottom: 15px;
-      width: 100%;
-    }
-
-    form .category {
-      width: 100%;
-    }
-
-    form .register {
-      margin-right: 60px;
-    }
-
-    .content form .user-details {
-      max-height: 500px;
-      overflow-y: scroll;
-    }
-
-    .user-details::-webkit-scrollbar {
-      width: 5px;
-    }
-  }
-
-  a {
-    font-size: 19px;
-    font-weight: bold;
-    color: #ff785a;
-    text-decoration: none;
-  }
-
-  .back-link a:hover {
-    color: #ffff;
-  }
+/* Style for generic anchor (link) */
+a {
+  font-size: 19px;
+  font-weight: bold;
+  color: #ff785a;
+  text-decoration: none;
+}

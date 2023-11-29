@@ -1,8 +1,10 @@
+/* Resetting margin and padding for all elements */
 * {
   margin: 0;
   padding: 0;
 }
 
+/* Styling for the body element */
 body {
   height: 100vh;
   display: flex;
@@ -12,22 +14,25 @@ body {
   width: 100%;
   align-content: center;
   flex-wrap: nowrap;
-  flex-direction: column;
+  flex-direction: column; /* Arranging child elements in a column */
 }
 
+/* Styling for the footer element */
 footer {
   width: 100%;
 }
 
+/* Styling for elements with the class 'contact' */
 .contact {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 21.6%;
-  padding-bottom: 20.5%;
+  padding-top: 21.6%; /* Adjusting top padding */
+  padding-bottom: 20.5%; /* Adjusting bottom padding */
   text-align: center;
 }
 
+/* Styling for anchor (link) elements */
 a {
   font-size: 19px;
   font-weight: bold;
@@ -35,12 +40,14 @@ a {
   text-decoration: none;
 }
 
+/* Styling for paragraph elements */
 p {
   font-size: 19px;
   font-weight: bold;
   color: #ff785a;
 }
 
+/* Styling for specific elements with IDs (CT, FN, EM, MB) */
 #CT {
   color: #191919;
   border: solid 3px;
@@ -75,6 +82,7 @@ p {
   height: 200px;
 }
 
+/* Styling for the button element with ID 'btn' */
 #btn {
   font-size: 20px;
   width: 500px;
@@ -91,15 +99,18 @@ textarea:focus {
   outline: none;
 }
 
+/* Styling for placeholder text in input, select, and textarea elements */
 ::placeholder {
   color: #19191969;
 }
 
+/* Styling for the button element with ID 'btn' on hover */
 #btn:hover {
   background-color: #ff785a;
-  transition: 2s;
+  transition: 2s; /* Adding a transition effect on hover */
 }
 
+/* Styling for section elements */
 section {
   border: solid;
   background-color: black;

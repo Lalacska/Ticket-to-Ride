@@ -1,16 +1,128 @@
+/* Resetting default margin and padding for all elements */
 * {
-    margin: 0%;
-    padding: 0%;
-  }
-  .banner {
-    background-image: url("../assets/img/bannerimg.c23adc6469c81725.jfif");
-    height: 920px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    filter: grayscale(60%);
-  }
+  margin: 0%;
+  padding: 0%;
+}
 
+/* Styling for the banner section */
+.banner {
+  background-image: url("../assets/img/bannerimg.c23adc6469c81725.jfif");
+  height: 920px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: grayscale(60%); /* Applying grayscale filter to the banner image */
+}
+
+/* Styling for the main title */
+.MT {
+  color: rgb(0, 0, 0);
+  font-size: 50px;
+  font-weight: bold;
+  top: 30%;
+  left: 35%;
+  position: absolute;
+  text-align: center;
+}
+
+/* Styling for the main paragraph */
+.MP {
+  color: rgb(0, 0, 0);
+  top: 39%;
+  left: 35%;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+}
+
+/* Styling for the element with class AG */
+.AG {
+  background-color: #191919;
+  color: white;
+}
+
+/* Styling for the title within AG */
+.AT {
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  margin-left: 30px;
+  padding-top: 30px;
+}
+
+/* Styling for the paragraph within AG */
+.AP {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Styling for buttons */
+.button {
+  background-color: #191919;
+  padding: 10px;
+}
+
+/* Styling for a specific button with class AB */
+.button .AB {
+  display: block;
+  background-color: #ff785a;
+  font-size: 19px;
+  padding: 25px;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  width: 8%;
+  margin-left: 45%;
+}
+
+/* Styling for elements with class GR */
+.GR {
+  background-color: #ff785a;
+  max-width: 100%;
+}
+
+/* Hover effect for links within GR */
+.GR a:hover {
+  color: #191919;
+}
+
+/* Styling for elements with class RB */
+.RB {
+  padding-top: 30px;
+  display: grid;
+  justify-content: center;
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Styling for elements with class RV */
+.RV {
+  display: block;
+  margin: 0 auto;
+  background-color: #777;
+}
+
+/* Styling for elements with class RT */
+.RT {
+  margin-top: 30px;
+  display: grid;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  justify-content: center;
+}
+
+/* Styling for elements with class DRB */
+.DRB {
+  display: grid;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Media query for screens with a maximum width of 1850px */
+@media only screen and (max-width: 1850px) {
   .MT {
     color: rgb(0, 0, 0);
     font-size: 50px;
@@ -18,7 +130,6 @@
     top: 30%;
     left: 35%;
     position: absolute;
-    text-align: center;
   }
 
   .MP {
@@ -27,7 +138,6 @@
     left: 35%;
     font-weight: bold;
     position: absolute;
-    text-align: center;
   }
 
   .AG {
@@ -36,26 +146,18 @@
   }
 
   .AT {
-    color: white;
-    font-size: 50px;
+    font-size: 35px;
     font-weight: bold;
-    margin-left: 30px;
-    padding-top: 30px;
+    margin-left: 120px;
   }
 
   .AP {
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 17px;
+    width: 100%;
+    height: 55%;
   }
 
-  .button {
-    background-color: #191919;
-    padding: 10px;
-  }
-
-  .button .AB {
-    display: block;
+  .AB {
     background-color: #ff785a;
     font-size: 19px;
     padding: 25px;
@@ -70,9 +172,9 @@
     background-color: #ff785a;
     max-width: 100%;
   }
-  .GR a:hover{
-      color: #191919;
-    }
+  .GR a:hover {
+    color: #191919;
+  }
 
   .RB {
     padding-top: 30px;
@@ -103,180 +205,95 @@
     justify-content: center;
     text-decoration: none;
   }
+}
 
-  @media only screen and (max-width:1850px) {
-    .MT {
-      color: rgb(0, 0, 0);
-      font-size: 50px;
-      font-weight: bold;
-      top: 30%;
-      left: 35%;
-      position: absolute;
-    }
-
-    .MP {
-      color: rgb(0, 0, 0);
-      top: 39%;
-      left: 35%;
-      font-weight: bold;
-      position: absolute;
-    }
-
-    .AG {
-      background-color: #191919;
-      color: white;
-    }
-
-    .AT {
-      font-size: 35px;
-      font-weight: bold;
-      margin-left: 120px;
-    }
-
-    .AP {
-      font-size: 17px;
-      width: 100%;
-      height: 55%;
-    }
-
-    .AB {
-      background-color: #ff785a;
-      font-size: 19px;
-      padding: 25px;
-      border-radius: 10px;
-      color: white;
-      text-decoration: none;
-      width: 8%;
-      margin-left: 45%;
-    }
-
-    .GR {
-      background-color: #ff785a;
-      max-width: 100%;
-    }
-    .GR a:hover{
-      color: #191919;
-    }
-
-    .RB {
-      padding-top: 30px;
-      display: grid;
-      justify-content: center;
-      font-size: 50px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .RV {
-      display: block;
-      margin: 0 auto;
-      background-color: #777;
-    }
-
-    .RT {
-      margin-top: 30px;
-      display: grid;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      justify-content: center;
-    }
-
-    .DRB {
-      display: grid;
-      justify-content: center;
-      text-decoration: none;
-    }
+/* Media query for screens with a maximum width of 850px */
+@media only screen and (max-width: 850px) {
+  .MT {
+    color: rgb(0, 0, 0);
+    font-size: 50px;
+    font-weight: bold;
+    top: 15%;
+    left: 35%;
+    position: absolute;
   }
 
-  @media only screen and (max-width:850px) {
-
-    .MT {
-      color: rgb(0, 0, 0);
-      font-size: 50px;
-      font-weight: bold;
-      top: 15%;
-      left: 35%;
-      position: absolute;
-    }
-
-    .MP {
-      color: rgb(0, 0, 0);
-      top: 39%;
-      left: 35%;
-      font-weight: bold;
-      position: absolute;
-    }
-
-    .AG {
-      background-color: #191919;
-      color: white;
-    }
-
-    .AT {
-      font-size: 20px;
-      font-weight: bold;
-      margin-left: 120px;
-    }
-
-    .AP {
-      font-size: 11px;
-      width: 82%;
-      height: 60%;
-    }
-
-    .button {
-      width: 100%;
-    }
-
-    .button .AB {
-      display: block;
-      background-color: #ff785a;
-      font-size: 19px;
-      padding: 25px;
-      border-radius: 10px;
-      color: white;
-      text-decoration: none;
-      width: 25%;
-      margin-left: 160px;
-    }
-
-    .GR {
-      background-color: #ff785a;
-      max-width: 100%;
-    }
-    .GR a:hover{
-      color: #191919;
-    }
-
-    .RB {
-      padding-top: 30px;
-      display: grid;
-      justify-content: center;
-      font-size: 50px;
-      font-weight: bold;
-      color: white;
-    }
-
-    .RV {
-      display: block;
-      margin: 0 auto;
-      background-color: #777;
-    }
-
-    .RT {
-      margin-top: 30px;
-      display: grid;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      justify-content: center;
-    }
-
-    .DRB {
-      display: grid;
-      justify-content: center;
-      text-decoration: none;
-    }
-
+  .MP {
+    color: rgb(0, 0, 0);
+    top: 39%;
+    left: 35%;
+    font-weight: bold;
+    position: absolute;
   }
+
+  .AG {
+    background-color: #191919;
+    color: white;
+  }
+
+  .AT {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 120px;
+  }
+
+  .AP {
+    font-size: 11px;
+    width: 82%;
+    height: 60%;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .button .AB {
+    display: block;
+    background-color: #ff785a;
+    font-size: 19px;
+    padding: 25px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    width: 25%;
+    margin-left: 160px;
+  }
+
+  .GR {
+    background-color: #ff785a;
+    max-width: 100%;
+  }
+  .GR a:hover {
+    color: #191919;
+  }
+
+  .RB {
+    padding-top: 30px;
+    display: grid;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+  }
+
+  .RV {
+    display: block;
+    margin: 0 auto;
+    background-color: #777;
+  }
+
+  .RT {
+    margin-top: 30px;
+    display: grid;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+  }
+
+  .DRB {
+    display: grid;
+    justify-content: center;
+    text-decoration: none;
+  }
+}
