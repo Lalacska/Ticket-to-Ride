@@ -1,188 +1,187 @@
- /* Reset default margin, padding, and box model for all elements */
- * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
+/* Reset default margin, padding, and box model for all elements */
+* {
+  margin: 0;
+  padding: 0;
+}
 
-  /* Styling for the overall body */
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background: linear-gradient(135deg, #191919, #ff785a);
-    width: 100%;
-  }
+/* Styling for the overall body */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #191919, #ff785a);
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
 
-  /* Styling for the main container */
+/* Styling for the main container */
+.container {
+  max-width: 700px;
+  max-height: 400px;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  background-color: #191919;
+  margin-top:  10%;
+  margin-bottom:  6%;
+}
+
+/* Styling for the title inside the container */
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+  color: #ff785a;
+}
+
+/* Adding an underline effect to the title */
+.container .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #191919, #ff785a);
+}
+
+/* Styling for user details section within a form */
+.content form .user-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+  color: #ff785a;
+}
+
+/* Styling for input boxes within user details */
+form .user-details .input-box {
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+
+/* Styling for the user input fields */
+.user-details .input-box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Styling for the input fields when focused */
+.user-details .input-box input:focus {
+  border-color: #ff785a;
+}
+
+/* Styling for buttons section within the form */
+form .button {
+  display: flexbox;
+  margin-top: 40px;
+  margin-left: auto;
+  height: 50px;
+  max-width: 700px;
+  width: 90%;
+}
+
+/* Styling for the button elements */
+form .button input {
+  height: 100%;
+  width: 90%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #ff785a;
+}
+
+/* Styling for the button elements on hover */
+form .button input:hover {
+  background-color: #f74017;
+}
+
+form .register {
+  display: flexbox;
+  height: 50px;
+  max-width: 80%;
+  margin-left: 50px;
+}
+
+/* Styling for the registration section within the form */
+form .register input {
+  height: 100%;
+  width: 90%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #ff785a;
+}
+
+#register {
+  text-align: center;
+}
+
+/* Styling for the 'fp' (forgot password) text */
+.input-box .fp {
+  font-size: small;
+  color: #ff785a;
+}
+
+/* Media query for smaller screens (max-width: 584px) */
+@media (max-width: 584px) {
+  /* Adjusting the maximum width of the container */
   .container {
-    max-width: 700px;
-    max-height: 400px;
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    padding: 25px 30px;
-    border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-    background-color: #191919;
+    max-width: 100%;
   }
 
-  /* Styling for the title inside the container */
-  .container .title {
-    font-size: 25px;
-    font-weight: 500;
-    position: relative;
-    color: #ff785a;
-  }
-
-  /* Adding an underline effect to the title */
-  .container .title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 30px;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #191919, #ff785a);
-  }
-
-  /* Styling for user details section within a form */
-  .content form .user-details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 20px 0 12px 0;
-    color: #ff785a;
-  }
-
-  /* Styling for input boxes within user details */
+  /* Adjusting input box width for user details on smaller screens */
   form .user-details .input-box {
     margin-bottom: 15px;
-    width: calc(100% / 2 - 20px);
-  }
-
-  /* Styling for the user input fields */
-  .user-details .input-box input {
-    height: 45px;
     width: 100%;
-    outline: none;
-    font-size: 16px;
-    border-radius: 5px;
-    padding-left: 15px;
-    border: 1px solid #ccc;
-    border-bottom-width: 2px;
-    transition: all 0.3s ease;
   }
 
-  /* Styling for the input fields when focused */
-  .user-details .input-box input:focus {
-    border-color: #ff785a;
-  }
-
-  /* Styling for buttons section within the form */
-  form .button {
-    display: flexbox;
-    margin-top: 40px;
-    margin-left: auto;
-    height: 50px;
-    max-width: 700px;
-    width: 90%;
-  }
-
-  /* Styling for the button elements */
-  form .button input {
-    height: 100%;
-    width: 90%;
-    border-radius: 5px;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #ff785a;
-  }
-
-  /* Styling for the button elements on hover */
-  form .button input:hover {
-    background-color: #f74017;
-  }
-
+  /* Adjusting the margin of the registration button on smaller screens */
   form .register {
-    display: flexbox;
-    height: 50px;
-    max-width: 80%;
-    margin-left: 50px;
+    margin-right: 60px;
   }
 
-  /* Styling for the registration section within the form */
-  form .register input {
-    height: 100%;
-    width: 90%;
-    border-radius: 5px;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #ff785a;
+  /* Adding scroll behavior for user details section on smaller screens */
+  .content form .user-details {
+    max-height: 300px;
+    overflow-y: scroll;
   }
 
-  #register {
-    text-align: center;
+  /* Styling for the scrollbar on WebKit-based browsers */
+  .user-details::-webkit-scrollbar {
+    width: 5px;
   }
+}
 
-  /* Styling for the 'fp' (forgot password) text */
-  .input-box .fp {
-    font-size: small;
-    color: #ff785a;
-  }
+a {
+  font-size: 19px;
+  font-weight: bold;
+  color: #ff785a;
+  text-decoration: none;
+}
 
-  /* Media query for smaller screens (max-width: 584px) */
-  @media (max-width: 584px) {
-
-    /* Adjusting the maximum width of the container */
-    .container {
-      max-width: 100%;
-    }
-
-    /* Adjusting input box width for user details on smaller screens */
-    form .user-details .input-box {
-      margin-bottom: 15px;
-      width: 100%;
-    }
-
-    /* Adjusting the margin of the registration button on smaller screens */
-    form .register {
-      margin-right: 60px;
-    }
-
-    /* Adding scroll behavior for user details section on smaller screens */
-    .content form .user-details {
-      max-height: 300px;
-      overflow-y: scroll;
-    }
-
-    /* Styling for the scrollbar on WebKit-based browsers */
-    .user-details::-webkit-scrollbar {
-      width: 5px;
-    }
-  }
-
-  a {
-    font-size: 19px;
-    font-weight: bold;
-    color: #ff785a;
-    text-decoration: none;
-  }
-
-  .back-link a:hover {
-    color: #ffff;
-  }
+.back-link a:hover {
+  color: #ffff;
+}

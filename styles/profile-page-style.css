@@ -8,10 +8,19 @@
   body {
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px;
     background: linear-gradient(135deg, #191919, #ff785a);
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+
+  header{
+    padding-top: 10px;
+  }
+
+  footer {
     width: 100%;
   }
 

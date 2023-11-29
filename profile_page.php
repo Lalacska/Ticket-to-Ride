@@ -73,75 +73,89 @@ if (!isset($_SESSION['user_id'])) {
 <html lang="en">
 
 <head>
+  <title>Profile Page</title>
+  <!-- Set the character set and viewport for better rendering on various devices -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <!-- Link to an external stylesheet for styling -->
+  <link rel="stylesheet" href="styles/profile-page-style.css">
 </head>
 
 <body>
 
-  <head>
-    <title>Profile Page</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/profile-page-style.css">
-  </head>
-
   <body>
+    <header>
+      <!-- Include a navigation bar using PHP -->
+      <?php
+      // Include the navbar.php script
+      require('navbar.php');
+      ?>
+    </header>
 
-    <body>
-      <div class="container">
-        <div class="back-link">
-          <!--Attachhing id for the javarascript to the link-->
-          <a href="index.php">Go Home</a>
-        </div>
-        <div class="title">Profile</div>
-        <div class="content">
+    <div class="container">
+      <!-- Title and content sections for the profile page -->
+      <div class="title">Profile</div>
+      <div class="content">
 
-          <!-- post method to reach db (db = database) -->
-          <form action="profile_page.php" method="post">
-            <!--div for formatting code -->
-            <div class="user-details">
-              <!-- core classes so css can style it. -->
-              <div class="input-box">
-                <span class="details">Current Username</span>
-                <input type="text" class="form-control" id="username" name="username" readonly placeholder="<?php print "{$username}" ?>">
-              </div>
+        <!-- Form for updating user profile information -->
+        <form action="profile_page.php" method="post">
+          <!-- User details section -->
+          <div class="user-details">
 
-              <div class="input-box">
-                <span class="details">New Username</span>
-                <input type="text" class="form-control" id="nu" name="new_username" placeholder="New Username">
-              </div>
 
-              <div class="input-box">
-                <span class="details">Current Email</span>
-                <input type="text" class="form-control" id="ce" name="email" readonly placeholder="<?php print "{$email}" ?>">
-              </div>
-
-              <div class="input-box">
-                <span class="details">New Email</span>
-                <input type="text" class="form-control" id="nu" name="new_email" placeholder="New Email">
-              </div>
-
-              <div class="input-box">
-                <span class "details">New Password</span>
-                <input type="password" class="form-control" id="nu" name="new_password1" placeholder="New Password">
-              </div>
-
-              <div class="input-box">
-                <span class="details">Confirm Password</span>
-                <input type="password" class="form-control" id="nu" name="new_password2" placeholder="Confirm Password">
-              </div>
-
-              <div class="button">
-                <input type="submit" name="submit" value="Update Profile"><br><br>
-              </div>
+            <!-- Input box for the current username (read-only) -->
+            <div class="input-box">
+              <span class="details">Current Username</span>
+              <input type="text" class="form-control" id="username" name="username" readonly placeholder="<?php print "{$username}" ?>">
             </div>
-          </form>
-        </div>
+            <!-- Input box for a new username -->
+
+            <div class="input-box">
+              <span class="details">New Username</span>
+              <input type="text" class="form-control" id="nu" name="new_username" placeholder="New Username">
+            </div>
+            <!-- Input box for the current email (read-only) -->
+
+            <div class="input-box">
+              <span class="details">Current Email</span>
+              <input type="text" class="form-control" id="ce" name="email" readonly placeholder="<?php print "{$email}" ?>">
+            </div>
+            <!-- Input box for a new email -->
+
+            <div class="input-box">
+              <span class="details">New Email</span>
+              <input type="text" class="form-control" id="nu" name="new_email" placeholder="New Email">
+            </div>
+            <!-- Input box for a new password -->
+
+            <div class="input-box">
+              <span class "details">New Password</span>
+              <input type="password" class="form-control" id="nu" name="new_password1" placeholder="New Password">
+            </div>
+            <!-- Input box to confirm the new password -->
+
+            <div class="input-box">
+              <span class="details">Confirm Password</span>
+              <input type="password" class="form-control" id="nu" name="new_password2" placeholder="Confirm Password">
+            </div>
+            <!-- Button to submit the form and update the profile -->
+
+            <div class="button">
+              <input type="submit" name="submit" value="Update Profile"><br><br>
+            </div>
+          </div>
+        </form>
       </div>
-      </div>
-    </body>
+    </div>
+    </div>
+    <!-- Include a footer using PHP -->
+    <footer>
+      <?php
+      // Include the footer.php script
+      require('footer.php');
+      ?>
+    </footer>
+
   </body>
 
 </html>

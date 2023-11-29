@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<style>
-</style>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to an external stylesheet for better code organization -->
     <link rel="stylesheet" href="styles/create-new-password-style.css">
     <title>New Password</title>
 </head>
@@ -15,9 +15,6 @@
         <div class="wrapper-main">
 
             <section class="section-default">
-                <div class="back-link">
-                    <a href="index.php">Go Home</a>
-                </div>
                 <h1 class="title">Create new password</h1>
                 <?php
                 // Check if 'selector' and 'validator' parameters are present in the URL
@@ -64,10 +61,6 @@
             </section>
         </div>
     </main>
-    <!-- Include jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- link to our javascript file for the go home button -->
-    <script src="javascripts/script.js"></script>
 </body>
 
 </html>

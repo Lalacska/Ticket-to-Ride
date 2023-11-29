@@ -1,3 +1,9 @@
+<?php
+//starting session
+session_start();
+// require the connection file
+require('connection.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,10 +11,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles/contact-style.css">
-  <title>Document</title>
+  <title>Contact</title>
 </head>
 
 <body>
+  <header>
+    <?php
+    // Include the navbar.php script
+    require('navbar.php');
+    ?>
+  </header>
+
   <!--- We use a form with an action and with an http call its possible to use a api from a company called formspree.io-->
   <form action="https://formspree.io/f/xdojlwro" method="POST">
     <div class="contact">
@@ -41,11 +54,15 @@
           <button id="btn" type="submit">Send</button>
         </div>
         <div class="back-link">
-          <a href="index.php">Go Home</a>
-        </div>
       </section>
     </div>
   </form>
+  <footer>
+    <?php
+    // Include the footer.php script
+    require('footer.php');
+    ?>
+  </footer>
 </body>
 
 </html>
