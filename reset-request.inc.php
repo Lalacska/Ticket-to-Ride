@@ -15,7 +15,7 @@ $mail->isSMTP();
 $mail->Host       = 'smtp.gmail.com';
 $mail->SMTPAuth   = true;
 $mail->Username   = 'tickettoridetec@gmail.com'; // Your Gmail address
-$mail->Password   = 'sdmz vwzn nxkt mato'; // Your Gmail password
+$mail->Password   = 'sdmz vwzn nxkt mato'; // Gmail app-password
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 $mail->Port       = 587; // Use 465 for SSL
 
