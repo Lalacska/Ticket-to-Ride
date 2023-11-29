@@ -32,12 +32,7 @@ public class Route : Singleton<Route>
     public List<GameObject> Tiles { get { return m_tiles; } set { m_tiles = value; } }
 
     private Material emissiveMaterial;
-
-    #region Variables
-
-
     private enum RouteType { Route, Tunnel }
-    #endregion
 
     // This metode runs first, and set some basic variables up
     private void Awake()
@@ -186,5 +181,4 @@ public class Route : Singleton<Route>
         Debug.Log("Color: "+color);
         return color;
     }
-
 }

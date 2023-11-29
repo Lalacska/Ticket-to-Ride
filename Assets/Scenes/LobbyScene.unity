@@ -894,9 +894,25 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 375582946
       objectReference: {fileID: 0}
+    - target: {fileID: 3380120555183793970, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3380120555183793971, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380120555183793971, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380120555183793971, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380120555183793971, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3606110307389261787, guid: 5a9552cdfd917564d996a95f35109e11, type: 3}
       propertyPath: GlobalObjectIdHash

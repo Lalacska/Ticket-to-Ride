@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using System;
 
-// This class is set the player objects under a spawend scene network object \\
+// This class is set the player objects under a spawned scene network object \\
 public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInSceneNetworkObject>
 {
     [SerializeField] private GameObject playerPrefab;

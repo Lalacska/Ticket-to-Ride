@@ -44,7 +44,17 @@ public class LobbyScene : Singleton<LobbyScene>
     //When the host clicks it, it change everyone's  scene to the GameBoard scene
     public void StartButton()
     {
+        // Get all networked objects in the scene
+        var networkObjects = FindObjectsOfType<NetworkObject>();
 
+        // Iterate through the network objects and unspawn them
+        foreach (var networkObject in networkObjects)
+        {
+            // Unspawn the network object
+            networkObject.Despawn(true);
+        }
+
+        // Change the scene after destroying network objects
         NetworkManager.Singleton.SceneManager.LoadScene("GameBoard", LoadSceneMode.Single);
     }
 

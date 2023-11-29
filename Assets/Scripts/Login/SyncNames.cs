@@ -14,6 +14,7 @@ public class SyncNames : Singleton<SyncNames>
     [SerializeField] private TMP_Text playername;
     private NetworkVariable<FixedString128Bytes> PlayerName = new NetworkVariable<FixedString128Bytes>();
 
+    // Runs when the network spawns
     public override void OnNetworkSpawn()
     {
         playername = GetComponent<TMPro.TMP_Text>();
@@ -30,8 +31,6 @@ public class SyncNames : Singleton<SyncNames>
             playername.text = PlayerName.Value.ToString();
         }
     }
-
-
 }
 
 

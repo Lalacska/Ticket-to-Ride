@@ -37,6 +37,4 @@ public class CollisionDetector : MonoSingleton<CollisionDetector>
             }
         }
     }
-
-    
 }

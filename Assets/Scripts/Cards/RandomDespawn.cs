@@ -26,8 +26,6 @@ public class RandomDespawn : MonoSingleton<RandomDespawn>
         CardSelector.Instance.DespawnCard(gameObject);
         Debug.Log("Hello I'm gonna destroy myself");
         Destroy(gameObject); 
-
     }
-
 }
 

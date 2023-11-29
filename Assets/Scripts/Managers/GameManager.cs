@@ -670,10 +670,6 @@ public class GameManager : Singleton<GameManager>
         CardSelector.Instance.DrawTunnelCardClientRpc(randCard.Color.ToString(), host, clientRpcParams);
     }
 
-
-
-
-
     public int CardSlotCheck()
     {
         int counter = 0;
@@ -689,9 +685,8 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
     /// <summary>
-    /// This part is for all the different functions for Draw cards that are being used in the game. \\
+    /// This part is for the different functions for Draw cards that are being used in the game. \\
     /// </summary>
 
     #region DrawCards
@@ -915,13 +910,8 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
 
-
-
-
-
-
     /// <summary>
-    /// This part is for all the different functions for Tickets that are being used in the game. \\
+    /// This part is for the different functions for Tickets that are being used in the game. \\
     /// </summary>
     #region Tickets
 
@@ -1172,10 +1162,9 @@ public class GameManager : Singleton<GameManager>
     #endregion Tickets
 
 
-
-
-
-
+    /// <summary>
+    /// This part is for the different functions for Station that are being used in the game. \\
+    /// </summary>
     #region Station
 
     // Activates emission and collider on the available stations
@@ -1274,10 +1263,9 @@ public class GameManager : Singleton<GameManager>
 
     #endregion
 
-
-
-
-
+    /// <summary>
+    /// This part is for the different functions for Train that are being used in the game. \\
+    /// </summary>
     #region Train
 
     // Activates Higlight for the unclaimed routes and tunnels

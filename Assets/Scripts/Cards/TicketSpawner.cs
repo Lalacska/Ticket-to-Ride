@@ -63,7 +63,7 @@ public class TicketSpawner : Singleton<TicketSpawner>
     [SerializeField] private GameObject Ticket_45;
     [SerializeField] private GameObject Ticket_46;
 
-
+    // This returns the right ticket
     public GameObject TicketChoser(int ticketID)
     {
         GameObject ticket = new GameObject();
@@ -212,10 +212,6 @@ public class TicketSpawner : Singleton<TicketSpawner>
                 break;
         }
         return ticket;
-
     }
-
-
-
 }
 

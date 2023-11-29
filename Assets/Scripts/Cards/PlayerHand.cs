@@ -38,8 +38,6 @@ public class PlayerHand : Singleton<PlayerHand>
     [SerializeField] private TMP_Text m_rainbowCardText;
 
 
-
-
     // Here we check for the color of the card. \\
     public void setCardsLocaly(Dictionary<FixedString128Bytes, int> dictionary)
     {
@@ -92,10 +90,8 @@ public class PlayerHand : Singleton<PlayerHand>
             {
                 m_rainbowCardCount = kvp.Value;
                 m_rainbowCardText.text = m_rainbowCardCount.ToString();
-
             }
         }
-
     }
 
     // This resets the counters so we get the right numbers
@@ -111,6 +107,4 @@ public class PlayerHand : Singleton<PlayerHand>
         m_whiteCardCount = 0;
         m_rainbowCardCount = 0;
     }
-
-
 }
