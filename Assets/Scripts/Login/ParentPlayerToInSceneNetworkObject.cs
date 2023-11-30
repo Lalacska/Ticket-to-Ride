@@ -9,8 +9,13 @@ public class ParentPlayerToInSceneNetworkObject : Singleton<ParentPlayerToInScen
 {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private TextMeshProUGUI playername;
-    public NetworkList<LobbyPlayer> players = new NetworkList<LobbyPlayer>();
+    public NetworkList<LobbyPlayer> players;
     private TextMeshProUGUI setplayername;
+
+    public void Awake()
+    {
+        players = new NetworkList<LobbyPlayer>();
+    }
 
     public void Start()
     {
