@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5847349385544309758}
   - component: {fileID: 5847349385544309728}
-  - component: {fileID: 254358166}
   - component: {fileID: 445102335}
   m_Layer: 5
   m_Name: Score
@@ -47,18 +46,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5847349385544309759}
   m_CullTransparentMesh: 1
---- !u!114 &254358166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847349385544309759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aff452ba35f59b48939e863a5cf6b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &445102335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +146,6 @@ GameObject:
   - component: {fileID: 5847349385687725630}
   - component: {fileID: 5847349385687725600}
   - component: {fileID: 2837830779136654417}
-  - component: {fileID: 445102341}
   m_Layer: 5
   m_Name: Train Cards
   m_TagString: Untagged
@@ -284,18 +270,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &445102341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847349385687725631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aff452ba35f59b48939e863a5cf6b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5847349386272231537
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +281,6 @@ GameObject:
   - component: {fileID: 5847349386272231536}
   - component: {fileID: 5847349386272231538}
   - component: {fileID: 6355278763751093037}
-  - component: {fileID: 445102340}
   m_Layer: 5
   m_Name: Destinations Tickets
   m_TagString: Untagged
@@ -432,18 +405,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &445102340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847349386272231537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aff452ba35f59b48939e863a5cf6b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5847349386384122944
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +416,6 @@ GameObject:
   - component: {fileID: 5847349386384122947}
   - component: {fileID: 5847349386384122949}
   - component: {fileID: 5423434245688203937}
-  - component: {fileID: 445102343}
   m_Layer: 5
   m_Name: Trains
   m_TagString: Untagged
@@ -580,18 +540,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &445102343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847349386384122944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aff452ba35f59b48939e863a5cf6b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5847349386661650522
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +551,6 @@ GameObject:
   - component: {fileID: 5847349386661650525}
   - component: {fileID: 5847349386661650527}
   - component: {fileID: 6403125976270655638}
-  - component: {fileID: 445102342}
   m_Layer: 5
   m_Name: Stations
   m_TagString: Untagged
@@ -728,18 +675,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &445102342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847349386661650522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aff452ba35f59b48939e863a5cf6b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5847349386723562406
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +808,10 @@ MonoBehaviour:
   m_isTurn:
     m_InternalValue: 0
   m_stations:
+    m_InternalValue: 0
+  m_trains:
+    m_InternalValue: 0
+  m_score:
     m_InternalValue: 0
 --- !u!1 &5847349387233841387
 GameObject:

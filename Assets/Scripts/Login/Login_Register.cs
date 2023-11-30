@@ -47,7 +47,7 @@ public class Login_Register : MonoBehaviour
 
     /*string rootURL = "https://bekbekbek.com/Tuhu-Test/"; // Path where php files are located */
     // string rootURL = "https://double-suicide.rehab/Tuhu-Test/"; // Path where php files are located
-    string rootURL = "http://localhost/tickettoride/";
+    string rootURL = "http://localhost/tickettoride-web/ticket-to-ride/";
 
     #region Login
 
@@ -79,7 +79,7 @@ public class Login_Register : MonoBehaviour
         form.AddField("email", loginEmail);
         form.AddField("password", loginPassword);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "Login.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(rootURL + "profile_login.php", form))
         {
             Debug.Log("c");
             yield return www.SendWebRequest();
@@ -90,11 +90,11 @@ public class Login_Register : MonoBehaviour
             else
             {
                 string responseText = www.downloadHandler.text;
+                Debug.Log(responseText);
                 if (responseText.StartsWith("Success"))
                 {
 
                     string[] dataChunks = responseText.Split('|');
-                    Debug.Log(responseText);
                     Debug.Log(dataChunks.Length);
                     if (dataChunks.Length >= 3)
                     {
