@@ -45,12 +45,12 @@
           <!-- Input box for password -->
           <div class="input-box">
             <span class="details">Password</span>
-            <input type="password1" class="form-control" id="password1" name="password1" placeholder="Enter your password" required autocomplete="off">
+            <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter your password" required autocomplete="off">
           </div>
           <!-- Input box for confirming password -->
           <div class="input-box">
             <span class="details">Confirm Password</span>
-            <input type="password2" class="form-control" id="password2" name="password2" placeholder="Enter your password" required autocomplete="off">
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Enter your password" required autocomplete="off">
           </div>
           <!-- Registration button and a link to the login page -->
           <div class="button">
