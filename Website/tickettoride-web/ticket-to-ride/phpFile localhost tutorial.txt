@@ -1,0 +1,25 @@
+1. Open file manager and locate xamp folder (base instalation is C:\xampp)
+
+2. Open xamp folder and locate the php folder 
+
+3. copy the php folder filepath (example C:\xampp\php)
+
+4. open control panel and search for advanced system settings and open
+
+5. click on environment variables
+
+6. click on "new"
+
+7. give it a reasonable name like php (name does't matter for this purpose)
+
+8. Paste the filepath for php into variable value (example C:\xampp\php)
+
+9. click "ok"
+
+10. in the xamp folder from before you can now use the xamp/htdocs folder for where you can place your php website folder and or files.
+
+11. after you have placed your folder or files into the htdocs folder now open your browser and search for "localhost/foldername" 
+(foldername is whaterever your website folder is called )
+
+Vidoe tutorial used to create this guide
+(https://youtu.be/3xHrMwy-Y5A?si=1PzCqVJVb3QW2MD0)
