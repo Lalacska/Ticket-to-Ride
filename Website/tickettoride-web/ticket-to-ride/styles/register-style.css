@@ -1,0 +1,160 @@
+/* Resetting default margin, padding, and box-sizing for all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Styling the body */
+body {
+  height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #191919, #ff785a);
+    width: 100%;
+    align-content: center;
+    flex-direction: column;
+}
+
+/* Styling the main container */
+.container {
+  max-width: 700px;
+  max-height: 400px;
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  background-color: #191919;
+  margin-top: 12%;
+  margin-bottom: 10%;
+}
+
+/* Styling the footer */
+footer{
+  width: 100%;
+}
+
+/* Styling the title inside the container */
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+  color: #ff785a;
+}
+
+/* Adding a line before the title */
+.container .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #191919, #ff785a);
+}
+
+/* Styling the user details section in the form */
+.content form .user-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+  color: #ff785a;
+}
+
+/* Styling the input boxes in the form */
+form .user-details .input-box {
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+
+/* Styling the input fields */
+.user-details .input-box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Styling the focused state of the input fields */
+.user-details .input-box input:focus {
+  border-color: #ff785a;
+}
+
+/* Styling the form button */
+form .button {
+  display: flexbox;
+  margin-top: 40px;
+  margin-left: auto;
+  height: 50px;
+  max-width: 700px;
+  width: 90%;
+}
+
+/* Styling the button inside the form */
+form .button input {
+  height: 100%;
+  width: 90%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #ff785a;
+}
+
+/* Styling the button hover state */
+form .button input:hover {
+  background-color: #f74017;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
+  form .user-details .input-box {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  form .category {
+    width: 100%;
+  }
+
+  form .register {
+    margin-right: 60px;
+  }
+
+  .content form .user-details {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  /* Styling the scrollbar for user details on smaller screens */
+  .user-details::-webkit-scrollbar {
+    width: 5px;
+  }
+}
+
+/* Styling hyperlinks */
+a {
+  font-size: 19px;
+  font-weight: bold;
+  color: #ff785a;
+  text-decoration: none;
+}
